@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<?php echo $this->headTitle(); ?>
+	<meta charset="utf-8">
+
+	<!-- Global stylesheets -->
+	<link href="<?= $this->baseUrl('resources_fo_ehcg/css/bootstrap/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css">
+	<link href="<?= $this->baseUrl('resources_fo_ehcg/css/libs/font-awesome.css'); ?>" rel="stylesheet" type="text/css">
+	<link href="<?= $this->baseUrl('resources_fo_ehcg/css/libs/nanoscroller.css'); ?>" rel="stylesheet" type="text/css">
+	<link href="<?= $this->baseUrl('resources_fo_ehcg/css/compiled/theme_styles.css'); ?>" rel="stylesheet" type="text/css">
+	<link href="<?= $this->baseUrl('resources_fo_ehcg/css/libs/hopscotch.css'); ?>" rel="stylesheet" type="text/css">
+	<!--  <link
+	href="<?= $this->baseUrl('resources_fo_ehcg/css/compiled/menu.css'); ?>"
+	rel="stylesheet" type="text/css">-->
+
+	<link href="<?= $this->baseUrl('resources_fo_ehcg/css/compiled/responsivemenu.css'); ?>" rel="stylesheet" type="text/css">
+	<link href="<?= $this->baseUrl('resources_fo_ehcg/css/compiled/breadcumbs.css'); ?>" rel="stylesheet" type="text/css">
+	<link href='//fonts.googleapis.com/css?family=Open+Sans:400,600,700,300|Titillium+Web:200,300,400' rel='stylesheet' type='text/css'>
+	<!-- Favicon -->
+	<link rel="shortcut icon" type="image/x-icon" href="<?= $this->baseUrl('resources_fo_ehcg/img/favicon-ehcg.ico'); ?>">
+	<!-- Generic libs -->
+	<!-- this has to be loaded before anything else -->
+	<script type="text/javascript" src="<?= $this->baseUrl('resources_fo_ehcg/js/jquery.js'); ?>"></script>
+	<script type="text/javascript" src="<?= $this->baseUrl('resources_fo_ehcg/js/bootstrap.js'); ?>"></script>
+
+
+	<!-- remove if you do not need older browsers detection -->
+
+
+</head>
+
+<body class="pace-done boxed-layout fixed-footer">
+<div id="theme-wrapper">
+	<?php //echo $this->render('header.phtml') ?>
+	<header class="navbar" id="header-navbar">
+		<div class="container">
+			<a style="cursor: pointer;" class="navbar-brand"> <img src="<?= $this->baseUrl('resources_fo_ehcg/img/company_logo.png'); ?>" alt="TK_GROUP" /> </a>
+			<a style="padding: 10px 15px; float: left; cursor: pointer;"> <img src="" alt="" /> </a>
+			<div class="clearfix">
+				<!--
+<button class="navbar-toggle" data-target=".navbar-ex1-collapse" data-toggle="collapse" type="button">
+<span class="sr-only">Toggle navigation</span>
+<span class="fa fa-bars"></span>
+</button>-->
+
+				<div class="nav-no-collapse pull-right" id="header-nav">
+					<ul class="nav navbar-nav pull-right" id="notification-box">
+						<!-- les notifications -->
+
+
+						<!-- fin des notifs -->
+						<li>&nbsp;&nbsp;</li>
+						<li class="dropdown profile-dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="hidden-xs">
+									Bonjour <?php echo unserialize(Zend_Auth::getInstance()->getIdentity())->firstname_user . ' ' . unserialize(Zend_Auth::getInstance()->getIdentity())->lastname_user ?></span>
+								<b class="caret"></b> </a>
+							<ul class="dropdown-menu" id="compte-box">
+								<?php if ($this->infoUser->rankUser == 0) : ?>
+									<li><a href="/<?= Zend_Registry::get('Zend_Locale')->getLanguage(); ?>/fo/Userinfo/profile">
+											<i class="fa fa-user"></i>
+											Profil</a></li>
+								<?php endif; ?>
+								<li><a href="/auth/logout">
+										<i class="fa fa-power-off"></i>
+										Se déconnecter</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</header>
+	<div id="page-wrapper" class="container nav-small">
+		<div id="content-wrapper">
+			<!-- Menu responsive -->
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="main-box clearfix">
+						<header class="main-box-header clearfix" style="min-height: 0 !important;"></header>
+						<div class="main-box-body clearfix">
+							<div class="row">
+								<div class="col-md-12">
+									<ul class="egmenu">
+
+
+										<li><a href="/auth/dashboard" id="btnDSH">TABLEAU DE BORD</a></li>
+										<li><a href="/auth/piscine" id="btnPSC">Qualification Piscine</a></li>
+										<li><a href="/auth/chauffage" id="btnCHF">Qualification Chauffage</a></li>
+										<li><a href="/auth/fenetre" id="btnCHF">Qualification Fenetre</a></li>
+
+
+									</ul>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-9">
+
+								</div>
+
+								<div class="col-md-3">
+
+
+									<!--  <ul class="egmenu">
+							<li><a href="/<?= Zend_Registry::get('Zend_Locale')->getLanguage(); ?>/fo/Page/question">QUESTION</a></li>
+							<li><a href="/<?= Zend_Registry::get('Zend_Locale')->getLanguage(); ?>/fo/Page/help">AIDE</a></li>
+							<li><a href="/<?= Zend_Registry::get('Zend_Locale')->getLanguage(); ?>/fo/Page/contact">CONTACT</a></li>
+						</ul>-->
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Fin Menu responsive -->
+
+			<!--fin menu-->
+			<!--file-->
+			<div class="row">
+				<div id="Content" class="col-lg-12">
+					<?= $this->layout()->content; ?>
+
+				</div>
+			</div>
+			<footer id="footer-bar" class="row">
+				<center>
+					<div class="col-md-3">
+						<p>
+							<a href="#"><b class="quisommenous">QUI SOMMES-NOUS</b></a>
+						</p>
+					</div>
+					<div class="col-md-3">
+						<p>
+							<a href="#"><b class="contacternous">CONTACTEZ-NOUS</b></a>
+						</p>
+					</div>
+					<div class="col-md-3">
+						<p>
+							<a href="http://www.mister-devis.com" target="_blank"><b class="nosservice">Mister Devis </b></a>
+						</p>
+					</div>
+					<div class="col-md-3">
+						<p>
+							<a href="#"><b class="pratique">PRATIQUE</b></a>
+						</p>
+					</div>
+				</center>
+			</footer>
+		</div>
+
+	</div>
+</div>
+</body>
+</html>

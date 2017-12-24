@@ -1,0 +1,9 @@
+<div class="form-group">
+    <label for="TYPE_DIFFUSION_CHALEUR">Type de Pompe à Chaleur :</label>
+    <select class="form-control" name="TYPE_DIFFUSION_CHALEUR" id="TYPE_DIFFUSION_CHALEUR">
+        <option <?= $this->qualification->type_diffusion_chaleur === 'Aérohermie (Air)' ? 'selected' : null; ?>  value="Aérohermie (Air)">Aérohermie (Air)</option>
+        <option <?= $this->qualification->type_diffusion_chaleur === 'Aquathermie (Eau)' ? 'selected' : null; ?>  value="Aquathermie (Eau)">Aquathermie (Eau)</option>
+        <option <?= $this->qualification->type_diffusion_chaleur === 'Mixte (Air/Eau)' ? 'selected' : null; ?>  value="Mixte (Air/Eau)">Mixte (Air/Eau)</option>
+        <option <?= $this->qualification->type_diffusion_chaleur === 'Je ne sais pas' ? 'selected' : null; ?>  value="Je ne sais pas">Je ne sais pas</option>
+    </select>
+</div>

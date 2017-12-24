@@ -1,0 +1,71 @@
+<form id="<?=$this->form->getAttrib('id')?>" action="<?=$this->escape($this->form->getAction())?>" method='post'>
+
+<div class="modal-bg">
+	<div class="modal-content custom-scroll" style="min-width: 200px; min-height: 170px; width: 520px; position: relative; max-width: 1511px; max-height: 266px;">
+		<div class="standard-tabs same-height tabs-active tabs-animated tab-opened" style="height: 321px;">
+			<ul class="tabs">
+				<li class="active"><a href="#tab-prod1">Utilisateur</a></li>
+			</ul>
+			<div class="tabs-content" style="min-height: 29px;"><span class="tabs-back with-left-arrow top-bevel-on-light dark-text-bevel">Back</span>
+		
+				<div class="with-padding tab-active" id="tab-prod1" style="display: block; height: 279px;">
+					<div class="button-height">
+		            	
+		                <div style="display:inline-block;width:100%;">
+		                    <div style="width:48%;float:left;">
+							<span class="button-group">
+		                    	<?php 
+		                        $selectOptions = $this->form->rankuser->getMultiOptions();
+		                        reset($selectOptions);
+		                        $firstValue = key($selectOptions);
+		                        foreach($selectOptions as $value => $label){
+		                        ?>
+		                        	<label for="rankuser-<?= $value; ?>" class="button blue-active tiny<?= ($value == $firstValue) ? ' active' : ''; ?>">
+		                            <input type="radio" name="rankuser" id="rankuser-<?= $value; ?>" value="<?= $value; ?>"<?= ($value == $firstValue) ? ' checked="checked"' : ''; ?>>
+		                            <?= $label ?>
+			                        </label>                            
+		                        <?php
+		                        }
+		                        ?>
+	                		</span>
+		                        <ul class="inputs">
+		                            <li><span class="icon-user small-margin-right icon-size-2"></span><?= $this->form->lastnameuser; ?></li>
+		                            <li><span class="icon-user small-margin-right"></span><?= $this->form->firstnameuser; ?></li>
+		                            <li><span class="icon-mail small-margin-right"></span><?= $this->form->emailuser; ?></li>
+		                            <li><span class="icon-star small-margin-right"></span><?= $this->form->loginuser; ?></li>
+									<li><span class="icon-star small-margin-right"></span><?= $this->form->pwduser; ?></li>
+									<li><span class="icon-star small-margin-right"></span><?= $this->form->pwduser2; ?></li>
+		         
+		                        </ul>
+		                        <span class="button-group">
+		                    	<?php 
+		                        $selectOptions = $this->form->statususer->getMultiOptions();
+		                        reset($selectOptions);
+		                        $firstValue = key($selectOptions);
+		                        foreach($selectOptions as $value => $label){
+		                        ?>
+		                        	<label for="statususer-<?= $value; ?>" class="button blue-active tiny<?= ($value == $firstValue) ? ' active' : ''; ?>">
+		                            <input type="radio" name="statususer" id="statususer-<?= $value; ?>" value="<?= $value; ?>"<?= ($value == $firstValue) ? ' checked="checked"' : ''; ?>>
+		                            <?= $label ?>
+			                        </label>                            
+		                        <?php
+		                        }
+		                        ?>
+	                		</span>
+		                	</div>
+							<div class="modal-buttons">
+	<?= $this->form->submitUser->renderViewHelper(); ?>
+</div>
+		                </div>
+		                
+		           </div>                                 
+				</div>
+				
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+</form>

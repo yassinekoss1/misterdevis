@@ -1,0 +1,117 @@
+[production]
+
+
+;----------------------------------------------------------------------
+;                        		PHP DATE
+;----------------------------------------------------------------------
+
+date.timezone = "Europe/London"
+
+;----------------------------------------------------------------------
+;                        		Zend Session
+;----------------------------------------------------------------------
+
+session.name 				= 	meunier
+session.strict 				= 	off
+session.save_path 			= 	APPLICATION_PATH "/../session"
+session.gc_divisor 			= 	1000
+session.use_cookies 		= 	on
+session.use_trans_sid 		= 	off
+session.gc_maxlifetime 		= 	86400
+session.gc_probability 		= 	1
+session.use_only_cookies 	= 	on
+session.remember_me_seconds = 	2419200
+
+;----------------------------------------------------------------------
+;                        		Zend Errors
+;----------------------------------------------------------------------
+
+phpSettings.display_startup_errors 	= 1
+phpSettings.display_errors 			= 1
+
+;----------------------------------------------------------------------
+;                        		Zend Session
+;----------------------------------------------------------------------
+
+includePaths.library 	= APPLICATION_PATH "/../library"
+bootstrap.path 			= APPLICATION_PATH "/Bootstrap.php"
+bootstrap.class 		= "Bootstrap"
+appnamespace			= "Application"
+resources.frontController.moduleDirectory	= APPLICATION_PATH "/modules"
+
+
+;----------------------------------------------------------------------
+;                        		Zend Plugins
+;----------------------------------------------------------------------
+
+resources.frontController.plugins.alert 	= "Application_Plugin_Alert"
+resources.frontController.plugins.registry 	= "Application_Plugin_Registry"
+
+
+
+;----------------------------------------------------------------------
+;                        		Zend Layout
+;----------------------------------------------------------------------
+
+resources.modules 			= ""
+resources.layout.layoutPath = APPLICATION_PATH "/layouts"
+resources.layout.layout 	= layout
+
+;----------------------------------------------------------------------
+;                        		Zend AutoLoad
+;----------------------------------------------------------------------
+
+resources.view[] 			=
+autoloaderNamespaces[] 		= "tcpdf"
+autoloaderNamespaces[] 		= "Doctrine_"
+autoloaderNamespaces[] 		= "Custom_"
+autoloaderNamespaces[] 		= "DctrineExtensions_"
+
+;----------------------------------------------------------------------
+;                        		Doctrine
+;----------------------------------------------------------------------
+
+doctrine.autoGenerateProxyClasses 	= true
+doctrine.cacheImplementation 		= Doctrine\Common\Cache\ArrayCache
+doctrine.connection.driver 			= pdo_mysql
+doctrine.connection.dbname 			= devistraiteur1.2
+doctrine.connection.user 			= devistraiteur1.2
+doctrine.connection.host 			= localhost
+doctrine.connection.password 		= "5C6DsMbyXqczQjZ3"
+doctrine.connection.charset			= utf8
+doctrine.connection.driverOptions.1002	= 'SET NAMES utf8'
+
+;----------------------------------------------------------------------
+;                        	Temp
+;----------------------------------------------------------------------
+
+logs.tmpDir = APPLICATION_PATH "/tmp"
+logs.error 	= "error.log"
+
+;----------------------------------------------------------------------
+;                        	Email
+;----------------------------------------------------------------------
+
+system.email.name 	 = "no-reply"
+system.email.address = "no-reply@domain.com"
+
+
+[staging : production]
+
+;----------------------------------------------------------------------
+;                    	Zend Error Mode Testing
+;----------------------------------------------------------------------
+[testing : production]
+
+phpSettings.display_startup_errors	= 1
+phpSettings.display_errors 			= 1
+
+;----------------------------------------------------------------------
+;                      Zend Error Mode Developement
+;----------------------------------------------------------------------
+[development : production]
+
+phpSettings.display_startup_errors 		= 1
+phpSettings.display_errors 				= 1
+resources.frontController.params.displayExceptions 	= 1
+

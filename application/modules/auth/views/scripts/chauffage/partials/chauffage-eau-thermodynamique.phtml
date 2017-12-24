@@ -1,0 +1,11 @@
+<div class="form-group">
+	<label for="TYPE_ENERGIE">Type d'énergie :</label>
+	<select class="form-control" name="TYPE_ENERGIE" id="TYPE_ENERGIE">
+		<option <?= $this->qualification->type_energie === 'Électricité' ? 'selected' : null; ?> value="Électricité">Électricité</option>
+		<option <?= $this->qualification->type_energie === 'Gaz' ? 'selected' : null; ?> value="Gaz">Gaz</option>
+		<option <?= $this->qualification->type_energie === 'Fioul' ? 'selected' : null; ?> value="Fioul">Fioul</option>
+		<option <?= $this->qualification->type_energie === 'Géothermie/Aérothermie' ? 'selected' : null; ?> value="Géothermie/Aérothermie">Géothermie/Aérothermie</option>
+		<option <?= $this->qualification->type_energie === 'Autre' ? 'selected' : null; ?> value="Autre">Autre</option>
+		<option <?= $this->qualification->type_energie === 'Je ne sais pas' ? 'selected' : null; ?> value="Je ne sais pas">Je ne sais pas</option>
+	</select>
+</div>

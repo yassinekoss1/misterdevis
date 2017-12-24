@@ -1,0 +1,8 @@
+<div class="form-group">
+    <label for="TYPE_RADIATEUR">Type radiateur :</label>
+    <select class="form-control" name="TYPE_RADIATEUR" id="TYPE_RADIATEUR">
+        <option <?= $this->qualification->type_radiateur === 'Radiateur' ? 'selected' : null; ?>  value="Radiateur">Radiateur</option>
+        <option <?= $this->qualification->type_radiateur === 'Plancher chauffant électrique' ? 'selected' : null; ?>  value="Plancher chauffant électrique">Plancher chauffant électrique</option>
+        <option <?= $this->qualification->type_radiateur === 'Je ne sais pas' ? 'selected' : null; ?>  value="Je ne sais pas">Je ne sais pas</option>
+    </select>
+</div>

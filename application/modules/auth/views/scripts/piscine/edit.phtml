@@ -1,0 +1,614 @@
+
+
+<style>
+.dd-handle {
+	height: 100%;
+	font-weight: 600;
+}
+
+.dd-handle:hover {
+	color: #1B9CDC;
+}
+
+#content-families ul {
+	padding-left: 30px;
+}
+
+.dropzone .dz-default.dz-message {
+	background-image: none;
+}
+
+.dropzone {
+	min-height: 200px;
+}
+
+.alert-danger {
+	background-color: #f2dede;
+	border-color: #ebccd1;
+	color: #a94442;
+}
+
+::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+	background-color: #6A6E9B;
+}
+
+::-webkit-scrollbar {
+	width: 10px;
+	background-color: #6A6E9B;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: #1B9CDC;
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, color-stop(.5, rgba(255, 255, 255,
+		.2)), color-stop(.5, transparent), to(transparent));
+}
+</style>
+<div class="row">
+	<div class="col-md-12">
+		<div class="main-box clearfix">
+			<header style="min-height: 0 !important;"
+				class="main-box-header clearfix">
+				<!-- Breadcumbs -->
+				<div class="row">
+					<div class="col-md-12">
+						<ul id="breadcrumbs-two">
+							<li><a
+								href="/<?=Zend_Registry::get('Zend_Locale')->getLanguage();?>/fo/Job/dashboard"><i
+									class="fa fa-home"></i> Tableau de bord</a></li>
+							<li><a class="current" style="cursor: pointer;"><i
+									class="fa fa-files-o"></i> Qualification Piscine</a></li>
+						</ul>
+					</div>
+				</div>
+				<!-- end breadcumbs -->
+			</header>
+			<div class="main-box-body clearfix">
+				<div class="panel-group accordion" id="accordion-add-product">
+					<!-- INFORMATIONS PRODUIT -->
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<a class="accordion-toggle" data-toggle="collapse"
+									data-parent="#accordion-add-product"
+									href="#collapseOne-informations-product"> <i
+									class="fa fa-file-text-o"></i> QUALIFICATION
+								</a>
+							</h4>
+						</div>
+						<div id="collapseOne-informations-product"
+							class="panel-collapse collapse in">
+							<div class="panel-body">
+								<form id="form_add_piscine" enctype="multipart/form-data"
+									action="/auth/piscine/edit/id_demande/<?=$this->id_demande?>"
+									method="POST">
+									<!--  -->
+									<div class="row">
+										<div class="col-md-12">
+											<div class="tabs-wrapper">
+												<ul class="nav nav-tabs">
+													<li class="active"><a href="#tab-1" data-toggle="tab">Informations client</a></li>
+													<li><a href="#tab-2" data-toggle="tab">Adresse chantier
+														</a></li>
+														<li><a href="#tab-3" data-toggle="tab">Qualification
+														</a></li>
+														<li><a href="#tab-4" data-toggle="tab">Mise en ligne
+														</a></li>
+												</ul>
+												<div class="tab-content">
+													<div class="tab-pane fade in active" id="tab-1">
+														<!--  -->
+														<div class="col-md-6">
+															<div id="form-group-TITRE_DEMANDE" class="form-group">
+																<label for="titledemande">Titre de la demande *:</label> <input
+																	type="text" name="TITRE_DEMANDE"
+																	placeholder="Titre de la demande" id="TITRE_DEMANDE"
+																	class="form-control" value="<?=$this->demandedevis[0]['titre_demande']?>"> <span id="help-block-TITRE_DEMANDE"
+																	style="display: none;" class="help-block"><i
+																	class="icon-remove-sign"></i> Le titre de la demande est obligatoire</span>
+															</div>
+															<div id="form-group-NOM_PARTICULIER" class="form-group">
+																<label for="nomParticulier">Nom  *:</label> <input
+																	type="text" name="NOM_PARTICULIER"
+																	placeholder="Nom" id="NOM_PARTICULIER"
+																	class="form-control" value="<?=$this->demandedevis[0]['nom_particulier']?>"><span id="help-block-NOM_PARTICULIER"
+																	style="display: none;" class="help-block"><i
+																	class="icon-remove-sign"></i> Le Nom est obligatoire</span> 
+															</div>
+															
+															<div id="form-group-TELEPHONE_PORTABLE" class="form-group">
+																<label for="telephonePortable">PORTABLE  *:</label> <input
+																	type="text" name="TELEPHONE_PORTABLE"
+																	placeholder="Portable" id="TELEPHONE_PORTABLE"
+																	class="form-control" value="<?=$this->demandedevis[0]['telephone_portable']?>"><span id="help-block-TELEPHONE_PORTABLE"
+																	style="display: none;" class="help-block"><i
+																	class="icon-remove-sign"></i> Le Portable est obligatoire</span> 
+															</div>
+															
+															<div id="form-group-EMAIL" class="form-group">
+																<label for="email">E-MAIL  *:</label> <input
+																	type="text" name="EMAIL"
+																	placeholder="E-Mail" id="EMAIL"
+																	class="form-control" value="<?=$this->demandedevis[0]['email']?>"><span id="help-block-EMAIL"
+																	style="display: none;" class="help-block"><i
+																	class="icon-remove-sign"></i> L'E-MAIL est obligatoire</span> 
+															</div>
+															
+															<div class="form-group">
+																<label>Type d'installation:</label> <select class="form-control"
+																	name="TYPE_INSTALLATION" id="TYPE_INSTALLATION">
+																	<option value="Installation neuve">Installation neuve</option>
+																	<option value="Remplacement">Remplacement</option>
+																	<option value="Réparation">Réparation</option>
+																	<option value="Autre">Autre</option>
+																	
+																</select>
+															</div>
+															
+															<div class="form-group">
+																<label for="description">Description :</label>
+																<textarea class="form-control" id="DESCRIPTION"
+																	name="DESCRIPTION" rows="3" value="<?=$this->demandedevis[0]['description']?>"></textarea>
+															</div>
+														
+														</div>
+														<div class="col-md-6">
+															<div id="form-group-PRENOM_PARTICULIER" class="form-group">
+																<label for="prenomParticulier">Prénom  *:</label> <input
+																	type="text" name="PRENOM_PARTICULIER"
+																	placeholder="Prénom" id="PRENOM_PARTICULIER"
+																	class="form-control" value="<?=$this->demandedevis[0]['prenom_particulier']?>"><span id="help-block-PRENOM_PARTICULIER"
+																	style="display: none;" class="help-block"><i
+																	class="icon-remove-sign"></i> Le Prénom est obligatoire</span> 
+															</div>
+															
+															
+															<div id="form-group-TELEPHONE_FIXE" class="form-group">
+																<label for="telephoneFixe">TELEPHONE FIXE  :</label> <input
+																	type="text" name="TELEPHONE_FIXE"
+																	placeholder="Téléphone Fixe" id="TELEPHONE_FIXE"
+																	class="form-control" value="<?=$this->demandedevis[0]['telephone_fixe']?>">
+															</div>
+															
+															<div class="form-group">
+																<label>Délai Souaité:</label> <select class="form-control"
+																	name="DELAI_SOUHAITE" id="DELAI_SOUHAITE">
+																	<option value="Au plus vite">Au plus vite</option>
+																	<option value="Dans moins de deux semaines">Dans moins de deux semaines</option>
+																	<option value="Dans moins d'un mois">Dans moins d'un mois</option>
+																	<option value="Dans moins d'un mois">Dans moins d'un mois</option>
+																	<option value="Plus de six mois">Plus de six mois</option>
+																	<option value="Pas de date fixée">Pas de date fixée</option>
+																	
+																</select>
+															</div>
+															
+															
+															
+														</div>
+														<!--  -->
+													</div>
+													
+													<div class="tab-pane fade" id="tab-2">
+														<div class="col-md-6">
+															<div class="panel panel-default">
+																
+																<div id="form-group-ADRESSE" class="form-group">
+																<label for="adresse">Adresse Postale *
+																	 :</label> <input type="text"
+																	id="ADRESSE"
+																	placeholder="Adresse Postale"
+																	class="form-control" name="ADRESSE"  value="<?=$this->demandedevis[0]['adresse']?>"><span id="help-block-ADRESSE"
+																	style="display: none;" class="help-block"><i
+																	class="icon-remove-sign"></i> L'adresse postale est obligatoire</span> 
+															</div>
+															
+															<div id="form-group-VILLE" class="form-group">
+																<label for="ville">Ville *
+																	 :</label> <input type="text"
+																	id="VILLE"
+																	placeholder="Ville"
+																	class="form-control" name="VILLE"  value="<?=$this->demandedevis[0]['ville']?>"><span id="help-block-VILLE"
+																	style="display: none;" class="help-block"><i
+																	class="icon-remove-sign"></i> La Ville  est obligatoire</span> 
+															</div>
+															
+															<div class="form-group">
+																<label>Zone :</label> <select class="form-control"
+																	name="ID_ZONE" id="ID_ZONE">
+																	<?php foreach ($this->zones as $z): ?>
+																		<option value="<?=$z->id_zone?>"><?=$z->libelle?></option>
+																	<?php endforeach; ?>
+																	
+																</select>
+															</div>
+															
+															
+															
+							                              
+															
+															 
+															
+															
+															
+															
+															
+																
+															</div>
+														</div>
+														<div class="col-md-6">
+															<div id="form-group-adresse2" class="form-group">
+																<label for="adresse">Adresse 2 
+																	 :</label> <input type="text"
+																	id="ADRESSE2"
+																	placeholder="Adresse 2"
+																	class="form-control" name="ADRESSE2"  value="<?=$this->demandedevis[0]['adresse2']?>">
+															</div>
+															
+															<div id="form-group-CODE_POSTAL" class="form-group">
+																<label for="code_postal">Code Postal  *:</label> <input
+																	type="text" name="CODE_POSTAL"
+																	placeholder="Code Postal" id="CODE_POSTAL"
+																	class="form-control"  value="<?=$this->demandedevis[0]['code_postal']?>"><span id="help-block-CODE_POSTAL"
+																	style="display: none;" class="help-block"><i
+																	class="icon-remove-sign"></i> Le Code Postal est obligatoire</span> 
+															</div>
+															
+															
+															
+							                            
+															
+															 
+															
+															 
+														
+															
+															 
+															
+															
+														
+													</div>
+													
+													
+													
+												</div>
+												
+												<div class="tab-pane fade" id="tab-3">
+														<!--  <input type="file" name="userfile">-->
+														<div class="col-md-6">
+															<div class="form-group">
+																<label>Vous êtes:</label> <select class="form-control"
+																	name="TYPE_DEMANDEUR" id="TYPE_DEMANDEUR">
+																	<option label="Particulier" value="Particulier" selected="selected">Particulier</option>
+																	<option label="Société" value="Societe">Société</option>
+																	<option label="Commerçant" value="Commercant">Commerçant</option>
+																	<option label="Industriel" value="Industriel">Industriel</option>
+																	<option label="Profession Libérale" value="Profession_Liberale">Profession Libérale</option>
+																	<option label="Syndic de Copropriété" value="Syndic_de_Copropriete">Syndic de Copropriété</option>
+																	<option label="Promoteur" value="Promoteur">Promoteur</option>
+																	<option label="Administration" value="Administration">Administration</option>
+																	<option label="Association" value="Association">Association</option>
+																	<option label="Architecte" value="Architecte">Architecte</option>
+																	<option label="Agence immobilière" value="Agence_immobiliere">Agence immobilière</option>
+																	<option label="Autre" value="Autre">Autre</option>
+																	
+																</select>
+															</div>
+															
+															<div class="form-group">
+																<label>Type de Bâtiment:</label> <select class="form-control"
+																	name="TYPE_BATIMENT" id="TYPE_BATIMENT">
+																	<option label="Appartement" value="Appartement">Appartement</option>
+																	<option label="Maison Indviduelle" value="Maison_Indviduelle" selected="selected">Maison Indviduelle</option>
+																	<option label="Bureau" value="Bureau">Bureau</option>
+																	<option label="Commerce" value="Commerce">Commerce</option>
+																	<option label="Immeuble" value="Immeuble">Immeuble</option>
+																	<option label="Local Industriel" value="Local_Industriel">Local Industriel</option>
+																	<option label="Usine" value="Usine">Usine</option>
+																	<option label="Hotel" value="Hotel">Hotel</option>
+																	<option label="Autre" value="Autre">Autre</option>
+																	
+																</select>
+															</div>
+															
+															<div class="form-group" id="form-group-dimension">
+																<label for="dimension">Dimension Souhaitée
+																	 :</label> <input type="text"
+																	id="DIMENSION"
+																	placeholder="Dimension Souhaitée"
+																	class="form-control" name="DIMENSION">
+															</div>
+															
+															<div class="form-group" id="form-group-budget">
+																<label for="BUDGET_APPROXIMATIF">Budget Approximatif
+																	 :</label> <input type="text"
+																	id="BUDGET_APPROXIMATIF"
+																	placeholder="Budget Approximatif"
+																	class="form-control" name="BUDGET_APPROXIMATIF">
+															</div>
+															
+															<div class="form-group">
+																<label>Objectif de demande:</label> <select class="form-control"
+																	name="OBJECTIF_DEMANDE" id="OBJECTIF_DEMANDE">
+																	<option label="Trouver une entreprise disponible" value="0">Trouver une entreprise disponible</option>
+																	<option label="Obtenir des devis et trouver une entreprise" value="1" selected="selected">Obtenir des devis et trouver une entreprise</option>
+																	<option label="Avoir juste une idée des prix" value="2">Avoir juste une idée des prix</option>
+																	<option label="Autre" value="3">Autre</option>
+																	
+																</select>
+															</div>
+															
+															<div class="form-group">
+																<label for="indication_complementaire">Indication Complémentaire :</label>
+																<textarea class="form-control" id="INDICATION_COMPLEMENTAIRE"
+																	name="INDICATION_COMPLEMENTAIRE" rows="3"  value="<?=$this->demandedevis[0]['indication_complementaire']?>"></textarea>
+															</div>
+															
+															
+															
+															
+															
+															
+															
+															
+														</div>
+														<div class="col-md-6">
+															<div class="form-group">
+																<label>Et Vous êtes:</label> <select class="form-control"
+																	name="TYPE_PROPRIETE" id="TYPE_PROPRIETE">
+																	<option label="Propriétaire Occupant" value="Proprietaire_Occupant">Propriétaire Occupant</option>
+																	<option label="Propriétaire Bailleur" value="Proprietaire_Bailleur">Propriétaire Bailleur</option>
+																	<option label="Futur Propriétaire" value="Futur_Proprietaire" selected="selected">Futur Propriétaire</option>
+																	<option label="Locataire" value="Locataire">Locataire</option>
+																	<option label="Future locataire" value="Future_locataire">Future locataire</option>
+																	<option label="Administrateur" value="Administrateur">Administrateur</option>
+																	<option label="Autre" value="Autre">Autre</option>
+																	
+																</select>
+															</div>
+															
+															<div class="form-group">
+																<label>Forme de piscine:</label> <select class="form-control"
+																	name="FORME_PISCINE" id="FORME_PISCINE">
+																	<option label="Rectangle" value="Rectangle" selected="selected">Rectangle</option>
+																	<option label="Ronde" value="Ronde">Ronde</option>
+																	<option label="Ovale " value="Ovale">Ovale </option>
+																	<option label="Haricot" value="Haricot">Haricot</option>
+																	<option label="Autre" value="Autre">Autre</option>
+																	<option label="Je ne sais pas" value="Je_ne_sais_pas">Je ne sais pas</option>
+																	
+																</select>
+															</div>
+															
+															<div class="form-group">
+																<label>Sécurité de piscine:</label> <select class="form-control"
+																	name="SECURITE_PISCINE" id="SECURITE_PISCINE">
+																	<option label="Aucun" value="Aucun">Aucun</option>
+																	<option label="Barrière de Piscine" value="Barriere_de_Piscine">Barrière de Piscine</option>
+																	<option label="Alarme de Piscine" value="Alarme_de_Piscine">Alarme de Piscine</option>
+																	<option label="Couverture de Piscine" value="Couverture_de_Piscine" selected="selected">Couverture de Piscine</option>
+																	<option label="Abri de Piscine" value="Abri_de_Piscine">Abri de Piscine</option>
+																	<option label="Je ne sais pas" value="Je_ne_sais_pas">Je ne sais pas</option>
+																	<option label="Autre" value="Autre">Autre</option>
+																	
+																</select>
+															</div>
+															
+															<div class="form-group">
+																<label>Financement de projet:</label> <select class="form-control"
+																	name="FINANCEMENT_PROJET" id="FINANCEMENT_PROJET">
+																	<option label="Comptant" value="0">Comptant</option>
+																	<option label="Demande de crédit en cours" value="1" selected="selected">Demande de crédit en cours</option>
+																	<option label="Crédit Obtenu" value="2">Crédit Obtenu</option>
+																	<option label="Je ne sais pas" value="3">Je ne sais pas</option>
+																	
+																</select>
+															</div>
+															
+															<div class="form-group">
+																<label>Qualification:</label> <select class="form-control"
+																	name="QUALIFICATION" id="QUALIFICATION">
+																	<option label="" value=""></option>
+																	<option label="Non qualifiée" value="0">Non qualifiée</option>
+																	<option label="NRP" value="1">NRP</option>
+																	<option label="Occupé" value="2">Occupé</option>
+																	<option label="Qualifié" value="3" selected="selected">Qualifié</option>
+																	<option label="Trop tard" value="4">Trop tard</option>
+																	<option label="Rappel" value="5">Rappel</option>
+																	
+																</select>
+															</div>
+														
+														</div>
+													</div>
+													
+													<div class="tab-pane fade" id="tab-4">
+														<!--  <input type="file" name="userfile">-->
+														<div class="col-md-6">
+																			
+															<div class="form-group" id="form-group-prix">
+																<label for="PRIX">Prix
+																	 :</label> <input type="text"
+																	id="PRIX_MISE_EN_LIGNE"
+																	placeholder="Prix"
+																	class="form-control" name="PRIX_MISE_EN_LIGNE"  value="<?=$this->demandedevis[0]['prix_mise_en_ligne']?>">
+															</div>
+															
+															<div class="form-group" id="form-group-prix_promo">
+																<label for="PRIX_PROMO">Prix Promo
+																	 :</label> <input type="text"
+																	id="PRIX_PROMO"
+																	placeholder="Prix Promo"
+																	class="form-control" name="PRIX_PROMO"  value="<?=$this->demandedevis[0]['prix_promo']?>">
+															</div>
+															
+														</div>
+														<div class="col-md-6">
+															<div class="form-group">
+																<label>Publier en Ligne:</label> <select class="form-control"
+																	name="PUBLIER_EN_LIGNE" id="PUBLIER_EN_LIGNE">
+																	<option label="NON" value="NON">NON</option>
+																	<option label="OUI" value="OUI">OUI</option>
+																	
+																</select>
+															</div>
+															
+															
+															
+															
+															
+															
+															
+															
+														
+														</div>
+													</div>
+													<!--  -->
+												
+											</div>
+										</div>
+									</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12">
+											<button class="btn btn-info pull-right" data-toggle="modal"
+												data-target="#modal-loader" data-backdrop="static"
+												type="submit">
+												<i class="fa fa-save"></i> Enregistrer
+											</button>
+											
+											
+											
+															
+							                              
+										</div>
+									</div>
+									<!--  -->
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	var nbclic=0;
+$(document).ready(function() {
+	
+		
+		$("#form_add_piscine").submit(function(event){
+			var validate=true;
+			//LA VALIDATION
+			$('#form-group-TITRE_DEMANDE').removeClass( "has-error" );
+			$('#form-group-NOM_PARTICULIER').removeClass( "has-error" );
+			$('#form-group-TELEPHONE_PORTABLE').removeClass( "has-error" );
+			$('#form-group-EMAIL').removeClass( "has-error" );
+			$('#form-group-PRENOM_PARTICULIER').removeClass( "has-error" );
+			$('#form-group-ADRESSE').removeClass( "has-error" );
+			$('#form-group-VILLE').removeClass( "has-error" );
+			$('#form-group-CODE_POSTAL').removeClass( "has-error" );
+			
+			
+			if($('#TITRE_DEMANDE').val()==''){
+				$('#form-group-TITRE_DEMANDE').addClass( "has-error" );
+				$('#help-block-TITRE_DEMANDE').show();
+				validate=false;
+			}
+			
+			if($('#NOM_PARTICULIER').val()==''){
+				$('#form-group-NOM_PARTICULIER').addClass( "has-error" );
+				$('#help-block-NOM_PARTICULIER').show();
+				validate=false;
+			}
+			
+			if($('#TELEPHONE_PORTABLE').val()==''){
+				$('#form-group-TELEPHONE_PORTABLE').addClass( "has-error" );
+				$('#help-block-TELEPHONE_PORTABLE').show();
+				validate=false;
+			}
+			
+			if($('#EMAIL').val()==''){
+				$('#form-group-EMAIL').addClass( "has-error" );
+				$('#help-block-EMAIL').show();
+				validate=false;
+			}
+			
+			if($('#PRENOM_PARTICULIER').val()==''){
+				$('#form-group-PRENOM_PARTICULIER').addClass( "has-error" );
+				$('#help-block-PRENOM_PARTICULIER').show();
+				validate=false;
+			}
+			
+			if($('#ADRESSE').val()==''){
+				$('#form-group-ADRESSE').addClass( "has-error" );
+				$('#help-block-ADRESSE').show();
+				validate=false;
+			}
+			
+			if($('#VILLE').val()==''){
+				$('#form-group-VILLE').addClass( "has-error" );
+				$('#help-block-VILLE').show();
+				validate=false;
+			}
+			
+			if($('#CODE_POSTAL').val()==''){
+				$('#form-group-CODE_POSTAL').addClass( "has-error" );
+				$('#help-block-CODE_POSTAL').show();
+				validate=false;
+			}
+			
+			if(!validate){
+				validate=true;
+				return false;
+			}
+
+		});
+		//Peuplement des Select Tags
+		var type_installation='<?=$this->demandedevis[0]['type_installation'];?>';
+		var delai_souhaite='<?=$this->demandedevis[0]['delai_souhaite'];?>';
+		var type_demandeur='<?=$this->demandedevis[0]['type_demandeur'];?>';
+		var type_propriete='<?=$this->demandedevis[0]['type_propriete'];?>';
+		var type_batiment='<?=$this->demandedevis[0]['type_batiment'];?>';
+		var financement_projet='<?=$this->demandedevis[0]['financement_projet'];?>';
+		var objectif_demande='<?=$this->demandedevis[0]['objectif_demande'];?>';
+		var qualification='<?=$this->demandedevis[0]['qualification'];?>';
+		var id_zone='<?=$this->demandedevis[0]['id_zone'];?>';
+		
+		if(delai_souhaite!=''){
+			$('#DELAI_SOUHAITE').val(delai_souhaite);
+		}
+		
+		if(type_demandeur!=''){
+			$('#TYPE_DEMANDEUR').val(type_demandeur);
+		}
+		
+		if(type_propriete!=''){
+			$('#TYPE_PROPRIETE').val(type_propriete);
+		}
+		
+		if(type_batiment!=''){
+			$('#TYPE_BATIMENT').val(type_batiment);
+		}
+		
+		if(financement_projet!=''){
+			$('#FINANCEMENT_PROJET').val(financement_projet);
+		}
+		
+		if(objectif_demande!=''){
+			$('#OBJECTIF_DEMANDE').val(objectif_demande);
+		}
+		
+		if(qualification!=''){
+			$('#QUALIFICATION').val(qualification);
+		}
+		
+		if(id_zone!=''){
+			$('#ID_ZONE').val(id_zone);
+		}
+		
+		
+	//
+});
+</script>
