@@ -123,7 +123,10 @@
 				}
 			},
 			complete: function () {
-				getNotifications(lastCount)
+				// wait before you retry
+				setTimeout(function(){
+					getNotifications(lastCount)
+				}, 5000);
 			}
 		});
 	}
