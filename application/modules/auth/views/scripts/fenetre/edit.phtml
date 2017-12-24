@@ -3,13 +3,13 @@
 		color: red:
 		display: none;
 	}
-	
+
 	.form-group .help-block {
 		display: none;
 	}
-	
+
 	.form-group.has-error .help-block {
-		display: none;
+		display: block;
 	}
 </style>
 <div class="row">
@@ -34,7 +34,7 @@
 				<!-- end breadcumbs -->
 			</header>
 			<div class="main-box-body clearfix">
-				<form action="/auth/fenetre/edit/id/<?= $this->demande->id_demande; ?>" method="POST" class="must-validate" novalidate>
+				<form action="/auth/fenetre/edit/id/<?= $this->id; ?>" method="POST" class="must-validate" novalidate>
 					
 					<div class="panel-group accordion" id="qualification-form">
 						<div class="panel panel-default">
@@ -49,124 +49,54 @@
 								<div class="panel-body row">
 									<div class="col-md-12">
 										<div class="col-md-6">
-											<div class="form-group">
-												<label for="CIVILITE">Civilité *:</label>
-												<select class="form-control" name="CIVILITE" id="CIVILITE" required>
-													<option value="" disabled selected>veuillez préciser</option>
-													<option <?= $this->demande->id_particulier->civilite == 'Madame' ? 'selected' : null; ?> value="Madame">Madame</option>
-													<option <?= $this->demande->id_particulier->civilite == 'Monsieur' ? 'selected' : null; ?> value="Monsieur">Monsieur</option>
-												</select>
-												<span style="display: none;" class="help-block">
-													<i class="icon-remove-sign"></i>
-													La civilité est obligatoire
-												</span>
-											</div>
+											<?= $this->form->form_particulier->civilite; ?>
 										</div>
-									
 									</div>
 									
 									<div class="col-md-12">
 										
 										<div class="col-md-6">
-											<div class="form-group">
-												<label for="NOM_PARTICULIER">Nom du particulier *:</label>
-												<input type="text" name="NOM_PARTICULIER" required placeholder="Nom" id="NOM_PARTICULIER" class="form-control" value="<?= $this->demande->id_particulier->nom_particulier ?>">
-												<span style="display: none;" class="help-block">
-													<i class="icon-remove-sign"></i>
-													Le Nom est obligatoire
-												</span>
-											</div>
+											<?= $this->form->form_particulier->nom_particulier; ?>
 										</div>
 										<div class="col-md-6">
-											<div class="form-group">
-												<label for="PRENOM_PARTICULIER">Prénom du particulier *:</label>
-												<input type="text" name="PRENOM_PARTICULIER" placeholder="Prénom" id="PRENOM_PARTICULIER" required class="form-control" value="<?= $this->demande->id_particulier->prenom_particulier ?>">
-												<span class="help-block">
-													<i class="icon-remove-sign"></i>
-													Le Prénom est obligatoire
-												</span>
-											</div>
+											<?= $this->form->form_particulier->prenom_particulier; ?>
 										</div>
 									</div>
 									
 									<div class="col-md-12">
 										<div class="col-md-6">
-											<div class="form-group">
-												<label for="TYPE_DEMANDEUR">Vous êtes:</label>
-												<select class="form-control" name="TYPE_DEMANDEUR" id="TYPE_DEMANDEUR">
-													<option <?= $this->demande->type_demandeur == 'Particulier' ? 'selected' : null; ?> value="Particulier">Particulier</option>
-													<option <?= $this->demande->type_demandeur == 'Société' ? 'selected' : null; ?> value="Société">Société</option>
-													<option <?= $this->demande->type_demandeur == 'Commerçant' ? 'selected' : null; ?> value="Commerçant">Commerçant</option>
-													<option <?= $this->demande->type_demandeur == 'Industriel' ? 'selected' : null; ?> value="Industriel">Industriel</option>
-													<option <?= $this->demande->type_demandeur == 'Profession Libérale' ? 'selected' : null; ?> value="Profession Libérale">Profession Libérale</option>
-													<option <?= $this->demande->type_demandeur == 'Syndic de Copropriété' ? 'selected' : null; ?> value="Syndic de Copropriété">Syndic de Copropriété</option>
-													<option <?= $this->demande->type_demandeur == 'Promoteur' ? 'selected' : null; ?> value="Promoteur">Promoteur</option>
-													<option <?= $this->demande->type_demandeur == 'Administration' ? 'selected' : null; ?> value="Administration">Administration</option>
-													<option <?= $this->demande->type_demandeur == 'Association' ? 'selected' : null; ?> value="Association">Association</option>
-													<option <?= $this->demande->type_demandeur == 'Architecte' ? 'selected' : null; ?> value="Architecte">Architecte</option>
-													<option <?= $this->demande->type_demandeur == 'Agence immobilière' ? 'selected' : null; ?> value="Agence immobilière">Agence immobilière</option>
-													<option <?= $this->demande->type_demandeur == 'Autre' ? 'selected' : null; ?> value="Autre">Autre</option>
-												</select>
-											</div>
+											<?= $this->form->form_demande->type_demandeur; ?>
 										</div>
 										<div class="col-md-6">
-											<div class="form-group">
-												<label for="TYPE_PROPRIETE">Et Vous êtes:</label>
-												<select class="form-control" name="TYPE_PROPRIETE" id="TYPE_PROPRIETE">
-													<option <?= $this->demande->type_propriete == 'Propriétaire Occupant' ? 'selected' : null; ?> value="Propriétaire Occupant">Propriétaire Occupant</option>
-													<option <?= $this->demande->type_propriete == 'Propriétaire Bailleur' ? 'selected' : null; ?> value="Propriétaire Bailleur">Propriétaire Bailleur</option>
-													<option <?= $this->demande->type_propriete == 'Futur Propriétaire' ? 'selected' : null; ?> value="Futur Propriétaire">Futur Propriétaire</option>
-													<option <?= $this->demande->type_propriete == 'Locataire' ? 'selected' : null; ?> value="Locataire">Locataire</option>
-													<option <?= $this->demande->type_propriete == 'Future locataire' ? 'selected' : null; ?> value="Future locataire">Future locataire</option>
-													<option <?= $this->demande->type_propriete == 'Administrateur' ? 'selected' : null; ?> value="Administrateur">Administrateur</option>
-													<option <?= $this->demande->type_propriete == 'Autre' ? 'selected' : null; ?> value="Autre">Autre</option>
-												</select>
-											</div>
+											<?= $this->form->form_demande->type_propriete; ?>
 										</div>
 									</div>
 									
 									<div class="col-md-12">
 										<div class="col-md-6">
-											<div class="form-group">
-												<label for="telephonePortable">N&deg; Tét. Portable *:</label>
-												<input type="text" name="TELEPHONE_PORTABLE" required placeholder="Portable" id="TELEPHONE_PORTABLE" class="form-control" value="<?= $this->demande->id_particulier->telephone_portable ?>">
-												<span class="help-block">
-													<i class="icon-remove-sign"></i>
-													Le Portable est obligatoire
-												</span>
-											</div>
+											<?= $this->form->form_particulier->telephone_portable; ?>
+
 										</div>
 										<div class="col-md-6">
-											<div class="form-group">
-												<label for="telephoneFixe">N&deg; Tél. Fixe :</label>
-												<input type="text" name="TELEPHONE_FIXE" placeholder="Téléphone Fixe" id="TELEPHONE_FIXE" class="form-control" value="<?= $this->demande->id_particulier->telephone_fixe ?>">
-											</div>
+											<?= $this->form->form_particulier->telephone_fixe; ?>
+
 										</div>
 									</div>
 									
 									<div class="col-md-12">
 										<div class="col-md-6">
-											<div class="form-group">
-												<label for="EMAIL">Adresse email *:</label>
-												<input type="text" name="EMAIL" placeholder="E-Mail" id="EMAIL" required class="form-control" value="<?=
-												$this->demande->id_particulier->email ?>">
-												<span class="help-block">
-													<i class="icon-remove-sign"></i>
-													L'email est obligatoire
-												</span>
-											</div>
+											<?= $this->form->form_particulier->email; ?>
+
 										</div>
 										<div class="col-md-6">
-											<div class="form-group">
-												<label for="HORAIRERDV">Horaire pour vous joindre :</label>
-												<input type="text" id="HORAIRERDV" placeholder="Horaire pour vous joindre" class="form-control" name="HORAIRERDV" value="<?= $this->demande->id_particulier->horaireRDV; ?>">
-											</div>
+											<?= $this->form->form_particulier->horaireRDV; ?>
+
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-						
+
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<h4 class="panel-title">
@@ -179,105 +109,33 @@
 								<div class="panel-body row">
 									<div class="col-md-12">
 										<div class="col-md-6">
-											<div class="form-group">
-												<label for="TITRE_DEMANDE">Titre de la demande *:</label>
-												<input type="text" name="TITRE_DEMANDE" required placeholder="Titre de la demande" id="TITRE_DEMANDE" class="form-control" value="<?= $this->demande->titre_demande ?>">
-												<span class="help-block">
-													<i class="icon-remove-sign"></i>
-													Le titre de la demande est obligatoire
-												</span>
-											</div>
+											<?= $this->form->form_demande->titre_demande; ?>
 										</div>
 										<div class="col-md-6">
-											<div class="form-group">
-												<label for="DELAI_SOUHAITE">Délai Souaité:</label>
-												<select class="form-control" name="DELAI_SOUHAITE" id="DELAI_SOUHAITE">
-													<option <?= $this->demande->delai_souhaite == 'Au plus vite' ? 'selected' : null; ?> value="Au plus vite">Au plus vite</option>
-													<option <?= $this->demande->delai_souhaite == 'Dans moins de deux semaines' ? 'selected' : null; ?> value="Dans moins de deux semaines">Dans moins de deux semaines</option>
-													<option <?= $this->demande->delai_souhaite == 'Dans moins d\'un mois' ? 'selected' : null; ?> value="Dans moins d'un mois">Dans moins d'un mois</option>
-													<option <?= $this->demande->delai_souhaite == 'Dans moins d\'un mois' ? 'selected' : null; ?> value="Dans moins d'un mois">Dans moins d'un mois</option>
-													<option <?= $this->demande->delai_souhaite == 'Plus de six mois' ? 'selected' : null; ?> value="Plus de six mois">Plus de six mois</option>
-													<option <?= $this->demande->delai_souhaite == 'Pas de date fixée' ? 'selected' : null; ?> value="Pas de date fixée">Pas de date fixée</option>
-												</select>
-											</div>
+											<?= $this->form->form_demande->delai_souhaite; ?>
 										</div>
-									
+
 									</div>
 									<div class="col-md-12">
 										<div class="col-md-6">
-											<div class="form-group">
-												<label for="OBJECTIF_DEMANDE">Objectif de demande:</label>
-												<select class="form-control" name="OBJECTIF_DEMANDE" id="OBJECTIF_DEMANDE">
-													<option <?= $this->demande->objectif_demande === 'Trouver une entreprise disponible' ? 'selected' : null; ?>
-														value="Trouver une entreprise disponible">Trouver une entreprise disponible
-													</option>
-													<option <?= $this->demande->objectif_demande === 'Obtenir des devis et trouver une entreprise' ? 'selected' : null; ?>
-														value="Obtenir des devis et trouver une entreprise">
-														Obtenir des devis et trouver une entreprise
-													</option>
-													<option <?= $this->demande->objectif_demande === 'Avoir juste une idée des prix' ? 'selected' : null; ?>
-														value="Avoir juste une idée des prix">Avoir juste une idée des prix
-													</option>
-													<option <?= $this->demande->objectif_demande === 'Autre' ? 'selected' : null; ?> value="Autre">
-														Autre
-													</option>
-												
-												</select>
-											</div>
+											<?= $this->form->form_demande->objectif_demande; ?>
 										</div>
 										<div class="col-md-6">
-											<div class="form-group">
-												<label for="FINANCEMENT_PROJET">Financement de projet:</label>
-												<select class="form-control" name="FINANCEMENT_PROJET" id="FINANCEMENT_PROJET">
-													<option <?= $this->demande->financement_projet === 'Comptant' ? 'selected' : null; ?> value="Comptant">Comptant</option>
-													<option <?= $this->demande->financement_projet === 'Demande de crédit en cours' ? 'selected' : null; ?> value="Demande de crédit en cours">
-														Demande de crédit en cours
-													</option>
-													<option <?= $this->demande->financement_projet === 'Crédit Obtenu' ? 'selected' : null; ?> value="Crédit Obtenu">Crédit Obtenu</option>
-													<option <?= $this->demande->financement_projet === 'Je ne sais pas' ? 'selected' : null; ?> value="Je ne sais pas">Je ne sais pas</option>
-												</select>
-											</div>
+											<?= $this->form->form_demande->financement_projet; ?>
 										</div>
-									
+
 									</div>
 									<div class="col-md-12">
 										<div class="col-md-6">
-											
-											<div class="form-group">
-												<label for="PRESTATION_SOUHAITE">Prestation souhaitée :</label>
-												<select class="form-control" name="PRESTATION_SOUHAITE" id="PRESTATION_SOUHAITE">
-													<option <?= $this->demande->prestation_souhaite === 'Fourniture et Pose' ? 'selected' : null; ?> value="Fourniture et Pose">Fourniture et Pose</option>
-													<option <?= $this->demande->prestation_souhaite === 'Pose Uniquement' ? 'selected' : null; ?> value="Pose Uniquement">Pose Uniquement</option>
-													<option <?= $this->demande->prestation_souhaite === 'Fourniture Uniquement' ? 'selected' : null; ?> value="Fourniture Uniquement">Fourniture Uniquement</option>
-												</select>
-											</div>
-											
-											<div class="form-group">
-												<label for="DESCRIPTION">Description :</label>
-												<textarea class="form-control" id="DESCRIPTION" name="DESCRIPTION" rows="3"><?= $this->demande->description ?></textarea>
-											</div>
-										
+											<?= $this->form->form_demande->prestation_souhaite; ?>
+											<?= $this->form->form_demande->description; ?>
 										</div>
 										<div class="col-md-6">
-											<div class="form-group">
-												<label for="BUDGET_APPROXIMATIF">Budget Approximatif :</label>
-												<input type="text" id="BUDGET_APPROXIMATIF" placeholder="Budget Approximatif" class="form-control" name="BUDGET_APPROXIMATIF" value="<?= $this->demande->budget_approximatif ?>">
-											</div>
-											
-											<div class="form-group">
-												<label for="QUALIFICATION">Qualification :</label>
-												<select class="form-control" name="QUALIFICATION" id="QUALIFICATION">
-													<option <?= $this->demande->qualification === '' ? 'selected' : null; ?> value="">Qualification</option>
-													<option <?= $this->demande->qualification === '0' ? 'selected' : null; ?> value="0">Non qualifiée</option>
-													<option <?= $this->demande->qualification === '1' ? 'selected' : null; ?> value="1">NRP</option>
-													<option <?= $this->demande->qualification === '2' ? 'selected' : null; ?> value="2">Occupé</option>
-													<option <?= $this->demande->qualification === '3' ? 'selected' : null; ?> value="3">Qualifié</option>
-													<option <?= $this->demande->qualification === '4' ? 'selected' : null; ?> value="4">Trop tard</option>
-													<option <?= $this->demande->qualification === '5' ? 'selected' : null; ?> value="5">Rappel</option>
-												</select>
-											</div>
+
+											<?= $this->form->form_demande->budget_approximatif; ?>
+											<?= $this->form->form_demande->qualification; ?>
 										</div>
-									
+
 									</div>
 								</div>
 							</div>
@@ -294,74 +152,25 @@
 							<div id="qualif-info-collapse" class="panel-collapse collapse in">
 								<div class="panel-body">
 									<div class="col-md-6">
-										
-										
-										<div class="form-group">
-											<label for="TYPE_TRAVAUX">Type de Travaux :</label>
-											<select class="form-control" name="TYPE_TRAVAUX" id="TYPE_TRAVAUX">
-												<option <?= $this->qualification->type_travaux === 'Remplacement' ? 'selected' : null; ?> value="Remplacement">Remplacement</option>
-												<option <?= $this->qualification->type_travaux === 'Installation Neuve' ? 'selected' : null; ?> value="Installation Neuve">Installation Neuve</option>
-												<option <?= $this->qualification->type_travaux === 'Réparation' ? 'selected' : null; ?> value="Réparation">Réparation</option>
-												<option <?= $this->qualification->type_travaux === 'Entretien/Maintenance' ? 'selected' : null; ?> value="Entretien/Maintenance">Entretien/Maintenance</option>
-												<option <?= $this->qualification->type_travaux === 'Autre' ? 'selected' : null; ?> value="Autre">Autre</option>
-											</select>
-										</div>
-										
-										<div class="form-group">
-											<label for="TYPE_BATIMENT">Type de Bâtiment:</label>
-											<select class="form-control" name="TYPE_BATIMENT" id="TYPE_BATIMENT">
-												<option <?= $this->demande->type_batiment == 'Appartement' ? 'selected' : null; ?> value="Appartement">Appartement</option>
-												<option <?= $this->demande->type_batiment == 'Maison Indviduelle' ? 'selected' : null; ?> value="Maison Indviduelle" selected>Maison Indviduelle</option>
-												<option <?= $this->demande->type_batiment == 'Bureau' ? 'selected' : null; ?> value="Bureau">Bureau</option>
-												<option <?= $this->demande->type_batiment == 'Commerce' ? 'selected' : null; ?> value="Commerce">Commerce</option>
-												<option <?= $this->demande->type_batiment == 'Immeuble' ? 'selected' : null; ?> value="Immeuble">Immeuble</option>
-												<option <?= $this->demande->type_batiment == 'Local Industriel' ? 'selected' : null; ?> value="Local Industriel">Local Industriel</option>
-												<option <?= $this->demande->type_batiment == 'Usine' ? 'selected' : null; ?> value="Usine">Usine</option>
-												<option <?= $this->demande->type_batiment == 'Hotel' ? 'selected' : null; ?> value="Hotel">Hotel</option>
-												<option <?= $this->demande->type_batiment == 'Autre' ? 'selected' : null; ?> value="Autre">Autre</option>
-											
-											</select>
-										</div>
+										<?= $this->form->form_qualif->type_travaux; ?>
 
-										
-										<div class="form-group">
-											<label for="INDICATION_COMPLEMENTAIRE">Indication Complémentaire :</label>
-											<textarea class="form-control" id="INDICATION_COMPLEMENTAIRE" name="INDICATION_COMPLEMENTAIRE" rows="3"><?= $this->demande->indication_complementaire; ?></textarea>
-										</div>
-									
+										<?= $this->form->form_qualif->type_fenetre; ?>
+
+										<div id="extra-fields"></div>
+
+										<?= $this->form->form_demande->indication_complementaire; ?>
+
 									</div>
 									<div class="col-md-6">
-										
-										<div class="form-group">
-											<label for="NBRE_FENETRE">Nombre de Fenêtre et porte Fenêtre :</label>
-											<select class="form-control" name="NBRE_FENETRE" id="NBRE_FENETRE">
-												<option <?= $this->qualification->nbre_fenetre === '1' ? 'selected' : null; ?> value="1">1</option>
-												<option <?= $this->qualification->nbre_fenetre === '2' ? 'selected' : null; ?> value="2">2</option>
-												<option <?= $this->qualification->nbre_fenetre === '3' ? 'selected' : null; ?> value="3">3</option>
-												<option <?= $this->qualification->nbre_fenetre === '4' ? 'selected' : null; ?> value="4">4</option>
-												<option <?= $this->qualification->nbre_fenetre === '5' ? 'selected' : null; ?> value="5">5</option>
-												<option <?= $this->qualification->nbre_fenetre === 'Plus de 5' ? 'selected' : null; ?> value="Plus de 5">Plus de 5</option>
-											</select>
-										</div>
-										
-										<div class="form-group">
-											<label for="TYPE_FENETRE">Quel type de Fenêtres ou Porte Fenêtre ?</label>
-											<select class="form-control" name="TYPE_FENETRE" id="TYPE_FENETRE">
-												<option <?= $this->qualification->type_fenetre === 'PVC' ? 'selected' : null; ?> value="PVC">PVC</option>
-												<option <?= $this->qualification->type_fenetre === 'Aluminium' ? 'selected' : null; ?> value="Aluminium">Aluminium</option>
-												<option <?= $this->qualification->type_fenetre === 'Bois' ? 'selected' : null; ?> value="Bois">Bois</option>
-												<option <?= $this->qualification->type_fenetre === 'Je ne sais pas' ? 'selected' : null; ?> value="Je ne sais pas">Je ne sais pas</option>
-												<option <?= $this->qualification->type_fenetre === 'Fenêtre de toit' ? 'selected' : null; ?> value="Fenêtre de toit">Fenêtre de toit</option>
-											</select>
-										</div>
-										
-										<div class="form-group">
-											<label for="DEPOSE_FENETRE_EXISTANT">Dépose de Fenêtres existantes ?</label>
-											<select class="form-control" name="DEPOSE_FENETRE_EXISTANT" id="DEPOSE_FENETRE_EXISTANT">
-												<option <?= $this->qualification->depose_fenetre_existant === '1' ? 'selected' : null; ?> value="1">Oui</option>
-												<option <?= $this->qualification->depose_fenetre_existant === '0' ? 'selected' : null; ?> value="0">Non</option>
-											</select>
-										</div>
+
+
+										<?= $this->form->form_demande->type_batiment; ?>
+
+
+										<?= $this->form->form_qualif->nbre_fenetre; ?>
+
+
+										<?= $this->form->form_qualif->depose_fenetre_existant; ?>
 									</div>
 								</div>
 							</div>
@@ -380,56 +189,24 @@
 									<div class="panel panel-default row">
 										<div class="col-md-12">
 											<div class="col-md-6">
-												<div class="form-group">
-													<label for="adresse">Adresse Postale * :</label>
-													<input type="text" id="ADRESSE" placeholder="Adresse Postale" required class="form-control" name="ADRESSE" value="<?= $this->demande->id_chantier->adresse ?>">
-													<span class="help-block">
-														<i class="icon-remove-sign"></i>
-														L'adresse postale est obligatoire
-													</span>
-												</div>
+												<?= $this->form->form_chantier->adresse; ?>
 											</div>
 											<div class="col-md-6">
-												<div class="form-group">
-													<label for="adresse">Adresse 2 :</label>
-													<input type="text" id="ADRESSE2" placeholder="Adresse 2" class="form-control" name="ADRESSE2" value="<?= $this->demande->id_chantier->adresse2 ?>">
-												</div>
+												<?= $this->form->form_chantier->adresse2; ?>
 											</div>
 										</div>
 										
 										<div class="col-md-12">
 											<div class="col-md-6">
-												<div class="form-group">
-													<label for="VILLE">Ville * :</label>
-													<input type="text" id="VILLE" placeholder="Ville" required class="form-control" name="VILLE" value="<?= $this->demande->id_chantier->ville ?>">
-													<span class="help-block">
-														<i class="icon-remove-sign"></i>
-														La Ville est obligatoire
-													</span>
-												</div>
+												<?= $this->form->form_chantier->ville; ?>
 											</div>
 											<div class="col-md-6">
-												<div class="form-group">
-													<label for="code_postal">Code Postal *:</label>
-													<input type="text" name="CODE_POSTAL" placeholder="Code Postal" id="CODE_POSTAL" required class="form-control" value="<?= $this->demande->id_chantier->code_postal ?>">
-													<span class="help-block">
-														<i class="icon-remove-sign"></i>
-														Le Code Postal est obligatoire
-													</span>
-												</div>
+												<?= $this->form->form_chantier->code_postal ?>
 											</div>
 										</div>
-										
 										<div class="col-md-12">
 											<div class="col-md-6">
-												<div class="form-group">
-													<label for="ID_ZONE">Zone :</label>
-													<select class="form-control" name="ID_ZONE" id="ID_ZONE">
-														<?php foreach ($this->zones as $z): ?>
-															<option <?= $this->demande->id_chantier->id_zone->id_zone === $z->id_zone ? 'selected' : null; ?> value="<?= $z->id_zone ?>"><?= $z->libelle ?></option>
-														<?php endforeach; ?>
-													</select>
-												</div>
+												<?= $this->form->form_chantier->id_zone; ?>
 											</div>
 										</div>
 									</div>
@@ -448,31 +225,11 @@
 							<div id="online-info-collapse" class="panel-collapse collapse in">
 								<div class="panel-body">
 									<div class="col-md-6">
-										
-										<div class="form-group">
-											<label for="PRIX_MISE_EN_LIGNE">Prix :</label>
-											<input type="text" id="PRIX_MISE_EN_LIGNE" placeholder="Prix" class="form-control" name="PRIX_MISE_EN_LIGNE" value="<?= $this->demande->prix_mise_en_ligne ?>">
-										</div>
-										
-										<div class="form-group">
-											<label for="PRIX_PROMO">Prix Promo :</label>
-											<input type="text" id="PRIX_PROMO" placeholder="Prix Promo" class="form-control" name="PRIX_PROMO" value="<?= $this->demande->prix_promo ?>">
-										</div>
-									
+										<?= $this->form->form_demande->prix_mise_en_ligne; ?>
+										<?= $this->form->form_demande->prix_promo; ?>
 									</div>
 									<div class="col-md-6">
-										<div class="form-group">
-											<label for="PUBLIER_EN_LIGNE">Publier en Ligne:</label>
-											<select class="form-control" name="PUBLIER_EN_LIGNE" id="PUBLIER_EN_LIGNE">
-												<option <?= $this->demande->publier_en_ligne == 0 ? 'selected' : null; ?> value="0">
-													NON
-												</option>
-												<option <?= $this->demande->publier_en_ligne == 1 ? 'selected' : null; ?> value="1">
-													OUI
-												</option>
-											
-											</select>
-										</div>
+										<?= $this->form->form_demande->publier_en_ligne; ?>
 									</div>
 								</div>
 							</div>
@@ -517,15 +274,17 @@
 			else $('#error-notif').hide();
 			return isValid;
 		});
-		
+
 		$('[required]').on('blur', function () {
 			$(this).data('dirty', true);
 			if (!$(this).val() || $(this).val().trim().length === 0) {
 				$(this).parents('.form-group').addClass('has-error');
-				$(this).parents('.form-group').find('.help-block').show();
+				$(this).parents('.form-group').find('.help-block')
+					.html('Ce champs est oubligatoire')
+					.show();
 			} else {
 				$(this).parents('.form-group').removeClass('has-error');
-				$(this).parents('.form-group').find('.help-block').hide();
+				$(this).parents('.form-group').find('.help-block').html('').hide();
 			}
 		}).on('keyup', function () {
 			if (!$(this).data('dirty')) return;

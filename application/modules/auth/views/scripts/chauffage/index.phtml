@@ -116,6 +116,9 @@
 		$.ajax({
 			url: '/auth/chauffage/notification?count=' + lastCount,
 			dataType: 'json',
+			async: true,
+			cache: false,
+			timeout: 50000,
 			success: function (data) {
 				if (data.html) {
 					lastCount = data.count;
@@ -125,7 +128,7 @@
 			complete: function () {
 
 				// wait before you retry
-				setTimeout(function(){
+				setTimeout(function () {
 					getNotifications(lastCount)
 				}, 5000);
 			}

@@ -58,72 +58,65 @@ class Auth_Model_ChauffageRepository extends EntityRepository {
 
     // Grabing the demande and returning if there is not
 
-
     $demande = $this->_em->getRepository('Auth_Model_Demandedevis')->find($id_demande);
     if (!$demande) return false;
 
     // Populating the demande user
-    $user = $this->_em->getRepository('Auth_Model_User')->find($data['ID_USER']);
+    $user = $this->_em->getRepository('Auth_Model_User')->find($data['id_user']);
     $demande->setId_user($user);
 
     // Creating a fresh qualification if there isn't any
     $qualification = $this->_em->getRepository($this->_entityName)->findOneBy(['id_demande' => $id_demande]);
     if (!$qualification) $qualification = new Auth_Model_Chauffage();
-    
-    $qualification->setType_installation($data['TYPE_INSTALLATION']);
-    $qualification->setType_chauffage($data['TYPE_CHAUFFAGE']);
-    $qualification->setType_radiateur($data['TYPE_RADIATEUR']);
-    $qualification->setType_energie($data['TYPE_ENERGIE']);
-    $qualification->setNbre_etage($data['NBRE_ETAGE']);
-    $qualification->setType_diffusion_chaleur($data['TYPE_DIFFUSION_CHALEUR']);
-    $qualification->setType_travaux($data['TYPE_TRAVAUX']);
-    $qualification->setDispose_jardin($data['DISPOSE_JARDIN']);
-    $qualification->setConduite_fumee($data['CONDUITE_FUMEE']);
-    $qualification->setSurface_totale($data['SURFACE_TOTALE']);
-    $qualification->setHauteur_sous_plafond($data['HAUTEUR_SOUS_PLAFOND']);
 
 
-    // Demande data update
+    // Populating qualificaiton object
+    foreach ($data['Chauffage'] as $key => $val) {
+      $prop = 'set' . ucfirst($key);
+      if (method_exists($qualification, 'set' . ucfirst($key))) {
+        $qualification->$prop($val);
+      }
+    }
 
-    $demande->setTitre_demande($data['TITRE_DEMANDE']);
-    $demande->setDelai_souhaite($data['DELAI_SOUHAITE']);
-    $demande->setDescription($data['DESCRIPTION']);
-    $demande->setType_demandeur($data['TYPE_DEMANDEUR']);
-    $demande->setType_propriete($data['TYPE_PROPRIETE']);
-    $demande->setType_batiment($data['TYPE_BATIMENT']);
-    $demande->setBudget_approximatif($data['BUDGET_APPROXIMATIF']);
-    $demande->setFinancement_projet($data['FINANCEMENT_PROJET']);
-    $demande->setObjectif_demande($data['OBJECTIF_DEMANDE']);
-    $demande->setPrestation_souhaite($data['PRESTATION_SOUHAITE']);
-    $demande->setIndication_complementaire($data['INDICATION_COMPLEMENTAIRE']);
-    $demande->setQualification($data['QUALIFICATION']);
-    $demande->setPrix_mise_en_ligne($data['PRIX_MISE_EN_LIGNE']);
-    $demande->setPrix_promo($data['PRIX_PROMO']);
-    $demande->setPublier_en_ligne($data['PUBLIER_EN_LIGNE']);
+
+    // Populating demande object
+
+    foreach ($data['Demande'] as $key => $val) {
+      $prop = 'set' . ucfirst($key);
+      if (method_exists($demande, 'set' . ucfirst($key))) {
+        $demande->$prop($val);
+      }
+    }
+
     $demande->setDate_publication(date('Y-m-d H:i:s'));
 
 
-    // Particulier data update
+    // Populating particulier object
 
-    $demande->getId_particulier()->setCivilite($data['CIVILITE']);
-    $demande->getId_particulier()->setPrenom_particulier($data['PRENOM_PARTICULIER']);
-    $demande->getId_particulier()->setNom_particulier($data['NOM_PARTICULIER']);
-    $demande->getId_particulier()->setTelephone_portable($data['TELEPHONE_PORTABLE']);
-    $demande->getId_particulier()->setTelephone_fixe($data['TELEPHONE_FIXE']);
-    $demande->getId_particulier()->setHorairerdv($data['HORAIRERDV']);
-    $demande->getId_particulier()->setEmail($data['EMAIL']);
+    foreach ($data['Particulier'] as $key => $val) {
+      $prop = 'set' . ucfirst($key);
+      if (method_exists($demande->getId_particulier(), 'set' . ucfirst($key))) {
+        $demande->getId_particulier()->$prop($val);
+      }
+    }
 
-    // Chantier data update
-    $zone = $this->_em->getRepository('Auth_Model_Zone')->find($data['ID_ZONE']);
+
+    // Populating chantier object
 
     $chantier = $demande->getId_Chantier();
     if (!$chantier) $chantier = new Auth_Model_Chantier();
 
-    $chantier->setVille($data['VILLE']);
-    $chantier->setAdresse($data['ADRESSE']);
-    $chantier->setAdresse2($data['ADRESSE2']);
-    $chantier->setCode_postal($data['CODE_POSTAL']);
-    $chantier->setId_Zone($zone);
+    foreach ($data['Chantier'] as $key => $val) {
+      if ($key === 'id_zone') continue;
+      $prop = 'set' . ucfirst($key);
+      if (method_exists($chantier, 'set' . ucfirst($key))) {
+        $chantier->$prop($val);
+      }
+    }
+
+
+    $zone = $this->_em->getRepository('Auth_Model_Zone')->find($data['Chantier']['id_zone']);
+    $chantier->setId_zone($zone);
 
 
     $this->_em->persist($chantier);
@@ -139,7 +132,7 @@ class Auth_Model_ChauffageRepository extends EntityRepository {
     $this->_em->persist($qualification);
     $this->_em->flush();
 
-    return true;
+    return $qualification;
   }
 
 }

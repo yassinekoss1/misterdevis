@@ -34,7 +34,8 @@ class Auth_FenetreController extends Zend_Controller_Action {
 
     // Checcking if there is a change
     while ($this->view->count === 0 || $this->view->count === $lastCount) {
-      usleep(10000);
+      flush();
+      usleep(5000);
       clearstatcache();
       session_write_close();
       $this->view->count = (int)$this->getRequest()->_em->getRepository('Auth_Model_Fenetre')->getNotifications(true);
@@ -53,6 +54,7 @@ class Auth_FenetreController extends Zend_Controller_Action {
     $this->_response->setHeader('Content-type', 'application/json');
 
     echo json_encode($data);
+    flush();
 
   }
 
@@ -66,30 +68,76 @@ class Auth_FenetreController extends Zend_Controller_Action {
     $id = $this->getRequest()->getParam('id');
     $em = $this->getRequest()->_em;
 
-
-    // Proccess the posted data;
-    if ($this->getRequest()->isPost()) {
-      $data = $this->getRequest()->getPost();
-      $data['ID_USER'] = unserialize(Zend_Auth::getInstance()->getIdentity())->id_user;
-      $em->getRepository('Auth_Model_Fenetre')->save($id, $data);
-    }
-
     // Load demande;
     $demande = $em->getRepository('Auth_Model_Demandedevis')->find($id);
 
     // Check inf the data is there or redirect to listing
     if (!$demande || $demande->id_activite->libelle !== 'FENETRE') $this->_redirect('/auth/fenetre');
 
+
+    // Initializing the forms
+    $form = new Zend_Form();
+    $form->addSubForms([
+      'form_demande'     => new Auth_Form_Demande,
+      'form_qualif'      => new Auth_Form_Fenetre,
+      'form_chantier'    => new Auth_Form_Chantier,
+      'form_particulier' => new Auth_Form_Particulier,
+    ]);
+
+    // Load zones
+    $zones = $em->getRepository('Auth_Model_Zone')->getArray();
+
+
     // Load qualification
     $qualification = $em->getRepository('Auth_Model_Fenetre')->findOneBy(['id_demande' => $id]);
 
 
-    // Load zones
-    $zones = $em->getRepository('Auth_Model_Zone')->findAll();
+    // Set the default values
+    $form->form_chantier->id_zone->setMultiOptions($zones);
 
-    $this->view->demande = $demande;
+    $form->setDefaults([
+      'Demande'     => $demande ? $demande->toArray() : null,
+      'Particulier' => $demande->id_particulier ? $demande->id_particulier->toArray() : null,
+      'Chantier'    => $demande->id_chantier ? $demande->id_chantier->toArray() : null,
+      'Fenetre'     => $qualification ? $qualification->toArray() : null,
+    ]);
+
+    $form->form_chantier->setDefault('id_zone', $demande->id_chantier ? $demande->id_chantier->id_zone->id_zone : '');
+
+
+    // Proccess the posted data;
+    if ($this->getRequest()->isPost()) {
+      $data = $this->getRequest()->getPost();
+      if ($form->isValid($data)) {
+
+        // Fetching the current user id
+        $data['id_user'] = unserialize(Zend_Auth::getInstance()->getIdentity())->id_user;
+
+        // Save the qualification
+        $qualification = $em->getRepository('Auth_Model_Fenetre')->save($id, $data);
+
+
+        // Reset the form values
+        $form->setDefaults([
+          'Demande'     => $qualification->id_demande ? $qualification->id_demande->toArray() : null,
+          'Particulier' => $qualification->id_demande->id_particulier ? $qualification->id_demande->id_particulier->toArray() : null,
+          'Chantier'    => $qualification->id_demande ? $qualification->id_demande->id_chantier->toArray() : null,
+          'Fenetre'     => $qualification ? $qualification->toArray() : null,
+        ]);
+        $form->form_chantier->setDefault('id_zone', $qualification->id_demande->id_chantier ? $qualification->id_demande->id_chantier->id_zone->id_zone : '');
+
+
+      } else
+
+        // If the form is not valid keep the data provided by the user
+        $form->setDefaults($data);
+
+    }
+
+
+    $this->view->form = $form;
+    $this->view->id = $id;
     $this->view->qualification = $qualification;
-    $this->view->zones = $zones;
 
   }
 
@@ -108,8 +156,6 @@ class Auth_FenetreController extends Zend_Controller_Action {
 
     $this->view->qualification = $qualification;
     $this->view->demande = $qualification->id_demande;
-    $this->view->logo = realpath(APPLICATION_PATH . '/../public/resources_fo_ehcg/img/company_logo.png');
-    $this->view->date = date('d/m/Y');
 
     // Fetching the html string from the view
     $html = $this->view->render('shared/pdf.phtml');
@@ -130,26 +176,4 @@ class Auth_FenetreController extends Zend_Controller_Action {
     $pdf->writeHTML($html);
     $pdf->Output("{$this->view->demande->titre_demande}-" . time() . ".pdf", 'I');
   }
-
-
-  public function loadfieldsAction() {
-
-    $em = $this->getRequest()->_em;
-    $this->_helper->layout()->disableLayout();
-    $this->_helper->viewRenderer->setNoRender(true);
-
-    $type = $this->getRequest()->getParam('type');
-    $id = $this->getRequest()->getParam('id');
-
-    if (is_readable("{$this->view->getScriptPaths()[0]}fenetre/partials/{$type}.phtml")) {
-      $view_path = "fenetre/partials/{$type}.phtml";
-
-      $this->view->qualification = $em->getRepository('Auth_Model_Fenetre')->find($id);
-      if (!$this->view->qualification)
-        echo null;
-      else
-        echo $this->view->render($view_path);
-    } else echo '';
-  }
-
 }
