@@ -131,7 +131,7 @@
 	<?php endif; ?>
 	<!-- END CHAUFFAGE -->
 	
-	
+
 	<!-- FENETRE -->
 	<?php if ($this->demande->id_activite->libelle === 'FENETRE'): ?>
 
@@ -154,6 +154,65 @@
 
 	<?php endif; ?>
 	<!-- END FENETRE -->
+
+
+	<!-- CUISINE -->
+	<?php if ($this->demande->id_activite->libelle === 'CUISINE'): ?>
+
+		<?php if ($this->qualification->style_futur_cuisine): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Style de votre future Cuisine</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->style_futur_cuisine; ?></td>
+			</tr>
+		<?php endif; ?><?php if ($this->qualification->surface_au_sol_cuisine !== null): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Surface au sol de la Cuisine</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->surface_au_sol_cuisine; ?></td>
+			</tr>
+		<?php endif; ?><?php if ($this->qualification->depose_ancienne_cuisine !== null): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Dépose de l'Ancienne Cuisine</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->depose_ancienne_cuisine ? 'Oui' : 'Non'; ?></td>
+			</tr>
+		<?php endif; ?><?php if ($this->qualification->surface_au_sol_cuisine !== null): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Surface au sol de la Cuisine</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->surface_au_sol_cuisine ? 'Oui' : 'Non'; ?></td>
+			</tr>
+		<?php endif; ?><?php if ($this->qualification->equipement_electromenager !== null): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Équipement Électroménager</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->equipement_electromenager ? 'Oui' : 'Non'; ?></td>
+			</tr>
+		<?php endif; ?><?php if ($this->qualification->travaux_plomberie !== null): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Travaux de Plomberie</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->travaux_plomberie ? 'Oui' : 'Non'; ?></td>
+			</tr>
+		<?php endif; ?><?php if ($this->qualification->travaux_electricite !== null): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Travaux d'Électricité</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->travaux_electricite ? 'Oui' : 'Non'; ?></td>
+			</tr>
+		<?php endif; ?><?php if ($this->qualification->travaux_revetement_sol !== null): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Travaux de revêtement de sol</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->travaux_revetement_sol ? 'Oui' : 'Non'; ?></td>
+			</tr>
+		<?php endif; ?><?php if ($this->qualification->travaux_peinture !== null): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Travaux de Peinture</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->travaux_peinture ? 'Oui' : 'Non'; ?></td>
+			</tr>
+		<?php endif; ?><?php if ($this->qualification->niveau_gamme_souhaite): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Niveau de Gamme souhaité</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->niveau_gamme_souhaite; ?></td>
+			</tr>
+		<?php endif; ?>
+
+	<?php endif; ?>
+	<!-- END CUISINE -->
 
 	<?php if ($this->demande->objectif_demande): $alternate = !$alternate ?>
 		<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">

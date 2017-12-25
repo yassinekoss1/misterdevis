@@ -1,5 +1,6 @@
 <?php
 
+
 class Custom_LibraryAcl extends Zend_Acl {
 
   function __construct() {
@@ -37,6 +38,7 @@ class Custom_LibraryAcl extends Zend_Acl {
     $this->add(new Zend_Acl_Resource('auth:dashboard'), 'auth');
     $this->add(new Zend_Acl_Resource('auth:piscine'), 'auth');
     $this->add(new Zend_Acl_Resource('auth:chauffage'), 'auth');
+    $this->add(new Zend_Acl_Resource('auth:cuisine'), 'auth');
     $this->add(new Zend_Acl_Resource('auth:fenetre'), 'auth');
 
     // >>>>>>>>>>>> Affecting Resources <<<<<<<<<<<<<<<
@@ -55,6 +57,7 @@ class Custom_LibraryAcl extends Zend_Acl {
     $this->allow('auth', 'auth:piscine');
     $this->allow('auth', 'auth:chauffage');
     $this->allow('auth', 'auth:fenetre');
+    $this->allow('auth', 'auth:cuisine');
     $this->allow('guests', 'auth:user');
 
     // -------  >> module Admin  << -------
