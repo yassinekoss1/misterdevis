@@ -7,26 +7,19 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * User
  *
- * @Table(name="qualif_salle_bain")
- * @Entity(repositoryClass="Auth_Model_SallebainRepository")
+ * @Table(name="qualif_sauna_hammam")
+ * @Entity(repositoryClass="Auth_Model_SaunaRepository")
  */
-class Auth_Model_Sallebain {
+class Auth_Model_Sauna {
 
   /**
-   * @var integer $id_qualif_salle_bain
+   * @var integer $id_qualif_sauna_spa
    *
-   * @Column(name="ID_QUALIF_SALLE_BAIN", type="integer", nullable=false)
+   * @Column(name="ID_QUALIF_SAUNA_HAMMAM", type="integer", nullable=false)
    * @Id
    * @GeneratedValue(strategy="IDENTITY")
    */
-  private $id_qualif_salle_bain;
-
-  /**
-   * @var string $depose_ancienne_salle
-   *
-   * @Column(name="DEPOSE_ANCIENNE_SALLE", type="string", length=50, nullable=false)
-   */
-  private $depose_ancienne_salle;
+  private $id_qualif_sauna_spa;
 
   /**
    * @var string $niveau_gamme
@@ -58,13 +51,6 @@ class Auth_Model_Sallebain {
 
 
   /**
-   * @var string $meuble_rengement
-   *
-   * @Column(name="MEUBLE_RENGEMENT", type="string", length=200, nullable=false)
-   */
-  private $meuble_rengement;
-
-  /**
    * @var string $travaux_revetement
    *
    * @Column(name="TRAVAUX_REVETEMENT", type="string", length=200, nullable=false)
@@ -77,21 +63,6 @@ class Auth_Model_Sallebain {
    * @Column(name="TRAVAUX_ELECTRICITE", type="string", length=200, nullable=false)
    */
   private $travaux_electricite;
-
-  /**
-   * @var string $equipement_futur_salle
-   *
-   * @Column(name="EQUIPEMENT_FUTUR_SALLE", type="string", length=200, nullable=false)
-   */
-  private $equipement_futur_salle;
-
-
-  /**
-   * @var string $hauteur_sous_plafond
-   *
-   * @Column(name="HAUTEUR_SOUS_PLAFOND", type="string", length=200, nullable=false)
-   */
-  private $hauteur_sous_plafond;
 
 
   /**
@@ -140,20 +111,11 @@ class Auth_Model_Sallebain {
 
 
   /**
-   * @return the $id_qualif_salle_bain
+   * @return the $id_qualif_sauna_hammam
    */
-  public function getId_qualif_salle_bain() {
+  public function getId_qualif_sauna_hammam() {
 
-    return $this->id_qualif_salle_bain;
-  }
-
-
-  /**
-   * @return the $depose_ancienne_salle
-   */
-  public function getDepose_ancienne_salle() {
-
-    return $this->depose_ancienne_salle;
+    return $this->id_qualif_sauna_hammam;
   }
 
 
@@ -163,15 +125,6 @@ class Auth_Model_Sallebain {
   public function getNiveau_gamme() {
 
     return $this->niveau_gamme;
-  }
-
-
-  /**
-   * @return the $style_futur_salle
-   */
-  public function getStyle_futur_style() {
-
-    return $this->style_futur_salle;
   }
 
 
@@ -203,15 +156,6 @@ class Auth_Model_Sallebain {
 
 
   /**
-   * @return the $meuble_rengement
-   */
-  public function getMeuble_rengement() {
-
-    return $this->meuble_rengement;
-  }
-
-
-  /**
    * @return the $travaux_revetement
    */
   public function getTravaux_revetement() {
@@ -226,15 +170,6 @@ class Auth_Model_Sallebain {
   public function getTravaux_electricite() {
 
     return $this->travaux_electricite;
-  }
-
-
-  /**
-   * @return the $equipement_futur_salle
-   */
-  public function getEquipement_futur_salle() {
-
-    return $this->equipement_futur_salle;
   }
 
 
@@ -257,29 +192,11 @@ class Auth_Model_Sallebain {
 
 
   /**
-   * @return the $hauteur_sous_plafond
+   * @param integer $id_qualif_sauna_hammam
    */
-  public function getHauteur_sous_plafond() {
+  public function setId_qualif_sauna_hammam($id_qualif_sauna_hammam) {
 
-    return $this->hauteur_sous_plafond;
-  }
-
-
-  /**
-   * @param integer $id_qualif_salle_bain
-   */
-  public function setId_qualif_salle_bain($id_qualif_salle_bain) {
-
-    $this->id_qualif_salle_bain = $id_qualif_salle_bain;
-  }
-
-
-  /**
-   * @param string $depose_ancienne_salle
-   */
-  public function setDepose_ancienne_salle($depose_ancienne_salle) {
-
-    $this->depose_ancienne_salle = $depose_ancienne_salle;
+    $this->id_qualif_sauna_hammam = $id_qualif_sauna_hammam;
   }
 
 
@@ -289,15 +206,6 @@ class Auth_Model_Sallebain {
   public function setNiveau_gamme($niveau_gamme) {
 
     $this->niveau_gamme = $niveau_gamme;
-  }
-
-
-  /**
-   * @param string $style_futur_salle
-   */
-  public function setStyle_futur_salle_bain($style_futur_salle) {
-
-    $this->style_futur_salle = $style_futur_salle;
   }
 
 
@@ -329,15 +237,6 @@ class Auth_Model_Sallebain {
 
 
   /**
-   * @param string $meuble_rengement
-   */
-  public function setTMeuble_rengement($meuble_rengement) {
-
-    $this->meuble_rengement = $meuble_rengement;
-  }
-
-
-  /**
    * @param string $travaux_revetement
    */
   public function setTravaux_revetement($travaux_revetement) {
@@ -352,24 +251,6 @@ class Auth_Model_Sallebain {
   public function setTravaux_electricite($travaux_electricite) {
 
     $this->travaux_electricite = $travaux_electricite;
-  }
-
-
-  /**
-   * @param string $equipement_futur_salle
-   */
-  public function setEquipement_futur_salle($equipement_futur_salle) {
-
-    $this->equipement_futur_salle = $equipement_futur_salle;
-  }
-
-
-  /**
-   * @param string $hauteur_sous_plafond
-   */
-  public function setHauteur_sous_plafond($hauteur_sous_plafond) {
-
-    $this->hauteur_sous_plafond = $hauteur_sous_plafond;
   }
 
 

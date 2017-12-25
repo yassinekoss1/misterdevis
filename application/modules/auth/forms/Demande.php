@@ -1,6 +1,12 @@
 <?php
 
 
+/**
+ * Class Auth_Form_Demande
+ *
+ * @author  Youssef Erratbi <yerratbi@gmail.com>
+ * @date    23/12/17
+ */
 class Auth_Form_Demande extends Auth_Form_Base {
 
 

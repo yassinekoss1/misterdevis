@@ -2,29 +2,11 @@
 
 
 /**
+ * Class Auth_Form_TextDecorator
  *
- * <form>
- * <div class="form-group">
- * <label for="exampleInputEmail1">Email address</label>
- * <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
- * </div>
- * <div class="form-group">
- * <label for="exampleInputPassword1">Password</label>
- * <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
- * </div>
- * <div class="form-group">
- * <label for="exampleInputFile">File input</label>
- * <input type="file" id="exampleInputFile">
- * <p class="help-block">Example block-level help text here.</p>
- * </div>
- * <div class="checkbox">
- * <label>
- * <input type="checkbox"> Check me out
- * </label>
- * </div>
+ * @author  Youssef Erratbi <yerratbi@gmail.com>
+ * @date    23/12/17
  */
-
-
 class Auth_Form_TextDecorator extends Zend_Form_Decorator_Abstract {
 
   protected static $_errors = [
@@ -105,6 +87,12 @@ EOD;
 }
 
 
+/**
+ * Class Auth_Form_SelectDecorator
+ *
+ * @author  Youssef Erratbi <yerratbi@gmail.com>
+ * @date    23/12/17
+ */
 class Auth_Form_SelectDecorator extends Auth_Form_TextDecorator {
 
   private function _slugify($string, $replace = [], $delimiter = '-') {
@@ -160,6 +148,12 @@ EOD;
 }
 
 
+/**
+ * Class Auth_Form_ButtonDecorator
+ *
+ * @author  Youssef Erratbi <yerratbi@gmail.com>
+ * @date    23/12/17
+ */
 class Auth_Form_ButtonDecorator extends Auth_Form_TextDecorator {
 
   public function render($content) {
@@ -178,6 +172,12 @@ EOD;
 }
 
 
+/**
+ * Class Auth_Form_TextariaDecorator
+ *
+ * @author  Youssef Erratbi <yerratbi@gmail.com>
+ * @date    23/12/17
+ */
 class Auth_Form_TextariaDecorator extends Auth_Form_TextDecorator {
 
 
@@ -198,6 +198,12 @@ EOD;
 }
 
 
+/**
+ * Class Auth_Form_Base
+ *
+ * @author  Youssef Erratbi <yerratbi@gmail.com>
+ * @date    23/12/17
+ */
 class Auth_Form_Base extends Zend_Form {
 
   public function init() {

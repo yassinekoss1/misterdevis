@@ -1,6 +1,12 @@
 <?php
 
 
+/**
+ * Class Auth_Form_Cuisine
+ *
+ * @author  Youssef Erratbi <yerratbi@gmail.com>
+ * @date    24/12/17
+ */
 class Auth_Form_Cuisine extends Auth_Form_Base {
 
   /**
