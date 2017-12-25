@@ -3,10 +3,11 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysql
--- Generation Time: Dec 25, 2017 at 02:03 AM
+-- Generation Time: Dec 25, 2017 at 03:00 PM
 -- Server version: 8.0.3-rc-log
 -- PHP Version: 7.1.9
 
+SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
@@ -43,7 +44,9 @@ INSERT INTO `activite` (`ID_ACTIVITE`, `LIBELLE`) VALUES
 (2, 'CHAUFFAGE'),
 (3, 'FENETRE'),
 (4, 'CUISINE'),
-(5, 'SALLE BAIN');
+(5, 'SALLE BAIN'),
+(6, 'SAUNA HAMMAM'),
+(7, 'SPA');
 
 -- --------------------------------------------------------
 
@@ -103,10 +106,12 @@ INSERT INTO `chantier` (`ID_CHANTIER`, `ID_ZONE`, `ADRESSE`, `ADRESSE2`, `VILLE`
 (27, 1, 'Bushwick Brooklyn, NY', '', 'Brooklyn', '11207'),
 (28, 2, '22 1b baker street', '', 'london', '2049'),
 (29, 2, 'Dragonstone', '', 'Westros', '2988'),
-(37, 2, '433 stewart street', '', 'indianapolis', '47715'),
+(37, 2, '433 stewart street', 'kjkk', 'indianapolis', '47715'),
 (39, 2, '433 stewart street', '', 'indianapolis', '47715'),
 (45, 2, '433 stewart street', '', 'boujdour', '71000'),
-(46, 2, '198 lot taalim', '', 'boujdour', '71000');
+(46, 2, '198 lot taalim', '', 'boujdour', '71000'),
+(47, 2, '433 stewart street', 'adresse 2 here', 'marrakech', '40000'),
+(48, 2, '433 stewart street', '', 'indianapolis', '47715');
 
 -- --------------------------------------------------------
 
@@ -148,9 +153,11 @@ CREATE TABLE `demande_devis` (
 INSERT INTO `demande_devis` (`ID_DEMANDE`, `ID_PARTICULIER`, `ID_ACTIVITE`, `ID_CHANTIER`, `ID_USER`, `TITRE_DEMANDE`, `DELAI_SOUHAITE`, `DESCRIPTION`, `TYPE_DEMANDEUR`, `TYPE_PROPRIETE`, `TYPE_BATIMENT`, `BUDGET_APPROXIMATIF`, `FINANCEMENT_PROJET`, `OBJECTIF_DEMANDE`, `PRESTATION_SOUHAITE`, `INDICATION_COMPLEMENTAIRE`, `QUALIFICATION`, `PRIX_MISE_EN_LIGNE`, `PRIX_PROMO`, `PUBLIER_EN_LIGNE`, `CHEMIN_PDF`, `DATE_CREATION`, `DATE_PUBLICATION`) VALUES
 (8, 2, 2, 28, 2, 'installation chauffage', 'Dans moins d\'un mois', 'lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet .', 'Autre', 'Administrateur', 'Immeuble', '1000', 'Crédit Obtenu', 'Obtenir des devis et trouver une entreprise', 'Pose Uniquement', 'lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet .', 'Occupé', '1000', '3000', '1', NULL, '2017-12-23 18:44:19', '2017-12-24 21:33:47'),
 (9, 1, 3, 39, 2, 'Reparation de fenetres', 'Dans moins d\'un mois', 'lorem ipsum dolor sit amit', 'Industriel', 'Futur Propriétaire', 'Bureau', '5000', 'Comptant', 'Obtenir des devis et trouver une entreprise', 'Fourniture Uniquement', 'lorem ipsum dolor sit amit', 'Occupé', '1000', '100', '1', NULL, '2017-12-23 19:03:34', '2017-12-24 23:54:36'),
-(10, 1, 2, 37, 2, 'demande chanffage 2', 'Au plus vite', 'lorem ipsum dolor', '', '', 'Bureau', '5000', 'Demande de crédit en cours', 'Obtenir des devis et trouver une entreprise', 'Fourniture et Pose', 'lorem ipsum dolor', 'NRP', '1000', '100', '1', NULL, '2017-12-24 20:41:33', '2017-12-24 23:15:21'),
+(10, 1, 2, 37, 2, 'demande chanffage 2', 'Au plus vite', 'lorem ipsum dolor', 'Commerçant', 'Futur Propriétaire', 'Bureau', '5000', 'Demande de crédit en cours', 'Obtenir des devis et trouver une entreprise', 'Fourniture et Pose', 'lorem ipsum dolor', 'NRP', '1000', '100', '1', NULL, '2017-12-24 20:41:33', '2017-12-25 03:07:23'),
 (11, 1, 4, 45, 2, 'installation de cuisine', 'Dans moins d\'un mois', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit.', '', '', 'Commerce', '5000', 'Crédit Obtenu', 'Obtenir des devis et trouver une entreprise', 'Pose Uniquement', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit.', 'Qualifié', '1000', '100', '1', NULL, '2017-12-24 23:19:08', '2017-12-25 03:01:23'),
-(12, 1, 5, 46, 2, 'travaux salle de bain', 'Dans moins d\'un mois', 'lotem ipsum', 'Industriel', 'Futur Propriétaire', 'Commerce', '5000', 'Crédit Obtenu', 'Obtenir des devis et trouver une entreprise', 'Pose Uniquement', 'lorem ipsum dolor', 'Non qualifiée', '1000', '100', '1', NULL, '2017-12-25 01:28:11', '2017-12-25 02:54:56');
+(12, 1, 5, 46, 2, 'travaux salle de bain', 'Dans moins d\'un mois', 'lotem ipsum', 'Industriel', 'Futur Propriétaire', 'Commerce', '5000', 'Crédit Obtenu', 'Obtenir des devis et trouver une entreprise', 'Pose Uniquement', 'lorem ipsum dolor', 'Non qualifiée', '1000', '100', '1', NULL, '2017-12-25 01:28:11', '2017-12-25 02:54:56'),
+(13, 1, 6, 47, 2, 'i want a sauna', 'Dans moins de 2 mois', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit', 'Profession Libérale', 'Locataire', 'Bureau', '5000', 'Crédit Obtenu', 'Obtenir des devis et trouver une entreprise', 'Pose Uniquement', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit', 'NRP', '1000', '300', '1', NULL, '2017-12-25 11:12:03', '2017-12-25 12:46:38'),
+(14, 1, 7, 48, 2, 'je veux un spa', 'Dans moins de 2 mois', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit', 'Industriel', 'Locataire', 'Bureau', '4000', 'Demande de crédit en cours', 'Obtenir des devis et trouver une entreprise', 'Fourniture et Pose', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit', 'Qualifié', '1000', '100', '1', NULL, '2017-12-25 12:02:10', '2017-12-25 13:05:40');
 
 -- --------------------------------------------------------
 
@@ -392,7 +399,7 @@ CREATE TABLE `qualif_salle_bain` (
   `SURFACE_AU_SOL` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   `DEPOSE_ANCIENNE_SALLE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   `TRAVAUX_PLOMBERIE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `TRAVAUX_ELECTRECITE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TRAVAUX_ELECTRICITE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   `TRAVAUX_REVETEMENT` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   `TRAVAUX_PEINTURE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   `MEUBLE_RENGEMENT` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -405,27 +412,60 @@ CREATE TABLE `qualif_salle_bain` (
 -- Dumping data for table `qualif_salle_bain`
 --
 
-INSERT INTO `qualif_salle_bain` (`ID_QUALIF_SALLE_BAIN`, `ID_DEMANDE`, `EQUIPEMENT_FUTUR_SALLE`, `SURFACE_AU_SOL`, `DEPOSE_ANCIENNE_SALLE`, `TRAVAUX_PLOMBERIE`, `TRAVAUX_ELECTRECITE`, `TRAVAUX_REVETEMENT`, `TRAVAUX_PEINTURE`, `MEUBLE_RENGEMENT`, `NIVEAU_GAMME`, `HAUTEUR_SOUS_PLAFOND`, `TYPE_TRAVAUX`) VALUES
+INSERT INTO `qualif_salle_bain` (`ID_QUALIF_SALLE_BAIN`, `ID_DEMANDE`, `EQUIPEMENT_FUTUR_SALLE`, `SURFACE_AU_SOL`, `DEPOSE_ANCIENNE_SALLE`, `TRAVAUX_PLOMBERIE`, `TRAVAUX_ELECTRICITE`, `TRAVAUX_REVETEMENT`, `TRAVAUX_PEINTURE`, `MEUBLE_RENGEMENT`, `NIVEAU_GAMME`, `HAUTEUR_SOUS_PLAFOND`, `TYPE_TRAVAUX`) VALUES
 (1, 12, 'Douche', 'Plus de 5 m²', 'Oui', 'Oui', NULL, 'Oui', 'Oui', NULL, 'Premier Prix', '3', 'Rénover une salle de bains existante');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `qualif_sauna_spa`
+-- Table structure for table `qualif_sauna_hammam`
 --
 
-DROP TABLE IF EXISTS `qualif_sauna_spa`;
-CREATE TABLE `qualif_sauna_spa` (
-  `ID_QUALIF_SAUNA_SPA` bigint(20) NOT NULL,
+DROP TABLE IF EXISTS `qualif_sauna_hammam`;
+CREATE TABLE `qualif_sauna_hammam` (
+  `ID_QUALIF_SAUNA_HAMMAM` bigint(20) NOT NULL,
   `ID_DEMANDE` bigint(20) NOT NULL,
-  `SURAFCE_AU_SOL` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `TRAVAUX_PLOMBERIE` longblob,
-  `TRAVAUX_ELECTRICITE` longblob,
-  `TRAVAUX_REVETEMENT` longblob,
-  `TRAVAUX_PEINTURE` longblob,
+  `SURFACE_AU_SOL` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TRAVAUX_PLOMBERIE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TRAVAUX_ELECTRICITE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TRAVAUX_REVETEMENT` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TRAVAUX_PEINTURE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   `NIVEAU_GAMME` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   `TYPE_TRAVAUX` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT;
+
+--
+-- Dumping data for table `qualif_sauna_hammam`
+--
+
+INSERT INTO `qualif_sauna_hammam` (`ID_QUALIF_SAUNA_HAMMAM`, `ID_DEMANDE`, `SURFACE_AU_SOL`, `TRAVAUX_PLOMBERIE`, `TRAVAUX_ELECTRICITE`, `TRAVAUX_REVETEMENT`, `TRAVAUX_PEINTURE`, `NIVEAU_GAMME`, `TYPE_TRAVAUX`) VALUES
+(1, 13, 'Plus de 5 m²', 'Oui', 'Oui', 'Oui', 'Non', 'Premier Prix', 'Créer un Sauna');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `qualif_spa`
+--
+
+DROP TABLE IF EXISTS `qualif_spa`;
+CREATE TABLE `qualif_spa` (
+  `ID_QUALIF_SPA` bigint(20) NOT NULL,
+  `ID_DEMANDE` bigint(20) NOT NULL,
+  `SURFACE_AU_SOL` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TRAVAUX_PLOMBERIE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TRAVAUX_ELECTRICITE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TRAVAUX_REVETEMENT` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TRAVAUX_PEINTURE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `NIVEAU_GAMME` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TYPE_TRAVAUX` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT;
+
+--
+-- Dumping data for table `qualif_spa`
+--
+
+INSERT INTO `qualif_spa` (`ID_QUALIF_SPA`, `ID_DEMANDE`, `SURFACE_AU_SOL`, `TRAVAUX_PLOMBERIE`, `TRAVAUX_ELECTRICITE`, `TRAVAUX_REVETEMENT`, `TRAVAUX_PEINTURE`, `NIVEAU_GAMME`, `TYPE_TRAVAUX`) VALUES
+(1, 14, 'Plus de 7 m²', 'Oui', 'Oui', 'Non', 'Oui', 'Premier Prix', 'Créer un SPA');
 
 -- --------------------------------------------------------
 
@@ -619,10 +659,17 @@ ALTER TABLE `qualif_salle_bain`
   ADD KEY `FK_QUALIFIER_SALLE_BAIN` (`ID_DEMANDE`);
 
 --
--- Indexes for table `qualif_sauna_spa`
+-- Indexes for table `qualif_sauna_hammam`
 --
-ALTER TABLE `qualif_sauna_spa`
-  ADD PRIMARY KEY (`ID_QUALIF_SAUNA_SPA`),
+ALTER TABLE `qualif_sauna_hammam`
+  ADD PRIMARY KEY (`ID_QUALIF_SAUNA_HAMMAM`),
+  ADD KEY `FK_QUALIFIER_SAUNA_SPA` (`ID_DEMANDE`);
+
+--
+-- Indexes for table `qualif_spa`
+--
+ALTER TABLE `qualif_spa`
+  ADD PRIMARY KEY (`ID_QUALIF_SPA`),
   ADD KEY `FK_QUALIFIER_SAUNA_SPA` (`ID_DEMANDE`);
 
 --
@@ -659,7 +706,7 @@ ALTER TABLE `zone`
 -- AUTO_INCREMENT for table `activite`
 --
 ALTER TABLE `activite`
-  MODIFY `ID_ACTIVITE` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `ID_ACTIVITE` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `artisan`
@@ -671,13 +718,13 @@ ALTER TABLE `artisan`
 -- AUTO_INCREMENT for table `chantier`
 --
 ALTER TABLE `chantier`
-  MODIFY `ID_CHANTIER` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `ID_CHANTIER` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `demande_devis`
 --
 ALTER TABLE `demande_devis`
-  MODIFY `ID_DEMANDE` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `ID_DEMANDE` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `geolocaliser`
@@ -752,10 +799,16 @@ ALTER TABLE `qualif_salle_bain`
   MODIFY `ID_QUALIF_SALLE_BAIN` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `qualif_sauna_spa`
+-- AUTO_INCREMENT for table `qualif_sauna_hammam`
 --
-ALTER TABLE `qualif_sauna_spa`
-  MODIFY `ID_QUALIF_SAUNA_SPA` bigint(20) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `qualif_sauna_hammam`
+  MODIFY `ID_QUALIF_SAUNA_HAMMAM` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `qualif_spa`
+--
+ALTER TABLE `qualif_spa`
+  MODIFY `ID_QUALIF_SPA` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `qualif_video_surveillance`
@@ -862,9 +915,9 @@ ALTER TABLE `qualif_salle_bain`
   ADD CONSTRAINT `FK_QUALIFIER_SALLE_BAIN` FOREIGN KEY (`ID_DEMANDE`) REFERENCES `demande_devis` (`id_demande`);
 
 --
--- Constraints for table `qualif_sauna_spa`
+-- Constraints for table `qualif_sauna_hammam`
 --
-ALTER TABLE `qualif_sauna_spa`
+ALTER TABLE `qualif_sauna_hammam`
   ADD CONSTRAINT `FK_QUALIFIER_SAUNA_SPA` FOREIGN KEY (`ID_DEMANDE`) REFERENCES `demande_devis` (`id_demande`);
 
 --
@@ -879,6 +932,7 @@ ALTER TABLE `qualif_video_surveillance`
 ALTER TABLE `specialiste`
   ADD CONSTRAINT `FK_SPECIALISTE` FOREIGN KEY (`ID_ACTIVITE`) REFERENCES `activite` (`id_activite`),
   ADD CONSTRAINT `FK_SPECIALISTE2` FOREIGN KEY (`ID_ARTISAN`) REFERENCES `artisan` (`id_artisan`);
+SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
