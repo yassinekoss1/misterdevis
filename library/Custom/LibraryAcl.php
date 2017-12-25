@@ -42,6 +42,7 @@ class Custom_LibraryAcl extends Zend_Acl {
     $this->add(new Zend_Acl_Resource('auth:cuisine'), 'auth');
     $this->add(new Zend_Acl_Resource('auth:sallebain'), 'auth');
     $this->add(new Zend_Acl_Resource('auth:sauna'), 'auth');
+    $this->add(new Zend_Acl_Resource('auth:spa'), 'auth');
 
     // >>>>>>>>>>>> Affecting Resources <<<<<<<<<<<<<<<
 
@@ -62,6 +63,7 @@ class Custom_LibraryAcl extends Zend_Acl {
     $this->allow('auth', 'auth:cuisine');
     $this->allow('auth', 'auth:sallebain');
     $this->allow('auth', 'auth:sauna');
+    $this->allow('auth', 'auth:spa');
     $this->allow('guests', 'auth:user');
 
     // -------  >> module Admin  << -------

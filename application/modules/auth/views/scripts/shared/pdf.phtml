@@ -312,6 +312,45 @@
 	<?php endif; ?>
 	<!-- END SAUNA HAMMAM -->
 
+
+	<!-- SPA -->
+	<?php if ($this->demande->id_activite->libelle === 'SPA'): ?>
+
+		<?php if ($this->qualification->surface_au_sol !== null): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Surface au sol de la Prévue</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->surface_au_sol; ?></td>
+			</tr>
+		<?php endif; ?><?php if ($this->qualification->travaux_plomberie !== null): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Travaux de Plomberie</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->travaux_plomberie ? 'Oui' : 'Non'; ?></td>
+			</tr>
+		<?php endif; ?><?php if ($this->qualification->travaux_electricite !== null): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Travaux d'Électricité</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->travaux_electricite ? 'Oui' : 'Non'; ?></td>
+			</tr>
+		<?php endif; ?><?php if ($this->qualification->travaux_revetement !== null): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Travaux de revêtement de sol</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->travaux_revetement ? 'Oui' : 'Non'; ?></td>
+			</tr>
+		<?php endif; ?><?php if ($this->qualification->travaux_peinture !== null): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Travaux de Peinture</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->travaux_peinture ? 'Oui' : 'Non'; ?></td>
+			</tr>
+		<?php endif; ?><?php if ($this->qualification->niveau_gamme): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Niveau de Gamme souhaité</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->niveau_gamme; ?></td>
+			</tr>
+		<?php endif; ?>
+
+	<?php endif; ?>
+	<!-- END SPA -->
+
 	<?php if ($this->demande->objectif_demande): $alternate = !$alternate ?>
 		<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 			<td style="line-height: 8px;"><strong>Objectif de Demande</strong></td>
