@@ -1,9 +1,15 @@
 <?php
-/**
- * Account Repository
- */
+
 
 use Doctrine\ORM\EntityRepository;
+
+
+/**
+ * Class Auth_Model_ZoneRepository
+ *
+ * @author  Youssef Erratbi <yerratbi@gmail.com>
+ * @date    25/12/17
+ */
 class Auth_Model_ZoneRepository extends EntityRepository {
 
   public function getArray() {
@@ -16,7 +22,7 @@ class Auth_Model_ZoneRepository extends EntityRepository {
 
     $results = [];
 
-    foreach($data as $item) $results[$item['id_zone']] = $item['libelle'];
+    foreach ($data as $item) $results[$item['id_zone']] = $item['libelle'];
 
     return $results;
   }

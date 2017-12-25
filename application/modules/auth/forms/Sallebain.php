@@ -1,13 +1,13 @@
 <?php
 
 
-class Auth_Form_Cuisine extends Auth_Form_Base {
+class Auth_Form_Sallebain extends Auth_Form_Base {
 
   /**
    * @throws \Zend_Form_Exception
    */
 
-  private $_depose_ancienne_cuisine = [
+  private $_depose_ancienne_salle = [
     ''    => 'Veuillez préciser',
     'Oui' => 'Oui',
     'Non' => 'Non',
@@ -15,26 +15,29 @@ class Auth_Form_Cuisine extends Auth_Form_Base {
   ];
 
 
-  private $_niveau_gamme_souhaite = [
+  private $_niveau_gamme = [
     ''               => 'Veuillez préciser',
     'Premier Prix'   => 'Premier Prix',
     'Moyen de Gamme' => 'Moyen de Gamme',
     'Haut de Gamme'  => 'Haut de Gamme',
   ];
 
-  private $_style_futur_cuisine = [
-    ''          => 'Veuillez préciser',
-    'Classique' => 'Classique',
-    'Moderne'   => 'Moderne',
-    'Rustique'  => 'Rustique',
-    'Autre'     => 'Autre',
+  private $_equipement_futur_salle = [
+    ''                => 'Veuillez préciser',
+    'Baignoire'       => 'Baignoire',
+    'Douche'          => 'Douche',
+    'Vasque'          => 'Vasque',
+    'WC'              => 'WC',
+    'Bidet'           => 'Bidet',
+    'Sèche-Serviette' => 'Sèche-Serviette',
+    'Autre'           => 'Autre',
   ];
 
 
-  private $_surface_au_sol_cuisine = [
+  private $_surface_au_sol = [
     ''              => 'Veuillez préciser',
-    'Plus de 7 m²'  => 'Plus de 7 m²',
-    'Moins de 7 m²' => 'Moins de 7 m²',
+    'Plus de 5 m²'  => 'Plus de 5 m²',
+    'Moins de 5 m²' => 'Moins de 5 m²',
   ];
 
 
@@ -52,7 +55,7 @@ class Auth_Form_Cuisine extends Auth_Form_Base {
   ];
 
 
-  private $_travaux_revetement_sol = [
+  private $_travaux_revetement = [
     ''    => 'Veuillez préciser',
     'Oui' => 'Oui',
     'Non' => 'Non',
@@ -67,7 +70,7 @@ class Auth_Form_Cuisine extends Auth_Form_Base {
   ];
 
 
-  private $_equipement_electromenager = [
+  private $_meuble_rengement = [
     ''    => 'Veuillez préciser',
     'Oui' => 'Oui',
     'Non' => 'Non',
@@ -75,10 +78,10 @@ class Auth_Form_Cuisine extends Auth_Form_Base {
 
 
   private $_type_travaux = [
-    ''                                => 'Veuillez préciser',
-    'Installer une Cuisine Neuve'     => 'Installer une Cuisine Neuve',
-    'Remplacer une Cuisine Existante' => 'Remplacer une Cuisine Existante',
-    'Entretien/Maintenance'           => 'Entretien/Maintenance',
+    ''                                     => 'Veuillez préciser',
+    'Créer une Salle de Bains neuve'       => 'Créer une Salle de Bains neuve',
+    'Rénover une salle de bains existante' => 'Rénover une salle de bains existante',
+    'Entretien/Maintenance'                => 'Entretien/Maintenance',
   ];
 
 
@@ -93,86 +96,86 @@ class Auth_Form_Cuisine extends Auth_Form_Base {
       'StripTags',
     ];
 
-
     $select_filters = ['StripTags'];
 
     // type_travaux
     $type_travaux = new Zend_Form_Element_Select('type_travaux');
     $type_travaux->setLabel('Type de Travaux')
-      ->setBelongsTo('Cuisine')
+      ->setBelongsTo('Sallebain')
       ->addFilters($select_filters)
       ->addMultiOptions($this->_type_travaux);
 
-    // depose_ancienne_cuisine
-    $depose_ancienne_cuisine = new Zend_Form_Element_Select('depose_ancienne_cuisine');
-    $depose_ancienne_cuisine->setLabel('Dépose de l\'Ancienne Cuisine')
-      ->setBelongsTo('Cuisine')
+    // depose_ancienne_salle
+    $depose_ancienne_salle = new Zend_Form_Element_Select('depose_ancienne_salle');
+    $depose_ancienne_salle->setLabel('Dépose de l\'Ancienne Salle de Bains')
+      ->setBelongsTo('Sallebain')
       ->addFilters($select_filters)
       ->setAttrib('slugify', true)
-      ->addMultiOptions($this->_depose_ancienne_cuisine);
+      ->addMultiOptions($this->_depose_ancienne_salle);
 
-    // niveau_gamme_souhaite
-    $niveau_gamme_souhaite = new Zend_Form_Element_Select('niveau_gamme_souhaite');
-    $niveau_gamme_souhaite->setLabel('Niveau de Gamme souhaité')
-      ->setBelongsTo('Cuisine')
+    // niveau_gamme
+    $niveau_gamme = new Zend_Form_Element_Select('niveau_gamme');
+    $niveau_gamme->setLabel('Niveau de Gamme souhaité')
+      ->setBelongsTo('Sallebain')
       ->addFilters($select_filters)
-      ->addMultiOptions($this->_niveau_gamme_souhaite);
+      ->addMultiOptions($this->_niveau_gamme);
 
-    // style_futur_cuisine
-    $style_futur_cuisine = new Zend_Form_Element_Select('style_futur_cuisine');
-    $style_futur_cuisine->setLabel('Style de votre future Cuisine')
-      ->setBelongsTo('Cuisine')
+    // equipement_futur_salle
+    $equipement_futur_salle = new Zend_Form_Element_Select('equipement_futur_salle');
+    $equipement_futur_salle->setLabel('Équipement de votre future Salle de Bains')
+      ->setBelongsTo('Sallebain')
       ->addFilters($select_filters)
-      ->addMultiOptions($this->_style_futur_cuisine);
+      ->addMultiOptions($this->_equipement_futur_salle);
 
-    // surface_au_sol_cuisine
-    $surface_au_sol_cuisine = new Zend_Form_Element_Select('surface_au_sol_cuisine');
-    $surface_au_sol_cuisine->setLabel('Surface au sol de la Cuisine')
-      ->setBelongsTo('Cuisine')
+    // surface_au_sol
+    $surface_au_sol = new Zend_Form_Element_Select('surface_au_sol');
+    $surface_au_sol->setLabel('Surface au sol de la Salle de Bains')
+      ->setBelongsTo('Sallebain')
       ->addFilters($select_filters)
-      ->addMultiOptions($this->_surface_au_sol_cuisine);
+      ->addMultiOptions($this->_surface_au_sol);
 
     // travaux_peinture
     $travaux_peinture = new Zend_Form_Element_Select('travaux_peinture');
     $travaux_peinture->setLabel('Travaux de Peinture')
-      ->setBelongsTo('Cuisine')
+      ->setBelongsTo('Sallebain')
       ->addFilters($select_filters)
       ->addMultiOptions($this->_travaux_peinture);
 
     // travaux_plomberie
     $travaux_plomberie = new Zend_Form_Element_Select('travaux_plomberie');
     $travaux_plomberie->setLabel('Travaux de Plomberie')
-      ->setBelongsTo('Cuisine')
+      ->setBelongsTo('Sallebain')
       ->addFilters($select_filters)
       ->addMultiOptions($this->_travaux_plomberie);
 
     // travaux_electricite
     $travaux_electricite = new Zend_Form_Element_Select('travaux_electricite');
     $travaux_electricite->setLabel('Travaux d\'Électricité')
-      ->setBelongsTo('Cuisine')
+      ->setBelongsTo('Sallebain')
       ->addFilters($select_filters)
       ->addMultiOptions($this->_travaux_electricite);
 
-    // travaux_revetement_sol
-    $travaux_revetement_sol = new Zend_Form_Element_Select('travaux_revetement_sol');
-    $travaux_revetement_sol->setLabel('Travaux de revêtement de sol')
-      ->setBelongsTo('Cuisine')
+    // travaux_revetement
+    $travaux_revetement = new Zend_Form_Element_Select('travaux_revetement');
+    $travaux_revetement->setLabel('Travaux de revêtement de sol')
+      ->setBelongsTo('Sallebain')
       ->addFilters($select_filters)
-      ->addMultiOptions($this->_travaux_revetement_sol);
+      ->addMultiOptions($this->_travaux_revetement);
 
-    // equipement_electromenager
-    $equipement_electromenager = new Zend_Form_Element_Select('equipement_electromenager');
-    $equipement_electromenager->setLabel('Équipement Électroménager')
-      ->setBelongsTo('Cuisine')
+    // meuble_rengement
+    $meuble_rengement = new Zend_Form_Element_Select('meuble_rengement');
+    $meuble_rengement->setLabel('Meubles de Rangement')
+      ->setBelongsTo('Sallebain')
       ->addFilters($select_filters)
-      ->addMultiOptions($this->_equipement_electromenager);
+      ->addMultiOptions($this->_meuble_rengement);
 
 
     // hauteur_sous_plafond
     $hauteur_sous_plafond = new Zend_Form_Element_Text('hauteur_sous_plafond');
     $hauteur_sous_plafond->setLabel('Hauteur sous plafond')
-      ->setBelongsTo('Cuisine')
+      ->setBelongsTo('Sallebain')
       ->addFilters($default_filters);
+
 
     // Submit button
     $submit = new Zend_Form_Element_Submit('submit');
@@ -181,15 +184,15 @@ class Auth_Form_Cuisine extends Auth_Form_Base {
 
     $this->addElements([
       $type_travaux,
-      $depose_ancienne_cuisine,
-      $niveau_gamme_souhaite,
-      $style_futur_cuisine,
-      $surface_au_sol_cuisine,
+      $depose_ancienne_salle,
+      $niveau_gamme,
+      $equipement_futur_salle,
+      $surface_au_sol,
       $travaux_peinture,
       $travaux_plomberie,
       $travaux_electricite,
-      $travaux_revetement_sol,
-      $equipement_electromenager,
+      $travaux_revetement,
+      $meuble_rengement,
       $hauteur_sous_plafond,
       $submit,
     ]);

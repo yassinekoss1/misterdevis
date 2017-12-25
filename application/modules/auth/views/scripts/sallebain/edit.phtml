@@ -26,7 +26,7 @@
 									Tableau de bord</a></li>
 							<li><a class="current" style="cursor: pointer;">
 									<i class="fa fa-files-o"></i>
-									Qualification Cuisine</a>
+									Qualification Salle de Bain</a>
 							</li>
 						</ul>
 					</div>
@@ -34,7 +34,7 @@
 				<!-- end breadcumbs -->
 			</header>
 			<div class="main-box-body clearfix">
-				<form action="/auth/cuisine/edit/id/<?= $this->id; ?>" method="POST" class="must-validate" novalidate>
+				<form action="/auth/sallebain/edit/id/<?= $this->id; ?>" method="POST" class="must-validate" novalidate>
 					
 					<div class="panel-group accordion" id="qualification-form">
 						<div class="panel panel-default">
@@ -153,19 +153,20 @@
 								<div class="panel-body">
 									<div class="col-md-6">
 										<?= $this->form->form_qualif->type_travaux; ?>
-										<?= $this->form->form_qualif->surface_au_sol_cuisine; ?>
-										<?= $this->form->form_qualif->depose_ancienne_cuisine; ?>
-										<?= $this->form->form_qualif->style_futur_cuisine; ?>
-										<?= $this->form->form_qualif->equipement_electromenager; ?>
+										<?= $this->form->form_qualif->equipement_futur_salle; ?>
+										<?= $this->form->form_qualif->surface_au_sol; ?>
+										<?= $this->form->form_qualif->depose_ancienne_salle; ?>
+										<?= $this->form->form_qualif->travaux_plomberie; ?>
+										<?= $this->form->form_qualif->niveau_gamme; ?>
 										<?= $this->form->form_demande->indication_complementaire; ?>
 									</div>
 									<div class="col-md-6">
 										<?= $this->form->form_demande->type_batiment; ?>
-										<?= $this->form->form_qualif->travaux_electricite; ?>
-										<?= $this->form->form_qualif->travaux_revetement_sol; ?>
+										<?= $this->form->form_qualif->travaux_electrecite; ?>
+										<?= $this->form->form_qualif->travaux_revetement; ?>
 										<?= $this->form->form_qualif->travaux_peinture; ?>
 										<?= $this->form->form_qualif->travaux_plomberie; ?>
-										<?= $this->form->form_qualif->niveau_gamme_souhaite; ?>
+										<?= $this->form->form_qualif->meuble_rengement; ?>
 										<?= $this->form->form_qualif->hauteur_sous_plafond; ?>
 									</div>
 								</div>

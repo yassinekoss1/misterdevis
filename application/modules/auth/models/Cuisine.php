@@ -86,6 +86,14 @@ class Auth_Model_Cuisine {
   private $equipement_electromenager;
 
   /**
+   * @var string $hauteur_sous_plafond
+   *
+   * @Column(name="HAUTEUR_SOUS_PLAFOND", type="string", length=200, nullable=false)
+   */
+  private $hauteur_sous_plafond;
+
+
+  /**
    * @var string $type_travaux
    *
    * @Column(name="TYPE_TRAVAUX", type="string", length=200, nullable=false)
@@ -163,6 +171,15 @@ class Auth_Model_Cuisine {
   public function getStyle_futur_style() {
 
     return $this->style_futur_cuisine;
+  }
+
+
+  /**
+   * @return the $hauteur_sous_plafond
+   */
+  public function getHauteur_sous_plafond() {
+
+    return $this->hauteur_sous_plafond;
   }
 
 
@@ -298,6 +315,15 @@ class Auth_Model_Cuisine {
   public function setTravaux_peinture($travaux_peinture) {
 
     $this->travaux_peinture = $travaux_peinture;
+  }
+
+
+  /**
+   * @param string $hauteur_sous_plafond
+   */
+  public function setHauteur_sous_plafond($hauteur_sous_plafond) {
+
+    $this->hauteur_sous_plafond = $hauteur_sous_plafond;
   }
 
 

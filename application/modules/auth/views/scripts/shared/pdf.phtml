@@ -108,7 +108,7 @@
 				<?php endif; ?>
 
 			<?php endif; ?>
-		
+
 		<?php endif; ?>
 
 		<?php if ($this->qualification->nbre_etage): $alternate = !$alternate ?>
@@ -174,11 +174,6 @@
 				<td style="line-height: 8px;"><strong>Dépose de l'Ancienne Cuisine</strong></td>
 				<td style="line-height: 8px;"><?= $this->qualification->depose_ancienne_cuisine ? 'Oui' : 'Non'; ?></td>
 			</tr>
-		<?php endif; ?><?php if ($this->qualification->surface_au_sol_cuisine !== null): $alternate = !$alternate ?>
-			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
-				<td style="line-height: 8px;"><strong>Surface au sol de la Cuisine</strong></td>
-				<td style="line-height: 8px;"><?= $this->qualification->surface_au_sol_cuisine ? 'Oui' : 'Non'; ?></td>
-			</tr>
 		<?php endif; ?><?php if ($this->qualification->equipement_electromenager !== null): $alternate = !$alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 				<td style="line-height: 8px;"><strong>Équipement Électroménager</strong></td>
@@ -209,10 +204,74 @@
 				<td style="line-height: 8px;"><strong>Niveau de Gamme souhaité</strong></td>
 				<td style="line-height: 8px;"><?= $this->qualification->niveau_gamme_souhaite; ?></td>
 			</tr>
+		<?php endif; ?><?php if ($this->qualification->hauteur_sous_plafond): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Hauteur sous plafond</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->hauteur_sous_plafond; ?> m</td>
+			</tr>
 		<?php endif; ?>
 
 	<?php endif; ?>
 	<!-- END CUISINE -->
+
+
+	<!-- SALLE BAIN -->
+	<?php if ($this->demande->id_activite->libelle === 'SALLE BAIN'): ?>
+
+		<?php if ($this->qualification->equipement_futur_salle): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Équipement de votre future Salle de Bains</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->equipement_futur_salle; ?></td>
+			</tr>
+		<?php endif; ?><?php if ($this->qualification->surface_au_sol !== null): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Surface au sol de la Salle de Bains</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->surface_au_sol; ?></td>
+			</tr>
+		<?php endif; ?><?php if ($this->qualification->depose_ancienne_salle !== null): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Dépose de l'Ancienne Salle de Bains</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->depose_ancienne_salle ? 'Oui' : 'Non'; ?></td>
+			</tr>
+		<?php endif; ?><?php if ($this->qualification->travaux_plomberie !== null): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Travaux de Plomberie</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->travaux_plomberie ? 'Oui' : 'Non'; ?></td>
+			</tr>
+		<?php endif; ?><?php if ($this->qualification->travaux_electricite !== null): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Travaux d'Électricité</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->travaux_electricite ? 'Oui' : 'Non'; ?></td>
+			</tr>
+		<?php endif; ?><?php if ($this->qualification->travaux_revetement !== null): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Travaux de revêtement de sol</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->travaux_revetement ? 'Oui' : 'Non'; ?></td>
+			</tr>
+		<?php endif; ?><?php if ($this->qualification->travaux_peinture !== null): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Travaux de Peinture</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->travaux_peinture ? 'Oui' : 'Non'; ?></td>
+			</tr>
+		<?php endif; ?><?php if ($this->qualification->meuble_rengement !== null): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Meubles de Rangement</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->meuble_rengement ? 'Oui' : 'Non'; ?></td>
+			</tr>
+		<?php endif; ?><?php if ($this->qualification->niveau_gamme): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Niveau de Gamme souhaité</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->niveau_gamme; ?></td>
+			</tr>
+		<?php endif; ?><?php if ($this->qualification->hauteur_sous_plafond): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Hauteur sous plafond</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->hauteur_sous_plafond; ?> m</td>
+			</tr>
+		<?php endif; ?>
+
+	<?php endif; ?>
+	<!-- END SALLE BAIN -->
 
 	<?php if ($this->demande->objectif_demande): $alternate = !$alternate ?>
 		<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
