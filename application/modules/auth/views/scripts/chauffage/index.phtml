@@ -19,11 +19,11 @@
 							<li><a style="cursor: pointer;">
 									<i class="fa fa-home"></i>
 									Tableau de bord</a></li>
-
+							
 							<li><a class="current" style="cursor: pointer;">
 									<i class="fa fa-files-o"></i>
 									Chauffage</a></li>
-
+						
 						</ul>
 					</div>
 					<div class="col-md-6">
@@ -31,7 +31,7 @@
 							<ul>
 								<li id="notif" class="dropdown hidden-xs"></li>
 							</ul>
-
+						
 						</div>
 					</div>
 				</div>
@@ -77,7 +77,7 @@
 									<td>
 										<?= $demande['lastname_user'] . ' ' . $demande['firstname_user']; ?>
 									</td>
-
+									
 									<td>
 										<?= $demande['publier_en_ligne'] === '1' ? 'Oui' : 'Non'; ?>
 									</td>
@@ -93,18 +93,16 @@
 									<td>
 										<?= $demande['code_postal'] ?>
 									</td>
-									<td><a class="table-link" id="btn-edit-client-<?= $demande['id_demande'] ?>" style="cursor: pointer;">
+									<td><a class="table-link" id="btn-edit-client-<?= $demande['id_demande'] ?>" href="/auth/chauffage/edit/id/<?= $demande['id_demande'] ?>" style="cursor: pointer;">
 											<span class="fa-stack">
 												<i class="fa fa-square fa-stack-2x"></i>
 												<i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
 											</span>
 										</a>
 									</td>
-									<td><a class="table-link" id="btn-edit-client-<?= $demande['chemin_pdf'] ?>" style="cursor: pointer;">
-											<span class="fa-stack">
-												<i class="fa fa-square fa-stack-2x"></i>
-												<i class="fa fa-pdf fa-stack-1x fa-inverse"></i>
-											</span>
+									<td>
+										<a class="table-link" href="/auth/chauffage/pdf/id/<?= $demande['id_demande'] ?>" style="cursor: pointer;">
+											<i class="fa fa-eye" title="Créer Pdf"></i>
 										</a>
 									</td>
 								</tr>
@@ -118,7 +116,7 @@
 	</div>
 </div>
 <script>
-
+	
 	// Long polling notification data
 	function getNotifications(lastCount=-1) {
 		$.ajax({
@@ -134,7 +132,7 @@
 				}
 			},
 			complete: function () {
-
+				
 				// wait before you retry
 				setTimeout(function () {
 					getNotifications(lastCount)
@@ -142,14 +140,14 @@
 			}
 		});
 	}
-
-
+	
+	
 	$(function () {
-
+		
 		// Loading notifications
 		getNotifications();
-
-
+		
+		
 		// DataTable setup
 		$('#jobs-table').dataTable({
 			'info': false,
@@ -166,16 +164,16 @@
 			"processing": true,
 			"searching": true
 		});
-
-		$('.job-link').on('click', function (e) {
-			e.preventDefault();
-			const url = $(this).data('url');
-			$('#Content').html('<div style="text-align: center"><i style="font-size:50px;color:#6A6E9B" class="fa fa-spinner fa-spin"></i> Chargement en cours ...veuillez patientez</div>');
-
-			$.get(url, function (data) {
-				$('#Content').html(data)
-			})
-		})
+		
+		//$('.job-link').on('click', function (e) {
+		//	e.preventDefault();
+		//	const url = $(this).data('url');
+		//	$('#Content').html('<div style="text-align: center"><i style="font-size:50px;color:#6A6E9B" class="fa fa-spinner fa-spin"></i> Chargement en cours ...veuillez patientez</div>');
+//
+		//	$.get(url, function (data) {
+		//		$('#Content').html(data)
+		//	})
+		//})
 	});
 
 </script>

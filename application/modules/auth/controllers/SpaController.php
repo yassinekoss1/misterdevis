@@ -82,7 +82,7 @@ class Auth_SpaController extends Zend_Controller_Action {
 
     // check if a notificaiton email has been sent
     $notificationSent = $demande->getPublier_envoi();
-    
+
 
     // Check inf the data is there or redirect to listing
     if (!$demande || $demande->id_activite->libelle !== 'SPA') $this->_redirect('/auth/spa');
@@ -209,6 +209,6 @@ class Auth_SpaController extends Zend_Controller_Action {
     $pdf->AddPage();
 
     $pdf->writeHTML($html);
-    $pdf->Output("{$this->view->demande->titre_demande}-" . time() . ".pdf", 'I');
+    $pdf->Output("{$this->view->demande->titre_demande}-" . time() . ".pdf", 'D');
   }
 }

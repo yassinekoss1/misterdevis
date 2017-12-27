@@ -53,6 +53,7 @@
 								<th>VILLE</th>
 								<th>CODE POSTAL</th>
 								<th>ACTION</th>
+								<th>PDF</th>
 							</tr>
 							</thead>
 							<tbody>
@@ -92,11 +93,16 @@
 									<td>
 										<?= $demande['code_postal'] ?>
 									</td>
-									<td><a class="table-link" id="btn-edit-client-<?= $demande['id_demande'] ?>" style="cursor: pointer;">
+									<td><a class="table-link" id="btn-edit-client-<?= $demande['id_demande'] ?>" href="/auth/sallebain/edit/id/<?= $demande['id_demande'] ?>" style="cursor: pointer;">
 											<span class="fa-stack">
 												<i class="fa fa-square fa-stack-2x"></i>
 												<i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
 											</span>
+										</a>
+									</td>
+									<td>
+										<a class="table-link" href="/auth/sallebain/pdf/id/<?= $demande['id_demande'] ?>" style="cursor: pointer;">
+											<i class="fa fa-eye" title="Créer Pdf"></i>
 										</a>
 									</td>
 								</tr>
@@ -159,15 +165,15 @@
 			"searching": true
 		});
 
-		$('.job-link').on('click', function (e) {
-			e.preventDefault();
-			const url = $(this).data('url');
-			$('#Content').html('<div style="text-align: center"><i style="font-size:50px;color:#6A6E9B" class="fa fa-spinner fa-spin"></i> Chargement en cours ...veuillez patientez</div>');
-
-			$.get(url, function (data) {
-				$('#Content').html(data)
-			})
-		})
+		//$('.job-link').on('click', function (e) {
+		//	e.preventDefault();
+		//	const url = $(this).data('url');
+		//	$('#Content').html('<div style="text-align: center"><i style="font-size:50px;color:#6A6E9B" class="fa fa-spinner fa-spin"></i> Chargement en cours ...veuillez patientez</div>');
+//
+		//	$.get(url, function (data) {
+		//		$('#Content').html(data)
+		//	})
+		//})
 	});
 
 </script>

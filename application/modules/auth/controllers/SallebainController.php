@@ -208,6 +208,6 @@ class Auth_SallebainController extends Zend_Controller_Action {
     $pdf->AddPage();
 
     $pdf->writeHTML($html);
-    $pdf->Output("{$this->view->demande->titre_demande}-" . time() . ".pdf", 'I');
+    $pdf->Output("{$this->view->demande->titre_demande}-" . time() . ".pdf", 'D');
   }
 }
