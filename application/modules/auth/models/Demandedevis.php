@@ -657,7 +657,7 @@ class Auth_Model_Demandedevis {
 
   public function getUrl() {
 
-    $baseUrl = 'http://misterdevis.local';
+    $baseUrl = $_SERVER['HTTP_HOST'];
     $type = strtolower($this->getId_activite()->getLibelle());
 
 
