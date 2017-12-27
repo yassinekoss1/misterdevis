@@ -75,45 +75,54 @@
 							<tbody>
 								<?php foreach ($this->listpiscine as $p):?>
 								<tr>
+									<td><a class="user-link" id="title-client-<?=$p['id_demande'];?>"
+										style="cursor: pointer; margin-left: 0px; padding-top: 0px;"><?=$p['prenom_particulier'].' '.$p['nom_particulier'];?></a>
+									</td>
+									<td>
+										<?=$p['titre_demande'];?>
+									</td>
+									<td>
+										<?=$p['date_publication'];?>
+									</td>
+									<td>
+										<?=$p['date_creation'];?>
+									</td>
+									<td>
+										<?=$p['lastname_user'].' '.$p['firstname_user'];?>
+									</td>
 									
-									<td><a class="user-link" id="title-client-<?=$p->id_demande;?>"
-										style="cursor: pointer; margin-left: 0px; padding-top: 0px;"><?=$p->prenom_particulier.' '.$p->nom_particulier;?></a>
+									<td>
+										<?php if($p['publier_en_ligne']==0){echo "NON";}else{echo "OUI";};?>
 									</td>
 									<td>
-										<?=$p->titre_demande;?>
+										<?=$p['prix_mise_en_ligne'];?>
 									</td>
 									<td>
-										<?=$p->date_publication;?>
+										<?=$p['libelle'];?>
 									</td>
 									<td>
-										<?=$p->date_creation;?>
+										<?=$p['ville'];?>
 									</td>
 									<td>
-										<?=$p->lastname_user.' '.$p->firstname_user;?>
+										<?=$p['code_postal'];?>
 									</td>
-									
-									<td>
-										<?=$p->publier_en_ligne;?>
-									</td>
-									<td>
-										<?=$p->prix_mise_en_ligne;?>
-									</td>
-									<td>
-										<?=$p->libelle;?>
-									</td>
-									<td>
-										<?=$p->ville;?>
-									</td>
-									<td>
-										<?=$p->code_postal;?>
-									</td>
-									<td><a class="table-link"
-										id="btn-edit-client-<?=$p->id_demande;?>"
-										style="cursor: pointer;"> <span class="fa-stack"> <i
+									<td><a href="/auth/piscine/edit/id_demande/<?=$p['id_demande']?>"class="table-link"
+										id="btn-edit-client-<?=$p['id_demande'];?>"
+										style="cursor: pointer;"> <span class="fa-stack" title="Editer"> <i
 												class="fa fa-square fa-stack-2x"></i> <i
 												class="fa fa-pencil fa-stack-1x fa-inverse"></i>
 										</span>
-									</a></td>
+										
+										</a>
+										
+										<a href="/auth/piscine/pdf/id_demande/<?=$p['id_demande']?>"class="table-link"
+										id="btn-print-pdf-<?=$p['id_demande'];?>"
+										style="cursor: pointer;"> <span class="fa fa-eye" title="Créer Pdf"> 
+										</span>
+										
+										</a>
+										
+								</td>
 								</tr>
 								<?php endforeach;?>
 							</tbody>
@@ -150,52 +159,7 @@ $(document).ready(function() {
 	   	  "processing":true,
 	   	  "searching":true
 	});
-	//TRAITEMENT UPDATE
-	<?php foreach ($this->listpiscine as $p):?>
-	$( "#title-client-<?=$p->id_demande;?>").click(function() {
-		$( "#btn-edit-client-<?=$p->id_demande;?>").click();
-	});
-	$( "#btn-edit-client-<?=$p->id_demande;?>").click(function() {
-		$('#Content').html("<center><i style='font-size:50px;color:#1abc9c' class='fa fa-spinner fa-spin'></i> Chargement en cours ...</center>");
-		$.ajax({
- 			url : "/<?=Zend_Registry::get('Zend_Locale')->getLanguage();?>/fo/adminrfq/updateclient/p/<?=$p->id_demande;?>",
-				 success : function(data){
-					$('#Content').html(data);
-									}
-			});
-	});
-	<?php endforeach;?>
-	//NOUVEAU PRODUIT
-	$( "#btn_new_product").click(function() {
-		$('#Content').html("<center><i style='font-size:50px;color:#6A6E9B' class='fa fa-spinner fa-spin'></i> Chargement en cours ...veuillez patientez</center>");
-		$.ajax({
- 			url : "/<?=Zend_Registry::get('Zend_Locale')->getLanguage();?>/fo/adminrfq/addproduct",
-				 success : function(data){
-				$('#Content').html(data);
-									}
-			});		
-		});
-	$( "#btn_new_family").click(function() {
-		$('#Content').html("<center><i style='font-size:50px;color:#6A6E9B' class='fa fa-spinner fa-spin'></i> Chargement en cours ...veuillez patientez</center>");
-		$.ajax({
- 			url : "/<?=Zend_Registry::get('Zend_Locale')->getLanguage();?>/fo/adminrfq/addfamily",
-				 success : function(data){
-				$('#Content').html(data);
-									}
-			});		
-		});
-	//ADD CLIENT btn-add-newClient
-	$( "#btn_add_newClient").click(function() {
-		$('#Content').html("<center><i style='font-size:50px;color:#6A6E9B' class='fa fa-spinner fa-spin'></i> Chargement en cours ...veuillez patientez</center>");
-		$.ajax({
-			url : "/<?=Zend_Registry::get('Zend_Locale')->getLanguage();?>/fo/job/addclient",
-				 success : function(data){
-				$('#Content').html(data);
-									}
-			});
-		$('a').removeClass('active');
-		$('#nav_bo_config a').addClass('active');		
-		});
+	
 		
 	//charger les notifications
 		function ajaxNotifs() {

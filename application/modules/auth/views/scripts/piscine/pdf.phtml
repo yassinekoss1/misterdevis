@@ -1,0 +1,78 @@
+<div style="text-align: center;"><?=strtoupper($this->demandedevis['titre_demande']); ?></div>
+<br/>
+<div style="text-align: center;">
+	<table width=100% style="text-align:left;">
+	<tr>
+		<td style="font-weight: bold;"><?=$this->demandedevis['prenom_particulier'].' '.$this->demandedevis['nom_particulier']; ?></td>
+		<td>Adresse</td>
+	</tr>
+	<tr>
+		<td style="font-size: 27px">
+			<strong>Tél: </strong>
+			    <?=$this->demandedevis['telephone_portable'];?></td>
+		<td style="font-size: 27px"><?=$this->demandedevis['adresse'];?></td>
+	</tr>
+	<tr>
+		<td style="font-size: 27px">
+			<strong>Email: </strong>
+			    <?=$this->demandedevis['email'];?></td>
+		<td style="font-size: 27px"><?=$this->demandedevis['ville']. ' - '.$this->demandedevis['code_postal'];?></td>
+	</tr>
+</table>
+</div>
+<div style="text-align: center;">
+	<table width=100% style="text-align:left;font-size: 28px;">
+		<tr style="line-height:8px;background-color: #E1EEF4;">
+			<td><strong>Type de travaux</strong></td>
+			<td><?=$this->piscine->type_travaux;?></td>
+		</tr>
+		<tr style="line-height:8px;">
+			<td><strong>Délai souaité</strong></td>
+			<td><?=$this->demandedevis['delai_souhaite'];?></td>
+		</tr>
+		<tr style="line-height:8px;background-color: #E1EEF4;">
+			<td><strong>Type Demandeur</strong></td>
+			<td><?=$this->demandedevis['type_demandeur'];?></td>
+		</tr>
+		<tr style="line-height:8px;">
+			<td><strong>Demandeur est un</strong></td>
+			<td><?=$this->demandedevis['type_propriete'];?></td>
+		</tr>
+		<tr style="line-height:8px;background-color: #E1EEF4;">
+			<td><strong>Type de piscine</strong></td>
+			<td><?=$this->piscine->type_piscine;?></td>
+		</tr>
+		<tr style="line-height:8px;">
+			<td><strong>Forme de piscine</strong></td>
+			<td><?=$this->piscine->forme_piscine;?></td>
+		</tr>
+		<tr style="line-height:8px;background-color: #E1EEF4;">
+			<td><strong>Dimension souaité</strong></td>
+			<td><?=$this->piscine->dimension;?></td>
+		</tr>
+		<tr style="line-height:8px;">
+			<td><strong>Sécurité piscine</strong></td>
+			<td><?=$this->piscine->securite_piscine;?></td>
+		</tr>
+		<tr style="line-height:8px;background-color: #E1EEF4;">
+			<td><strong>Financement projet</strong></td>
+			<td><?=$this->demandedevis['financement_projet'];?></td>
+		</tr>
+		<tr style="line-height:8px;">
+			<td><strong>Objectif de dempande</strong></td>
+			<td><?=$this->demandedevis['objectif_demande'];?></td>
+		</tr>
+		<tr style="line-height:8px;background-color: #E1EEF4;">
+			<td><strong>Type Bâtiment</strong></td>
+			<td><?=$this->demandedevis['type_batiment'];?></td>
+		</tr style="line-height:8px;">
+		<tr style="line-height:8px;">
+			<td><strong>Budget approximatif</strong></td>
+			<td><?=$this->demandedevis['budget_approximatif'];?></td>
+		</tr>
+	</table>
+</div>
+<h5><u>Observations:</u></h5>
+<p style="font-size: 27px">
+<?=$this->demandedevis['description'];?>
+</p>

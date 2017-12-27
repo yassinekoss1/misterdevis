@@ -37,6 +37,7 @@ class Custom_LibraryAcl extends Zend_Acl {
     $this->add(new Zend_Acl_Resource('auth:user'), 'auth');
     $this->add(new Zend_Acl_Resource('auth:dashboard'), 'auth');
     $this->add(new Zend_Acl_Resource('auth:piscine'), 'auth');
+    $this->add(new Zend_Acl_Resource('auth:climatisation'), 'auth');
     $this->add(new Zend_Acl_Resource('auth:chauffage'), 'auth');
     $this->add(new Zend_Acl_Resource('auth:fenetre'), 'auth');
     $this->add(new Zend_Acl_Resource('auth:cuisine'), 'auth');
@@ -58,6 +59,7 @@ class Custom_LibraryAcl extends Zend_Acl {
     $this->allow('auth', 'auth:user');
     $this->allow('auth', 'auth:dashboard');
     $this->allow('auth', 'auth:piscine');
+    $this->allow('auth', 'auth:climatisation');
     $this->allow('auth', 'auth:chauffage');
     $this->allow('auth', 'auth:fenetre');
     $this->allow('auth', 'auth:cuisine');

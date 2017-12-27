@@ -1,0 +1,51 @@
+<?php if ($this->total!=0) :?>
+<a class="btn dropdown-toggle" id="btn-notif" data-toggle="dropdown">
+<i class="fa fa-bell"></i>
+<?php if ($this->total) :?>
+<span class="count"><?php echo $this->total;?></span>
+<?php endif;?>
+</a>
+<ul id="menu-notif" class="dropdown-menu notifications-list">
+<li class="pointer">
+<div class="pointer-inner">
+<div class="arrow"></div>
+</div>
+</li>
+<li class="item-header">Vous avez <?php if ($this->total) :?><?php echo $this->total;?><?php endif;?> nouvelle(s) notification(s)</li>
+<?php $i=0; ?>
+<?php foreach ($this->lastNotifications as $notif): ?>
+<li class="item">
+<a href="<?php echo $this->escape($this->lien[$i]); ?>">
+<i class="fa fa-comment"></i>
+<span class="content"><b><?php echo $this->escape($notif['prenom_particulier']).' '.$this->escape($notif['nom_particulier']).' '.$this->escape($notif['date_creation']); ?></b>
+<br/>
+</span>
+</a>
+</li>
+<?php $i++; ?>
+<?php endforeach;?>
+
+<li class="item-footer">
+<a href="/auth/piscine/filter">
+Afficher tout
+</a>
+</li>
+</ul>
+<?php else :?>
+<a id="btn-notif" class="btn dropdown-toggle" data-toggle="dropdown">
+<i class="fa fa-bell"></i>
+</a>
+<ul class="dropdown-menu notifications-list">
+<li class="pointer">
+<div class="pointer-inner">
+<div class="arrow"></div>
+</div>
+</li>
+<li class="item-header">Vous avez aucune notification</li>
+<li class="item-footer">
+<a href="/auth/piscine/filter">
+Déjà consulté
+</a>
+</li>
+</ul>
+<?php endif;?>
