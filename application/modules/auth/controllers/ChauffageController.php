@@ -9,6 +9,16 @@
  */
 class Auth_ChauffageController extends Zend_Controller_Action {
 
+  private $_sys_email;
+
+
+  public function init() {
+
+    $config = new Zend_Config_Ini(APPLICATION_PATH . '/configs/application.ini', APPLICATION_ENV);
+    $this->_sys_email = $config->system->email->toArray();
+  }
+
+
   public function indexAction() {
 
     //$this->_helper->layout()->disableLayout();
@@ -74,6 +84,9 @@ class Auth_ChauffageController extends Zend_Controller_Action {
     // Check inf the data is there or redirect to listing
     if (!$demande || $demande->id_activite->libelle !== 'CHAUFFAGE') $this->_redirect('/auth/chauffage');
 
+    // check if a notificaiton email has been sent
+    $notificationSent = $demande->getPublier_envoi();
+
 
     // Initializing the forms
     $form = new Zend_Form();
@@ -110,21 +123,42 @@ class Auth_ChauffageController extends Zend_Controller_Action {
       $data = $this->getRequest()->getPost();
       if ($form->isValid($data)) {
 
+        // We will send an email
+        if ($demande->getPublier_en_ligne())
+          $data['Demande']['publier_envoi'] = true;
+
         // Fetching the current user id
         $data['id_user'] = unserialize(Zend_Auth::getInstance()->getIdentity())->id_user;
 
         // Save the qualification
         $qualification = $em->getRepository('Auth_Model_Chauffage')->save($id, $data);
 
+        if ($qualification) {
 
-        // Reset the form values
-        $form->setDefaults([
-          'Demande'     => $qualification->id_demande ? $qualification->id_demande->toArray() : null,
-          'Particulier' => $qualification->id_demande->id_particulier ? $qualification->id_demande->id_particulier->toArray() : null,
-          'Chantier'    => $qualification->id_demande ? $qualification->id_demande->id_chantier->toArray() : null,
-          'Chauffage'   => $qualification ? $qualification->toArray() : null,
-        ]);
-        $form->form_chantier->setDefault('id_zone', $qualification->id_demande->id_chantier ? $qualification->id_demande->id_chantier->id_zone->id_zone : '');
+          // Send an email if there hasn't been one sent
+          if (!$notificationSent) {
+            $this->view->qualification = $qualification;
+            $this->view->ref = 'CHF-' . str_pad($demande->id_demande, 6, '0', STR_PAD_LEFT);
+
+            // Preparing the email
+            $mail = new Zend_Mail('utf-8');
+            $body = $this->view->render('shared/mail.phtml');
+            $mail->setBodyHtml($body);
+            $mail->setFrom($this->_sys_email['address'], $this->_sys_email['name']);
+            $mail->addTo($qualification->id_demande->id_particulier->email);
+            $mail->setSubject('Votre demande de devis est approuvée');
+            $mail->send();
+          }
+
+          // Reset the form values
+          $form->setDefaults([
+            'Demande'     => $qualification->id_demande ? $qualification->id_demande->toArray() : null,
+            'Particulier' => $qualification->id_demande->id_particulier ? $qualification->id_demande->id_particulier->toArray() : null,
+            'Chantier'    => $qualification->id_demande ? $qualification->id_demande->id_chantier->toArray() : null,
+            'Chauffage'   => $qualification ? $qualification->toArray() : null,
+          ]);
+          $form->form_chantier->setDefault('id_zone', $qualification->id_demande->id_chantier ? $qualification->id_demande->id_chantier->id_zone->id_zone : '');
+        }
 
 
       } else
@@ -138,7 +172,6 @@ class Auth_ChauffageController extends Zend_Controller_Action {
     $this->view->form = $form;
     $this->view->id = $id;
     $this->view->qualification = $qualification;
-
   }
 
 

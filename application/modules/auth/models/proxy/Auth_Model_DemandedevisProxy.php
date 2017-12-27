@@ -142,6 +142,12 @@ class Auth_Model_DemandedevisProxy extends \Auth_Model_Demandedevis implements \
         return parent::getPublier_en_ligne();
     }
 
+    public function getPublier_envoi()
+    {
+        $this->__load();
+        return parent::getPublier_envoi();
+    }
+
     public function getChemin_pdf()
     {
         $this->__load();
@@ -280,6 +286,12 @@ class Auth_Model_DemandedevisProxy extends \Auth_Model_Demandedevis implements \
         return parent::setPublier_en_ligne($publier_en_ligne);
     }
 
+    public function setPublier_envoi($publier_envoi)
+    {
+        $this->__load();
+        return parent::setPublier_envoi($publier_envoi);
+    }
+
     public function setChemin_pdf($chemin_pdf)
     {
         $this->__load();
@@ -322,10 +334,22 @@ class Auth_Model_DemandedevisProxy extends \Auth_Model_Demandedevis implements \
         return parent::setId_user($id_user);
     }
 
+    public function getUrl()
+    {
+        $this->__load();
+        return parent::getUrl();
+    }
+
+    public function getRef()
+    {
+        $this->__load();
+        return parent::getRef();
+    }
+
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id_demande', 'titre_demande', 'delai_souhaite', 'description', 'type_demandeur', 'type_propriete', 'type_batiment', 'budget_approximatif', 'financement_projet', 'objectif_demande', 'prestation_souhaite', 'indication_complementaire', 'qualification', 'prix_mise_en_ligne', 'prix_promo', 'publier_en_ligne', 'chemin_pdf', 'date_creation', 'date_publication', 'id_particulier', 'id_activite', 'id_chantier', 'id_user');
+        return array('__isInitialized__', 'id_demande', 'titre_demande', 'delai_souhaite', 'description', 'type_demandeur', 'type_propriete', 'type_batiment', 'budget_approximatif', 'financement_projet', 'objectif_demande', 'prestation_souhaite', 'indication_complementaire', 'qualification', 'prix_mise_en_ligne', 'prix_promo', 'publier_en_ligne', 'publier_envoi', 'chemin_pdf', 'date_creation', 'date_publication', 'id_particulier', 'id_activite', 'id_chantier', 'id_user');
     }
 
     public function __clone()

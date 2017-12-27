@@ -47,7 +47,7 @@ class Custom_LibraryAcl extends Zend_Acl {
     // >>>>>>>>>>>> Affecting Resources <<<<<<<<<<<<<<<
 
     // -------  >> module Default  << -------
-    $this->allow('auth', 'default:index');
+    $this->allow('guests', 'default:index');
     $this->allow('auth', 'default:error');
     $this->allow('guests', 'default:cron');
 

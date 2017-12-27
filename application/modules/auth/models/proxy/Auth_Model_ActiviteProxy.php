@@ -58,6 +58,12 @@ class Auth_Model_ActiviteProxy extends \Auth_Model_Activite implements \Doctrine
         return parent::getLibelle();
     }
 
+    public function getGroup()
+    {
+        $this->__load();
+        return parent::getGroup();
+    }
+
     public function setId_activite($id_activite)
     {
         $this->__load();
@@ -70,10 +76,16 @@ class Auth_Model_ActiviteProxy extends \Auth_Model_Activite implements \Doctrine
         return parent::setLibelle($libelle);
     }
 
+    public function setGroup($group)
+    {
+        $this->__load();
+        return parent::setGroup($group);
+    }
+
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id_activite', 'libelle');
+        return array('__isInitialized__', 'id_activite', 'libelle', 'group');
     }
 
     public function __clone()

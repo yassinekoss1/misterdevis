@@ -9,24 +9,31 @@
 class Auth_Model_Geolocaliser
 {
     /**
-     * @var Zone
+     * @var integer $id_artisan
      *
-     * @ManyToOne(targetEntity="Auth_Model_Zone")
-     * @JoinColumns({
-     *   @JoinColumn(name="ID_ZONE", referencedColumnName="ID_ZONE")
-     * })
+     * @Column(name="ID_ARTISAN", type="integer", nullable=false)
+     * @Id
      */
-    private $id_zone;
+    private $id_artisan;
 
     /**
-     * @var Artisan
+     * @var integer $id_zone
+     *
+     * @Column(name="ID_ZONE", type="integer", nullable=false)
+     * @Id
+     * @GeneratedValue(strategy="NONE")
+     */
+    private $id_zone;
+    
+    /**
+     * @var entity Artisan
      *
      * @ManyToOne(targetEntity="Auth_Model_Artisan")
      * @JoinColumns({
      *   @JoinColumn(name="ID_ARTISAN", referencedColumnName="ID_ARTISAN")
      * })
      */
-    private $id_artisan;
+    private $artisan;
     
 	 /**
 	 * @return the attribute
@@ -52,13 +59,6 @@ class Auth_Model_Geolocaliser
     }
     
 	/**
-	 * @return the $id_zone
-	 */
-	public function getId_zone() {
-		return $this->id_zone;
-	}
-
-	/**
 	 * @return the $id_artisan
 	 */
 	public function getId_artisan() {
@@ -66,17 +66,24 @@ class Auth_Model_Geolocaliser
 	}
 
 	/**
-	 * @param Zone $id_zone
+	 * @return the $id_zone
 	 */
-	public function setId_zone($id_zone) {
-		$this->id_zone = $id_zone;
+	public function getId_zone() {
+		return $this->id_zone;
 	}
 
 	/**
-	 * @param Artisan $id_artisan
+	 * @param integer $id_artisan
 	 */
 	public function setId_artisan($id_artisan) {
 		$this->id_artisan = $id_artisan;
+	}
+
+	/**
+	 * @param integer $id_zone
+	 */
+	public function setId_zone($id_zone) {
+		$this->id_zone = $id_zone;
 	}
 
 
