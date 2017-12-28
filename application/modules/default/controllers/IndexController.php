@@ -71,38 +71,26 @@ class IndexController extends Zend_Controller_Action {
     $form_id = $this->getRequest()->getParam('ID_FORM');
     $data = $this->getRequest()->getPost();
 
-    $myfile = fopen(APPLICATION_PATH . "/tmp/newfile.txt", "w") or die("Unable to open file!");
-    fwrite($myfile, $data['NOM_PARTICULIER']);
-    fclose($myfile);
-
-
-    $body = '';
-
     if ($form_id == '2') {
+      $activites = $em->getRepository('Auth_Model_Activite')->findBy(['group' => $data['ID_ACTIVITE']]);
 
-      // $artisan = new Auth_Model_Artisan;
-      // $artisan->setPrenom_artisan($data['PRENOM_ARTISAN']);
-      // $artisan->setNom_artisan($data['NOM_ARTISAN']);
-      // $artisan->setRaison_sociale($data['RAISON_SOCIALE']);
-      // $artisan->setCode_postal($data['CODE_POSTAL']);
-      // $artisan->setTelephone_fixe($data['TELEPHONE_FIXE']);
-      // $artisan->setTelephone_portable($data['TELEPHONE_PORTABLE']);
-      // $artisan->setEmail_artisan($data['EMAIL_ARTISAN']);
-      // $artisan->setHoraireRDV($data['HORAIRERDV']);
-      //
-      // $em->presist($artisan);
-      // $em->flush();
-      //
-      // $activites = $em->getRepository('Auth_Model_Activite')->getActivitesByGroup($data['ID_ACTIVITE']);
-      //
-      // foreach ($activites as $activite) {
-      //   $spec = new Auth_Model_Specialiste;
-      //   $spec->setId_activite($artisan);
-      //   $spec->setId_activite($activite);
-      //   $em->presist($spec);
-      // }
-      //
-      // $em->flush();
+      $artisan = new Auth_Model_Artisan;
+      $artisan->setPrenom_artisan(urldecode($data['PRENOM_ARTISAN']));
+      $artisan->setNom_artisan(urldecode($data['NOM_ARTISAN']));
+      $artisan->setRaison_sociale(urldecode($data['RAISON_SOCIALE']));
+      $artisan->setCode_postal(urldecode($data['CODE_POSTAL']));
+      $artisan->setTelephone_fixe(urldecode($data['TELEPHONE_FIXE']));
+      $artisan->setTelephone_portable(urldecode($data['TELEPHONE_PORTABLE']));
+      $artisan->setEmail_artisan(urldecode($data['EMAIL_ARTISAN']));
+      $artisan->setHoraireRDV(urldecode($data['HORAIRERDV']));
+
+
+      foreach ($activites as $activite) {
+        $artisan->addActivite($activite);
+      }
+
+      $em->persist($artisan);
+      $em->flush();
 
 
     } else if ($form_id == '3') { // A new particulier request
@@ -113,10 +101,10 @@ class IndexController extends Zend_Controller_Action {
 
       // Saving particulier data
       $particulier = new Auth_Model_Particulier;
-      $particulier->setNom_particulier($data['NOM_PARTICULIER']);
-      $particulier->setPrenom_particulier($data['PRENOM_PARTICULIER']);
-      $particulier->setTelephone_portable($data['TELEPHONE_PORTABLE']);
-      $particulier->setEmail($data['EMAIL']);
+      $particulier->setNom_particulier(urldecode($data['NOM_PARTICULIER']));
+      $particulier->setPrenom_particulier(urldecode($data['PRENOM_PARTICULIER']));
+      $particulier->setTelephone_portable(urldecode($data['TELEPHONE_PORTABLE']));
+      $particulier->setEmail(urldecode($data['EMAIL']));
 
       $em->persist($particulier);
       $em->flush();
@@ -155,4 +143,6 @@ class IndexController extends Zend_Controller_Action {
   }
 
 }
+
+
 

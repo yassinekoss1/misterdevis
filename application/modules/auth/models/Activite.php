@@ -37,6 +37,30 @@ class Auth_Model_Activite {
 
 
   /**
+   * Many Activites have Many Artisans.
+   * @ManyToMany(targetEntity="Auth_Model_Artisan", inversedBy="activites")
+   * @JoinTable(name="specialiste",
+   *      joinColumns={@JoinColumn(name="ID_ACTIVITE", referencedColumnName="ID_ACTIVITE")},
+   *      inverseJoinColumns={@JoinColumn(name="ID_ARTISAN", referencedColumnName="ID_ARTISAN")}
+   *   )
+   */
+  private $artisans;
+
+
+  public function __construct() {
+
+    $this->artisans = new \Doctrine\Common\Collections\ArrayCollection();
+  }
+
+
+  public function addArtisan(Auth_Model_Artisan $artisan) {
+
+    $artisan->addActivite($this);
+    $this->artisans[] = $artisan;
+  }
+
+
+  /**
    * @return the attribute
    */
   public function __set($attr, $val) {
