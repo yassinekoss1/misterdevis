@@ -16,6 +16,7 @@ class Custom_LibraryAcl extends Zend_Acl {
     $this->add(new Zend_Acl_Resource('default:index'), 'default');
     $this->add(new Zend_Acl_Resource('default:error'), 'default');
     $this->add(new Zend_Acl_Resource('default:cron'), 'default');
+    $this->add(new Zend_Acl_Resource('default:api'), 'default');
 
     // **** Resources for module Admin *****
     $this->add(new Zend_Acl_Resource('admin'));
@@ -48,9 +49,10 @@ class Custom_LibraryAcl extends Zend_Acl {
     // >>>>>>>>>>>> Affecting Resources <<<<<<<<<<<<<<<
 
     // -------  >> module Default  << -------
-    $this->allow('guests', 'default:index');
+    $this->allow('auth', 'default:index');
     $this->allow('auth', 'default:error');
     $this->allow('guests', 'default:cron');
+    $this->allow('guests', 'default:api');
 
     // -------  >> module Auth  << -------
     $this->allow('auth', 'auth:index');
