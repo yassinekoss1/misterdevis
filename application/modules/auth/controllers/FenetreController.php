@@ -122,12 +122,19 @@ class Auth_FenetreController extends Zend_Controller_Action {
       $data = $this->getRequest()->getPost();
       if ($form->isValid($data)) {
 
+
         // We will send an email
-        if ($demande->getPublier_en_ligne())
+        $sendEmail = false;
+
+        if ($data['Demande']['publier_en_ligne']) {
+          $sendEmail = !((bool)$demande->getPublier_envoi());
           $data['Demande']['publier_envoi'] = true;
+        }
+
 
         // Fetching the current user id
         $data['id_user'] = unserialize(Zend_Auth::getInstance()->getIdentity())->id_user;
+
 
         // Save the qualification
         $qualification = $em->getRepository('Auth_Model_Fenetre')->save($id, $data);
@@ -135,19 +142,39 @@ class Auth_FenetreController extends Zend_Controller_Action {
         if ($qualification) {
 
           // Send an email if there hasn't been one sent
-          if (!$notificationSent) {
-            $this->view->qualification = $qualification;
-            $this->view->ref = 'FEN-' . str_pad($demande->id_demande, 6, '0', STR_PAD_LEFT);
+          if ($sendEmail) {
 
-            // Preparing the email
+            // Fetching the artisans concerned with this demande
+            $artisans = $em->getRepository('Auth_Model_Artisan')->findListEmail(
+              $demande->getId_activite()->getId_activite(),
+              $demande->getId_chantier()->getId_zone()->getId_zone()
+            );
+
+            // Sending the email to the artisans
+            foreach ($artisans as $artisan) {
+              $mail = new Zend_Mail('utf-8');
+              $body = $this->view->partial('shared/mail_new_demande_artisan.phtml', [
+                'nom' => $artisan['nom_artisan'],
+                'ref' => $demande->getRef(),
+              ]);
+              $mail->setBodyHtml($body);
+              $mail->setFrom($this->_sys_email['address'], $this->_sys_email['name']);
+              $mail->addTo($artisan['email_artisan']);
+              $mail->setSubject('Nouvelle demande de devis');
+              $mail->send();
+            }
+
+            // Sending the email to the particulier
             $mail = new Zend_Mail('utf-8');
-            $body = $this->view->render('shared/mail.phtml');
+            $body = $this->view->partial('shared/mail_new_demande_particulier.phtml', [
+              'nom' => $demande->getId_particulier()->getNom_particulier(),
+              'ref' => $demande->getRef(),
+            ]);
             $mail->setBodyHtml($body);
             $mail->setFrom($this->_sys_email['address'], $this->_sys_email['name']);
             $mail->addTo($qualification->id_demande->id_particulier->email);
             $mail->setSubject('Votre demande de devis est approuvée');
             $mail->send();
-
           }
 
           // Reset the form values

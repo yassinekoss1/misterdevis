@@ -119,52 +119,78 @@ class Auth_SallebainController extends Zend_Controller_Action {
     // Proccess the posted data;
     if ($this->getRequest()->isPost()) {
       $data = $this->getRequest()->getPost();
-      if ($form->isValid($data))
-        if ($form->isValid($data)) {
+      if ($form->isValid($data)) {
 
-          // We will send an email
-          if ($demande->getPublier_en_ligne())
-            $data['Demande']['publier_envoi'] = true;
 
-          // Fetching the current user id
-          $data['id_user'] = unserialize(Zend_Auth::getInstance()->getIdentity())->id_user;
+        // We will send an email
+        $sendEmail = false;
 
-          // Save the qualification
-          $qualification = $em->getRepository('Auth_Model_Sallebain')->save($id, $data);
+        if ($data['Demande']['publier_en_ligne']) {
+          $sendEmail = !((bool)$demande->getPublier_envoi());
+          $data['Demande']['publier_envoi'] = true;
+        }
 
-          if ($qualification) {
 
-            // Send an email if there hasn't been one sent
-            if (!$notificationSent) {
-              $this->view->qualification = $qualification;
-              $this->view->ref = 'SDB-' . str_pad($demande->id_demande, 6, '0', STR_PAD_LEFT);
+        // Fetching the current user id
+        $data['id_user'] = unserialize(Zend_Auth::getInstance()->getIdentity())->id_user;
 
-              // Preparing the email
+
+        // Save the qualification
+        $qualification = $em->getRepository('Auth_Model_Sallebain')->save($id, $data);
+
+        if ($qualification) {
+
+          // Send an email if there hasn't been one sent
+          if ($sendEmail) {
+
+            // Fetching the artisans concerned with this demande
+            $artisans = $em->getRepository('Auth_Model_Artisan')->findListEmail(
+              $demande->getId_activite()->getId_activite(),
+              $demande->getId_chantier()->getId_zone()->getId_zone()
+            );
+
+            // Sending the email to the artisans
+            foreach ($artisans as $artisan) {
               $mail = new Zend_Mail('utf-8');
-              $body = $this->view->render('shared/mail.phtml');
+              $body = $this->view->partial('shared/mail_new_demande_artisan.phtml', [
+                'nom' => $artisan['nom_artisan'],
+                'ref' => $demande->getRef(),
+              ]);
               $mail->setBodyHtml($body);
               $mail->setFrom($this->_sys_email['address'], $this->_sys_email['name']);
-              $mail->addTo($qualification->id_demande->id_particulier->email);
-              $mail->setSubject('Votre demande de devis est approuvée');
+              $mail->addTo($artisan['email_artisan']);
+              $mail->setSubject('Nouvelle demande de devis');
               $mail->send();
-
             }
 
-            // Reset the form values
-            $form->setDefaults([
-              'Demande'     => $qualification->id_demande ? $qualification->id_demande->toArray() : null,
-              'Particulier' => $qualification->id_demande->id_particulier ? $qualification->id_demande->id_particulier->toArray() : null,
-              'Chantier'    => $qualification->id_demande ? $qualification->id_demande->id_chantier->toArray() : null,
-              'Sallebain'   => $qualification ? $qualification->toArray() : null,
+            // Sending the email to the particulier
+            $mail = new Zend_Mail('utf-8');
+            $body = $this->view->partial('shared/mail_new_demande_particulier.phtml', [
+              'nom' => $demande->getId_particulier()->getNom_particulier(),
+              'ref' => $demande->getRef(),
             ]);
-            $form->form_chantier->setDefault('id_zone', $qualification->id_demande->id_chantier ? $qualification->id_demande->id_chantier->id_zone->id_zone : '');
+            $mail->setBodyHtml($body);
+            $mail->setFrom($this->_sys_email['address'], $this->_sys_email['name']);
+            $mail->addTo($qualification->id_demande->id_particulier->email);
+            $mail->setSubject('Votre demande de devis est approuvée');
+            $mail->send();
           }
 
+          // Reset the form values
+          $form->setDefaults([
+            'Demande'     => $qualification->id_demande ? $qualification->id_demande->toArray() : null,
+            'Particulier' => $qualification->id_demande->id_particulier ? $qualification->id_demande->id_particulier->toArray() : null,
+            'Chantier'    => $qualification->id_demande ? $qualification->id_demande->id_chantier->toArray() : null,
+            'Sallebain'   => $qualification ? $qualification->toArray() : null,
+          ]);
+          $form->form_chantier->setDefault('id_zone', $qualification->id_demande->id_chantier ? $qualification->id_demande->id_chantier->id_zone->id_zone : '');
+        }
 
-        } else
 
-          // If the form is not valid keep the data provided by the user
-          $form->setDefaults($data);
+      } else
+
+        // If the form is not valid keep the data provided by the user
+        $form->setDefaults($data);
 
     }
 

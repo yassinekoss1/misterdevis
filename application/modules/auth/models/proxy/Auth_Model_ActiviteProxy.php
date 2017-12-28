@@ -28,6 +28,12 @@ class Auth_Model_ActiviteProxy extends \Auth_Model_Activite implements \Doctrine
     }
     
     
+    public function addArtisan(\Auth_Model_Artisan $artisan)
+    {
+        $this->__load();
+        return parent::addArtisan($artisan);
+    }
+
     public function __set($attr, $val)
     {
         $this->__load();
@@ -85,7 +91,7 @@ class Auth_Model_ActiviteProxy extends \Auth_Model_Activite implements \Doctrine
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id_activite', 'libelle', 'group');
+        return array('__isInitialized__', 'id_activite', 'libelle', 'group', 'artisans');
     }
 
     public function __clone()

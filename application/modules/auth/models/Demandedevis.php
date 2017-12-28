@@ -678,8 +678,11 @@ class Auth_Model_Demandedevis {
       case 'SALLE BAIN':
         $type = 'SDB';
         break;
-      case 'SAUNNA HAMMAM':
+      case 'SAUNA HAMMAM':
         $type = 'SNH';
+        break;
+      case 'CUISINE':
+        $type = 'CUI';
         break;
       case 'SPA':
         $type = 'SPA';
