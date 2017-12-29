@@ -35,19 +35,14 @@ class Auth_Model_Chantier {
    */
   private $adresse2;
 
-  /**
-   * @var string $ville
-   *
-   * @Column(name="VILLE", type="string", length=50, nullable=false)
-   */
-  private $ville;
 
   /**
-   * @var string $code_postal
+   * @var integer $id_zone
    *
-   * @Column(name="CODE_POSTAL", type="string", length=50, nullable=false)
+   * @Column(name="ID_ZONE", type="integer", length=20, nullable=false)
    */
-  private $code_postal;
+  private $id_zone;
+
 
   /**
    * @var Zone
@@ -57,7 +52,7 @@ class Auth_Model_Chantier {
    *   @JoinColumn(name="ID_ZONE", referencedColumnName="ID_ZONE")
    * })
    */
-  private $id_zone;
+  private $zone;
 
 
   /**
@@ -115,29 +110,20 @@ class Auth_Model_Chantier {
 
 
   /**
-   * @return the $ville
-   */
-  public function getVille() {
-
-    return $this->ville;
-  }
-
-
-  /**
-   * @return the $code_postal
-   */
-  public function getCode_postal() {
-
-    return $this->code_postal;
-  }
-
-
-  /**
    * @return the $id_zone
    */
   public function getId_zone() {
 
     return $this->id_zone;
+  }
+
+
+  /**
+   * @return the $zone
+   */
+  public function getZone() {
+
+    return $this->zone;
   }
 
 
@@ -169,29 +155,20 @@ class Auth_Model_Chantier {
 
 
   /**
-   * @param string $ville
-   */
-  public function setVille($ville) {
-
-    $this->ville = $ville;
-  }
-
-
-  /**
-   * @param string $code_postal
-   */
-  public function setCode_postal($code_postal) {
-
-    $this->code_postal = $code_postal;
-  }
-
-
-  /**
-   * @param Zone $id_zone
+   * @param integer $id_zone
    */
   public function setId_zone($id_zone) {
 
     $this->id_zone = $id_zone;
+  }
+
+
+  /**
+   * @param Zone $zone
+   */
+  public function setZone($zone) {
+
+    $this->zone = $zone;
   }
 
 

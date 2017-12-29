@@ -58,10 +58,10 @@ class Auth_Model_UserProxy extends \Auth_Model_User implements \Doctrine\ORM\Pro
         return parent::getId_user();
     }
 
-    public function getEmailuser()
+    public function getEmail_user()
     {
         $this->__load();
-        return parent::getEmailuser();
+        return parent::getEmail_user();
     }
 
     public function getFirstname_user()
@@ -124,10 +124,10 @@ class Auth_Model_UserProxy extends \Auth_Model_User implements \Doctrine\ORM\Pro
         return parent::setId_user($id_user);
     }
 
-    public function setEmailuser($email_user)
+    public function setEmail_user($email_user)
     {
         $this->__load();
-        return parent::setEmailuser($email_user);
+        return parent::setEmail_user($email_user);
     }
 
     public function setFirstname_user($firstname_user)
@@ -187,7 +187,7 @@ class Auth_Model_UserProxy extends \Auth_Model_User implements \Doctrine\ORM\Pro
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id_user', 'emailuser', 'firstname_user', 'lastname_user', 'login_user', 'password_user', 'rank_user', 'isActive_user', 'dateregister_user', 'lastlogin_user', 'token');
+        return array('__isInitialized__', 'id_user', 'email_user', 'firstname_user', 'lastname_user', 'login_user', 'password_user', 'rank_user', 'isActive_user', 'dateregister_user', 'lastlogin_user', 'token');
     }
 
     public function __clone()

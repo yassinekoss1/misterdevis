@@ -18,11 +18,12 @@ class Auth_Model_ChauffageRepository extends EntityRepository {
 
     return $qb->from($this->_entityName, 'ch')
       ->select('d.id_demande, d.titre_demande, d.publier_en_ligne, p.nom_particulier, p.prenom_particulier,' .
-        'd.date_creation, d.date_publication, c.ville, c.adresse, c.code_postal, u.firstname_user, u.lastname_user,' .
+        'd.date_creation, d.date_publication, z.ville, c.adresse, z.code, u.firstname_user, u.lastname_user,' .
         'a.libelle as categorie, d.prix_mise_en_ligne')
       ->leftJoin('ch.id_demande', 'd')
       ->leftJoin('d.id_particulier', 'p')
       ->leftJoin('d.id_chantier', 'c')
+      ->leftJoin('c.zone', 'z')
       ->leftJoin('d.id_user', 'u')
       ->leftJoin('d.id_activite', 'a')
       ->where('d.titre_demande IS NOT NULL and d.titre_demande != \'\'')
@@ -107,17 +108,11 @@ class Auth_Model_ChauffageRepository extends EntityRepository {
     if (!$chantier) $chantier = new Auth_Model_Chantier();
 
     foreach ($data['Chantier'] as $key => $val) {
-      if ($key === 'id_zone') continue;
       $prop = 'set' . ucfirst($key);
       if (method_exists($chantier, 'set' . ucfirst($key))) {
         $chantier->$prop($val);
       }
     }
-
-
-    $zone = $this->_em->getRepository('Auth_Model_Zone')->find($data['Chantier']['id_zone']);
-    $chantier->setId_zone($zone);
-
 
     $this->_em->persist($chantier);
     $this->_em->flush();

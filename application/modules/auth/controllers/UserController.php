@@ -20,7 +20,14 @@ class Auth_UserController extends Zend_Controller_Action
      */
     public function indexAction()
     {
-    	$this->_helper->layout()->disableLayout();
+		
+		$this->_helper->layout->setLayout ( 'layout_fo_ehcg' );
+		
+		$listeuser = $this->getRequest()->_em->getRepository('Auth_Model_User')->findAll();
+		
+		$this->view->listeuser = $listeuser;
+
+
     }
     
 	/**
@@ -37,142 +44,110 @@ class Auth_UserController extends Zend_Controller_Action
     
 	public function addAction()
     {
-        $this->_helper->layout()->disableLayout();
-        $this->_helper->viewRenderer->setRender('add');
+        $this->_helper->layout->setLayout ( 'layout_fo_ehcg' );
         
-        $response = false;    
-    	$form = new Auth_Form_User;    	
-		var_dump("Action Add");
+        
     	if($this->getRequest()->isPost())
     	{
-			var_dump('Post Data');
             $data = $this->_request->getPost();
-            var_dump($data);
-			if($form->isValid($data))
-            {      	
-                # check for existing email
-                $accountExist = $this->getRequest()->_em->getRepository('Auth_Model_User')->findBy(array('emailuser' => (string)$data['emailuser']));
-                $idUser = 0;
-                if(count($accountExist) == 0)
-                {
-                	//$group = $this->getRequest()->_em->getRepository('Auth_Model_Usergroup')->find($data['idgroup']);
-                	
-                    $entity = new Auth_Model_User;
+			     	
+			# check for existing email
+			$accountExist = $this->getRequest()->_em->getRepository('Auth_Model_User')->findBy(array('email_user' => (string)$data['EMAIL_USER']));
+			if(count($accountExist) == 0)
+			{
+				var_dump($data);
+				
+				$entity = new Auth_Model_User;
+				$entity->email_user = $data['EMAIL_USER'];
+				$entity->firstname_user = $data['FIRSTNAME_USER'];
+				$entity->lastname_user = $data['LASTNAME_USER'];
+				$entity->login_user = $data['LOGIN_USER'];
+				$entity->rank_user = 0;
+				$entity->isActive_user = $data['ISACTIVE_USER'];
+				$entity->dateregister_user=date("Y-m-d h:i:s");	   
+				$entity->setPassword($data['PASSWORD_USER'], $this->getRequest()->_registry->config->auth->hash);
+				$this->getRequest()->_em->persist($entity);
+				$this->getRequest()->_em->flush();
+				$this->getRequest()->_cache->remove('User');
+				
+				$this->_helper->redirector('index', 'user', 'auth');
+				
+			 }
+			 else {
+				 $response = 'Enregistrement impossible : Cet email existe déjà';
+			 }
             
-                    
-                    $entity->emailuser = $data['emailuser'];
-					$entity->firstname_user = $data['firstnameuser'];
-					$entity->lastname_user = $data['lastnameuser'];
-					$entity->login_user = $data['loginuser'];
-					//$entity->password_user = $data['pwduser'];
-					$entity->rank_user = $data['rankuser'];
-					$entity->isActive_user = $data['statususer'];
-					$entity->dateregister_user=date("Y-m-d h:i:s");
-//                  $entity->pwduser = $data['pwduser'];
-                   
-                    $entity->setPassword($data['pwduser'], $this->getRequest()->_registry->config->auth->hash);
-                    
-                	
-                    
-                	$this->getRequest()->_em->persist($entity);
-                    $this->getRequest()->_em->flush();
-                    $this->getRequest()->_cache->remove('User');
-                    $response = true;
-                    $idUser = $entity->iduser;
-                    
-                 }
-                 else {
-                     $response = 'Enregistrement impossible : Cet email existe déjà';
-                 }
-            }
-            else {
-    		    $response = $form->getMessages();
-    		}
     		
-    		$this->_helper->json->sendJson(array('response' => $response, 'idUser' => $idUser));
         }
         
-        $this->view->form = $form;
     }
     
-	/**
-     * default method
-     *
-     * @author          Lamari Alaa
-     * @param           void
-     * @return           void
-     *
-     */
-    public function updateAction()
-    {
-    	$this->_helper->layout()->disableLayout();
-    	$this->_helper->viewRenderer->setRender('form');
-        
-        $response = false;
-        $id = $this->getRequest()->getParam('id');
+	public function editAction(){
+		
+		$this->_helper->layout->setLayout ( 'layout_fo_ehcg' );
+		
+		$id = $this->getRequest()->getParam('id');
         $entity = $this->getRequest()->_em->find('Auth_Model_User', $id);
-        
-        $form = new Auth_Form_User(array(
-        	'entity' => $entity
-        ));        
-        
-        if($this->getRequest()->isPost())
+		$this->view->user=$entity;
+		if($this->getRequest()->isPost())
         {
         	# get params
         	$data = $this->getRequest()->getPost();
-        	
-        	if($form->isValid($data))
-        	{
-        	    # check for existing email
-        	    $accountExist = $this->getRequest()->_em->getRepository('Auth_Model_User')->findByEmail_user((string) $data['emailuser']);
-        	    if(count($accountExist) == 0 || count($accountExist) == 1 && $accountExist[0]->getIduser() == $entity->iduser)
+			
+			$accountExist = $this->getRequest()->_em->getRepository('Auth_Model_User')->findBy(array('email_user' => (string)$data['EMAIL_USER']));
+			if(count($accountExist) == 0 || count($accountExist) == 1 && $accountExist[0]->getId_user() == $entity->id_user)
         	    {
-	        	    //$group = $this->getRequest()->_em->getRepository('Auth_Model_Usergroup')->find($data['idgroup']);
-	        	    
-		        	
-					$entity->emailuser = $data['emailuser'];
+					$entity->firstname_user=$data['FIRSTNAME_USER'];
+					$entity->lastname_user=$data['LASTNAME_USER'];
+					$entity->email_user=$data['EMAIL_USER'];
+					$entity->login_user=$data['LOGIN_USER'];
+					$entity->isActive_user=$data['ISACTIVE_USER'];
 					
-					$entity->roleuser = 'PRO';
-					
-					if(!empty($data['pwduser'])){
-						$entity->setPassword($data['pwduser'], $this->getRequest()->_registry->config->auth->hash);
+					if(!empty($data['PASSWORD_USER'])){
+						$entity->setPassword($data['PASSWORD_USER'], $this->getRequest()->_registry->config->auth->hash);
 					}
-				    
-					$date = new Zend_Date;
 					
-		        	
-		        	$this->getRequest()->_em->persist($entity);
+					$this->getRequest()->_em->persist($entity);
 		        	$this->getRequest()->_em->flush();
 		        	$this->getRequest()->_cache->remove('User');
-		        	$response = true;
-        	    }
-        	    else {
-                    $response = 'Enregistrement impossible : Cet email existe déjà';
-                }        	   	 
-        	}
-        	else {
-        		$response = $form->getMessages();
-        	}
-        	
-        	$this->_helper->json->sendJson(array('response' => $response));
-        }
-        
-        $dataform = $entity->toArray();
-        $dataform["idgroup"]  = $entity->idgroup->idgroup;
-        $dataform["namegroupAutocp"] = $entity->idgroup->namegroup;
-        $form->populate($dataform);
-         
-        $this->view->form = $form;
-    }
-    
-	/**
-     * default method
-     *
-     * @author          Lamari Alaa
-     * @param           void
-     * @return           void
-     *
-     */
+					
+					$this->_helper->redirector('index', 'user', 'auth');
+				}
+		}
+	}
+	
+	public function profileAction(){
+		$this->_helper->layout->setLayout ( 'layout_fo_ehcg' );
+		
+		$id = unserialize(Zend_Auth::getInstance()->getIdentity())->id_user;
+        $entity = $this->getRequest()->_em->find('Auth_Model_User', $id);
+		$this->view->user=$entity;
+		if($this->getRequest()->isPost())
+        {
+        	# get params
+        	$data = $this->getRequest()->getPost();
+			
+			$accountExist = $this->getRequest()->_em->getRepository('Auth_Model_User')->findBy(array('email_user' => (string)$data['EMAIL_USER']));
+			if(count($accountExist) == 0 || count($accountExist) == 1 && $accountExist[0]->getId_user() == $entity->id_user)
+        	    {
+					$entity->firstname_user=$data['FIRSTNAME_USER'];
+					$entity->lastname_user=$data['LASTNAME_USER'];
+					$entity->email_user=$data['EMAIL_USER'];
+					$entity->login_user=$data['LOGIN_USER'];
+					
+					if(!empty($data['PASSWORD_USER'])){
+						$entity->setPassword($data['PASSWORD_USER'], $this->getRequest()->_registry->config->auth->hash);
+					}
+					
+					$this->getRequest()->_em->persist($entity);
+		        	$this->getRequest()->_em->flush();
+		        	$this->getRequest()->_cache->remove('User');
+					
+					$this->_helper->redirector('index', 'user', 'auth');
+				}
+		}
+	}
+
     public function removeAction()
     {
         $this->_helper->layout()->disableLayout();

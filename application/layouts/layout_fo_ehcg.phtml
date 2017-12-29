@@ -58,14 +58,24 @@
 									Bonjour <?php echo unserialize(Zend_Auth::getInstance()->getIdentity())->firstname_user . ' ' . unserialize(Zend_Auth::getInstance()->getIdentity())->lastname_user ?></span>
 								<b class="caret"></b> </a>
 							<ul class="dropdown-menu" id="compte-box">
-								<?php if ($this->infoUser->rankUser == 0) : ?>
-									<li><a href="/<?= Zend_Registry::get('Zend_Locale')->getLanguage(); ?>/fo/Userinfo/profile">
+								<?php if (unserialize(Zend_Auth::getInstance()->getIdentity())->rank_user == 1): ?>
+									<li>
+										<a href="/auth/user">
 											<i class="fa fa-user"></i>
-											Profil</a></li>
+											Gestion des utilisateurs</a>
+									</li>
 								<?php endif; ?>
-								<li><a href="/auth/logout">
+								<li>
+									<a href="/auth/user/profile">
+										<i class="fa fa-user"></i>
+										Profil</a>
+								</li>
+
+								<li>
+									<a href="/auth/logout">
 										<i class="fa fa-power-off"></i>
-										Se déconnecter</a></li>
+										Se déconnecter</a>
+								</li>
 							</ul>
 						</li>
 					</ul>

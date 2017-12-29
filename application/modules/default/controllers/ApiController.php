@@ -30,11 +30,14 @@ class ApiController extends Zend_Controller_Action {
       $artisan->setPrenom_artisan(urldecode($data['PRENOM_ARTISAN']));
       $artisan->setNom_artisan(urldecode($data['NOM_ARTISAN']));
       $artisan->setRaison_sociale(urldecode($data['RAISON_SOCIALE']));
-      $artisan->setCode_postal(urldecode($data['CODE_POSTAL']));
       $artisan->setTelephone_fixe(urldecode($data['TELEPHONE_FIXE']));
       $artisan->setTelephone_portable(urldecode($data['TELEPHONE_PORTABLE']));
       $artisan->setEmail_artisan(urldecode($data['EMAIL_ARTISAN']));
       $artisan->setHoraireRDV(urldecode($data['HORAIRERDV']));
+
+      $zone = $em->getRepository('Auth_Model_Zone')->findOneBy(['code' => urldecode($data['CODE_POSTAL'])]);
+
+      $artisan->setZone($zone);
 
 
       foreach ($activites as $activite) {

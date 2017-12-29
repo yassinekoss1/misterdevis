@@ -1,418 +1,234 @@
 <?php
 
 
+/**
+ * Class Auth_ClimatisationController
+ *
+ * @author  Youssef Erratbi <yerratbi@gmail.com>
+ * @date    24/12/17
+ */
 class Auth_ClimatisationController extends Zend_Controller_Action {
+
+  private $_sys_email;
+
+
+  public function init() {
+
+    $config = new Zend_Config_Ini(APPLICATION_PATH . '/configs/application.ini', APPLICATION_ENV);
+    $this->_sys_email = $config->system->email->toArray();
+  }
+
 
   public function indexAction() {
 
-    //$this->_helper->layout()->disableLayout();
     $this->_helper->layout->setLayout('layout_fo_ehcg');
-
-    $listclimatisation = $this->getRequest()->_em->getRepository('Auth_Model_Demandedevis')->findlistclimatisation();
-    var_dump($listclimatisation);
+    $em = $this->getRequest()->_em;
 
 
-    $this->view->listclimatisation = $listclimatisation;
+    $this->view->demandes = $em->getRepository('Auth_Model_Climatisation')->getList();
   }
 
 
   public function notificationAction() {
 
-    $lien = [];
-    $dataNotif = $this->getRequest()->_em->getRepository('Auth_Model_Demandedevis')->findNewRowsClimatisation();
-    $i = 0;
-    foreach ($dataNotif as $n) {
-      $lien [$i] = '/auth/climatisation/edit/id_demande/' . $n[id_demande];
-      $i++;
+    // Disabling render and layout to be able to return json
+    $this->_helper->layout()->disableLayout();
+    $this->_helper->viewRenderer->setNoRender(true);
+
+
+    // Getting the initial counts
+    $lastCount = $this->getRequest()->getParam('count') ? (int)$this->getRequest()->getParam('count') : -1;
+    $this->view->count = (int)$this->getRequest()->_em->getRepository('Auth_Model_Climatisation')->getNotifications(true);
+
+
+    // Checcking if there is a change
+    while ($this->view->count === 0 || $this->view->count === $lastCount) {
+      flush();
+      usleep(5000);
+      clearstatcache();
+      session_write_close();
+      $this->view->count = (int)$this->getRequest()->_em->getRepository('Auth_Model_Climatisation')->getNotifications(true);
     }
 
-    $totalLastNotif = count($dataNotif);
-    //var_dump($dataNotif);
-    $this->view->total = $totalLastNotif;
-    $this->view->lien = $lien;
-    $this->view->lastNotifications = $dataNotif;
-    //$this->view->dt = $calcule;
-  }
+    // Fetching the new demandes
+    $this->view->notifications = $this->getRequest()->_em->getRepository('Auth_Model_Climatisation')->getNotifications();
 
+    // Preparing data to send back
+    $data = [
+      'count' => $this->view->count,
+      'html'  => $this->view->render('climatisation/notification.phtml'),
+    ];
 
-  public function filterAction() {
+    // Changing the response header content type to json
+    $this->_response->setHeader('Content-type', 'application/json');
 
-    $filter = $this->_request->getParam('filter');
-    if (!empty ($filter)) {
-      $this->view->filtre = $filter;
-    }
+    echo json_encode($data);
+    flush();
+
   }
 
 
   public function editAction() {
 
-    $id = $this->getRequest()->getParam('id_demande');
-    $this->_helper->layout->setLayout('layout_fo_ehcg');
-    //$this->_helper->layout()->disableLayout();
+    // If it's an ajax request disable the layout
+    if ($this->getRequest()->isXmlHttpRequest()) $this->_helper->layout()->disableLayout();
+    else $this->_helper->layout->setLayout('layout_fo_ehcg');
 
-    $demandedevis = $this->getRequest()->_em->getRepository('Auth_Model_Demandedevis')->findDemandeDevis($id);
-    $climatisation = $this->getRequest()->_em->getRepository('Auth_Model_Climatisation')->findBy(['id_demande' => $id]);
-    $zones = $this->getRequest()->_em->getRepository('Auth_Model_Zone')->findAll();
-    $this->view->id_demande = $id;
-    $this->view->demandedevis = $demandedevis;
-    $this->view->climatisation = $climatisation[0];
+    $id = $this->getRequest()->getParam('id');
+    $em = $this->getRequest()->_em;
 
-    $this->view->zones = $zones;
+    // Load demande;
+    $demande = $em->getRepository('Auth_Model_Demandedevis')->find($id);
 
+
+    // Check inf the data is there or redirect to listing
+    if (!$demande || $demande->id_activite->libelle !== 'CLIMATISATION') $this->_redirect('/auth/climatisation');
+
+    // Initializing the forms
+    $form = new Zend_Form();
+    $form->addSubForms([
+      'form_demande'     => new Auth_Form_Demande,
+      'form_qualif'      => new Auth_Form_Climatisation,
+      'form_chantier'    => new Auth_Form_Chantier,
+      'form_particulier' => new Auth_Form_Particulier,
+    ]);
+
+    $form->form_chantier->code_postal->setAttrib('autocomplete', 'off');
+
+    // Load qualification
+    $qualification = $em->getRepository('Auth_Model_Climatisation')->findOneBy(['id_demande' => $id]);
+
+    $form->setDefaults([
+      'Demande'       => $demande ? $demande->toArray() : null,
+      'Particulier'   => $demande->id_particulier ? $demande->id_particulier->toArray() : null,
+      'Chantier'      => $demande->id_chantier ? $demande->id_chantier->toArray() : null,
+      'Climatisation' => $qualification ? $qualification->toArray() : null,
+    ]);
+
+    $form->form_chantier->setDefaults(['code_postal' => $demande->id_chantier->zone->code]);
+
+    // Proccess the posted data;
     if ($this->getRequest()->isPost()) {
-
-      # get params
       $data = $this->getRequest()->getPost();
+      $zone = $em->getRepository('Auth_Model_Zone')->findOneBy(['code' => $data['Chantier']['code_postal']]);
 
-      $demande = $this->getRequest()->_em->find('Auth_Model_Demandedevis', $id);
-      $user = $this->getRequest()->_em->find('Auth_Model_User', unserialize(Zend_Auth::getInstance()->getIdentity())->id_user);
-      $zone = $this->getRequest()->_em->find('Auth_Model_Zone', $data['ID_ZONE']);
+      $valid = $form->isValid($data);
+
+      if (!$zone)
+        $form->form_chantier->code_postal->setAttribs(['class' => 'has-error']);
 
 
-      //Modification ou ajout du chantier
-      if ($demande->id_chantier == null) {
-        $chantier = new Auth_Model_Chantier;
-      } else {
-        $chantier = $this->getRequest()->_em->find('Auth_Model_Chantier', $demande->id_chantier->id_chantier);
-      }
-      $chantier->adresse = $data['ADRESSE'];
-      $chantier->adresse2 = $data['ADRESSE2'];
-      $chantier->ville = $data['VILLE'];
-      $chantier->code_postal = $data['CODE_POSTAL'];
-      $chantier->id_zone = $zone;
+      if ($valid && $zone !== null) {
 
-      $this->getRequest()->_em->persist($chantier);
-      $this->getRequest()->_em->flush();
+        // We will send an email
+        $sendEmail = false;
 
-      $id_chantier = $chantier->id_chantier;
+        $data['Chantier']['id_zone'] = $zone->getId_zone();
+        if ($data['Demande']['publier_en_ligne']) {
+          $sendEmail = !((bool)$demande->getPublier_envoi());
+          $data['Demande']['publier_envoi'] = true;
+        }
 
-      //Modification du particulier
-      $particulier = $this->getRequest()->_em->find('Auth_Model_Particulier', $demande->id_particulier->id_particulier);
-      $particulier->nom_particulier = $data['NOM_PARTICULIER'];
-      $particulier->prenom_particulier = $data['PRENOM_PARTICULIER'];
-      $particulier->telephone_fixe = $data['TELEPHONE_FIXE'];
-      $particulier->telephone_portable = $data['TELEPHONE_PORTABLE'];
-      $particulier->email = $data["EMAIL"];
-      $particulier->horaireRDV = $data['HORAIRERDV'];
 
-      $this->getRequest()->_em->persist($particulier);
-      $this->getRequest()->_em->flush();
+        // Fetching the current user id
+        $data['id_user'] = unserialize(Zend_Auth::getInstance()->getIdentity())->id_user;
 
-      $id_particulier = $particulier->id_particulier;
 
-      //Modification de la demande de devis
+        // Save the qualification
+        $qualification = $em->getRepository('Auth_Model_Climatisation')->save($id, $data);
 
-      $demande->titre_demande = $data['TITRE_DEMANDE'];
-      $demande->delai_souhaite = $data['DELAI_SOUHAITE'];
-      $demande->description = $data['DESCRIPTION'];
-      $demande->type_demandeur = $data['TYPE_DEMANDEUR'];
-      $demande->type_propriete = $data['TYPE_PROPRIETE'];
-      $demande->type_batiment = $data['TYPE_BATIMENT'];
-      $demande->budget_approximatif = $data['BUDGET_APPROXIMATIF'];
-      $demande->financement_projet = $data['FINANCEMENT_PROJET'];
-      $demande->objectif_demande = $data['OBJECTIF_DEMANDE'];
-      $demande->prestation_souhaite = $data['PRESTATION_SOUHAITE'];
-      $demande->indication_complementaire = $data['INDICATION_COMPLEMENTAIRE'];
-      $demande->qualification = $data['QUALIFICATION'];
-      $demande->prix_mise_en_ligne = $data['PRIX_MISE_EN_LIGNE'];
-      $demande->prix_promo = $data['PRIX_PROMO'];
-      $demande->publier_en_ligne = $data['PUBLIER_EN_LIGNE'];
-      $date = new Zend_Date;
-      $demande->date_publication = $date->toString('yyyy-MM-dd HH:mm:ss');
-      $demande->id_chantier = $chantier;
-      $demande->id_user = $user;
+        if ($qualification) {
 
-      $this->getRequest()->_em->persist($demande);
-      $this->getRequest()->_em->flush();
+          // Send an email if there hasn't been one sent
+          if ($sendEmail) {
 
-      //Modification du piscine
+            // Fetching the artisans concerned with this demande
+            $artisans = $em->getRepository('Auth_Model_Artisan')->findListEmail(
+              $demande->getId_activite()->getId_activite(),
+              $demande->getId_chantier()->getId_zone()
+            );
 
-      if (count($climatisation) == 0) {
-        $climatisation = new Auth_Model_Climatisation;
-        $climatisation->id_demande = $demande;
-      } else {
-        $climatisation = $climatisation[0];
-      }
-      $climatisation->nbre_piece = $data['NBRE_PIECE'];
-      $climatisation->surface_climatiser = $data['SURFACE_CLIMATISER'];
-      $climatisation->hauteur_plafond = $data['HAUTEUR_PLAFOND'];
-      $climatisation->accord_copropriete = $data['ACCORD_COPROPRIETE'];
-      $climatisation->type_travaux = $data['TYPE_TRAVAUX'];
+            // Sending the email to the artisans
+            foreach ($artisans as $artisan) {
+              $mail = new Zend_Mail('utf-8');
+              $body = $this->view->partial('shared/mail_new_demande_artisan.phtml', [
+                'nom' => $artisan['nom_artisan'],
+                'ref' => $demande->getRef(),
+              ]);
+              $mail->setBodyHtml($body);
+              $mail->setFrom($this->_sys_email['address'], $this->_sys_email['name']);
+              $mail->addTo($artisan['email_artisan']);
+              $mail->setSubject('Nouvelle demande de devis');
+              $mail->send();
+            }
 
-      $this->getRequest()->_em->persist($climatisation);
-      $this->getRequest()->_em->flush();
-      //----------------------------------
+            // Sending the email to the particulier
+            $mail = new Zend_Mail('utf-8');
+            $body = $this->view->partial('shared/mail_new_demande_particulier.phtml', [
+              'nom' => $demande->getId_particulier()->getNom_particulier(),
+              'ref' => $demande->getRef(),
+            ]);
+            $mail->setBodyHtml($body);
+            $mail->setFrom($this->_sys_email['address'], $this->_sys_email['name']);
+            $mail->addTo($qualification->id_demande->id_particulier->email);
+            $mail->setSubject('Votre demande de devis est approuvée');
+            $mail->send();
+          }
 
-      //Envoi email si Publier en ligne
 
-      if ($data['PUBLIER_EN_LIGNE'] == 1 && $demande->publier_envoi == 0) {
-        $this->sendMail($data['EMAIL'], 'CLIMATISATION', $data['ID_ZONE'], $data['NOM_PARTICULIER'], $climatisation->id_qualif_climatisation);
-        $demande->publier_envoi = 1;
-        $this->getRequest()->_em->persist($demande);
-        $this->getRequest()->_em->flush();
-      }
+          $_SESSION['flash'] = "La mise à jour a été effectuée avec success";
+          $this->getResponse()->setRedirect('/auth/climatisation');
 
-      $this->_helper->redirector('index', 'climatisation', 'auth');
+
+        }
+
+
+      } else
+
+        // If the form is not valid keep the data provided by the user
+        $form->setDefaults($data);
 
     }
 
-  }
 
-
-  public function sendMail($email, $activite, $zone, $username, $id_demande) {
-
-    $config = [
-      'auth'     => 'login',
-      'ssl'      => 'ssl',
-      'port'     => '465',
-      'username' => 'webonline235@gmail.com',
-      'password' => 'nbvc#123',
-    ];
-
-    $transport = new Zend_Mail_Transport_Smtp('smtp.gmail.com', $config);
-
-    $mail = new Zend_Mail('utf-8');
-    $id_climatisation = str_pad($id_demande, 4, "0", STR_PAD_LEFT);
-    //Message pour le particulier
-    $bodytext = '<table style="background:rgba(128,128,128,0.02)" width="100%" cellspacing="0" cellpadding="0" border="0">
-          <tbody>
-            <tr>
-              <td>
-                <table  align="center" width="600" cellspacing="0" cellpadding="0" border="0">
-                  <tbody>
-                    <tr>
-                      <td>
-                        <div>
-                          <table style="background:rgba(128,128,128,0.02)" align="center" width="600" cellspacing="0" cellpadding="0" border="0">
-                            <tbody>
-                              <tr>
-                                <td width="200"><br>
-                                </td>
-                                <td width="200"><br>
-                                </td>
-                                <td width="200"><br>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td width="190"><br>
-                                </td>
-                                <td align="center" width="200" valign="top"><img src="http://mister-devis.com/mrdevis_inc/uploads/2017/03/logo_mister_devis-1.png" alt="Mister-devis.com" width="247" height="50" class="CToWUd"></td>
-                                <td width="200"><br>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td width="200"><br>
-                                </td>
-                                <td width="200"><br>
-                                </td>
-                                <td width="200"><br>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                        <div>
-                          <table align="center" width="600" cellspacing="0" cellpadding="0" border="0">
-                            <tbody>
-                              <tr>
-                                <td style="padding:36px 48px;background-color:#0184c2;color:#ffffff" colspan="4" align="center" width="500">
-                                  <h1 class="m_2322405772741087723m_104912678704188478bigtitle">
-                                    Votre demande de devis est publiée en ligne</h1>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td style="padding-top:5px;padding-left:20px;padding-right:20px" colspan="4">
-                                  <div>
-                                    <p>
-                                      Bonjour,</p>
-                                    <p>
-                                      Nous vous informons que votre demande de devis est publiée en ligne. 
-									</p>
-                                    <p>
-                                      les artisans de notre plateforme vont vous contacter si ça entre de leur intérêt.</p>
-                                    <h2>
-                                      Demande N°: CLM-' . $id_climatisation . ':</h2>
-                                  </div>
-                                  <div>
-                                    &nbsp;<i>A très bientôt</i></div>
-                                  <div>
-                                    <p>
-                                      L\'équipe <a href="http://mister-devis.com" target="_blank">mister-devis.com</a></p>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td style="padding:0 48px 48px 48px;border:0;color:#0184c2;font-family:Arial;font-size:12px;line-height:125%;text-align:center" colspan="4" valign="middle">
-                                  <br>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </td>
-            </tr>
-          </tbody>
-        </table>';
-
-    $mail->setBodyHtml($bodytext);
-    $mail->setFrom('webonline235@gmail.com', 'Mister Devis');
-    $mail->addTo($email, $username);
-    $mail->setSubject('Votre demande est publiée en ligne');
-    $mail->send($transport);
-
-    //Message pour les artisans
-    $activite = $this->getRequest()->_em->getRepository('Auth_Model_Activite')->findBy(['libelle' => $activite]);
-    $idactivite = $activite[0]->id_activite;
-
-    $artisans = $this->getRequest()->_em->getRepository('Auth_Model_Artisan')->findListEmail($idactivite, $zone);
-
-    $bodytext = '<table style="background:rgba(128,128,128,0.02)" width="100%" cellspacing="0" cellpadding="0" border="0">
-          <tbody>
-            <tr>
-              <td>
-                <table  align="center" width="600" cellspacing="0" cellpadding="0" border="0">
-                  <tbody>
-                    <tr>
-                      <td>
-                        <div>
-                          <table style="background:rgba(128,128,128,0.02)" align="center" width="600" cellspacing="0" cellpadding="0" border="0">
-                            <tbody>
-                              <tr>
-                                <td width="200"><br>
-                                </td>
-                                <td width="200"><br>
-                                </td>
-                                <td width="200"><br>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td width="190"><br>
-                                </td>
-                                <td align="center" width="200" valign="top"><img src="http://mister-devis.com/mrdevis_inc/uploads/2017/03/logo_mister_devis-1.png" alt="Mister-devis.com" width="247" height="50" class="CToWUd"></td>
-                                <td width="200"><br>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td width="200"><br>
-                                </td>
-                                <td width="200"><br>
-                                </td>
-                                <td width="200"><br>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                        <div>
-                          <table align="center" width="600" cellspacing="0" cellpadding="0" border="0">
-                            <tbody>
-                              <tr>
-                                <td style="padding:36px 48px;background-color:#0184c2;color:#ffffff" colspan="4" align="center" width="500">
-                                  <h1 class="m_2322405772741087723m_104912678704188478bigtitle">
-                                    Une nouvelle demande de devis a été mise en ligne</h1>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td style="padding-top:5px;padding-left:20px;padding-right:20px" colspan="4">
-                                  <div>
-                                    <p>
-                                      Bonjour,</p>
-                                    <p>
-                                      Nous vous informons qu\'une nouvelle demande de devis concernant votre activité et votre zone d\'intervention a été publiée dans la plateforme.. 
-									</p>
-                                    <p>
-                                       Vous pouvez la consulter dans votre espace pro.</p>
-        
-                                  </div>
-                                  <div>
-                                    &nbsp;<i>A très bientôt</i></div>
-                                  <div>
-                                    <p>
-                                      L\'équipe <a href="http://mister-devis.com" target="_blank">mister-devis.com</a></p>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td style="padding:0 48px 48px 48px;border:0;color:#0184c2;font-family:Arial;font-size:12px;line-height:125%;text-align:center" colspan="4" valign="middle">
-                                  <br>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </td>
-            </tr>
-          </tbody>
-        </table>';
-
-    foreach ($artisans as $a) {
-      $email = $a['email_artisan'];
-      $username = $a['nom_artisan'];
-
-      $mail = new Zend_Mail('utf-8');
-      $mail->setBodyHtml($bodytext);
-      $mail->setFrom('webonline235@gmail.com', 'Mister Devis');
-      $mail->setSubject('Nouvelle Demande de devis');
-      $mail->addTo($email, $username);
-      $mail->send($transport);
-    }
-
-
+    $this->view->form = $form;
+    $this->view->id = $id;
+    $this->view->qualification = $qualification;
   }
 
 
   public function pdfAction() {
 
-    //send data to view
-    $id = $this->_getParam("id_demande", 0);
-
-    $demandedevis = $this->getRequest()->_em->getRepository('Auth_Model_Demandedevis')->findDemandeDevis($id);
-    $climatisation = $this->getRequest()->_em->getRepository('Auth_Model_Climatisation')->findBy(['id_demande' => $id]);
-
-    $this->view->demandedevis = $demandedevis[0];
-    $this->view->climatisation = $climatisation[0];
-
-
-    $pdf = new Auth_Controller_Helper_MyPdf(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+    // Setting up the view to supress rendring
+    $em = $this->getRequest()->_em;
+    $this->_helper->layout()->disableLayout();
     $this->_helper->viewRenderer->setNoRender(true);
-    $this->_helper->layout->disableLayout();
-    $pdf->SetAutoPageBreak(true, PDF_MARGIN_BOTTOM);
-    $pdf->setFooterFont([PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA]);
-    $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+    // Initializing data
+    $id = $this->getRequest()->getParam('id');
+    $qualification = $em->getRepository('Auth_Model_Climatisation')->findOneBy(['id_demande' => $id]);
+    if (!$qualification) $this->_redirect('/auth/climatisation');
+
+    $this->view->qualification = $qualification;
+    $this->view->demande = $qualification->id_demande;
+
+    // Fetching the html string from the view
+    $html = $this->view->render('shared/pdf.phtml');
+
+
+    // Initializing the pdf object
+    $pdf = new Auth_Controller_Helper_MyPdf('P', 'mm', 'A4', true, 'UTF-8', false);
+
+
+    // Set document info
+    $pdf->SetAuthor('MisterDevis');
+    $pdf->SetTitle($this->view->demande->getTitre_demande());
+
+
+    // Set the page
     $pdf->AddPage();
 
-    //$pdf->Image("resources_fo_ehcg/img/company_logo.png", 10, 10, 80, 13, '', '', '', false, 300, '', false, false, 1, false, false, false);
-    //$date = new Zend_Date;
-    //$date = $date->toString('dd/MM/yyyy');
-    //$pdf->SetY(15);
-    //$pdf->SetX($this->original_lMargin);
-    //$pdf->Cell(0, 0, $date, 0, 0, 'R');
-    $pdf->SetAutoPageBreak(true, 50);
-    $html = $this->view->render("climatisation/pdf.phtml");
-    $pdf->setX(10);
-    $pdf->setY(40);
-    $pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $html, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
-
-    $namePdf = 'pdf/climatisation/fiche_devis_' . $id . '.pdf';
-    $pdf->Output($namePdf, 'FI');
-
-    header("Content-disposition: attachment; filename=" . $namePdf . "");
-    header("Cache-Control: must-revalidate, post-check=0, pre-check=0, public");
-    header("Content-Type: application/force-download");
-    header("Pragma: no-cache");
-    header("Expires: 0");
-
-    readfile($namePdf);
-
+    $pdf->writeHTML($html);
+    $pdf->Output("{$this->view->demande->titre_demande}-" . time() . ".pdf", 'D');
   }
-
-
 }

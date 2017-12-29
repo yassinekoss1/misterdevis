@@ -1,3 +1,4 @@
+<link href="<?= $this->baseUrl('resources_fo_ehcg/css/jquery.autocomplete.css'); ?>" rel="stylesheet" type="text/css">
 <style>
 	#error-notif {
 		color: red:
@@ -11,7 +12,33 @@
 	.form-group.has-error .help-block {
 		display: block;
 	}
+
+	.autocomplete-suggestion {
+		padding: 4px 8px;
+		cursor: pointer;
+		border-bottom: 1px solid #CCC;
+		-webkit-transition: background-color .4s;
+		-moz-transition: background-color .4s;
+		-ms-transition: background-color .4s;
+		-o-transition: background-color .4s;
+		transition: background-color .4s;
+	}
+
+	.autocomplete-suggestion:nth-child(odd) {
+		background-color: #EEE;
+	}
+
+	.autocomplete-suggestion:hover {
+		background-color: #DDD;
+	}
+
+	.autocomplete-suggestion small {
+		display: block;
+		font-size: 12px;
+	}
 </style>
+<script type="text/javascript" src="<?= $this->baseUrl('resources_fo_ehcg/js/jquery.autocomplete.min.js'); ?>"></script>
+
 <div class="row">
 	<div class="col-md-12">
 		<div class="main-box clearfix">
@@ -172,6 +199,7 @@
 							</div>
 						</div>
 						
+
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<h4 class="panel-title">
@@ -191,18 +219,10 @@
 												<?= $this->form->form_chantier->adresse2; ?>
 											</div>
 										</div>
-										
+
 										<div class="col-md-12">
-											<div class="col-md-6">
-												<?= $this->form->form_chantier->ville; ?>
-											</div>
 											<div class="col-md-6">
 												<?= $this->form->form_chantier->code_postal ?>
-											</div>
-										</div>
-										<div class="col-md-12">
-											<div class="col-md-6">
-												<?= $this->form->form_chantier->id_zone; ?>
 											</div>
 										</div>
 									</div>
@@ -251,10 +271,37 @@
 </div>
 <script type="text/javascript">
 	$(document).ready(function () {
+		var code_postal = $('#Chantier-code_postal');
+
+		if (code_postal.hasClass('has-error')) {
+			code_postal.next('.help-block').html('Ce code postal n\'est pas valid');
+			code_postal.parents('.form-group').addClass('has-error');
+			code_postal.focus();
+		}
+
+
+		code_postal.autoComplete({
+			minChars: 2,
+			delay: 500,
+			source: function (term, response) {
+				$.getJSON('/auth/index/cities/', {q: term}, function (data) {
+					response(data);
+				});
+			},
+			renderItem: function (item) {
+				return '<div class="autocomplete-suggestion" data-code="' + item.code + '">' + item.ville + '<small>Code postal: ' + item.code + '</small></div>';
+			},
+			onSelect: function (e, term, item) {
+				code_postal.val(item.data('code'));
+				code_postal.parents('.form-group').removeClass('has-error');
+			}
+		});
+
+
 		$('.must-validate').submit(function () {
 			var isValid = true;
 			$(this).find('[required]').each(function () {
-				
+
 				if (!$(this).val() || $(this).val().trim().length === 0) {
 					$(this).data('dirty', true);
 					$(this).parents('.form-group').addClass('has-error');
@@ -266,6 +313,7 @@
 					$(this).parents('.form-group').find('.help-block').hide();
 				}
 			});
+
 			if (!isValid) $('#error-notif').show();
 			else $('#error-notif').hide();
 			return isValid;
@@ -275,12 +323,10 @@
 			$(this).data('dirty', true);
 			if (!$(this).val() || $(this).val().trim().length === 0) {
 				$(this).parents('.form-group').addClass('has-error');
-				$(this).parents('.form-group').find('.help-block')
-					.html('Ce champs est oubligatoire')
-					.show();
+				$(this).parents('.form-group').find('.help-block').show();
 			} else {
 				$(this).parents('.form-group').removeClass('has-error');
-				$(this).parents('.form-group').find('.help-block').html('').hide();
+				$(this).parents('.form-group').find('.help-block').hide();
 			}
 		}).on('keyup', function () {
 			if (!$(this).data('dirty')) return;

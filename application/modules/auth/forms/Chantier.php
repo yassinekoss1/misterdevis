@@ -36,13 +36,6 @@ class Auth_Form_Chantier extends Auth_Form_Base {
       ->setBelongsTo('Chantier')
       ->addFilters($default_filters);
 
-    // ville
-    $ville = new Zend_Form_Element_Text('ville');
-    $ville->setLabel('Ville')
-      ->setBelongsTo('Chantier')
-      ->setRequired(true)
-      ->addFilters($default_filters);
-
     // code_postal
     $code_postal = new Zend_Form_Element_Text('code_postal');
     $code_postal->setLabel('Code postal')
@@ -50,11 +43,14 @@ class Auth_Form_Chantier extends Auth_Form_Base {
       ->setRequired(true)
       ->addFilters($default_filters);
 
-
-    // id_zone
-    $id_zone = new Zend_Form_Element_Select('id_zone');
-    $id_zone->setLabel('Zone')
-      ->setBelongsTo('Chantier');
+    /*
+				// id_zone
+				$id_zone = new Zend_Form_Element_Select('ville');
+				$id_zone->setLabel('Ville')
+					->setRequired(true)
+					->setMultiOptions(['' => 'Veuillez préciser'])
+					->addFilters($select_filters)
+					->setBelongsTo('Chantier');*/
 
 
     // Submit button
@@ -65,9 +61,7 @@ class Auth_Form_Chantier extends Auth_Form_Base {
     $this->addElements([
       $adresse,
       $adresse2,
-      $ville,
       $code_postal,
-      $id_zone,
       $submit,
     ]);
 

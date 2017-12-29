@@ -1,33 +1,13 @@
+<?php $this->layout()->setLayout('layout_fo_ehcg'); ?>
+
 <!--data table-->
-<script
-	src="<?=$this->baseUrl('resources_fo_ehcg/js/jquery.dataTables.js');?>"></script>
-<script
-	src="<?=$this->baseUrl('resources_fo_ehcg/js/dataTables.tableTools.js');?>"></script>
-<script
-	src="<?=$this->baseUrl('resources_fo_ehcg/js/jquery.dataTables.bootstrap.js');?>"></script>
+<script src="<?= $this->baseUrl('resources_fo_ehcg/js/jquery.dataTables.js'); ?>"></script>
+<script src="<?= $this->baseUrl('resources_fo_ehcg/js/dataTables.tableTools.js'); ?>"></script>
+<script src="<?= $this->baseUrl('resources_fo_ehcg/js/jquery.dataTables.bootstrap.js'); ?>"></script>
 
 <!-- Data table-->
-<link rel="stylesheet" type="text/css"
-	href="<?=$this->baseUrl('resources_fo_ehcg/css/libs/dataTables.fixedHeader.css');?>">
-<link rel="stylesheet" type="text/css"
-	href="<?=$this->baseUrl('resources_fo_ehcg/css/libs/dataTables.tableTools.css');?>">
-<style>
-::-webkit-scrollbar-track {
-	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-	background-color: #6A6E9B;
-}
-
-::-webkit-scrollbar {
-	width: 10px;
-	background-color: #6A6E9B;
-}
-
-::-webkit-scrollbar-thumb {
-	background-color: #1B9CDC;
-	background-image: -webkit-gradient(linear, 0 0, 0 100%, color-stop(.5, rgba(255, 255, 255,
-		.2)), color-stop(.5, transparent), to(transparent));
-}
-</style>
+<link rel="stylesheet" type="text/css" href="<?= $this->baseUrl('resources_fo_ehcg/css/libs/dataTables.fixedHeader.css'); ?>">
+<link rel="stylesheet" type="text/css" href="<?= $this->baseUrl('resources_fo_ehcg/css/libs/dataTables.tableTools.css'); ?>">
 <div class="row">
 	<div class="col-lg-12">
 		<div class="main-box clearfix">
@@ -36,141 +16,171 @@
 				<div class="row">
 					<div class="col-md-6">
 						<ul id="breadcrumbs-two">
-							<li><a style="cursor: pointer;"><i class="fa fa-home"></i>
+							<li><a style="cursor: pointer;">
+									<i class="fa fa-home"></i>
 									Tableau de bord</a></li>
 
-							<li><a class="current" style="cursor: pointer;"><i
-									class="fa fa-files-o"></i> Climatisation</a></li>
+							<li><a class="current" style="cursor: pointer;">
+									<i class="fa fa-files-o"></i>
+									Climatisation</a></li>
 
 						</ul>
 					</div>
 					<div class="col-md-6">
 						<div class="pull-right">
-							<li id="notif" class="dropdown hidden-xs">
-							</li>
-							
+							<ul>
+								<li id="notif" class="dropdown hidden-xs"></li>
+							</ul>
+
 						</div>
 					</div>
 				</div>
 			</header>
 			<div class="main-box-body clearfix">
 				<div class="col-md-12">
-					<div class="table-responsive">
-						<table id="table-clients" class="table table-hover user-list">
+					<div class="table-responsive" style="overflow: hidden;">
+						<?php if ($_SESSION['flash']): ?>
+							<div class="alert alert-success ">
+								<?= $_SESSION['flash'];
+								$_SESSION['flash'] = null; ?>
+							</div>
+						<?php endif; ?>
+						<table id="jobs-table" class="table table-hover user-list">
 							<thead>
-								<tr>
-									<th>CLIENT</th>
-									<th>TITRE DEMANDE</th>
-									<th>Publié Le</th>
-									<th>DATE CREATION</th>
-									<th>PUBLIE PAR</th>
-									<th>PUBLIER EN LIGNE</th>
-									<th>PRIX</th>
-									<th>CATEGORIE</th>
-									<th>VILLE</th>
-									<th>CODE POSTAL</th>
-									<th>ACTION</th>
-								</tr>
+							<tr>
+								<th>CLIENT</th>
+								<th>TITRE DEMANDE</th>
+								<th>Publié Le</th>
+								<th>DATE CREATION</th>
+								<th>PUBLIE PAR</th>
+								<th>PUBLIER EN LIGNE</th>
+								<th>PRIX</th>
+								<th>CATEGORIE</th>
+								<th>VILLE</th>
+								<th>CODE POSTAL</th>
+								<th>ACTION</th>
+								<th>PDF</th>
+							</tr>
 							</thead>
 							<tbody>
-								<?php foreach ($this->listclimatisation as $p):?>
-								<tr>
-									<td><a class="user-link" id="title-client-<?=$p['id_demande'];?>"
-										style="cursor: pointer; margin-left: 0px; padding-top: 0px;"><?=$p['prenom_particulier'].' '.$p['nom_particulier'];?></a>
-									</td>
+							<?php foreach ($this->demandes as $demande): ?>
+								<tr class="job-link" data-url="/auth/climatisation/edit/id/<?= $demande['id_demande']; ?>">
 									<td>
-										<?=$p['titre_demande'];?>
-									</td>
-									<td>
-										<?=$p['date_publication'];?>
-									</td>
-									<td>
-										<?=$p['date_creation'];?>
-									</td>
-									<td>
-										<?=$p['lastname_user'].' '.$p['firstname_user'];?>
-									</td>
-									
-									<td>
-										<?php if($p['publier_en_ligne']==0){echo "NON";}else{echo "OUI";};?>
-									</td>
-									<td>
-										<?=$p['prix_mise_en_ligne'];?>
-									</td>
-									<td>
-										<?=$p['libelle'];?>
-									</td>
-									<td>
-										<?=$p['ville'];?>
-									</td>
-									<td>
-										<?=$p['code_postal'];?>
-									</td>
-									<td><a href="/auth/climatisation/edit/id_demande/<?=$p['id_demande']?>"class="table-link"
-										id="btn-edit-client-<?=$p['id_demande'];?>"
-										style="cursor: pointer;"> <span class="fa-stack" title="Editer"> <i
-												class="fa fa-square fa-stack-2x"></i> <i
-												class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-										</span>
-										
+										<a class="user-link" id="title-client-<?= $demande['id_demande']; ?>" style="cursor: pointer; margin-left: 0; padding-top: 0">
+											<?= $demande['nom_particulier'] ?>
+											<?= $demande['prenom_particulier']; ?>
 										</a>
-										
-										<a href="/auth/climatisation/pdf/id_demande/<?=$p['id_demande']?>"class="table-link"
-										id="btn-print-pdf-<?=$p['id_demande'];?>"
-										style="cursor: pointer;"> <span class="fa fa-eye" title="Créer Pdf"> 
-										</span>
-										
+									</td>
+									<td>
+										<?= $demande['titre_demande']; ?>
+									</td>
+									<td>
+										<?= date('d/m/Y', strtotime($demande['date_publication'])) ?>
+									</td>
+									<td>
+										<?= date('d/m/Y', strtotime($demande['date_creation'])) ?>
+									</td>
+									<td>
+										<?= $demande['lastname_user'] . ' ' . $demande['firstname_user']; ?>
+									</td>
+
+									<td>
+										<?= $demande['publier_en_ligne'] === '1' ? 'Oui' : 'Non'; ?>
+									</td>
+									<td>
+										<?= $demande['prix_mise_en_ligne'] ?>
+									</td>
+									<td>
+										<?= $demande['categorie'] ?>
+									</td>
+									<td>
+										<?= $demande['ville'] ?>
+									</td>
+									<td>
+										<?= $demande['code_postal'] ?>
+									</td>
+									<td><a class="table-link" id="btn-edit-client-<?= $demande['id_demande'] ?>" href="/auth/climatisation/edit/id/<?= $demande['id_demande'] ?>" style="cursor: pointer;">
+											<span class="fa-stack">
+												<i class="fa fa-square fa-stack-2x"></i>
+												<i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+											</span>
 										</a>
-										
-								</td>
+									</td>
+
+									<td>
+										<a class="table-link" href="/auth/climatisation/pdf/id/<?= $demande['id_demande'] ?>" style="cursor: pointer;">
+											<i class="fa fa-eye" title="Créer Pdf"></i>
+										</a>
+									</td>
 								</tr>
-								<?php endforeach;?>
+							<?php endforeach; ?>
 							</tbody>
 						</table>
 					</div>
 				</div>
-
 			</div>
 		</div>
 	</div>
 </div>
-<script type="text/javascript">
-$(document).ready(function() {
-	//Appel de la fonction des notifications
-	ajaxNotifs();
-	//chargement des notification après 1 s
-	setInterval(ajaxNotifs, 50000);
-	
-	//DATATABE clients 
-	table = $('#table-clients').dataTable({
-		'info': false,
-		 'oLanguage': {
-	        sProcessing: "<i style='font-size:50px;color:#6A6E9B' class='fa fa-spinner fa-spin'></i> Chargement en cours ..."
-	     },
-	     'lengthMenu': [10,20,50,100],
-	     "scrollY": "500px",
-	     "jQueryUI": true,
-		'sDom': 'lTfr<"clearfix">tip',
-		'oTableTools': {
-			'aButtons': []
-                  } ,        
-	   	  "paging": false,
-	   	  "ordering":true,
-	   	  "processing":true,
-	   	  "searching":true
-	});
-	
-		
-	//charger les notifications
-		function ajaxNotifs() {
-					$.ajax({
-						url : "/auth/climatisation/notification/",
-						 success : function(data){
-							$('#notif').html(data); 
-							// on veut ajouter les nouveaux messages au début du bloc #messages
-							}
-						});	
-		};
+<script>
 
-});
+	// Long polling notification data
+	function getNotifications(lastCount=-1) {
+		$.ajax({
+			url: '/auth/climatisation/notification?count=' + lastCount,
+			dataType: 'json',
+			async: true,
+			cache: false,
+			timeout: 50000,
+			success: function (data) {
+				if (data.html) {
+					lastCount = data.count;
+					$('#notif').html(data.html);
+				}
+			},
+			complete: function () {
+
+				// wait before you retry
+				setTimeout(function () {
+					getNotifications(lastCount)
+				}, 5000);
+			}
+		});
+	}
+
+
+	$(function () {
+
+		// Loading notifications
+		getNotifications();
+
+
+		// DataTable setup
+		$('#jobs-table').dataTable({
+			'info': false,
+			'oLanguage': {
+				sProcessing: '<i style="font-size:50px;color:#6A6E9B" class="fa fa-spinner fa-spin"></i> Chargement en cours ...'
+			},
+			"jQueryUI": true,
+			'sDom': 'lTfr<"clearfix">tip',
+			'oTableTools': {
+				'aButtons': []
+			},
+			"paging": false,
+			"ordering": true,
+			"processing": true,
+			"searching": true
+		});
+
+		//$('.job-link').on('click', function (e) {
+		//	e.preventDefault();
+		//	const url = $(this).data('url');
+		//	$('#Content').html('<div style="text-align: center"><i style="font-size:50px;color:#6A6E9B" class="fa fa-spinner fa-spin"></i> Chargement en cours ...veuillez patientez</div>');
+//
+		//	$.get(url, function (data) {
+		//		$('#Content').html(data)
+		//	})
+		//})
+	});
+
 </script>

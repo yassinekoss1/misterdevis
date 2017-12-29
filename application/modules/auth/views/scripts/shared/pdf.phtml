@@ -15,7 +15,7 @@
 	</tr>
 	<tr>
 		<td style="font-size: 27px"><strong>Email: </strong> <?= $this->demande->id_particulier->email; ?></td>
-		<td style="font-size: 27px"><?= $this->demande->id_chantier->ville; ?> - <?= $this->demande->id_chantier->code_postal; ?></td>
+		<td style="font-size: 27px"><?= $this->demande->id_chantier->zone->ville; ?> - <?= $this->demande->id_chantier->zone->code; ?></td>
 	</tr>
 </table>
 <div style="line-height: 2px;">&nbsp;</div>
@@ -154,6 +154,34 @@
 
 	<?php endif; ?>
 	<!-- END FENETRE -->
+
+	<!-- CLIMATISATION -->
+	<?php if ($this->demande->id_activite->libelle === 'CLIMATISATION'): ?>
+
+		<?php if ($this->qualification->nbre_piece): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Nombre de pièces à Climatiser et à Chauffer</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->nbre_piece; ?></td>
+			</tr>
+		<?php endif; ?><?php if ($this->qualification->surface_climatisation !== null): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Surface totale à Climatiser et à Chauffer</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->surface_climatisation; ?></td>
+			</tr>
+		<?php endif; ?><?php if ($this->qualification->accord_copropriete !== null): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Accord copropriètè</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->accord_copropriete ? 'Oui' : 'Non'; ?></td>
+			</tr>
+		<?php endif; ?><?php if ($this->qualification->hauteur_plafond): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Hauteur sous plafond</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->hauteur_plafond; ?> m</td>
+			</tr>
+		<?php endif; ?>
+
+	<?php endif; ?>
+	<!-- END CLIMATISATION -->
 
 
 	<!-- CUISINE -->

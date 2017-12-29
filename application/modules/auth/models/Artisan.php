@@ -22,6 +22,24 @@ class Auth_Model_Artisan {
   private $id_artisan;
 
   /**
+   * @var integer $id_zone
+   *
+   * @Column(name="ID_ZONE", type="integer", length=20, nullable=false)
+   */
+  private $id_zone;
+
+
+  /**
+   * @var Zone
+   *
+   * @ManyToOne(targetEntity="Auth_Model_Zone")
+   * @JoinColumns({
+   *   @JoinColumn(name="ID_ZONE", referencedColumnName="ID_ZONE")
+   * })
+   */
+  private $zone;
+
+  /**
    * @var string $code_artisan
    *
    * @Column(name="CODE_ARTISAN", type="string", length=50, nullable=false)
@@ -86,13 +104,6 @@ class Auth_Model_Artisan {
   private $rcs;
 
   /**
-   * @var string $ville
-   *
-   * @Column(name="VILLE", type="string", length=200, nullable=false)
-   */
-  private $ville;
-
-  /**
    * @var string $siret
    *
    * @Column(name="SIRET", type="string", length=200, nullable=false)
@@ -126,13 +137,6 @@ class Auth_Model_Artisan {
    * @Column(name="ADRESSE2", type="boolean",  nullable=false)
    */
   private $adresse2;
-
-  /**
-   * @var string $code_postal
-   *
-   * @Column(name="CODE_POSTAL", type="string", length=200,  nullable=false)
-   */
-  private $code_postal;
 
   /**
    * @var string $description
@@ -207,6 +211,24 @@ class Auth_Model_Artisan {
   public function getId_artisan() {
 
     return $this->id_artisan;
+  }
+
+
+  /**
+   * @return the $id_zone
+   */
+  public function getId_zone() {
+
+    return $this->id_zone;
+  }
+
+
+  /**
+   * @return the $zone
+   */
+  public function getZone() {
+
+    return $this->zone;
   }
 
 
@@ -292,15 +314,6 @@ class Auth_Model_Artisan {
 
 
   /**
-   * @return the $ville
-   */
-  public function getVille() {
-
-    return $this->ville;
-  }
-
-
-  /**
    * @return the $siret
    */
   public function getSiret() {
@@ -346,15 +359,6 @@ class Auth_Model_Artisan {
 
 
   /**
-   * @return the $code_postal
-   */
-  public function getCode_postal() {
-
-    return $this->code_postal;
-  }
-
-
-  /**
    * @return the $description
    */
   public function getDescription() {
@@ -378,6 +382,24 @@ class Auth_Model_Artisan {
   public function setId_artisan($id_artisan) {
 
     $this->id_artisan = $id_artisan;
+  }
+
+
+  /**
+   * @param integer $id_zone
+   */
+  public function setId_zone($id_zone) {
+
+    $this->id_zone = $id_zone;
+  }
+
+
+  /**
+   * @param Zone $zone
+   */
+  public function setZone($zone) {
+
+    $this->zone = $zone;
   }
 
 
@@ -463,15 +485,6 @@ class Auth_Model_Artisan {
 
 
   /**
-   * @param string $ville
-   */
-  public function setVille($ville) {
-
-    $this->ville = $ville;
-  }
-
-
-  /**
    * @param string $siret
    */
   public function setSiret($siret) {
@@ -513,15 +526,6 @@ class Auth_Model_Artisan {
   public function setAdresse2($adresse2) {
 
     $this->adresse2 = $adresse2;
-  }
-
-
-  /**
-   * @param string $code_postal
-   */
-  public function setCode_postal($code_postal) {
-
-    $this->code_postal = $code_postal;
   }
 
 

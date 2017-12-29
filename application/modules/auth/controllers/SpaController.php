@@ -80,13 +80,9 @@ class Auth_SpaController extends Zend_Controller_Action {
     // Load demande;
     $demande = $em->getRepository('Auth_Model_Demandedevis')->find($id);
 
-    // check if a notificaiton email has been sent
-    $notificationSent = $demande->getPublier_envoi();
-
 
     // Check inf the data is there or redirect to listing
     if (!$demande || $demande->id_activite->libelle !== 'SPA') $this->_redirect('/auth/spa');
-
 
     // Initializing the forms
     $form = new Zend_Form();
@@ -97,16 +93,10 @@ class Auth_SpaController extends Zend_Controller_Action {
       'form_particulier' => new Auth_Form_Particulier,
     ]);
 
-    // Load zones
-    $zones = $em->getRepository('Auth_Model_Zone')->getArray();
-
+    $form->form_chantier->code_postal->setAttrib('autocomplete', 'off');
 
     // Load qualification
     $qualification = $em->getRepository('Auth_Model_Spa')->findOneBy(['id_demande' => $id]);
-
-
-    // Set the default values
-    $form->form_chantier->id_zone->setMultiOptions($zones);
 
     $form->setDefaults([
       'Demande'     => $demande ? $demande->toArray() : null,
@@ -115,18 +105,25 @@ class Auth_SpaController extends Zend_Controller_Action {
       'Spa'         => $qualification ? $qualification->toArray() : null,
     ]);
 
-    $form->form_chantier->setDefault('id_zone', $demande->id_chantier ? $demande->id_chantier->id_zone->id_zone : '');
-
+    $form->form_chantier->setDefaults(['code_postal' => $demande->id_chantier->zone->code]);
 
     // Proccess the posted data;
     if ($this->getRequest()->isPost()) {
       $data = $this->getRequest()->getPost();
-      if ($form->isValid($data)) {
+      $zone = $em->getRepository('Auth_Model_Zone')->findOneBy(['code' => $data['Chantier']['code_postal']]);
 
+      $valid = $form->isValid($data);
+
+      if (!$zone)
+        $form->form_chantier->code_postal->setAttribs(['class' => 'has-error']);
+
+
+      if ($valid && $zone !== null) {
 
         // We will send an email
         $sendEmail = false;
 
+        $data['Chantier']['id_zone'] = $zone->getId_zone();
         if ($data['Demande']['publier_en_ligne']) {
           $sendEmail = !((bool)$demande->getPublier_envoi());
           $data['Demande']['publier_envoi'] = true;
@@ -148,7 +145,7 @@ class Auth_SpaController extends Zend_Controller_Action {
             // Fetching the artisans concerned with this demande
             $artisans = $em->getRepository('Auth_Model_Artisan')->findListEmail(
               $demande->getId_activite()->getId_activite(),
-              $demande->getId_chantier()->getId_zone()->getId_zone()
+              $demande->getId_chantier()->getId_zone()
             );
 
             // Sending the email to the artisans
@@ -178,14 +175,9 @@ class Auth_SpaController extends Zend_Controller_Action {
             $mail->send();
           }
 
-          // Reset the form values
-          $form->setDefaults([
-            'Demande'     => $qualification->id_demande ? $qualification->id_demande->toArray() : null,
-            'Particulier' => $qualification->id_demande->id_particulier ? $qualification->id_demande->id_particulier->toArray() : null,
-            'Chantier'    => $qualification->id_demande ? $qualification->id_demande->id_chantier->toArray() : null,
-            'Spa'         => $qualification ? $qualification->toArray() : null,
-          ]);
-          $form->form_chantier->setDefault('id_zone', $qualification->id_demande->id_chantier ? $qualification->id_demande->id_chantier->id_zone->id_zone : '');
+          $_SESSION['flash'] = "La mise à jour a été effectuée avec success";
+          $this->getResponse()->setRedirect('/auth/spa');
+
         }
 
 
@@ -200,7 +192,6 @@ class Auth_SpaController extends Zend_Controller_Action {
     $this->view->form = $form;
     $this->view->id = $id;
     $this->view->qualification = $qualification;
-
   }
 
 

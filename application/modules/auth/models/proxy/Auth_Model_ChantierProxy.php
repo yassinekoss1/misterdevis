@@ -64,22 +64,16 @@ class Auth_Model_ChantierProxy extends \Auth_Model_Chantier implements \Doctrine
         return parent::getAdresse2();
     }
 
-    public function getVille()
-    {
-        $this->__load();
-        return parent::getVille();
-    }
-
-    public function getCode_postal()
-    {
-        $this->__load();
-        return parent::getCode_postal();
-    }
-
     public function getId_zone()
     {
         $this->__load();
         return parent::getId_zone();
+    }
+
+    public function getZone()
+    {
+        $this->__load();
+        return parent::getZone();
     }
 
     public function setId_chantier($id_chantier)
@@ -100,28 +94,22 @@ class Auth_Model_ChantierProxy extends \Auth_Model_Chantier implements \Doctrine
         return parent::setAdresse2($adresse2);
     }
 
-    public function setVille($ville)
-    {
-        $this->__load();
-        return parent::setVille($ville);
-    }
-
-    public function setCode_postal($code_postal)
-    {
-        $this->__load();
-        return parent::setCode_postal($code_postal);
-    }
-
     public function setId_zone($id_zone)
     {
         $this->__load();
         return parent::setId_zone($id_zone);
     }
 
+    public function setZone($zone)
+    {
+        $this->__load();
+        return parent::setZone($zone);
+    }
+
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id_chantier', 'adresse', 'adresse2', 'ville', 'code_postal', 'id_zone');
+        return array('__isInitialized__', 'id_chantier', 'adresse', 'adresse2', 'id_zone', 'zone');
     }
 
     public function __clone()

@@ -39,6 +39,12 @@
 			<div class="main-box-body clearfix">
 				<div class="col-md-12">
 					<div class="table-responsive" style="overflow: hidden;">
+						<?php if ($_SESSION['flash']): ?>
+							<div class="alert alert-success ">
+								<?= $_SESSION['flash'];
+								$_SESSION['flash'] = null; ?>
+							</div>
+						<?php endif; ?>
 						<table id="jobs-table" class="table table-hover user-list">
 							<thead>
 							<tr>

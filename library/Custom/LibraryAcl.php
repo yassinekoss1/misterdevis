@@ -68,7 +68,7 @@ class Custom_LibraryAcl extends Zend_Acl {
     $this->allow('auth', 'auth:sallebain');
     $this->allow('auth', 'auth:sauna');
     $this->allow('auth', 'auth:spa');
-    $this->allow('guests', 'auth:user');
+    $this->allow('auth', 'auth:user');
 
     // -------  >> module Admin  << -------
     $this->allow('auth', 'admin:index');

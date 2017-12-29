@@ -26,7 +26,7 @@
 									Tableau de bord</a></li>
 							<li><a class="current" style="cursor: pointer;">
 									<i class="fa fa-files-o"></i>
-									Nouveau utilisateur</a>
+									Profile utilisateur</a>
 							</li>
 						</ul>
 					</div>
@@ -34,7 +34,7 @@
 				<!-- end breadcumbs -->
 			</header>
 			<div class="main-box-body clearfix">
-				<form action="/auth/user/add" method="POST" class="must-validate" id="form_add_user" novalidate>
+				<form action="/auth/user/profile/id/<?=$this->user->id_user;?>" method="POST" class="must-validate" id="form_add_user" novalidate>
 					
 					<div class="panel-group accordion" id="user-form">
 						<div class="panel panel-default">
@@ -52,7 +52,7 @@
 											<label for="lastname_user">NOM UTILISATEUR *:</label> <input
 												type="text" name="LASTNAME_USER"
 												placeholder="Nom utilisateur" id="LASTNAME_USER"
-												class="form-control"> <span id="help-block-LASTNAME_USER"
+												class="form-control" value="<?=$this->user->lastname_user;?>"> <span id="help-block-LASTNAME_USER"
 												style="display: none;" class="help-block"><i
 												class="icon-remove-sign"></i> Le nom utilisateur est obligatoire</span>
 										</div>
@@ -60,7 +60,7 @@
 											<label for="firstname_user">PRENOM UTILISATEUR  *:</label> <input
 												type="text" name="FIRSTNAME_USER"
 												placeholder="Prénom utilisateur" id="FIRSTNAME_USER"
-												class="form-control"><span id="help-block-FIRSTNAME_USER"
+												class="form-control" value="<?=$this->user->firstname_user;?>"><span id="help-block-FIRSTNAME_USER"
 												style="display: none;" class="help-block"><i
 												class="icon-remove-sign"></i> Le Nom est obligatoire</span> 
 										</div>
@@ -69,21 +69,10 @@
 											<label for="email_user">E-MAIL  *:</label> <input
 												type="text" name="EMAIL_USER"
 												placeholder="E-Mail" id="EMAIL_USER"
-												class="form-control"><span id="help-block-EMAIL_USER"
+												class="form-control" value="<?=$this->user->email_user;?>"><span id="help-block-EMAIL_USER"
 												style="display: none;" class="help-block"><i
 												class="icon-remove-sign"></i> L'E-MAIL est obligatoire</span> 
 										</div>
-							
-										<div class="form-group">
-											<label>STATUS:</label> <select class="form-control"
-												name="ISACTIVE_USER" id="ISACTIVE_USER">
-												<option value=1>Actif</option>
-												<option value=0>Inactif</option>
-												
-											</select>
-										</div>
-							
-						
 									</div>
 
 								</div>
@@ -108,19 +97,17 @@
 													 :</label> <input type="text"
 													id="LOGIN_USER"
 													placeholder="Identifiant"
-													class="form-control" name="LOGIN_USER" ><span id="help-block-LOGIN_USER"
+													class="form-control" name="LOGIN_USER" value="<?=$this->user->login_user;?>"><span id="help-block-LOGIN_USER"
 													style="display: none;" class="help-block"><i
 													class="icon-remove-sign"></i> L'Identifiant  est obligatoire</span> 
 											</div>
 											
 											<div id="form-group-PASSWORD_USER" class="form-group">
-												<label for="password">MOT DE PASSE *
+												<label for="password">NOUVEAU MOT DE PASSE *
 													 :</label> <input type="password"
 													id="PASSWORD_USER"
 													placeholder="Mot de passe"
-													class="form-control" name="PASSWORD_USER" ><span id="help-block-PASSWORD_USER"
-													style="display: none;" class="help-block"><i
-													class="icon-remove-sign"></i> Le mot de passe  est obligatoire</span> 
+													class="form-control" name="PASSWORD_USER" >
 											</div>
 											
 											<div id="form-group-PASSWORDCONFIRM" class="form-group">
@@ -195,11 +182,7 @@ $(document).ready(function() {
 				validate=false;
 			}
 			
-			if($('#PASSWORD_USER').val()==''){
-				$('#form-group-PASSWORD_USER').addClass( "has-error" );
-				$('#help-block-PASSWORD_USER').show();
-				validate=false;
-			}else if($('#PASSWORD_USER').val()!=$('#PASSWORDCONFIRM').val()){
+			if($('#PASSWORD_USER').val()!='' && $('#PASSWORD_USER').val()!=$('#PASSWORDCONFIRM').val()){
 				$('#form-group-PASSWORDCONFIRM').addClass( "has-error" );
 				$('#help-block-PASSWORDCONFIRM').show();
 				validate=false;
@@ -217,7 +200,6 @@ $(document).ready(function() {
 			}
 
 		});
-		
 		
 	//
 });

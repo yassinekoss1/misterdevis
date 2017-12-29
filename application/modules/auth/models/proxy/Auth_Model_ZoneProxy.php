@@ -52,10 +52,16 @@ class Auth_Model_ZoneProxy extends \Auth_Model_Zone implements \Doctrine\ORM\Pro
         return parent::getId_zone();
     }
 
-    public function getLibelle()
+    public function getVille()
     {
         $this->__load();
-        return parent::getLibelle();
+        return parent::getVille();
+    }
+
+    public function getCode()
+    {
+        $this->__load();
+        return parent::getCode();
     }
 
     public function setId_zone($id_zone)
@@ -64,16 +70,22 @@ class Auth_Model_ZoneProxy extends \Auth_Model_Zone implements \Doctrine\ORM\Pro
         return parent::setId_zone($id_zone);
     }
 
-    public function setLibelle($libelle)
+    public function setVille($ville)
     {
         $this->__load();
-        return parent::setLibelle($libelle);
+        return parent::setVille($ville);
+    }
+
+    public function setCode($code)
+    {
+        $this->__load();
+        return parent::setCode($code);
     }
 
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id_zone', 'libelle');
+        return array('__isInitialized__', 'id_zone', 'ville', 'code');
     }
 
     public function __clone()

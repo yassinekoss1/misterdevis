@@ -1,3 +1,4 @@
+<link href="<?= $this->baseUrl('resources_fo_ehcg/css/jquery.autocomplete.css'); ?>" rel="stylesheet" type="text/css">
 <style>
 	#error-notif {
 		color: red:
@@ -11,7 +12,33 @@
 	.form-group.has-error .help-block {
 		display: block;
 	}
+
+	.autocomplete-suggestion {
+		padding: 4px 8px;
+		cursor: pointer;
+		border-bottom: 1px solid #CCC;
+		-webkit-transition: background-color .4s;
+		-moz-transition: background-color .4s;
+		-ms-transition: background-color .4s;
+		-o-transition: background-color .4s;
+		transition: background-color .4s;
+	}
+
+	.autocomplete-suggestion:nth-child(odd) {
+		background-color: #EEE;
+	}
+
+	.autocomplete-suggestion:hover {
+		background-color: #DDD;
+	}
+
+	.autocomplete-suggestion small {
+		display: block;
+		font-size: 12px;
+	}
 </style>
+<script type="text/javascript" src="<?= $this->baseUrl('resources_fo_ehcg/js/jquery.autocomplete.min.js'); ?>"></script>
+
 <div class="row">
 	<div class="col-md-12">
 		<div class="main-box clearfix">
@@ -21,12 +48,12 @@
 					<div class="col-md-12">
 						<ul id="breadcrumbs-two">
 							<li>
-								<a href="/auth/dashboard">
+								<a href="/<?= Zend_Registry::get('Zend_Locale')->getLanguage(); ?>/fo/Job/dashboard">
 									<i class="fa fa-home"></i>
 									Tableau de bord</a></li>
 							<li><a class="current" style="cursor: pointer;">
 									<i class="fa fa-files-o"></i>
-									Qualification Chauffage</a>
+									Qualification Climatisation</a>
 							</li>
 						</ul>
 					</div>
@@ -34,8 +61,8 @@
 				<!-- end breadcumbs -->
 			</header>
 			<div class="main-box-body clearfix">
-				<form action="/auth/climatisation/edit/id_demande/<?= $this->id_demande ?>" method="POST" class="must-validate" id="form_add_climatisation" novalidate>
-					
+				<form action="/auth/climatisation/edit/id/<?= $this->id; ?>" method="POST" class="must-validate" novalidate>
+
 					<div class="panel-group accordion" id="qualification-form">
 						<div class="panel panel-default">
 							<div class="panel-heading">
@@ -47,94 +74,64 @@
 							</div>
 							<div id="client-info-collapse" class="panel-collapse collapse in">
 								<div class="panel-body row">
-									<div class="col-md-6">
-										<div id="form-group-TITRE_DEMANDE" class="form-group">
-											<label for="titledemande">Titre de la demande *:</label>
-											<input type="text" name="TITRE_DEMANDE" placeholder="Titre de la demande" id="TITRE_DEMANDE" class="form-control" value="<?= $this->demandedevis[0]['titre_demande'] ?>">
-											<span id="help-block-TITRE_DEMANDE" style="display: none;" class="help-block">
-												<i class="icon-remove-sign"></i>
-												Le titre de la demande est obligatoire
-											</span>
+									<div class="col-md-12">
+										<div class="col-md-6">
+											<?= $this->form->form_particulier->civilite; ?>
 										</div>
-										<div id="form-group-NOM_PARTICULIER" class="form-group">
-											<label for="nomParticulier">Nom *:</label>
-											<input type="text" name="NOM_PARTICULIER" placeholder="Nom" id="NOM_PARTICULIER" class="form-control" value="<?= $this->demandedevis[0]['nom_particulier'] ?>">
-											<span id="help-block-NOM_PARTICULIER" style="display: none;" class="help-block">
-												<i class="icon-remove-sign"></i>
-												Le Nom est obligatoire
-											</span>
+										<div class="col-md-6">
+											<?= $this->form->form_demande->titre_demande; ?>
 										</div>
-
-										<div id="form-group-TELEPHONE_PORTABLE" class="form-group">
-											<label for="telephonePortable">PORTABLE *:</label>
-											<input type="text" name="TELEPHONE_PORTABLE" placeholder="Portable" id="TELEPHONE_PORTABLE" class="form-control" value="<?= $this->demandedevis[0]['telephone_portable'] ?>">
-											<span id="help-block-TELEPHONE_PORTABLE" style="display: none;" class="help-block">
-												<i class="icon-remove-sign"></i>
-												Le Portable est obligatoire
-											</span>
-										</div>
-
-										<div id="form-group-EMAIL" class="form-group">
-											<label for="email">E-MAIL *:</label>
-											<input type="text" name="EMAIL" placeholder="E-Mail" id="EMAIL" class="form-control" value="<?= $this->demandedevis[0]['email'] ?>">
-											<span id="help-block-EMAIL" style="display: none;" class="help-block">
-												<i class="icon-remove-sign"></i>
-												L'E-MAIL est obligatoire
-											</span>
-										</div>
-
-										<div class="form-group">
-											<label>Type de travaux:</label>
-											<select class="form-control" name="TYPE_TRAVAUX" id="TYPE_TRAVAUX">
-												<option value="Installation neuve">Installation neuve</option>
-												<option value="Remplacement">Remplacement</option>
-												<option value="Réparation">Réparation</option>
-												<option value="Autre">Autre</option>
-
-											</select>
-										</div>
-
-										<div class="form-group">
-											<label for="description">Description :</label>
-											<textarea class="form-control" id="DESCRIPTION" name="DESCRIPTION" rows="3"><?= $this->demandedevis[0]['description'] ?></textarea>
-										</div>
-
 									</div>
-									<div class="col-md-6">
-										<div id="form-group-HORAIRERDV" class="form-group">
-											<label for="horaireRDV">Horaire RDV :</label>
-											<input type="text" name="HORAIRERDV" placeholder="Horaire RDV" id="HORAIRERDV" class="form-control" value="<?= $this->demandedevis[0]['horaireRDV'] ?>">
+
+									<div class="col-md-12">
+
+										<div class="col-md-6">
+											<?= $this->form->form_particulier->nom_particulier; ?>
 										</div>
-										<div id="form-group-PRENOM_PARTICULIER" class="form-group">
-											<label for="prenomParticulier">Prénom *:</label>
-											<input type="text" name="PRENOM_PARTICULIER" placeholder="Prénom" id="PRENOM_PARTICULIER" class="form-control" value="<?= $this->demandedevis[0]['prenom_particulier'] ?>">
-											<span id="help-block-PRENOM_PARTICULIER" style="display: none;" class="help-block">
-												<i class="icon-remove-sign"></i>
-												Le Prénom est obligatoire
-											</span>
+										<div class="col-md-6">
+											<?= $this->form->form_particulier->prenom_particulier; ?>
 										</div>
-
-
-										<div id="form-group-TELEPHONE_FIXE" class="form-group">
-											<label for="telephoneFixe">TELEPHONE FIXE :</label>
-											<input type="text" name="TELEPHONE_FIXE" placeholder="Téléphone Fixe" id="TELEPHONE_FIXE" class="form-control" value="<?= $this->demandedevis[0]['telephone_fixe'] ?>">
-										</div>
-
-										<div class="form-group">
-											<label>Délai Souaité:</label>
-											<select class="form-control" name="DELAI_SOUHAITE" id="DELAI_SOUHAITE">
-												<option value="Au plus vite">Au plus vite</option>
-												<option value="Dans moins de deux semaines">Dans moins de deux semaines</option>
-												<option value="Dans moins d'un mois">Dans moins d'un mois</option>
-												<option value="Dans moins d'un mois">Dans moins d'un mois</option>
-												<option value="Plus de six mois">Plus de six mois</option>
-												<option value="Pas de date fixée">Pas de date fixée</option>
-
-											</select>
-										</div>
-
-
 									</div>
+
+									<div class="col-md-12">
+										<div class="col-md-6">
+											<?= $this->form->form_particulier->telephone_portable; ?>
+
+										</div>
+										<div class="col-md-6">
+											<?= $this->form->form_particulier->telephone_fixe; ?>
+										</div>
+									</div>
+
+									<div class="col-md-12">
+										<div class="col-md-6">
+											<?= $this->form->form_particulier->email; ?>
+
+										</div>
+										<div class="col-md-6">
+											<?= $this->form->form_demande->delai_souhaite; ?>
+										</div>
+									</div>
+
+									<div class="col-md-12">
+										<div class="col-md-6">
+											<?= $this->form->form_particulier->email; ?>
+
+										</div>
+										<div class="col-md-6">
+											<?= $this->form->form_demande->delai_souhaite; ?>
+										</div>
+									</div>
+
+									<div class="col-md-12">
+										<div class="col-md-6">
+											<?= $this->form->form_demande->description; ?>
+										</div>
+										<div class="col-md-6">
+											<?= $this->form->form_particulier->horaireRDV; ?>
+										</div>
+									</div>
+
 								</div>
 							</div>
 						</div>
@@ -142,67 +139,33 @@
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<h4 class="panel-title">
-									<a class="accordion-toggle" data-toggle="collapse" data-parent="#qualification-form" href="#chantier-info-collapse">
+									<a class="accordion-toggle" data-toggle="collapse" data-parent="#qualification-form" href="#address-info-collapse">
 										<i class="fa fa-file-text-o"></i>
-										Chantier</a>
+										Adresse du chantier</a>
 								</h4>
 							</div>
-							<div id="chantier-info-collapse" class="panel-collapse collapse in">
-								<div class="panel-body row">
-									<div class="col-md-6">
-										<div class="panel panel-default">
-
-											<div id="form-group-ADRESSE" class="form-group">
-												<label for="adresse">Adresse Postale * :</label>
-												<input type="text" id="ADRESSE" placeholder="Adresse Postale" class="form-control" name="ADRESSE" value="<?= $this->demandedevis[0]['adresse'] ?>">
-												<span id="help-block-ADRESSE" style="display: none;" class="help-block">
-													<i class="icon-remove-sign"></i>
-													L'adresse postale est obligatoire
-												</span>
+							<div id="address-info-collapse" class="panel-collapse collapse in">
+								<div class="panel-body">
+									<div class="panel panel-default row">
+										<div class="col-md-12">
+											<div class="col-md-6">
+												<?= $this->form->form_chantier->adresse; ?>
 											</div>
-
-											<div id="form-group-VILLE" class="form-group">
-												<label for="ville">Ville * :</label>
-												<input type="text" id="VILLE" placeholder="Ville" class="form-control" name="VILLE" value="<?= $this->demandedevis[0]['ville'] ?>">
-												<span id="help-block-VILLE" style="display: none;" class="help-block">
-													<i class="icon-remove-sign"></i>
-													La Ville est obligatoire
-												</span>
+											<div class="col-md-6">
+												<?= $this->form->form_chantier->adresse2; ?>
 											</div>
-
-											<div class="form-group">
-												<label>Zone :</label>
-												<select class="form-control" name="ID_ZONE" id="ID_ZONE">
-													<?php foreach ($this->zones as $z): ?>
-														<option value="<?= $z->id_zone ?>"><?= $z->libelle ?></option>
-													<?php endforeach; ?>
-
-												</select>
-											</div>
-
-										</div>
-									</div>
-
-									<div class="col-md-6">
-										<div id="form-group-adresse2" class="form-group">
-											<label for="adresse">Adresse 2 :</label>
-											<input type="text" id="ADRESSE2" placeholder="Adresse 2" class="form-control" name="ADRESSE2" value="<?= $this->demandedevis[0]['adresse2'] ?>">
 										</div>
 
-										<div id="form-group-CODE_POSTAL" class="form-group">
-											<label for="code_postal">Code Postal *:</label>
-											<input type="text" name="CODE_POSTAL" placeholder="Code Postal" id="CODE_POSTAL" class="form-control" value="<?= $this->demandedevis[0]['code_postal'] ?>">
-											<span id="help-block-CODE_POSTAL" style="display: none;" class="help-block">
-												<i class="icon-remove-sign"></i>
-												Le Code Postal est obligatoire
-											</span>
+										<div class="col-md-12">
+											<div class="col-md-6">
+												<?= $this->form->form_chantier->code_postal ?>
+											</div>
 										</div>
-
 									</div>
 								</div>
 							</div>
 						</div>
-						
+
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<h4 class="panel-title">
@@ -213,185 +176,55 @@
 							</div>
 							<div id="qualif-info-collapse" class="panel-collapse collapse in">
 								<div class="panel-body">
-									<div class="col-md-6">
-										<div class="form-group">
-											<label>Vous êtes:</label>
-											<select class="form-control" name="TYPE_DEMANDEUR" id="TYPE_DEMANDEUR">
-												<option label="Particulier" value="Particulier" selected="selected">Particulier</option>
-												<option label="Société" value="Societe">Société</option>
-												<option label="Commerçant" value="Commercant">Commerçant</option>
-												<option label="Industriel" value="Industriel">Industriel</option>
-												<option label="Profession Libérale" value="Profession_Liberale">Profession Libérale</option>
-												<option label="Syndic de Copropriété" value="Syndic_de_Copropriete">Syndic de Copropriété</option>
-												<option label="Promoteur" value="Promoteur">Promoteur</option>
-												<option label="Administration" value="Administration">Administration</option>
-												<option label="Association" value="Association">Association</option>
-												<option label="Architecte" value="Architecte">Architecte</option>
-												<option label="Agence immobilière" value="Agence_immobiliere">Agence immobilière</option>
-												<option label="Autre" value="Autre">Autre</option>
-
-											</select>
+									<div class="col-md-12">
+										<div class="col-md-6">
+											<?= $this->form->form_demande->type_demandeur; ?>
 										</div>
-
-										<div class="form-group">
-											<label>Type de Bâtiment:</label>
-											<select class="form-control" name="TYPE_BATIMENT" id="TYPE_BATIMENT">
-												<option label="Appartement" value="Appartement">Appartement</option>
-												<option label="Maison Indviduelle" value="Maison Indviduelle" selected="selected">Maison Indviduelle</option>
-												<option label="Bureau" value="Bureau">Bureau</option>
-												<option label="Commerce" value="Commerce">Commerce</option>
-												<option label="Immeuble" value="Immeuble">Immeuble</option>
-												<option label="Local Industriel" value="Local Industriel">Local Industriel</option>
-												<option label="Usine" value="Usine">Usine</option>
-												<option label="Hotel" value="Hotel">Hotel</option>
-												<option label="Autre" value="Autre">Autre</option>
-
-											</select>
+										<div class="col-md-6">
+											<?= $this->form->form_demande->type_propriete; ?>
 										</div>
-
-										<div class="form-group">
-											<label>Nbre de pièces à climatiser:</label>
-											<input type="text" id="NBRE_PIECE" placeholder="Nbre de pièces à climatiser" class="form-control" name="NBRE_PIECE" value="<?= $this->climatisation->nbre_piece ?>">
-
-											</select>
-										</div>
-
-										<div class="form-group" id="form-group-dimension">
-											<label for="dimension">Hauteur plafond :</label>
-											<input type="text" id="HAUTEUR_PLAFOND" placeholder="Hauteur plafond" class="form-control" name="HAUTEUR_PLAFOND" value="<?= $this->climatisation->hauteur_plafond ?>">
-										</div>
-
-										<div class="form-group" id="form-group-budget">
-											<label for="BUDGET_APPROXIMATIF">Budget Approximatif :</label>
-											<input type="text" id="BUDGET_APPROXIMATIF" placeholder="Budget Approximatif" class="form-control" name="BUDGET_APPROXIMATIF" value="<?= $this->demandedevis[0]['budget_approximatif'] ?>">
-										</div>
-
-										<div class="form-group">
-											<label>Objectif de demande:</label>
-											<select class="form-control" name="OBJECTIF_DEMANDE" id="OBJECTIF_DEMANDE">
-												<option label="Trouver une entreprise disponible" value="Trouver une entreprise disponible">Trouver une entreprise disponible</option>
-												<option label="Obtenir des devis et trouver une entreprise" value="Obtenir des devis et trouver une entreprise" selected="selected">Obtenir des devis et trouver une entreprise</option>
-												<option label="Avoir juste une idée des prix" value="Avoir juste une idée des prix">Avoir juste une idée des prix</option>
-												<option label="Autre" value="3">Autre</option>
-
-											</select>
-										</div>
-
-										<div class="form-group">
-											<label for="indication_complementaire">Indication Complémentaire :</label>
-											<textarea class="form-control" id="INDICATION_COMPLEMENTAIRE" name="INDICATION_COMPLEMENTAIRE" rows="3"><?= $this->demandedevis[0]['indication_complementaire'] ?></textarea>
-										</div>
-
 									</div>
 									<div class="col-md-6">
-										<div class="form-group">
-											<label>Et Vous êtes:</label>
-											<select class="form-control" name="TYPE_PROPRIETE" id="TYPE_PROPRIETE">
-												<option label="Propriétaire Occupant" value="Propriétaire Occupant">Propriétaire Occupant</option>
-												<option label="Propriétaire Bailleur" value="Propriétaire Bailleur">Propriétaire Bailleur</option>
-												<option label="Futur Propriétaire" value="Futur Propriétaire" selected="selected">Futur Propriétaire</option>
-												<option label="Locataire" value="Locataire">Locataire</option>
-												<option label="Future locataire" value="Future locataire">Future locataire</option>
-												<option label="Administrateur" value="Administrateur">Administrateur</option>
-												<option label="Autre" value="Autre">Autre</option>
-
-											</select>
-										</div>
-
-										<div class="form-group">
-											<label>Préstation souhaitée:</label>
-											<select class="form-control" name="PRESTATION_SOUHAITE" id="PRESTATION_SOUHAITE">
-												<option label="Fourniture et Pose" value="Fourniture et Pose">Fourniture et Pose</option>
-												<option label="Fourniture Uniquement" value="Fourniture Uniquement">Fourniture Uniquement</option>
-												<option label="Pose Uniquement" value="Pose Uniquement">Pose Uniquement</option>
-											</select>
-										</div>
-
-										<div class="form-group">
-											<label>Surface à climatiser:</label>
-											<input type="text" id="SURFACE_CLIMATISER" placeholder="Surface à climatiser" class="form-control" name="SURFACE_CLIMATISER" value="<?= $this->climatisation->surface_climatiser ?>">
-										</div>
-
-										<div class="form-group">
-											<label>Accord Copropriété:</label>
-											<select class="form-control" name="ACCORD_COPROPRIETE" id="ACCORD_COPROPRIETE">
-												<option label="NON" value="NON">NON</option>
-												<option label="OUI" value="OUI">OUI</option>
-
-											</select>
-										</div>
-
-										<div class="form-group">
-											<label>Financement de projet:</label>
-											<select class="form-control" name="FINANCEMENT_PROJET" id="FINANCEMENT_PROJET">
-												<option label="Comptant" value="Comptant">Comptant</option>
-												<option label="Demande de crédit en cours" value="Demande de crédit en cours" selected="selected">Demande de crédit en cours</option>
-												<option label="Crédit Obtenu" value="Crédit Obtenu">Crédit Obtenu</option>
-												<option label="Je ne sais pas" value="Je ne sais pas">Je ne sais pas</option>
-
-											</select>
-										</div>
-
-										<div class="form-group">
-											<label>Qualification:</label>
-											<select class="form-control" name="QUALIFICATION" id="QUALIFICATION">
-												<option label="" value=""></option>
-												<option label="Non qualifiée" value="0">Non qualifiée</option>
-												<option label="NRP" value="1">NRP</option>
-												<option label="Occupé" value="2">Occupé</option>
-												<option label="Qualifié" value="3" selected="selected">Qualifié</option>
-												<option label="Trop tard" value="4">Trop tard</option>
-												<option label="Rappel" value="5">Rappel</option>
-
-											</select>
-										</div>
-
+										<?= $this->form->form_qualif->type_batiment; ?>
+										<?= $this->form->form_qualif->nbre_piece; ?>
+										<?= $this->form->form_qualif->hauteur_plafond; ?>
+										<?= $this->form->form_demande->budget_approximatif; ?>
+										<?= $this->form->form_demande->financement_projet; ?>
+										<?= $this->form->form_demande->qualification; ?>
+									</div>
+									<div class="col-md-6">
+										<?= $this->form->form_demande->type_travaux; ?>
+										<?= $this->form->form_demande->prestation_souhaite; ?>
+										<?= $this->form->form_qualif->surface_climatiser; ?>
+										<?= $this->form->form_qualif->budget_approximatif; ?>
+										<?= $this->form->form_demande->objectif_demande; ?>
+										<?= $this->form->form_demande->indication_complementaire; ?>
 									</div>
 								</div>
 							</div>
 						</div>
-						
+
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<h4 class="panel-title">
-									<a class="accordion-toggle" data-toggle="collapse" data-parent="#qualification-form" href="#mise-info-collapse">
+									<a class="accordion-toggle" data-toggle="collapse" data-parent="#qualification-form" href="#online-info-collapse">
 										<i class="fa fa-file-text-o"></i>
-										Mise en ligne</a>
+										Mise en linge</a>
 								</h4>
 							</div>
-							<div id="mise-info-collapse" class="panel-collapse collapse in">
+							<div id="online-info-collapse" class="panel-collapse collapse in">
 								<div class="panel-body">
-									<div class="panel panel-default row">
-										<div class="col-md-6">
-
-											<div class="form-group" id="form-group-prix">
-												<label for="PRIX">Prix :</label>
-												<input type="text" id="PRIX_MISE_EN_LIGNE" placeholder="Prix" class="form-control" name="PRIX_MISE_EN_LIGNE" value="<?= $this->demandedevis[0]['prix_mise_en_ligne'] ?>">
-											</div>
-
-											<div class="form-group" id="form-group-prix_promo">
-												<label for="PRIX_PROMO">Prix Promo :</label>
-												<input type="text" id="PRIX_PROMO" placeholder="Prix Promo" class="form-control" name="PRIX_PROMO" value="<?= $this->demandedevis[0]['prix_promo'] ?>">
-											</div>
-
-										</div>
-										<div class="col-md-6">
-											<div class="form-group">
-												<label>Publier en Ligne:</label>
-												<select class="form-control" name="PUBLIER_EN_LIGNE" id="PUBLIER_EN_LIGNE">
-													<option label="NON" value="0">NON</option>
-													<option label="OUI" value="1">OUI</option>
-
-												</select>
-											</div>
-
-
-										</div>
+									<div class="col-md-6">
+										<?= $this->form->form_demande->prix_mise_en_ligne; ?>
+										<?= $this->form->form_demande->prix_promo; ?>
+									</div>
+									<div class="col-md-6">
+										<?= $this->form->form_demande->publier_en_ligne; ?>
 									</div>
 								</div>
 							</div>
 						</div>
-						
+
 						<div class="row" style="margin-top: 15px">
 							<div class="col-md-12">
 								<div class="pull-right">
@@ -401,7 +234,6 @@
 										Enregistrer
 									</button>
 								</div>
-							
 							</div>
 						</div>
 					</div>
@@ -411,140 +243,73 @@
 	</div>
 </div>
 <script type="text/javascript">
-	var nbclic = 0;
 	$(document).ready(function () {
+		var code_postal = $('#Chantier-code_postal');
 
-		
-		$("#form_add_climatisation").submit(function (event) {
-			var validate = true;
-			//LA VALIDATION
-			$('#form-group-TITRE_DEMANDE').removeClass("has-error");
-			$('#form-group-NOM_PARTICULIER').removeClass("has-error");
-			$('#form-group-TELEPHONE_PORTABLE').removeClass("has-error");
-			$('#form-group-EMAIL').removeClass("has-error");
-			$('#form-group-PRENOM_PARTICULIER').removeClass("has-error");
-			$('#form-group-ADRESSE').removeClass("has-error");
-			$('#form-group-VILLE').removeClass("has-error");
-			$('#form-group-CODE_POSTAL').removeClass("has-error");
-			
-			
-			if ($('#TITRE_DEMANDE').val() == '') {
-				$('#form-group-TITRE_DEMANDE').addClass("has-error");
-				$('#help-block-TITRE_DEMANDE').show();
-				validate = false;
-			}
-			
-			if ($('#NOM_PARTICULIER').val() == '') {
-				$('#form-group-NOM_PARTICULIER').addClass("has-error");
-				$('#help-block-NOM_PARTICULIER').show();
-				validate = false;
-			}
-			
-			if ($('#TELEPHONE_PORTABLE').val() == '') {
-				$('#form-group-TELEPHONE_PORTABLE').addClass("has-error");
-				$('#help-block-TELEPHONE_PORTABLE').show();
-				validate = false;
-			}
-			
-			if ($('#EMAIL').val() == '') {
-				$('#form-group-EMAIL').addClass("has-error");
-				$('#help-block-EMAIL').show();
-				validate = false;
-			}
-			
-			if ($('#PRENOM_PARTICULIER').val() == '') {
-				$('#form-group-PRENOM_PARTICULIER').addClass("has-error");
-				$('#help-block-PRENOM_PARTICULIER').show();
-				validate = false;
-			}
-			
-			if ($('#ADRESSE').val() == '') {
-				$('#form-group-ADRESSE').addClass("has-error");
-				$('#help-block-ADRESSE').show();
-				validate = false;
-			}
-			
-			if ($('#VILLE').val() == '') {
-				$('#form-group-VILLE').addClass("has-error");
-				$('#help-block-VILLE').show();
-				validate = false;
-			}
-			
-			if ($('#CODE_POSTAL').val() == '') {
-				$('#form-group-CODE_POSTAL').addClass("has-error");
-				$('#help-block-CODE_POSTAL').show();
-				validate = false;
-			}
-			
-			if (!validate) {
-				validate = true;
-				return false;
-			}
+		if (code_postal.hasClass('has-error')) {
+			code_postal.next('.help-block').html('Ce code postal n\'est pas valid');
+			code_postal.parents('.form-group').addClass('has-error');
+			code_postal.focus();
+		}
 
+
+		code_postal.autoComplete({
+			minChars: 2,
+			delay: 500,
+			source: function (term, response) {
+				$.getJSON('/auth/index/cities/', {q: term}, function (data) {
+					response(data);
+				});
+			},
+			renderItem: function (item) {
+				return '<div class="autocomplete-suggestion" data-code="' + item.code + '">' + item.ville + '<small>Code postal: ' + item.code + '</small></div>';
+			},
+			onSelect: function (e, term, item) {
+				code_postal.val(item.data('code'));
+				code_postal.parents('.form-group').removeClass('has-error');
+			}
 		});
-		//Peuplement des Select Tags
-		var type_travaux = "<?=$this->climatisation->type_travaux;?>";
-		var delai_souhaite = "<?=$this->demandedevis[0]['delai_souhaite'];?>";
-		var type_demandeur = "<?=$this->demandedevis[0]['type_demandeur'];?>";
-		var type_propriete = "<?=$this->demandedevis[0]['type_propriete'];?>";
-		var type_batiment = "<?=$this->demandedevis[0]['type_batiment'];?>";
-		var prestation_souhaite = "<?=$this->demandedevis[0]['prestation_souhaite'];?>";
-		var financement_projet = "<?=$this->demandedevis[0]['financement_projet'];?>";
-		var objectif_demande = "<?=$this->demandedevis[0]['objectif_demande'];?>";
-		var qualification = "<?=$this->demandedevis[0]['qualification'];?>";
-		var id_zone = "<?=$this->demandedevis[0]['id_zone'];?>";
-		var accord_copropriete = "<?=$this->climatisation->accord_copropriete;?>";
-		var publier = "<?=$this->demandedevis[0]['publier_en_ligne'];?>";
-		
-		if (publier != '') {
-			$('#PUBLIER_EN_LIGNE').val(publier);
-		}
-		
-		if (accord_copropriete != '') {
-			$('#ACCORD_COPROPRIETE').val(accord_copropriete);
-		}
-		
-		if (prestation_souhaite != '') {
-			$('#PRESTATION_SOUHAITE').val(prestation_souhaite);
-		}
-		
-		if (type_travaux != '') {
-			$('#TYPE_TRAVAUX').val(type_travaux);
-		}
-		
-		if (delai_souhaite != '') {
-			$('#DELAI_SOUHAITE').val(delai_souhaite);
-		}
-		
-		if (type_demandeur != '') {
-			$('#TYPE_DEMANDEUR').val(type_demandeur);
-		}
-		
-		if (type_propriete != '') {
-			$('#TYPE_PROPRIETE').val(type_propriete);
-		}
-		
-		if (type_batiment != '') {
-			$('#TYPE_BATIMENT').val(type_batiment);
-		}
-		
-		if (financement_projet != '') {
-			$('#FINANCEMENT_PROJET').val(financement_projet);
-		}
-		
-		if (objectif_demande != '') {
-			$('#OBJECTIF_DEMANDE').val(objectif_demande);
-		}
-		
-		if (qualification != '') {
-			$('#QUALIFICATION').val(qualification);
-		}
-		
-		if (id_zone != '') {
-			$('#ID_ZONE').val(id_zone);
-		}
-		
-		
-		//
+
+
+		$('.must-validate').submit(function () {
+			var isValid = true;
+			$(this).find('[required]').each(function () {
+
+				if (!$(this).val() || $(this).val().trim().length === 0) {
+					$(this).data('dirty', true);
+					$(this).parents('.form-group').addClass('has-error');
+					$(this).parents('.form-group').find('.help-block').show();
+					$(this).focus();
+					isValid = false;
+				} else {
+					$(this).parents('.form-group').removeClass('has-error');
+					$(this).parents('.form-group').find('.help-block').hide();
+				}
+			});
+
+			if (!isValid) $('#error-notif').show();
+			else $('#error-notif').hide();
+			return isValid;
+		});
+
+		$('[required]').on('blur', function () {
+			$(this).data('dirty', true);
+			if (!$(this).val() || $(this).val().trim().length === 0) {
+				$(this).parents('.form-group').addClass('has-error');
+				$(this).parents('.form-group').find('.help-block').show();
+			} else {
+				$(this).parents('.form-group').removeClass('has-error');
+				$(this).parents('.form-group').find('.help-block').hide();
+			}
+		}).on('keyup', function () {
+			if (!$(this).data('dirty')) return;
+			if (!$(this).val() || $(this).val().trim().length === 0) {
+				$(this).parents('.form-group').addClass('has-error');
+				$(this).parents('.form-group').find('.help-block').show();
+			} else {
+				$(this).parents('.form-group').removeClass('has-error');
+				$(this).parents('.form-group').find('.help-block').hide();
+			}
+		});
 	});
 </script>
