@@ -3,17 +3,18 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Dec 27, 2017 at 08:47 PM
+-- Generation Time: Dec 29, 2017 at 10:10 AM
 -- Server version: 5.7.20-0ubuntu0.17.10.1
 -- PHP Version: 5.6.32-1+ubuntu17.10.1+deb.sury.org+2
 
+SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT = @@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS = @@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION = @@COLLATION_CONNECTION */;
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
 --
@@ -28,27 +29,24 @@ SET time_zone = "+00:00";
 
 DROP TABLE IF EXISTS `activite`;
 CREATE TABLE `activite` (
-  `ID_ACTIVITE` BIGINT(20)                           NOT NULL,
-  `LIBELLE`     VARCHAR(200) COLLATE utf8_unicode_ci NOT NULL,
-  `GROUP`       TINYINT(4) DEFAULT NULL
-)
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  `ID_ACTIVITE` bigint(20) NOT NULL,
+  `LIBELLE` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `GROUP` tinyint(4) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `activite`
 --
 
 INSERT INTO `activite` (`ID_ACTIVITE`, `LIBELLE`, `GROUP`) VALUES
-  (1, 'PISCINE', 2),
-  (2, 'CHAUFFAGE', 7),
-  (3, 'FENETRE', NULL),
-  (4, 'CUISINE', 1),
-  (5, 'SALLE BAIN', 3),
-  (6, 'SAUNA HAMMAM', NULL),
-  (7, 'SPA', NULL),
-  (8, 'CLIMATISATION', NULL);
+(1, 'PISCINE', 2),
+(2, 'CHAUFFAGE', 7),
+(3, 'FENETRE', NULL),
+(4, 'CUISINE', 1),
+(5, 'SALLE BAIN', 3),
+(6, 'SAUNA HAMMAM', NULL),
+(7, 'SPA', NULL),
+(8, 'CLIMATISATION', NULL);
 
 -- --------------------------------------------------------
 
@@ -58,29 +56,35 @@ INSERT INTO `activite` (`ID_ACTIVITE`, `LIBELLE`, `GROUP`) VALUES
 
 DROP TABLE IF EXISTS `artisan`;
 CREATE TABLE `artisan` (
-  `ID_ARTISAN`         BIGINT(20)                           NOT NULL,
-  `CODE_ARTISAN`       VARCHAR(200) COLLATE utf8_unicode_ci NOT NULL,
-  `NOM_ARTISAN`        VARCHAR(200) COLLATE utf8_unicode_ci NOT NULL,
-  `PRENOM_ARTISAN`     VARCHAR(200) COLLATE utf8_unicode_ci NOT NULL,
-  `RAISON_SOCIALE`     VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `EMAIL_ARTISAN`      VARCHAR(200) COLLATE utf8_unicode_ci NOT NULL,
-  `TELEPHONE_FIXE`     VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `TELEPHONE_PORTABLE` VARCHAR(200) COLLATE utf8_unicode_ci NOT NULL,
-  `FAX`                VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `RCS`                VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `VILLE`              VARCHAR(200) COLLATE utf8_unicode_ci NOT NULL,
-  `SIRET`              VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `CODE_NAF`           VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `HORAIRERDV`         VARCHAR(200) COLLATE utf8_unicode_ci NOT NULL,
-  `ADRESSE`            VARCHAR(200) COLLATE utf8_unicode_ci NOT NULL,
-  `ADRESSE2`           VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `CODE_POSTAL`        VARCHAR(200) COLLATE utf8_unicode_ci NOT NULL,
-  `DESCRIPTION`        VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `QUALIFICATION`      VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL
-)
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  `ID_ARTISAN` bigint(20) NOT NULL,
+  `CODE_ARTISAN` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `NOM_ARTISAN` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `PRENOM_ARTISAN` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `RAISON_SOCIALE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `EMAIL_ARTISAN` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `TELEPHONE_FIXE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TELEPHONE_PORTABLE` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `FAX` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `RCS` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `VILLE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `SIRET` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `CODE_NAF` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `HORAIRERDV` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `ADRESSE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `ADRESSE2` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `CODE_POSTAL` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `DESCRIPTION` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `QUALIFICATION` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `artisan`
+--
+
+INSERT INTO `artisan` (`ID_ARTISAN`, `CODE_ARTISAN`, `NOM_ARTISAN`, `PRENOM_ARTISAN`, `RAISON_SOCIALE`, `EMAIL_ARTISAN`, `TELEPHONE_FIXE`, `TELEPHONE_PORTABLE`, `FAX`, `RCS`, `VILLE`, `SIRET`, `CODE_NAF`, `HORAIRERDV`, `ADRESSE`, `ADRESSE2`, `CODE_POSTAL`, `DESCRIPTION`, `QUALIFICATION`) VALUES
+(16, NULL, 'Lannister', 'Jamie', 'rs', 'yerratbi@email.com', '061239489', '061234589', NULL, NULL, NULL, NULL, NULL, '16h-18h', NULL, NULL, '10000', NULL, NULL),
+(17, NULL, 'Lannister', 'Cersie', 'rs', 'yerratb.i@email.com', '061239489', '061234589', NULL, NULL, NULL, NULL, NULL, '16h-18h', NULL, NULL, '10000', NULL, NULL),
+(18, NULL, 'Bronn', 'Bronn', 'rs', 'y.erratbi@email.com', '061239489', '061234589', NULL, NULL, NULL, NULL, NULL, '16h-18h', NULL, NULL, '10000', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -90,43 +94,40 @@ CREATE TABLE `artisan` (
 
 DROP TABLE IF EXISTS `chantier`;
 CREATE TABLE `chantier` (
-  `ID_CHANTIER` BIGINT(20)                           NOT NULL,
-  `ID_ZONE`     BIGINT(20)                           NOT NULL,
-  `ADRESSE`     VARCHAR(200) COLLATE utf8_unicode_ci NOT NULL,
-  `ADRESSE2`    VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `VILLE`       VARCHAR(200) COLLATE utf8_unicode_ci NOT NULL,
-  `CODE_POSTAL` VARCHAR(200) COLLATE utf8_unicode_ci NOT NULL
-)
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  `ID_CHANTIER` bigint(20) NOT NULL,
+  `ID_ZONE` bigint(20) NOT NULL,
+  `ADRESSE` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `ADRESSE2` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `VILLE` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `CODE_POSTAL` varchar(200) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `chantier`
 --
 
 INSERT INTO `chantier` (`ID_CHANTIER`, `ID_ZONE`, `ADRESSE`, `ADRESSE2`, `VILLE`, `CODE_POSTAL`) VALUES
-  (22, 1, 'QUARTIER DECHAMPS N°253', 'SYBA', 'PARIS', '75004'),
-  (23, 1, 'Winterfell', 'The north', 'Westros', '66000'),
-  (24, 2, '433 STEWART STREET', '', 'INDIANAPOLIS', '47715'),
-  (25, 2, '433 STEWART STREET', '', 'INDIANAPOLIS', '47715'),
-  (26, 2, '2nd street', 'Derry', 'Maine', '5909'),
-  (27, 1, 'Bushwick Brooklyn, NY', '', 'Brooklyn', '11207'),
-  (28, 2, '22 1b baker street', '', 'london', '2049'),
-  (29, 2, 'Dragonstone', '', 'Westros', '2988'),
-  (37, 2, '433 stewart street', 'kjkk', 'indianapolis', '47715'),
-  (39, 2, '433 stewart street', '', 'indianapolis', '47715'),
-  (45, 2, '433 stewart street', '', 'boujdour', '71000'),
-  (46, 2, '198 lot taalim', '', 'boujdour', '71000'),
-  (47, 2, '433 stewart street', 'adresse 2 here', 'marrakech', '40000'),
-  (48, 2, '433 stewart street', '', 'indianapolis', '47715'),
-  (49, 2, '433 STEWART STREET', '', 'Brooklyn', '11207'),
-  (50, 1, '433 stewart street', '', 'indianapolis', '47715'),
-  (51, 1, '433 STEWART STREET', '433 STEWART STREET', 'INDIANAPOLIS', '47715'),
-  (52, 1, '', '', '', ''),
-  (53, 2, '433 STEWART STREET', '', 'INDIANAPOLIS', '47715'),
-  (54, 2, '198 lot taalim', '', 'boujdour', '71000'),
-  (55, 2, '433 stewart street', '', 'indianapolis', '47715');
+(22, 1, 'QUARTIER DECHAMPS N°253', 'SYBA', 'PARIS', '75004'),
+(23, 1, 'Winterfell', 'The north', 'Westros', '66000'),
+(24, 2, '433 STEWART STREET', '', 'INDIANAPOLIS', '47715'),
+(25, 2, '433 STEWART STREET', '', 'INDIANAPOLIS', '47715'),
+(26, 2, '2nd street', 'Derry', 'Maine', '5909'),
+(27, 1, 'Bushwick Brooklyn, NY', '', 'Brooklyn', '11207'),
+(28, 2, '22 1b baker street', '', 'london', '2049'),
+(29, 2, 'Dragonstone', '', 'Westros', '2988'),
+(37, 2, '433 stewart street', 'kjkk', 'indianapolis', '47715'),
+(39, 2, '433 stewart street', '', 'indianapolis', '47715'),
+(45, 2, '433 stewart street', '', 'boujdour', '71000'),
+(46, 2, '198 lot taalim', '', 'boujdour', '71000'),
+(47, 2, '433 stewart street', 'adresse 2 here', 'marrakech', '40000'),
+(48, 2, '433 stewart street', '', 'indianapolis', '47715'),
+(49, 2, '433 stewart street', '', 'brooklyn', '11207'),
+(50, 1, '433 stewart street', '', 'indianapolis', '47715'),
+(51, 1, '433 STEWART STREET', '433 STEWART STREET', 'INDIANAPOLIS', '47715'),
+(52, 1, '', '', '', ''),
+(53, 2, '433 STEWART STREET', '', 'INDIANAPOLIS', '47715'),
+(54, 2, '198 lot taalim', '', 'boujdour', '71000'),
+(55, 2, '433 stewart street', '', 'indianapolis', '47715');
 
 -- --------------------------------------------------------
 
@@ -136,59 +137,51 @@ INSERT INTO `chantier` (`ID_CHANTIER`, `ID_ZONE`, `ADRESSE`, `ADRESSE2`, `VILLE`
 
 DROP TABLE IF EXISTS `demande_devis`;
 CREATE TABLE `demande_devis` (
-  `ID_DEMANDE`                BIGINT(20) NOT NULL,
-  `ID_PARTICULIER`            BIGINT(20) NOT NULL,
-  `ID_ACTIVITE`               BIGINT(20) NOT NULL,
-  `ID_CHANTIER`               BIGINT(20)                           DEFAULT NULL,
-  `ID_USER`                   BIGINT(20)                           DEFAULT NULL,
-  `TITRE_DEMANDE`             VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `DELAI_SOUHAITE`            VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `DESCRIPTION`               TEXT COLLATE utf8_unicode_ci,
-  `TYPE_DEMANDEUR`            VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `TYPE_PROPRIETE`            VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `TYPE_BATIMENT`             VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `BUDGET_APPROXIMATIF`       VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `FINANCEMENT_PROJET`        VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `OBJECTIF_DEMANDE`          VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `PRESTATION_SOUHAITE`       VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `INDICATION_COMPLEMENTAIRE` TEXT COLLATE utf8_unicode_ci,
-  `QUALIFICATION`             VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `PRIX_MISE_EN_LIGNE`        VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `PRIX_PROMO`                VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `PUBLIER_EN_LIGNE`          VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `CHEMIN_PDF`                VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `DATE_CREATION`             DATETIME   NOT NULL,
-  `DATE_PUBLICATION`          DATETIME                             DEFAULT NULL,
-  `PUBLIER_ENVOI`             TINYINT(1)                           DEFAULT '0'
-)
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  `ID_DEMANDE` bigint(20) NOT NULL,
+  `ID_PARTICULIER` bigint(20) NOT NULL,
+  `ID_ACTIVITE` bigint(20) NOT NULL,
+  `ID_CHANTIER` bigint(20) DEFAULT NULL,
+  `ID_USER` bigint(20) DEFAULT NULL,
+  `TITRE_DEMANDE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `DELAI_SOUHAITE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `DESCRIPTION` text COLLATE utf8_unicode_ci,
+  `TYPE_DEMANDEUR` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TYPE_PROPRIETE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TYPE_BATIMENT` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `BUDGET_APPROXIMATIF` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `FINANCEMENT_PROJET` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `OBJECTIF_DEMANDE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `PRESTATION_SOUHAITE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `INDICATION_COMPLEMENTAIRE` text COLLATE utf8_unicode_ci,
+  `QUALIFICATION` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `PRIX_MISE_EN_LIGNE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `PRIX_PROMO` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `PUBLIER_EN_LIGNE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `CHEMIN_PDF` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `DATE_CREATION` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `DATE_PUBLICATION` datetime DEFAULT NULL,
+  `PUBLIER_ENVOI` tinyint(1) DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `demande_devis`
 --
 
-INSERT INTO `demande_devis` (`ID_DEMANDE`, `ID_PARTICULIER`, `ID_ACTIVITE`, `ID_CHANTIER`, `ID_USER`, `TITRE_DEMANDE`, `DELAI_SOUHAITE`, `DESCRIPTION`, `TYPE_DEMANDEUR`, `TYPE_PROPRIETE`, `TYPE_BATIMENT`, `BUDGET_APPROXIMATIF`, `FINANCEMENT_PROJET`, `OBJECTIF_DEMANDE`, `PRESTATION_SOUHAITE`, `INDICATION_COMPLEMENTAIRE`, `QUALIFICATION`, `PRIX_MISE_EN_LIGNE`, `PRIX_PROMO`, `PUBLIER_EN_LIGNE`, `CHEMIN_PDF`, `DATE_CREATION`, `DATE_PUBLICATION`, `PUBLIER_ENVOI`)
-VALUES
-  (8, 2, 2, 28, 2, 'installation chauffage', 'Dans moins d\'un mois',
-      'lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet .',
-      'Autre', 'Administrateur', 'Immeuble', '1000', 'Crédit Obtenu', 'Obtenir des devis et trouver une entreprise', 'Pose Uniquement',
-                                             'lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet .',
-                                             'Occupé', '1000', '3000', '1', NULL, '2017-12-23 18:44:19', '2017-12-27 07:47:01', 1),
-  (9, 1, 3, 39, 2, 'Reparation de fenetres', 'Dans moins d\'un mois', 'lorem ipsum dolor sit amit', 'Industriel', 'Futur Propriétaire', 'Bureau', '5000', 'Comptant', 'Obtenir des devis et trouver une entreprise', 'Fourniture Uniquement', 'lorem ipsum dolor sit amit', 'Occupé', '1000', '100', '1', NULL, '2017-12-23 19:03:34', '2017-12-24 23:54:36', 0),
-  (10, 1, 2, 37, 2, 'demande chanffage 2', 'Au plus vite', 'lorem ipsum dolor', 'Commerçant', 'Futur Propriétaire', 'Bureau', '5000', 'Demande de crédit en cours', 'Obtenir des devis et trouver une entreprise', 'Fourniture et Pose', 'lorem ipsum dolor', 'NRP', '1000', '100', '1', NULL, '2017-12-24 20:41:33', '2017-12-27 19:48:13', 1),
-  (11, 1, 4, 45, 2, 'installation de cuisine', 'Dans moins d\'un mois', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit.', '', '', 'Commerce', '5000', 'Crédit Obtenu', 'Obtenir des devis et trouver une entreprise', 'Pose Uniquement', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit.', 'Qualifié', '1000', '100', '1', NULL, '2017-12-24 23:19:08', '2017-12-27 19:25:26', 1),
-  (12, 1, 5, 46, 2, 'travaux salle de bain', 'Dans moins d\'un mois', 'lotem ipsum', 'Industriel', 'Futur Propriétaire', 'Commerce', '5000', 'Crédit Obtenu', 'Obtenir des devis et trouver une entreprise', 'Pose Uniquement', 'lorem ipsum dolor', 'Non qualifiée', '1000', '100', '1', NULL, '2017-12-25 01:28:11', '2017-12-27 20:26:39', 1),
-  (13, 1, 6, 47, 2, 'i want a sauna', 'Dans moins de 2 mois', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit', 'Profession Libérale', 'Locataire', 'Bureau', '5000', 'Crédit Obtenu', 'Obtenir des devis et trouver une entreprise', 'Pose Uniquement', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit', 'NRP', '1000', '300', '1', NULL, '2017-12-25 11:12:03', '2017-12-25 12:46:38', 0),
-  (14, 1, 7, 48, 2, 'je veux un spa', 'Dans moins de 2 mois', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit', 'Industriel', 'Locataire', 'Bureau', '4000', 'Demande de crédit en cours', 'Obtenir des devis et trouver une entreprise', 'Fourniture et Pose', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit', 'Qualifié', '1000', '100', '1', NULL, '2017-12-25 12:02:10', '2017-12-26 18:18:56', 0),
-  (15, 2, 7, 49, 2, 'Spa request', 'Dans l\'année', 'Lorem ipsum dolor sit amit Lorem ipsum dolor sit amit Lorem ipsum dolor sit amit Lorem ipsum dolor sit amit Lorem ipsum dolor sit amit Lorem ipsum dolor sit amit Lorem ipsum dolor sit amit Lorem ipsum dolor sit amit Lorem ipsum dolor sit amit Lorem ipsum dolor sit amit Lorem ipsum dolor sit amit Lorem ipsum dolor sit amit Lorem ipsum dolor sit amit Lorem ipsum dolor sit amit Lorem ipsum dolor sit amit Lorem ipsum dolor sit amit Lorem ipsum dolor sit amit Lorem ipsum dolor sit amit Lorem ipsum dolor sit amit Lorem ipsum dolor sit amit ', 'Société', 'Futur Locataire', 'Appartement', '5000', 'Demande de crédit en cours', 'Avoir juste une idée des prix', 'Pose Uniquement', 'Lorem ipsum dolor sit amit Lorem ipsum dolor sit amit Lorem ipsum dolor sit amit Lorem ipsum dolor sit amit Lorem ipsum dolor sit amit Lorem ipsum dolor sit amit Lorem ipsum dolor sit amit Lorem ipsum dolor sit amit Lorem ipsum dolor sit amit Lorem ipsum dolor sit amit Lorem ipsum dolor sit amit Lorem ipsum dolor sit amit Lorem ipsum dolor sit amit Lorem ipsum dolor sit amit Lorem ipsum dolor sit amit Lorem ipsum dolor sit amit Lorem ipsum dolor sit amit Lorem ipsum dolor sit amit Lorem ipsum dolor sit amit Lorem ipsum dolor sit amit ', 'Trop tard', '1000', '330', '1', NULL, '2017-12-25 21:07:57', '2017-12-25 22:13:29', 0),
-  (16, 2, 3, 50, 2, 'fenetres demande 2', '', 'lorem ipsum lorem ipsum lorem ipsum', 'Syndic de Copropriété', 'Futur Locataire', 'Bureau', '5090', '', '', '', 'lorem ipsum lorem ipsum lorem ipsum', '', '300', '5000', '1', NULL, '2017-12-26 13:13:29', '2017-12-26 18:30:23', 1),
-  (17, 2, 1, 51, 2, '', 'Au plus vite', '', 'Particulier', 'Futur Propriétaire', 'Maison Indviduelle', '1000', 'Demande de crédit en cours', 'Obtenir des devis et trouver une entreprise', 'Fourniture et Pose', '', '3', '898', '800', '0', NULL, '2017-12-26 14:58:10', '2017-12-27 19:52:20', 1),
-  (21, 2, 8, 52, 2, 'Climatisation', 'Au plus vite', 'dadada', 'Particulier', 'Futur Propriétaire', 'Maison Indviduelle', '', 'Demande de crédit en cours', 'Obtenir des devis et trouver une entreprise', 'Fourniture et Pose', '', '3', '', '', '0', NULL, '2017-12-26 22:26:47', '2017-12-27 19:47:21', 0),
-  (34, 15, 3, 53, 2, 'Fenetres', '', '', '', '', '', '', '', '', '', '', '', '', '', '0', NULL, '2017-12-27 16:17:45', '2017-12-27 19:48:35', NULL),
-  (35, 16, 3, 54, 2, 'fenetresssss', '', '', '', '', '', '', '', '', '', '', '', '', '', '0', NULL, '2017-12-27 19:31:17', '2017-12-27 20:27:57', NULL),
-  (39, 20, 3, 55, 2, 'une demande', '', '', '', '', '', '', '', '', '', '', '', '', '', '1', NULL, '2017-12-27 20:37:18', '2017-12-27 20:40:19', 1);
+INSERT INTO `demande_devis` (`ID_DEMANDE`, `ID_PARTICULIER`, `ID_ACTIVITE`, `ID_CHANTIER`, `ID_USER`, `TITRE_DEMANDE`, `DELAI_SOUHAITE`, `DESCRIPTION`, `TYPE_DEMANDEUR`, `TYPE_PROPRIETE`, `TYPE_BATIMENT`, `BUDGET_APPROXIMATIF`, `FINANCEMENT_PROJET`, `OBJECTIF_DEMANDE`, `PRESTATION_SOUHAITE`, `INDICATION_COMPLEMENTAIRE`, `QUALIFICATION`, `PRIX_MISE_EN_LIGNE`, `PRIX_PROMO`, `PUBLIER_EN_LIGNE`, `CHEMIN_PDF`, `DATE_CREATION`, `DATE_PUBLICATION`, `PUBLIER_ENVOI`) VALUES
+(8, 2, 2, 28, 2, 'installation chauffage', 'Dans moins d\'un mois', 'lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet .', 'Autre', 'Administrateur', 'Immeuble', '1000', 'Crédit Obtenu', 'Obtenir des devis et trouver une entreprise', 'Pose Uniquement', 'lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet .', 'Occupé', '1000', '3000', '1', NULL, '2017-12-23 18:44:19', '2017-12-28 15:15:53', 1),
+(9, 1, 3, 39, 2, 'Reparation de fenetres', 'Dans moins d\'un mois', 'lorem ipsum dolor sit amit', 'Industriel', 'Futur Propriétaire', 'Bureau', '5000', 'Comptant', 'Obtenir des devis et trouver une entreprise', 'Fourniture Uniquement', 'lorem ipsum dolor sit amit', 'Occupé', '1000', '100', '1', NULL, '2017-12-23 19:03:34', '2017-12-24 23:54:36', 0),
+(10, 1, 2, 37, 2, 'demande chanffage 2', 'Au plus vite', 'lorem ipsum dolor', 'Commerçant', 'Futur Propriétaire', 'Bureau', '5000', 'Demande de crédit en cours', 'Obtenir des devis et trouver une entreprise', 'Fourniture et Pose', 'lorem ipsum dolor', 'NRP', '1000', '100', '1', NULL, '2017-12-24 20:41:33', '2017-12-28 15:14:38', 0),
+(11, 1, 4, 45, 2, 'installation de cuisine', 'Dans moins d\'un mois', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit.', '', '', 'Commerce', '5000', 'Crédit Obtenu', 'Obtenir des devis et trouver une entreprise', 'Pose Uniquement', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit.', 'Qualifié', '1000', '100', '1', NULL, '2017-12-24 23:19:08', '2017-12-28 15:18:40', 1),
+(12, 1, 5, 46, 2, 'travaux salle de bain', 'Dans moins d\'un mois', 'lotem ipsum', 'Industriel', 'Futur Propriétaire', 'Commerce', '5000', 'Crédit Obtenu', 'Obtenir des devis et trouver une entreprise', 'Pose Uniquement', 'lorem ipsum dolor', 'Non qualifiée', '1000', '100', '1', NULL, '2017-12-25 01:28:11', '2017-12-28 15:19:12', 1),
+(13, 1, 6, 47, 2, 'i want a sauna', 'Dans moins de 2 mois', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit', 'Profession Libérale', 'Locataire', 'Bureau', '5000', 'Crédit Obtenu', 'Obtenir des devis et trouver une entreprise', 'Pose Uniquement', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit', 'NRP', '1000', '300', '1', NULL, '2017-12-25 11:12:03', '2017-12-28 15:21:33', 1),
+(14, 1, 7, 48, 2, 'je veux un spa', 'Dans moins de 2 mois', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit', 'Industriel', 'Locataire', 'Bureau', '4000', 'Demande de crédit en cours', 'Obtenir des devis et trouver une entreprise', 'Fourniture et Pose', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit', 'Qualifié', '1000', '100', '1', NULL, '2017-12-25 12:02:10', '2017-12-26 18:18:56', 0),
+(15, 2, 7, 49, 2, 'spa request', 'Dans l\'année', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit', 'Société', 'Futur Locataire', 'Appartement', '5000', 'Demande de crédit en cours', 'Avoir juste une idée des prix', 'Pose Uniquement', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit', 'Trop tard', '1000', '330', '1', NULL, '2017-12-25 21:07:57', '2017-12-28 15:21:56', 1),
+(16, 2, 3, 50, 2, 'fenetres demande 2', '', 'lorem ipsum lorem ipsum lorem ipsum', 'Syndic de Copropriété', 'Futur Locataire', 'Bureau', '5090', '', '', '', 'lorem ipsum lorem ipsum lorem ipsum', '', '300', '5000', '1', NULL, '2017-12-26 13:13:29', '2017-12-26 18:30:23', 0),
+(17, 2, 1, 51, 2, '', 'Au plus vite', '', 'Particulier', 'Futur Propriétaire', 'Maison Indviduelle', '1000', 'Demande de crédit en cours', 'Obtenir des devis et trouver une entreprise', 'Fourniture et Pose', '', '3', '898', '800', '0', NULL, '2017-12-26 14:58:10', '2017-12-27 19:52:20', 0),
+(21, 2, 8, 52, 2, 'Climatisation', 'Au plus vite', 'dadada', 'Particulier', 'Futur Propriétaire', 'Maison Indviduelle', '', 'Demande de crédit en cours', 'Obtenir des devis et trouver une entreprise', 'Fourniture et Pose', '', '3', '', '', '0', NULL, '2017-12-26 22:26:47', '2017-12-27 19:47:21', 0),
+(34, 15, 3, 53, 2, 'Fenetres', '', '', '', '', '', '', '', '', '', '', '', '', '', '0', NULL, '2017-12-27 16:17:45', '2017-12-27 19:48:35', 0),
+(35, 16, 3, 54, 2, 'fenetresssss', '', '', '', '', '', '', '', '', '', '', '', '', '', '1', NULL, '2017-12-27 19:31:17', '2017-12-28 15:17:55', 1),
+(39, 20, 3, 55, 2, 'une demande', '', '', '', '', '', '', '', '', '', '', '', '', '', '1', NULL, '2017-12-27 20:37:18', '2017-12-27 20:40:19', 0);
 
 -- --------------------------------------------------------
 
@@ -198,12 +191,18 @@ VALUES
 
 DROP TABLE IF EXISTS `geolocaliser`;
 CREATE TABLE `geolocaliser` (
-  `ID_ARTISAN` BIGINT(20) NOT NULL,
-  `ID_ZONE`    BIGINT(20) NOT NULL
-)
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  `ID_ARTISAN` bigint(20) NOT NULL,
+  `ID_ZONE` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `geolocaliser`
+--
+
+INSERT INTO `geolocaliser` (`ID_ARTISAN`, `ID_ZONE`) VALUES
+(17, 1),
+(16, 2),
+(18, 2);
 
 -- --------------------------------------------------------
 
@@ -213,41 +212,38 @@ CREATE TABLE `geolocaliser` (
 
 DROP TABLE IF EXISTS `particulier`;
 CREATE TABLE `particulier` (
-  `ID_PARTICULIER`     BIGINT(20)                           NOT NULL,
-  `NOM_PARTICULIER`    VARCHAR(200) COLLATE utf8_unicode_ci NOT NULL,
-  `PRENOM_PARTICULIER` VARCHAR(200) COLLATE utf8_unicode_ci NOT NULL,
-  `TELEPHONE_FIXE`     VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `TELEPHONE_PORTABLE` VARCHAR(200) COLLATE utf8_unicode_ci NOT NULL,
-  `CIVILITE`           VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `EMAIL`              VARCHAR(200) COLLATE utf8_unicode_ci NOT NULL,
-  `HORAIRERDV`         VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL
-)
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  `ID_PARTICULIER` bigint(20) NOT NULL,
+  `NOM_PARTICULIER` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `PRENOM_PARTICULIER` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `TELEPHONE_FIXE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TELEPHONE_PORTABLE` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `CIVILITE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `EMAIL` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `HORAIRERDV` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `particulier`
 --
 
 INSERT INTO `particulier` (`ID_PARTICULIER`, `NOM_PARTICULIER`, `PRENOM_PARTICULIER`, `TELEPHONE_FIXE`, `TELEPHONE_PORTABLE`, `CIVILITE`, `EMAIL`, `HORAIRERDV`) VALUES
-  (1, 'hutcherson', 'robert', '3176580687', '3176580687', 'M.', 'yerratbi@gmail.com', '10h-12h'),
-  (2, 'ROBERT JON HUTCHERSON', 'robert', '3176580687', '3176580687', 'M.', 'yerratbi@gmail.com', '10h-12h'),
-  (3, 'Erratbi', 'Youssef', NULL, '061394059', NULL, 'y.er.ratbi@gmail.com', NULL),
-  (7, 'foo', 'bar', NULL, '10938490', NULL, 'yerratbigmail.com', NULL),
-  (8, 'foo', 'bar', NULL, '10938490', NULL, 'yerratbigmail.com', NULL),
-  (9, 'foo', 'bar', NULL, '10938490', NULL, 'yerratbigmail.com', NULL),
-  (10, 'foo', 'bar', NULL, '10938490', NULL, 'yerratbigmail.com', NULL),
-  (11, 'foo', 'bar', NULL, '10938490', NULL, 'yerratbigmail.com', NULL),
-  (12, 'snow', 'jon', NULL, '3176580687', NULL, 'yerratbi%40gmail.com', NULL),
-  (13, 'snow', 'jon', NULL, '3176580687', NULL, 'yerratbi%40gmail.com', NULL),
-  (14, 'foo', 'bar', NULL, '10938490', NULL, 'yerratbigmail.com', NULL),
-  (15, 'HUTCHERSON', 'ROBERT', '3176580687', '3176580687', '', 'yerratbi@gmail.com', ''),
-  (16, 'youssef', 'yassine', '+212614773095', '+212614773095', 'Mme.', 'testing@gmail.com', ''),
-  (17, 'snow', 'JON', NULL, '3176580687', NULL, 'yerratbi%40gmail.com', NULL),
-  (18, 'foo', 'bar', NULL, '10938490', NULL, 'yerratbigmail.com', NULL),
-  (19, 'foo', 'bar', NULL, '10938490', NULL, 'yerratbigmail.com', NULL),
-  (20, 'hutcherson', 'robert', '3176580687', '3176580687', 'M.', 'yerratbi@gmail.com', '');
+(1, 'hutcherson', 'robert', '3176580687', '3176580687', 'M.', 'yerratbi@gmail.com', '10h-12h'),
+(2, 'robert jon hutcherson', 'robert', '3176580687', '3176580687', 'M.', 'yerratbi@gmail.com', '10h-12h'),
+(3, 'Erratbi', 'Youssef', NULL, '061394059', NULL, 'y.er.ratbi@gmail.com', NULL),
+(7, 'foo', 'bar', NULL, '10938490', NULL, 'yerratbigmail.com', NULL),
+(8, 'foo', 'bar', NULL, '10938490', NULL, 'yerratbigmail.com', NULL),
+(9, 'foo', 'bar', NULL, '10938490', NULL, 'yerratbigmail.com', NULL),
+(10, 'foo', 'bar', NULL, '10938490', NULL, 'yerratbigmail.com', NULL),
+(11, 'foo', 'bar', NULL, '10938490', NULL, 'yerratbigmail.com', NULL),
+(12, 'snow', 'jon', NULL, '3176580687', NULL, 'yerratbi%40gmail.com', NULL),
+(13, 'snow', 'jon', NULL, '3176580687', NULL, 'yerratbi%40gmail.com', NULL),
+(14, 'foo', 'bar', NULL, '10938490', NULL, 'yerratbigmail.com', NULL),
+(15, 'HUTCHERSON', 'ROBERT', '3176580687', '3176580687', '', 'yerratbi@gmail.com', ''),
+(16, 'youssef', 'yassine', '+212614773095', '+212614773095', 'Mme.', 'testing@gmail.com', ''),
+(17, 'snow', 'JON', NULL, '3176580687', NULL, 'yerratbi%40gmail.com', NULL),
+(18, 'foo', 'bar', NULL, '10938490', NULL, 'yerratbigmail.com', NULL),
+(19, 'foo', 'bar', NULL, '10938490', NULL, 'yerratbigmail.com', NULL),
+(20, 'hutcherson', 'robert', '3176580687', '3176580687', 'M.', 'yerratbi@gmail.com', '');
 
 -- --------------------------------------------------------
 
@@ -257,15 +253,12 @@ INSERT INTO `particulier` (`ID_PARTICULIER`, `NOM_PARTICULIER`, `PRENOM_PARTICUL
 
 DROP TABLE IF EXISTS `qualif_alarme_incendie`;
 CREATE TABLE `qualif_alarme_incendie` (
-  `ID_QUALIF_INCENDIE` BIGINT(20) NOT NULL,
-  `ID_DEMANDE`         BIGINT(20) NOT NULL,
-  `SURFACE`            VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `NBRE_PIECE`         VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `TYPE_TRAVAUX`       VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL
-)
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  `ID_QUALIF_INCENDIE` bigint(20) NOT NULL,
+  `ID_DEMANDE` bigint(20) NOT NULL,
+  `SURFACE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `NBRE_PIECE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TYPE_TRAVAUX` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -275,17 +268,14 @@ CREATE TABLE `qualif_alarme_incendie` (
 
 DROP TABLE IF EXISTS `qualif_alarme_maison`;
 CREATE TABLE `qualif_alarme_maison` (
-  `ID_QUALIF_MAISON`    BIGINT(20) NOT NULL,
-  `ID_DEMANDE`          BIGINT(20) NOT NULL,
-  `TYPE_ALARME`         VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `TYPE_SYSTEME_ALARME` VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `NBRE_PIECE`          VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `NBRE_FENETRE`        VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `TYPE_TRAVAUX`        VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL
-)
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  `ID_QUALIF_MAISON` bigint(20) NOT NULL,
+  `ID_DEMANDE` bigint(20) NOT NULL,
+  `TYPE_ALARME` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TYPE_SYSTEME_ALARME` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `NBRE_PIECE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `NBRE_FENETRE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TYPE_TRAVAUX` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -295,32 +285,28 @@ CREATE TABLE `qualif_alarme_maison` (
 
 DROP TABLE IF EXISTS `qualif_chauffage`;
 CREATE TABLE `qualif_chauffage` (
-  `ID_QUALIF_CHAUFFAGE`    BIGINT(20) NOT NULL,
-  `ID_DEMANDE`             BIGINT(20) NOT NULL,
-  `TYPE_CHAUFFAGE`         VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `TYPE_INSTALLATION`      VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `CONDUITE_FUMEE`         VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `NBRE_ETAGE`             VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `SURFACE_TOTALE`         VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `HAUTEUR_SOUS_PLAFOND`   VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `TYPE_RADIATEUR`         VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `TYPE_DIFFUSION_CHALEUR` VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `TYPE_ENERGIE`           VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `DISPOSE_JARDIN`         TINYINT(1)                           DEFAULT '0',
-  `TYPE_TRAVAUX`           VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL
-)
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  `ID_QUALIF_CHAUFFAGE` bigint(20) NOT NULL,
+  `ID_DEMANDE` bigint(20) NOT NULL,
+  `TYPE_CHAUFFAGE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TYPE_INSTALLATION` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `CONDUITE_FUMEE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `NBRE_ETAGE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `SURFACE_TOTALE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `HAUTEUR_SOUS_PLAFOND` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TYPE_RADIATEUR` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TYPE_DIFFUSION_CHALEUR` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TYPE_ENERGIE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `DISPOSE_JARDIN` tinyint(1) DEFAULT '0',
+  `TYPE_TRAVAUX` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `qualif_chauffage`
 --
 
-INSERT INTO `qualif_chauffage` (`ID_QUALIF_CHAUFFAGE`, `ID_DEMANDE`, `TYPE_CHAUFFAGE`, `TYPE_INSTALLATION`, `CONDUITE_FUMEE`, `NBRE_ETAGE`, `SURFACE_TOTALE`, `HAUTEUR_SOUS_PLAFOND`, `TYPE_RADIATEUR`, `TYPE_DIFFUSION_CHALEUR`, `TYPE_ENERGIE`, `DISPOSE_JARDIN`, `TYPE_TRAVAUX`)
-VALUES
-  (1, 8, 'Chauffage à bois', 'Chauffage à Bois', 'A remplacer', '3', '100', '2.76', NULL, NULL, 'Géothermie/Aérothermie', NULL, 'Réparation'),
-  (10, 10, 'Chauffage electrique', NULL, NULL, 'plus de 3', '200', '2', 'Plancher chauffant électrique', NULL, NULL, NULL, 'Entretien/Maintenance');
+INSERT INTO `qualif_chauffage` (`ID_QUALIF_CHAUFFAGE`, `ID_DEMANDE`, `TYPE_CHAUFFAGE`, `TYPE_INSTALLATION`, `CONDUITE_FUMEE`, `NBRE_ETAGE`, `SURFACE_TOTALE`, `HAUTEUR_SOUS_PLAFOND`, `TYPE_RADIATEUR`, `TYPE_DIFFUSION_CHALEUR`, `TYPE_ENERGIE`, `DISPOSE_JARDIN`, `TYPE_TRAVAUX`) VALUES
+(1, 8, 'Chauffage à bois', 'Chauffage à Bois', 'A remplacer', '3', '100', '2.76', NULL, NULL, 'Géothermie/Aérothermie', NULL, 'Réparation'),
+(10, 10, 'Chauffage electrique', NULL, NULL, 'plus de 3', '200', '2', 'Plancher chauffant électrique', NULL, NULL, NULL, 'Entretien/Maintenance');
 
 -- --------------------------------------------------------
 
@@ -330,24 +316,21 @@ VALUES
 
 DROP TABLE IF EXISTS `qualif_climatisation`;
 CREATE TABLE `qualif_climatisation` (
-  `ID_QUALIF_CLIMATISATION` BIGINT(20)                           NOT NULL,
-  `ID_DEMANDE`              BIGINT(20)                           NOT NULL,
-  `NBRE_PIECE`              VARCHAR(200) COLLATE utf8_unicode_ci NOT NULL,
-  `SURFACE_CLIMATISER`      VARCHAR(200) COLLATE utf8_unicode_ci NOT NULL,
-  `HAUTEUR_PLAFOND`         VARCHAR(200) COLLATE utf8_unicode_ci NOT NULL,
-  `ACCORD_COPROPRIETE`      VARCHAR(200) COLLATE utf8_unicode_ci NOT NULL,
-  `TYPE_TRAVAUX`            VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL
-)
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  `ID_QUALIF_CLIMATISATION` bigint(20) NOT NULL,
+  `ID_DEMANDE` bigint(20) NOT NULL,
+  `NBRE_PIECE` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `SURFACE_CLIMATISER` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `HAUTEUR_PLAFOND` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `ACCORD_COPROPRIETE` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `TYPE_TRAVAUX` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `qualif_climatisation`
 --
 
 INSERT INTO `qualif_climatisation` (`ID_QUALIF_CLIMATISATION`, `ID_DEMANDE`, `NBRE_PIECE`, `SURFACE_CLIMATISER`, `HAUTEUR_PLAFOND`, `ACCORD_COPROPRIETE`, `TYPE_TRAVAUX`) VALUES
-  (1, 21, '', '', '', 'NON', 'Installation neuve');
+(1, 21, '', '', '', 'NON', 'Installation neuve');
 
 -- --------------------------------------------------------
 
@@ -357,31 +340,27 @@ INSERT INTO `qualif_climatisation` (`ID_QUALIF_CLIMATISATION`, `ID_DEMANDE`, `NB
 
 DROP TABLE IF EXISTS `qualif_cuisine`;
 CREATE TABLE `qualif_cuisine` (
-  `ID_QUALIF_CUISINE`         BIGINT(20) NOT NULL,
-  `ID_DEMANDE`                BIGINT(20) NOT NULL,
-  `DEPOSE_ANCIENNE_CUISINE`   VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `NIVEAU_GAMME_SOUHAITE`     VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `STYLE_FUTUR_CUISINE`       VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `SURFACE_AU_SOL_CUISINE`    VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `TRAVAUX_PEINTURE`          VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `TRAVAUX_PLOMBERIE`         VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `TRAVAUX_REVETEMENT_SOL`    VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `TRAVAUX_ELECTRICITE`       VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `EQUIPEMENT_ELECTROMENAGER` VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `HAUTEUR_SOUS_PLAFOND`      VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `TYPE_TRAVAUX`              VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL
-)
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  `ID_QUALIF_CUISINE` bigint(20) NOT NULL,
+  `ID_DEMANDE` bigint(20) NOT NULL,
+  `DEPOSE_ANCIENNE_CUISINE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `NIVEAU_GAMME_SOUHAITE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `STYLE_FUTUR_CUISINE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `SURFACE_AU_SOL_CUISINE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TRAVAUX_PEINTURE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TRAVAUX_PLOMBERIE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TRAVAUX_REVETEMENT_SOL` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TRAVAUX_ELECTRICITE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `EQUIPEMENT_ELECTROMENAGER` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `HAUTEUR_SOUS_PLAFOND` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TYPE_TRAVAUX` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `qualif_cuisine`
 --
 
-INSERT INTO `qualif_cuisine` (`ID_QUALIF_CUISINE`, `ID_DEMANDE`, `DEPOSE_ANCIENNE_CUISINE`, `NIVEAU_GAMME_SOUHAITE`, `STYLE_FUTUR_CUISINE`, `SURFACE_AU_SOL_CUISINE`, `TRAVAUX_PEINTURE`, `TRAVAUX_PLOMBERIE`, `TRAVAUX_REVETEMENT_SOL`, `TRAVAUX_ELECTRICITE`, `EQUIPEMENT_ELECTROMENAGER`, `HAUTEUR_SOUS_PLAFOND`, `TYPE_TRAVAUX`)
-VALUES
-  (2, 11, 'Oui', 'Premier Prix', 'Classique', 'Plus de 7 m²', 'Oui', 'Oui', 'Non', 'Oui', 'Oui', '2', 'Remplacer une Cuisine Existante');
+INSERT INTO `qualif_cuisine` (`ID_QUALIF_CUISINE`, `ID_DEMANDE`, `DEPOSE_ANCIENNE_CUISINE`, `NIVEAU_GAMME_SOUHAITE`, `STYLE_FUTUR_CUISINE`, `SURFACE_AU_SOL_CUISINE`, `TRAVAUX_PEINTURE`, `TRAVAUX_PLOMBERIE`, `TRAVAUX_REVETEMENT_SOL`, `TRAVAUX_ELECTRICITE`, `EQUIPEMENT_ELECTROMENAGER`, `HAUTEUR_SOUS_PLAFOND`, `TYPE_TRAVAUX`) VALUES
+(2, 11, 'Oui', 'Premier Prix', 'Classique', 'Plus de 7 m²', 'Oui', 'Oui', 'Non', 'Oui', 'Oui', '2', 'Remplacer une Cuisine Existante');
 
 -- --------------------------------------------------------
 
@@ -391,24 +370,21 @@ VALUES
 
 DROP TABLE IF EXISTS `qualif_demenagement`;
 CREATE TABLE `qualif_demenagement` (
-  `ID_QUALIF_DEMENAGEMENT` BIGINT(20) NOT NULL,
-  `ID_DEMANDE`             BIGINT(20) NOT NULL,
-  `TYPE_DEMENAGEMENT`      VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `DEMENAGE`               VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `NBRE_PIECE`             VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `SURFACE_TOTALE`         VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `VILLE_DEPART`           VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `PAYS_DEPART`            VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `TYPE_LOGEMENT_DEPART`   VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `NBRE_ETAGE_DEPART`      VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `VILLE_ARRIVEE`          VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `PAYS_ARRIVEE`           VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `VOLUME_CONNUE`          LONGBLOB,
-  `VOLUME`                 VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL
-)
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  `ID_QUALIF_DEMENAGEMENT` bigint(20) NOT NULL,
+  `ID_DEMANDE` bigint(20) NOT NULL,
+  `TYPE_DEMENAGEMENT` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `DEMENAGE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `NBRE_PIECE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `SURFACE_TOTALE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `VILLE_DEPART` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `PAYS_DEPART` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TYPE_LOGEMENT_DEPART` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `NBRE_ETAGE_DEPART` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `VILLE_ARRIVEE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `PAYS_ARRIVEE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `VOLUME_CONNUE` longblob,
+  `VOLUME` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -418,27 +394,24 @@ CREATE TABLE `qualif_demenagement` (
 
 DROP TABLE IF EXISTS `qualif_fenetre`;
 CREATE TABLE `qualif_fenetre` (
-  `ID_QUALIF_FENETRE`       BIGINT(20)                           NOT NULL,
-  `ID_DEMANDE`              BIGINT(20)                           NOT NULL,
-  `NBRE_FENETRE`            VARCHAR(20) COLLATE utf8_unicode_ci  DEFAULT NULL,
-  `DEPOSE_FENETRE_EXISTANT` TINYINT(1)                           DEFAULT '0',
-  `TYPE_FENETRE`            VARCHAR(200) COLLATE utf8_unicode_ci NOT NULL,
-  `TYPE_TRAVAUX`            VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL
-)
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  `ID_QUALIF_FENETRE` bigint(20) NOT NULL,
+  `ID_DEMANDE` bigint(20) NOT NULL,
+  `NBRE_FENETRE` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `DEPOSE_FENETRE_EXISTANT` tinyint(1) DEFAULT '0',
+  `TYPE_FENETRE` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `TYPE_TRAVAUX` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `qualif_fenetre`
 --
 
 INSERT INTO `qualif_fenetre` (`ID_QUALIF_FENETRE`, `ID_DEMANDE`, `NBRE_FENETRE`, `DEPOSE_FENETRE_EXISTANT`, `TYPE_FENETRE`, `TYPE_TRAVAUX`) VALUES
-  (2, 9, '4', 1, 'Bois', 'Réparation'),
-  (3, 16, '3', 1, 'Aluminium', 'Réparation'),
-  (4, 34, '', 0, '', ''),
-  (5, 35, '', 0, '', ''),
-  (6, 39, '', 0, '', '');
+(2, 9, '4', 1, 'Bois', 'Réparation'),
+(3, 16, '3', 1, 'Aluminium', 'Réparation'),
+(4, 34, '', 0, '', ''),
+(5, 35, '', 0, '', ''),
+(6, 39, '', 0, '', '');
 
 -- --------------------------------------------------------
 
@@ -448,24 +421,21 @@ INSERT INTO `qualif_fenetre` (`ID_QUALIF_FENETRE`, `ID_DEMANDE`, `NBRE_FENETRE`,
 
 DROP TABLE IF EXISTS `qualif_piscine`;
 CREATE TABLE `qualif_piscine` (
-  `ID_QUALIF_PISCINE` BIGINT(20) NOT NULL,
-  `ID_DEMANDE`        BIGINT(20) NOT NULL,
-  `TYPE_PISCINE`      VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `DIMENSION`         VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `FORME_PISCINE`     VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `SECURITE_PISCINE`  VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `TYPE_TRAVAUX`      VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL
-)
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  `ID_QUALIF_PISCINE` bigint(20) NOT NULL,
+  `ID_DEMANDE` bigint(20) NOT NULL,
+  `TYPE_PISCINE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `DIMENSION` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `FORME_PISCINE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `SECURITE_PISCINE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TYPE_TRAVAUX` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `qualif_piscine`
 --
 
 INSERT INTO `qualif_piscine` (`ID_QUALIF_PISCINE`, `ID_DEMANDE`, `TYPE_PISCINE`, `DIMENSION`, `FORME_PISCINE`, `SECURITE_PISCINE`, `TYPE_TRAVAUX`) VALUES
-  (1, 17, 'Piscine Béton', '', 'Rectangle', 'Couverture de Piscine', 'Installation neuve');
+(1, 17, 'Piscine Béton', '', 'Rectangle', 'Couverture de Piscine', 'Installation neuve');
 
 -- --------------------------------------------------------
 
@@ -475,14 +445,11 @@ INSERT INTO `qualif_piscine` (`ID_QUALIF_PISCINE`, `ID_DEMANDE`, `TYPE_PISCINE`,
 
 DROP TABLE IF EXISTS `qualif_porte_blindee`;
 CREATE TABLE `qualif_porte_blindee` (
-  `ID_QUALIF_PORTE_BLINDEE` BIGINT(20) NOT NULL,
-  `ID_DEMANDE`              BIGINT(20) NOT NULL,
-  `SURFACE`                 VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `GARDER_PORTE_ACTUELLE`   LONGBLOB
-)
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  `ID_QUALIF_PORTE_BLINDEE` bigint(20) NOT NULL,
+  `ID_DEMANDE` bigint(20) NOT NULL,
+  `SURFACE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `GARDER_PORTE_ACTUELLE` longblob
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -492,31 +459,27 @@ CREATE TABLE `qualif_porte_blindee` (
 
 DROP TABLE IF EXISTS `qualif_salle_bain`;
 CREATE TABLE `qualif_salle_bain` (
-  `ID_QUALIF_SALLE_BAIN`   BIGINT(20) NOT NULL,
-  `ID_DEMANDE`             BIGINT(20)                           DEFAULT NULL,
-  `EQUIPEMENT_FUTUR_SALLE` VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `SURFACE_AU_SOL`         VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `DEPOSE_ANCIENNE_SALLE`  VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `TRAVAUX_PLOMBERIE`      VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `TRAVAUX_ELECTRICITE`    VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `TRAVAUX_REVETEMENT`     VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `TRAVAUX_PEINTURE`       VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `MEUBLE_RENGEMENT`       VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `NIVEAU_GAMME`           VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `HAUTEUR_SOUS_PLAFOND`   VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `TYPE_TRAVAUX`           VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL
-)
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  `ID_QUALIF_SALLE_BAIN` bigint(20) NOT NULL,
+  `ID_DEMANDE` bigint(20) DEFAULT NULL,
+  `EQUIPEMENT_FUTUR_SALLE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `SURFACE_AU_SOL` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `DEPOSE_ANCIENNE_SALLE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TRAVAUX_PLOMBERIE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TRAVAUX_ELECTRICITE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TRAVAUX_REVETEMENT` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TRAVAUX_PEINTURE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `MEUBLE_RENGEMENT` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `NIVEAU_GAMME` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `HAUTEUR_SOUS_PLAFOND` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TYPE_TRAVAUX` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `qualif_salle_bain`
 --
 
-INSERT INTO `qualif_salle_bain` (`ID_QUALIF_SALLE_BAIN`, `ID_DEMANDE`, `EQUIPEMENT_FUTUR_SALLE`, `SURFACE_AU_SOL`, `DEPOSE_ANCIENNE_SALLE`, `TRAVAUX_PLOMBERIE`, `TRAVAUX_ELECTRICITE`, `TRAVAUX_REVETEMENT`, `TRAVAUX_PEINTURE`, `MEUBLE_RENGEMENT`, `NIVEAU_GAMME`, `HAUTEUR_SOUS_PLAFOND`, `TYPE_TRAVAUX`)
-VALUES
-  (1, 12, 'Douche', 'Plus de 5 m²', 'Oui', 'Oui', '', 'Oui', 'Oui', NULL, 'Premier Prix', '3', 'Rénover une salle de bains existante');
+INSERT INTO `qualif_salle_bain` (`ID_QUALIF_SALLE_BAIN`, `ID_DEMANDE`, `EQUIPEMENT_FUTUR_SALLE`, `SURFACE_AU_SOL`, `DEPOSE_ANCIENNE_SALLE`, `TRAVAUX_PLOMBERIE`, `TRAVAUX_ELECTRICITE`, `TRAVAUX_REVETEMENT`, `TRAVAUX_PEINTURE`, `MEUBLE_RENGEMENT`, `NIVEAU_GAMME`, `HAUTEUR_SOUS_PLAFOND`, `TYPE_TRAVAUX`) VALUES
+(1, 12, 'WC', 'Plus de 5 m²', 'Oui', 'Oui', '', 'Oui', 'Oui', NULL, 'Premier Prix', '3', 'Rénover une salle de bains existante');
 
 -- --------------------------------------------------------
 
@@ -526,28 +489,23 @@ VALUES
 
 DROP TABLE IF EXISTS `qualif_sauna_hammam`;
 CREATE TABLE `qualif_sauna_hammam` (
-  `ID_QUALIF_SAUNA_HAMMAM` BIGINT(20) NOT NULL,
-  `ID_DEMANDE`             BIGINT(20) NOT NULL,
-  `SURFACE_AU_SOL`         VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `TRAVAUX_PLOMBERIE`      VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `TRAVAUX_ELECTRICITE`    VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `TRAVAUX_REVETEMENT`     VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `TRAVAUX_PEINTURE`       VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `NIVEAU_GAMME`           VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `TYPE_TRAVAUX`           VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL
-)
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci
-  ROW_FORMAT = COMPACT;
+  `ID_QUALIF_SAUNA_HAMMAM` bigint(20) NOT NULL,
+  `ID_DEMANDE` bigint(20) NOT NULL,
+  `SURFACE_AU_SOL` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TRAVAUX_PLOMBERIE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TRAVAUX_ELECTRICITE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TRAVAUX_REVETEMENT` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TRAVAUX_PEINTURE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `NIVEAU_GAMME` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TYPE_TRAVAUX` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT;
 
 --
 -- Dumping data for table `qualif_sauna_hammam`
 --
 
-INSERT INTO `qualif_sauna_hammam` (`ID_QUALIF_SAUNA_HAMMAM`, `ID_DEMANDE`, `SURFACE_AU_SOL`, `TRAVAUX_PLOMBERIE`, `TRAVAUX_ELECTRICITE`, `TRAVAUX_REVETEMENT`, `TRAVAUX_PEINTURE`, `NIVEAU_GAMME`, `TYPE_TRAVAUX`)
-VALUES
-  (1, 13, 'Plus de 5 m²', 'Oui', 'Oui', 'Oui', 'Non', 'Premier Prix', 'Créer un Sauna');
+INSERT INTO `qualif_sauna_hammam` (`ID_QUALIF_SAUNA_HAMMAM`, `ID_DEMANDE`, `SURFACE_AU_SOL`, `TRAVAUX_PLOMBERIE`, `TRAVAUX_ELECTRICITE`, `TRAVAUX_REVETEMENT`, `TRAVAUX_PEINTURE`, `NIVEAU_GAMME`, `TYPE_TRAVAUX`) VALUES
+(1, 13, 'Plus de 5 m²', 'Oui', 'Oui', 'Oui', 'Non', 'Premier Prix', 'Créer un Sauna');
 
 -- --------------------------------------------------------
 
@@ -557,28 +515,24 @@ VALUES
 
 DROP TABLE IF EXISTS `qualif_spa`;
 CREATE TABLE `qualif_spa` (
-  `ID_QUALIF_SPA`       BIGINT(20) NOT NULL,
-  `ID_DEMANDE`          BIGINT(20) NOT NULL,
-  `SURFACE_AU_SOL`      VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `TRAVAUX_PLOMBERIE`   VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `TRAVAUX_ELECTRICITE` VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `TRAVAUX_REVETEMENT`  VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `TRAVAUX_PEINTURE`    VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `NIVEAU_GAMME`        VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `TYPE_TRAVAUX`        VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL
-)
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci
-  ROW_FORMAT = COMPACT;
+  `ID_QUALIF_SPA` bigint(20) NOT NULL,
+  `ID_DEMANDE` bigint(20) NOT NULL,
+  `SURFACE_AU_SOL` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TRAVAUX_PLOMBERIE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TRAVAUX_ELECTRICITE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TRAVAUX_REVETEMENT` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TRAVAUX_PEINTURE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `NIVEAU_GAMME` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TYPE_TRAVAUX` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT;
 
 --
 -- Dumping data for table `qualif_spa`
 --
 
 INSERT INTO `qualif_spa` (`ID_QUALIF_SPA`, `ID_DEMANDE`, `SURFACE_AU_SOL`, `TRAVAUX_PLOMBERIE`, `TRAVAUX_ELECTRICITE`, `TRAVAUX_REVETEMENT`, `TRAVAUX_PEINTURE`, `NIVEAU_GAMME`, `TYPE_TRAVAUX`) VALUES
-  (1, 14, 'Plus de 7 m²', 'Oui', 'Oui', 'Non', 'Oui', 'Premier Prix', 'Créer un SPA'),
-  (2, 15, 'Plus de 7 m²', 'Oui', 'Non', 'Oui', 'Non', 'Moyen de Gamme', 'Créer un SPA');
+(1, 14, 'Plus de 7 m²', 'Oui', 'Oui', 'Non', 'Oui', 'Premier Prix', 'Créer un SPA'),
+(2, 15, 'Plus de 7 m²', 'Oui', 'Non', 'Oui', 'Non', 'Moyen de Gamme', 'Créer un SPA');
 
 -- --------------------------------------------------------
 
@@ -588,14 +542,11 @@ INSERT INTO `qualif_spa` (`ID_QUALIF_SPA`, `ID_DEMANDE`, `SURFACE_AU_SOL`, `TRAV
 
 DROP TABLE IF EXISTS `qualif_video_surveillance`;
 CREATE TABLE `qualif_video_surveillance` (
-  `ID_QUALIF_VIDEO` BIGINT(20) NOT NULL,
-  `ID_DEMANDE`      BIGINT(20) NOT NULL,
-  `NBRE_PIECE`      VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `NBRE_FENETRE`    VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL
-)
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  `ID_QUALIF_VIDEO` bigint(20) NOT NULL,
+  `ID_DEMANDE` bigint(20) NOT NULL,
+  `NBRE_PIECE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `NBRE_FENETRE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -605,12 +556,19 @@ CREATE TABLE `qualif_video_surveillance` (
 
 DROP TABLE IF EXISTS `specialiste`;
 CREATE TABLE `specialiste` (
-  `ID_ARTISAN`  BIGINT(20) NOT NULL,
-  `ID_ACTIVITE` BIGINT(20) NOT NULL
-)
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  `ID_ARTISAN` bigint(20) NOT NULL,
+  `ID_ACTIVITE` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `specialiste`
+--
+
+INSERT INTO `specialiste` (`ID_ARTISAN`, `ID_ACTIVITE`) VALUES
+(17, 1),
+(16, 2),
+(18, 2),
+(16, 3);
 
 -- --------------------------------------------------------
 
@@ -620,29 +578,26 @@ CREATE TABLE `specialiste` (
 
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
-  `ID_USER`           BIGINT(20) NOT NULL,
-  `FIRSTNAME_USER`    VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `LASTNAME_USER`     VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `EMAIL_USER`        VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `LOGIN_USER`        VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `PASSWORD_USER`     VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `RANK_USER`         VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `ISACTIVE_USER`     TINYINT(1) NOT NULL                  DEFAULT '0',
-  `DATEREGISTER_USER` DATE                                 DEFAULT NULL,
-  `LASTLOGIN_USER`    DATE                                 DEFAULT NULL,
-  `TOKEN`             VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL
-)
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  `ID_USER` bigint(20) NOT NULL,
+  `FIRSTNAME_USER` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `LASTNAME_USER` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `EMAIL_USER` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `LOGIN_USER` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `PASSWORD_USER` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `RANK_USER` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `ISACTIVE_USER` tinyint(1) NOT NULL DEFAULT '0',
+  `DATEREGISTER_USER` date DEFAULT NULL,
+  `LASTLOGIN_USER` date DEFAULT NULL,
+  `TOKEN` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`ID_USER`, `FIRSTNAME_USER`, `LASTNAME_USER`, `EMAIL_USER`, `LOGIN_USER`, `PASSWORD_USER`, `RANK_USER`, `ISACTIVE_USER`, `DATEREGISTER_USER`, `LASTLOGIN_USER`, `TOKEN`) VALUES
-  (1, 'Abdelaziz', 'id mansour', 'aziz.idmansour@gmail.com', 'maidmansour', '49fb2fd3630355bc22647168c3df096ee1491f103983b028a2c252a712859bb2', '1', 49, '2017-12-20', NULL, NULL),
-  (2, 'youssef', 'Erratbi', 'yerratbi@gmail.com', 'erratbi', '6286d3c2600686e1b101d2a99a2a303fa145a6dd915855cfa6f18df3fedd8db7', NULL, 1, '2017-12-20', NULL, NULL);
+(1, 'Abdelaziz', 'id mansour', 'aziz.idmansour@gmail.com', 'maidmansour', '49fb2fd3630355bc22647168c3df096ee1491f103983b028a2c252a712859bb2', '1', 49, '2017-12-20', NULL, NULL),
+(2, 'youssef', 'Erratbi', 'yerratbi@gmail.com', 'erratbi', '6286d3c2600686e1b101d2a99a2a303fa145a6dd915855cfa6f18df3fedd8db7', NULL, 1, '2017-12-20', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -652,20 +607,17 @@ INSERT INTO `user` (`ID_USER`, `FIRSTNAME_USER`, `LASTNAME_USER`, `EMAIL_USER`, 
 
 DROP TABLE IF EXISTS `zone`;
 CREATE TABLE `zone` (
-  `ID_ZONE` BIGINT(20) NOT NULL,
-  `LIBELLE` VARCHAR(200) COLLATE utf8_unicode_ci DEFAULT NULL
-)
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  `ID_ZONE` bigint(20) NOT NULL,
+  `LIBELLE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `zone`
 --
 
 INSERT INTO `zone` (`ID_ZONE`, `LIBELLE`) VALUES
-  (1, '1'),
-  (2, '2');
+(1, '1'),
+(2, '2');
 
 --
 -- Indexes for dumped tables
@@ -704,7 +656,7 @@ ALTER TABLE `demande_devis`
 -- Indexes for table `geolocaliser`
 --
 ALTER TABLE `geolocaliser`
-  ADD PRIMARY KEY (`ID_ARTISAN`, `ID_ZONE`),
+  ADD PRIMARY KEY (`ID_ARTISAN`,`ID_ZONE`),
   ADD KEY `FK_GEOLOCALISER` (`ID_ZONE`);
 
 --
@@ -808,7 +760,7 @@ ALTER TABLE `qualif_video_surveillance`
 -- Indexes for table `specialiste`
 --
 ALTER TABLE `specialiste`
-  ADD PRIMARY KEY (`ID_ARTISAN`, `ID_ACTIVITE`),
+  ADD PRIMARY KEY (`ID_ARTISAN`,`ID_ACTIVITE`),
   ADD KEY `FK_SPECIALISTE` (`ID_ACTIVITE`);
 
 --
@@ -831,121 +783,107 @@ ALTER TABLE `zone`
 -- AUTO_INCREMENT for table `activite`
 --
 ALTER TABLE `activite`
-  MODIFY `ID_ACTIVITE` BIGINT(20) NOT NULL AUTO_INCREMENT,
-  AUTO_INCREMENT = 9;
+  MODIFY `ID_ACTIVITE` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `artisan`
 --
 ALTER TABLE `artisan`
-  MODIFY `ID_ARTISAN` BIGINT(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID_ARTISAN` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 --
 -- AUTO_INCREMENT for table `chantier`
 --
 ALTER TABLE `chantier`
-  MODIFY `ID_CHANTIER` BIGINT(20) NOT NULL AUTO_INCREMENT,
-  AUTO_INCREMENT = 56;
+  MODIFY `ID_CHANTIER` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 --
 -- AUTO_INCREMENT for table `demande_devis`
 --
 ALTER TABLE `demande_devis`
-  MODIFY `ID_DEMANDE` BIGINT(20) NOT NULL AUTO_INCREMENT,
-  AUTO_INCREMENT = 40;
+  MODIFY `ID_DEMANDE` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 --
 -- AUTO_INCREMENT for table `geolocaliser`
 --
 ALTER TABLE `geolocaliser`
-  MODIFY `ID_ARTISAN` BIGINT(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID_ARTISAN` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 --
 -- AUTO_INCREMENT for table `particulier`
 --
 ALTER TABLE `particulier`
-  MODIFY `ID_PARTICULIER` BIGINT(20) NOT NULL AUTO_INCREMENT,
-  AUTO_INCREMENT = 21;
+  MODIFY `ID_PARTICULIER` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 --
 -- AUTO_INCREMENT for table `qualif_alarme_incendie`
 --
 ALTER TABLE `qualif_alarme_incendie`
-  MODIFY `ID_QUALIF_INCENDIE` BIGINT(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID_QUALIF_INCENDIE` bigint(20) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `qualif_alarme_maison`
 --
 ALTER TABLE `qualif_alarme_maison`
-  MODIFY `ID_QUALIF_MAISON` BIGINT(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID_QUALIF_MAISON` bigint(20) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `qualif_chauffage`
 --
 ALTER TABLE `qualif_chauffage`
-  MODIFY `ID_QUALIF_CHAUFFAGE` BIGINT(20) NOT NULL AUTO_INCREMENT,
-  AUTO_INCREMENT = 11;
+  MODIFY `ID_QUALIF_CHAUFFAGE` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `qualif_climatisation`
 --
 ALTER TABLE `qualif_climatisation`
-  MODIFY `ID_QUALIF_CLIMATISATION` BIGINT(20) NOT NULL AUTO_INCREMENT,
-  AUTO_INCREMENT = 2;
+  MODIFY `ID_QUALIF_CLIMATISATION` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `qualif_cuisine`
 --
 ALTER TABLE `qualif_cuisine`
-  MODIFY `ID_QUALIF_CUISINE` BIGINT(20) NOT NULL AUTO_INCREMENT,
-  AUTO_INCREMENT = 3;
+  MODIFY `ID_QUALIF_CUISINE` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `qualif_demenagement`
 --
 ALTER TABLE `qualif_demenagement`
-  MODIFY `ID_QUALIF_DEMENAGEMENT` BIGINT(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID_QUALIF_DEMENAGEMENT` bigint(20) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `qualif_fenetre`
 --
 ALTER TABLE `qualif_fenetre`
-  MODIFY `ID_QUALIF_FENETRE` BIGINT(20) NOT NULL AUTO_INCREMENT,
-  AUTO_INCREMENT = 7;
+  MODIFY `ID_QUALIF_FENETRE` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `qualif_piscine`
 --
 ALTER TABLE `qualif_piscine`
-  MODIFY `ID_QUALIF_PISCINE` BIGINT(20) NOT NULL AUTO_INCREMENT,
-  AUTO_INCREMENT = 2;
+  MODIFY `ID_QUALIF_PISCINE` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `qualif_porte_blindee`
 --
 ALTER TABLE `qualif_porte_blindee`
-  MODIFY `ID_QUALIF_PORTE_BLINDEE` BIGINT(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID_QUALIF_PORTE_BLINDEE` bigint(20) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `qualif_salle_bain`
 --
 ALTER TABLE `qualif_salle_bain`
-  MODIFY `ID_QUALIF_SALLE_BAIN` BIGINT(20) NOT NULL AUTO_INCREMENT,
-  AUTO_INCREMENT = 2;
+  MODIFY `ID_QUALIF_SALLE_BAIN` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `qualif_sauna_hammam`
 --
 ALTER TABLE `qualif_sauna_hammam`
-  MODIFY `ID_QUALIF_SAUNA_HAMMAM` BIGINT(20) NOT NULL AUTO_INCREMENT,
-  AUTO_INCREMENT = 2;
+  MODIFY `ID_QUALIF_SAUNA_HAMMAM` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `qualif_spa`
 --
 ALTER TABLE `qualif_spa`
-  MODIFY `ID_QUALIF_SPA` BIGINT(20) NOT NULL AUTO_INCREMENT,
-  AUTO_INCREMENT = 3;
+  MODIFY `ID_QUALIF_SPA` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `qualif_video_surveillance`
 --
 ALTER TABLE `qualif_video_surveillance`
-  MODIFY `ID_QUALIF_VIDEO` BIGINT(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID_QUALIF_VIDEO` bigint(20) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `ID_USER` BIGINT(20) NOT NULL AUTO_INCREMENT,
-  AUTO_INCREMENT = 3;
+  MODIFY `ID_USER` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `zone`
 --
 ALTER TABLE `zone`
-  MODIFY `ID_ZONE` BIGINT(20) NOT NULL AUTO_INCREMENT,
-  AUTO_INCREMENT = 3;
+  MODIFY `ID_ZONE` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- Constraints for dumped tables
 --
@@ -960,7 +898,7 @@ ALTER TABLE `chantier`
 -- Constraints for table `demande_devis`
 --
 ALTER TABLE `demande_devis`
-  ADD CONSTRAINT `FK_CATEGORISEE` FOREIGN KEY (`ID_ACTIVITE`) REFERENCES `activite` (`ID_ACTIVITE`),
+  ADD CONSTRAINT `FK_CATEGORISEE` FOREIGN KEY (`ID_ACTIVITE`) REFERENCES `activite` (`id_activite`),
   ADD CONSTRAINT `FK_CONCERNE` FOREIGN KEY (`ID_CHANTIER`) REFERENCES `chantier` (`id_chantier`),
   ADD CONSTRAINT `FK_FAIT` FOREIGN KEY (`ID_PARTICULIER`) REFERENCES `particulier` (`id_particulier`),
   ADD CONSTRAINT `FK_TRAITER` FOREIGN KEY (`ID_USER`) REFERENCES `user` (`id_user`);
@@ -1048,9 +986,10 @@ ALTER TABLE `qualif_video_surveillance`
 -- Constraints for table `specialiste`
 --
 ALTER TABLE `specialiste`
-  ADD CONSTRAINT `FK_SPECIALISTE` FOREIGN KEY (`ID_ACTIVITE`) REFERENCES `activite` (`ID_ACTIVITE`),
+  ADD CONSTRAINT `FK_SPECIALISTE` FOREIGN KEY (`ID_ACTIVITE`) REFERENCES `activite` (`id_activite`),
   ADD CONSTRAINT `FK_SPECIALISTE2` FOREIGN KEY (`ID_ARTISAN`) REFERENCES `artisan` (`id_artisan`);
+SET FOREIGN_KEY_CHECKS=1;
 
-/*!40101 SET CHARACTER_SET_CLIENT = @OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS = @OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION = @OLD_COLLATION_CONNECTION */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
