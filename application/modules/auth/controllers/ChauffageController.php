@@ -137,45 +137,11 @@ class Auth_ChauffageController extends Zend_Controller_Action {
         // Save the qualification
         $qualification = $em->getRepository('Auth_Model_Chauffage')->save($id, $data);
 
-        if ($qualification) {
+        if ($qualification)
 
           // Send an email if there hasn't been one sent
-          if ($sendEmail) {
-
-            // Fetching the artisans concerned with this demande
-            $artisans = $em->getRepository('Auth_Model_Artisan')->findListEmail(
-              $demande->getId_activite()->getId_activite(),
-              $demande->getId_chantier()->getId_zone()
-            );
-
-            // Sending the email to the artisans
-            foreach ($artisans as $artisan) {
-              $mail = new Zend_Mail('utf-8');
-              $body = $this->view->partial('shared/mail_new_demande_artisan.phtml', [
-                'nom' => $artisan['nom_artisan'],
-                'ref' => $demande->getRef(),
-              ]);
-              $mail->setBodyHtml($body);
-              $mail->setFrom($this->_sys_email['address'], $this->_sys_email['name']);
-              $mail->addTo($artisan['email_artisan']);
-              $mail->setSubject('Nouvelle demande de devis');
-              $mail->send();
-            }
-
-            // Sending the email to the particulier
-            $mail = new Zend_Mail('utf-8');
-            $body = $this->view->partial('shared/mail_new_demande_particulier.phtml', [
-              'nom' => $demande->getId_particulier()->getNom_particulier(),
-              'ref' => $demande->getRef(),
-            ]);
-            $mail->setBodyHtml($body);
-            $mail->setFrom($this->_sys_email['address'], $this->_sys_email['name']);
-            $mail->addTo($qualification->id_demande->id_particulier->email);
-            $mail->setSubject('Votre demande de devis est approuvée');
-            $mail->send();
-          }
-
-        }
+          if ($sendEmail)
+            $this->sendEmailNotifications($demande);
 
 
         $_SESSION['flash'] = "La mise à jour a été effectuée avec success";

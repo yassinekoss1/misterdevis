@@ -684,6 +684,12 @@ class Auth_Model_Demandedevis {
       case 'CUISINE':
         $type = 'CUI';
         break;
+      case 'PISCINE':
+        $type = 'PSC';
+        break;
+      case 'CLIMATISATION':
+        $type = 'CLM';
+        break;
       case 'SPA':
         $type = 'SPA';
         break;

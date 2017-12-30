@@ -97,7 +97,7 @@
 										<?= $demande['ville'] ?>
 									</td>
 									<td>
-										<?= $demande['code_postal'] ?>
+										<?= $demande['code'] ?>
 									</td>
 									<td><a class="table-link" id="btn-edit-client-<?= $demande['id_demande'] ?>" href="/auth/fenetre/edit/id/<?= $demande['id_demande'] ?>" style="cursor: pointer;">
 											<span class="fa-stack">
@@ -124,7 +124,7 @@
 <script>
 
 	// Long polling notification data
-	function getNotifications(lastCount=-1) {
+	function getNotifications(lastCount = -1) {
 		$.ajax({
 			url: '/auth/fenetre/notification?count=' + lastCount,
 			dataType: 'json',
