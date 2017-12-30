@@ -105,15 +105,18 @@ class Auth_Model_ClimatisationRepository extends EntityRepository {
     // Populating chantier object
 
     $chantier = $demande->getId_Chantier();
-    if (!$chantier) $chantier = new Auth_Model_Chantier();
+    if (!$chantier) {
+      $chantier = new Auth_Model_Chantier();
+      $chantier->zone = $this->_em->getRepository('Auth_Model_Zone')->find($data['Chantier']['id_zone']);
+    }
 
     foreach ($data['Chantier'] as $key => $val) {
+      if ($key === 'id_zone') continue;
       $prop = 'set' . ucfirst($key);
       if (method_exists($chantier, 'set' . ucfirst($key))) {
         $chantier->$prop($val);
       }
     }
-
 
     $this->_em->persist($chantier);
     $this->_em->flush();

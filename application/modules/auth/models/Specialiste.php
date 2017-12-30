@@ -26,8 +26,20 @@ class Auth_Model_Specialiste {
    */
   private $id_activite;
 
+
   /**
-   * @var entity Artisan
+   * @var Activite $activite
+   *
+   * @ManyToOne(targetEntity="Auth_Model_Activite")
+   * @JoinColumns({
+   *   @JoinColumn(name="ID_ACTIVITE", referencedColumnName="ID_ACTIVITE")
+   * })
+   */
+  private $activite;
+
+
+  /**
+   * @var Artisan $artisan
    *
    * @ManyToOne(targetEntity="Auth_Model_Artisan")
    * @JoinColumns({
@@ -83,6 +95,24 @@ class Auth_Model_Specialiste {
 
 
   /**
+   * @return the $artisan
+   */
+  public function getArtisan() {
+
+    return $this->artisan;
+  }
+
+
+  /**
+   * @return the $activite
+   */
+  public function getActivite() {
+
+    return $this->activite;
+  }
+
+
+  /**
    * @param integer $id_artisan
    */
   public function setId_artisan($id_artisan) {
@@ -97,6 +127,24 @@ class Auth_Model_Specialiste {
   public function setId_activite($id_activite) {
 
     $this->id_activite = $id_activite;
+  }
+
+
+  /**
+   * @param integer $artisan
+   */
+  public function setArtisan($artisan) {
+
+    $this->artisan = $artisan;
+  }
+
+
+  /**
+   * @param integer $activite
+   */
+  public function setActivite($activite) {
+
+    $this->activite = $activite;
   }
 
 

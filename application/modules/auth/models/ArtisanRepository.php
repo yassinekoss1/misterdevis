@@ -24,4 +24,21 @@ class Auth_Model_ArtisanRepository extends EntityRepository {
       ->getQuery()
       ->getResult();
   }
+
+
+  public function getSpecialities($id) {
+
+    $qb = $this->_em->createQueryBuilder();
+
+    return $qb
+      ->from('Auth_Model_Specialiste', 's')
+      ->select('ac.libelle as type')
+      ->innerJoin('s.artisan', 'a')
+      ->innerJoin('s.activite', 'ac')
+      ->where('a.id_artisan = :id')
+      ->setParameter('id', $id)
+      ->getQuery()
+      ->getResult();
+
+  }
 }

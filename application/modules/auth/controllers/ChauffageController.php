@@ -68,6 +68,45 @@ class Auth_ChauffageController extends Zend_Controller_Action {
   }
 
 
+  private function sendEmailNotifications($demande) {
+
+    $em = $this->getRequest()->_em;
+
+
+    // Fetching the artisans concerned with this demande
+    $artisans = $em->getRepository('Auth_Model_Artisan')->findListEmail(
+      $demande->getId_activite()->getId_activite(),
+      $demande->getId_chantier()->getId_zone()
+    );
+
+    $data = [
+      'artisans'     => $artisans,
+      'particuliers' => [
+        [
+          'nom_particulier'   => $demande->getId_particulier()->getNom_particulier(),
+          'email_particulier' => $demande->getId_particulier()->getEmail(),
+        ],
+      ],
+      'ref'          => $demande->getRef(),
+    ];
+
+    $data_string = json_encode($data);
+
+
+    $ch = curl_init('0.0.0.0:3000');
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, false);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+      'Content-Type: application/json',
+      'Authorization: ' . md5('erratbi'),
+      'Content-Length: ' . strlen($data_string),
+    ]);
+
+    curl_exec($ch);
+  }
+
+
   public function editAction() {
 
     // If it's an ajax request disable the layout

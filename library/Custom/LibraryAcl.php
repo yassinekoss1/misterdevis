@@ -33,6 +33,7 @@ class Custom_LibraryAcl extends Zend_Acl {
     // **** Resources for module Auth *****
     $this->add(new Zend_Acl_Resource('auth'));
     $this->add(new Zend_Acl_Resource('auth:index'), 'auth');
+    $this->add(new Zend_Acl_Resource('auth:api'), 'auth');
     $this->add(new Zend_Acl_Resource('auth:login'), 'auth');
     $this->add(new Zend_Acl_Resource('auth:logout'), 'auth');
     $this->add(new Zend_Acl_Resource('auth:user'), 'auth');
@@ -56,6 +57,7 @@ class Custom_LibraryAcl extends Zend_Acl {
 
     // -------  >> module Auth  << -------
     $this->allow('auth', 'auth:index');
+    $this->allow('guests', 'auth:api');
     $this->allow('guests', 'auth:login');
     $this->allow('auth', 'auth:logout');
     $this->allow('auth', 'auth:user');

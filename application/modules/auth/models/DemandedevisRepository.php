@@ -130,4 +130,25 @@ class Auth_Model_DemandedevisRepository extends EntityRepository {
   }
 
 
+  public function findAllBy($criteria) {
+
+    $q = $this->createQueryBuilder('d')
+      ->leftJoin('d.id_activite', 'a');
+
+
+    if ($criteria['type'])
+      $q->andWhere("a.libelle IN  (:types)")->setParameter('types', array_map(function ($type) {
+
+        return $type['type'];
+      }, $criteria['type']));
+
+    if ($criteria['online'])
+      $q->andWhere('d.publier_en_ligne = 1');
+
+    if ($criteria['limit'])
+      $q->setMaxResults($criteria['limit']);
+
+    return $q->getQuery()->getResult();
+  }
+
 }
