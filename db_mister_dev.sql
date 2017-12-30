@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Dec 29, 2017 at 07:28 PM
+-- Generation Time: Dec 30, 2017 at 11:48 AM
 -- Server version: 5.7.20-0ubuntu0.17.10.1
 -- PHP Version: 5.6.32-1+ubuntu17.10.1+deb.sury.org+2
 
@@ -82,9 +82,9 @@ CREATE TABLE `artisan` (
 
 INSERT INTO `artisan` (`ID_ARTISAN`, `ID_ZONE`, `CODE_ARTISAN`, `NOM_ARTISAN`, `PRENOM_ARTISAN`, `RAISON_SOCIALE`, `EMAIL_ARTISAN`, `TELEPHONE_FIXE`, `TELEPHONE_PORTABLE`, `FAX`, `RCS`, `SIRET`, `CODE_NAF`, `HORAIRERDV`, `ADRESSE`, `ADRESSE2`, `DESCRIPTION`, `QUALIFICATION`) VALUES
 (16, 1806, NULL, 'Lannister', 'Jamie', 'rs', 'yerratbi@email.com', '061239489', '061234589', NULL, NULL, NULL, NULL, '16h-18h', NULL, NULL, NULL, NULL),
-(17, 1806, NULL, 'Lannister', 'Cersie', 'rs', 'yerratb.i@email.com', '061239489', '061234589', NULL, NULL, NULL, NULL, '16h-18h', NULL, NULL, NULL, NULL),
-(18, 4, NULL, 'Bronn', 'Bronn', 'rs', 'y.erratbi@email.com', '061239489', '061234589', NULL, NULL, NULL, NULL, '16h-18h', NULL, NULL, NULL, NULL),
-(21, 30331, NULL, 'Test', 'Testeur', 'Testing', 'y.e.rr.atbi@gmail.com', '01 23 45 67 88', '09 27 49 83 98', NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL);
+(17, 1806, NULL, 'Lannister', 'Cersie', 'rs', 'yerra.tb.i@email.com', '061239489', '061234589', NULL, NULL, NULL, NULL, '16h-18h', NULL, NULL, NULL, NULL),
+(18, 1806, NULL, 'Bronn', 'Bronn', 'rs', 'y.erratbi@email.com', '061239489', '061234589', NULL, NULL, NULL, NULL, '16h-18h', NULL, NULL, NULL, NULL),
+(21, 1806, NULL, 'Test', 'Testeur', 'Testing', 'y.e.rr.atbi@gmail.com', '01 23 45 67 88', '09 27 49 83 98', NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -95,7 +95,7 @@ INSERT INTO `artisan` (`ID_ARTISAN`, `ID_ZONE`, `CODE_ARTISAN`, `NOM_ARTISAN`, `
 DROP TABLE IF EXISTS `chantier`;
 CREATE TABLE `chantier` (
   `ID_CHANTIER` bigint(20) NOT NULL,
-  `ID_ZONE` bigint(20) NOT NULL,
+  `ID_ZONE` bigint(20) DEFAULT NULL,
   `ADRESSE` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
   `ADRESSE2` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   `VILLE` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
@@ -127,7 +127,7 @@ INSERT INTO `chantier` (`ID_CHANTIER`, `ID_ZONE`, `ADRESSE`, `ADRESSE2`, `VILLE`
 (52, 1, 'adresse fake', '', '', ''),
 (53, 2378, '433 stewart street', '', 'INDIANAPOLIS', '47715'),
 (54, 1, '198 lot taalim', '', 'boujdour', '71000'),
-(55, 2, '433 stewart street', '', 'indianapolis', '47715');
+(55, 1, '433 stewart street', '', 'indianapolis', '47715');
 
 -- --------------------------------------------------------
 
@@ -138,8 +138,8 @@ INSERT INTO `chantier` (`ID_CHANTIER`, `ID_ZONE`, `ADRESSE`, `ADRESSE2`, `VILLE`
 DROP TABLE IF EXISTS `demande_devis`;
 CREATE TABLE `demande_devis` (
   `ID_DEMANDE` bigint(20) NOT NULL,
-  `ID_PARTICULIER` bigint(20) NOT NULL,
-  `ID_ACTIVITE` bigint(20) NOT NULL,
+  `ID_PARTICULIER` bigint(20) DEFAULT NULL,
+  `ID_ACTIVITE` bigint(20) DEFAULT NULL,
   `ID_CHANTIER` bigint(20) DEFAULT NULL,
   `ID_USER` bigint(20) DEFAULT NULL,
   `TITRE_DEMANDE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -168,41 +168,17 @@ CREATE TABLE `demande_devis` (
 --
 
 INSERT INTO `demande_devis` (`ID_DEMANDE`, `ID_PARTICULIER`, `ID_ACTIVITE`, `ID_CHANTIER`, `ID_USER`, `TITRE_DEMANDE`, `DELAI_SOUHAITE`, `DESCRIPTION`, `TYPE_DEMANDEUR`, `TYPE_PROPRIETE`, `TYPE_BATIMENT`, `BUDGET_APPROXIMATIF`, `FINANCEMENT_PROJET`, `OBJECTIF_DEMANDE`, `PRESTATION_SOUHAITE`, `INDICATION_COMPLEMENTAIRE`, `QUALIFICATION`, `PRIX_MISE_EN_LIGNE`, `PRIX_PROMO`, `PUBLIER_EN_LIGNE`, `CHEMIN_PDF`, `DATE_CREATION`, `DATE_PUBLICATION`, `PUBLIER_ENVOI`) VALUES
-(8, 2, 2, 28, 2, 'installation chauffage', 'Dans moins d\'un mois', 'lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet .', 'Autre', 'Administrateur', 'Immeuble', '1000', 'Crédit Obtenu', 'Obtenir des devis et trouver une entreprise', 'Pose Uniquement', 'lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet .', 'Occupé', '1000', '3000', '1', NULL, '2017-12-23 18:44:19', '2017-12-29 19:01:55', 1),
-(9, 1, 3, 39, 2, 'Reparation de fenetres', 'Dans moins d\'un mois', 'lorem ipsum dolor sit amit', 'Industriel', 'Futur Propriétaire', 'Bureau', '5000', 'Comptant', 'Obtenir des devis et trouver une entreprise', 'Fourniture Uniquement', 'lorem ipsum dolor sit amit', 'Occupé', '1000', '100', '1', NULL, '2017-12-23 19:03:34', '2017-12-24 23:54:36', 0),
-(10, 1, 2, 37, 2, 'demande chanffage 2', 'Au plus vite', 'lorem ipsum dolor', 'Commerçant', 'Futur Propriétaire', 'Bureau', '5000', 'Demande de crédit en cours', 'Obtenir des devis et trouver une entreprise', 'Fourniture et Pose', 'lorem ipsum dolor', 'NRP', '1000', '100', '1', NULL, '2017-12-24 20:41:33', '2017-12-29 19:26:48', 1),
-(11, 1, 4, 45, 2, 'installation de cuisine', 'Dans moins d\'un mois', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit.', '', '', 'Commerce', '5000', 'Crédit Obtenu', 'Obtenir des devis et trouver une entreprise', 'Pose Uniquement', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit.', 'Qualifié', '1000', '100', '1', NULL, '2017-12-24 23:19:08', '2017-12-29 19:27:04', 1),
-(12, 1, 5, 46, 2, 'travaux salle de bain', 'Dans moins d\'un mois', 'lotem ipsum', 'Industriel', 'Futur Propriétaire', 'Commerce', '5000', 'Crédit Obtenu', 'Obtenir des devis et trouver une entreprise', 'Pose Uniquement', 'lorem ipsum dolor', 'Non qualifiée', '1000', '100', '1', NULL, '2017-12-25 01:28:11', '2017-12-29 19:27:11', 1),
-(13, 1, 6, 47, 2, 'i want a sauna', 'Dans moins de 2 mois', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit', 'Profession Libérale', 'Locataire', 'Bureau', '5000', 'Crédit Obtenu', 'Obtenir des devis et trouver une entreprise', 'Pose Uniquement', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit', 'NRP', '1000', '300', '1', NULL, '2017-12-25 11:12:03', '2017-12-29 19:27:18', 1),
-(14, 1, 7, 48, 2, 'je veux un spa', 'Dans moins de 2 mois', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit', 'Industriel', 'Locataire', 'Bureau', '4000', 'Demande de crédit en cours', 'Obtenir des devis et trouver une entreprise', 'Fourniture et Pose', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit', 'Qualifié', '1000', '100', '1', NULL, '2017-12-25 12:02:10', '2017-12-29 16:37:17', 1),
-(15, 2, 7, 49, 2, 'spa request', 'Dans l\'année', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit', 'Société', 'Futur Locataire', 'Appartement', '5000', 'Demande de crédit en cours', 'Avoir juste une idée des prix', 'Pose Uniquement', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit', 'Trop tard', '1000', '330', '1', NULL, '2017-12-25 21:07:57', '2017-12-29 19:07:19', 1),
-(16, 2, 3, 50, 2, 'fenetres demande 2', '', 'lorem ipsum lorem ipsum lorem ipsum', 'Syndic de Copropriété', 'Futur Locataire', 'Bureau', '5090', '', '', '', 'lorem ipsum lorem ipsum lorem ipsum', '', '300', '5000', '1', NULL, '2017-12-26 13:13:29', '2017-12-29 16:22:57', 1),
-(17, 2, 1, 51, 2, 'demande piscine', 'Dans moins de 6 mois', '', 'Profession Libérale', 'Futur Propriétaire', 'Maison Indviduelle', '1000', 'Comptant', 'Trouver une entreprise disponible', 'Fourniture et Pose', '', '', '898', '800', '1', NULL, '2017-12-26 14:58:10', '2017-12-29 19:26:30', 1),
-(21, 2, 8, 52, 2, 'climatisation', 'Au plus vite', 'dadada', 'Particulier', 'Futur Propriétaire', 'Maison Indviduelle', '5000', 'Demande de crédit en cours', 'Obtenir des devis et trouver une entreprise', 'Fourniture et Pose', '', 'Qualifié', '', '', '0', NULL, '2017-12-26 22:26:47', '2017-12-29 19:27:25', 0),
-(34, 15, 3, 53, 2, 'fenetres', '', '', '', '', '', '', '', '', '', '', '', '', '', '0', NULL, '2017-12-27 16:17:45', '2017-12-29 19:06:35', 0),
-(35, 16, 3, 54, 2, 'fenetresssss', '', '', '', '', '', '', '', '', '', '', '', '', '', '1', NULL, '2017-12-27 19:31:17', '2017-12-29 19:26:55', 1),
-(39, 20, 3, 55, 2, 'une demande', '', '', '', '', '', '', '', '', '', '', '', '', '', '1', NULL, '2017-12-27 20:37:18', '2017-12-27 20:40:19', 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `geolocaliser`
---
-
-DROP TABLE IF EXISTS `geolocaliser`;
-CREATE TABLE `geolocaliser` (
-  `ID_ARTISAN` bigint(20) NOT NULL,
-  `ID_ZONE` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `geolocaliser`
---
-
-INSERT INTO `geolocaliser` (`ID_ARTISAN`, `ID_ZONE`) VALUES
-(17, 1),
-(16, 2),
-(18, 2);
+(8, 2, 2, 28, 2, 'installation chauffage', 'Dans moins d\'un mois', 'lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet .', 'Autre', 'Administrateur', 'Immeuble', '1000', 'Crédit Obtenu', 'Obtenir des devis et trouver une entreprise', 'Pose Uniquement', 'lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet .', 'Occupé', '1000', '3000', '1', NULL, '2017-12-23 18:44:19', '2017-12-29 19:01:55', NULL),
+(10, 1, 2, 37, 2, 'demande chanffage 2', 'Au plus vite', 'lorem ipsum dolor', 'Commerçant', 'Futur Propriétaire', 'Bureau', '5000', 'Demande de crédit en cours', 'Obtenir des devis et trouver une entreprise', 'Fourniture et Pose', 'lorem ipsum dolor', 'NRP', '1000', '100', '1', NULL, '2017-12-24 20:41:33', '2017-12-30 11:33:23', NULL),
+(11, 1, 4, 45, 2, 'installation de cuisine', 'Dans moins d\'un mois', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit.', '', '', 'Commerce', '5000', 'Crédit Obtenu', 'Obtenir des devis et trouver une entreprise', 'Pose Uniquement', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit.', 'Qualifié', '1000', '100', '1', NULL, '2017-12-24 23:19:08', '2017-12-30 11:42:22', NULL),
+(12, 1, 5, 46, 2, 'travaux salle de bain', 'Dans moins d\'un mois', 'lotem ipsum', 'Industriel', 'Futur Propriétaire', 'Commerce', '5000', 'Crédit Obtenu', 'Obtenir des devis et trouver une entreprise', 'Pose Uniquement', 'lorem ipsum dolor', 'Non qualifiée', '1000', '100', '1', NULL, '2017-12-25 01:28:11', '2017-12-30 11:42:47', NULL),
+(13, 1, 6, 47, 2, 'i want a sauna', 'Dans moins de 2 mois', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit', 'Profession Libérale', 'Locataire', 'Bureau', '5000', 'Crédit Obtenu', 'Obtenir des devis et trouver une entreprise', 'Pose Uniquement', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit', 'NRP', '1000', '300', '1', NULL, '2017-12-25 11:12:03', '2017-12-30 11:43:31', 1),
+(14, 1, 7, 48, 2, 'je veux un spa', 'Dans moins de 2 mois', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit', 'Industriel', 'Locataire', 'Bureau', '4000', 'Demande de crédit en cours', 'Obtenir des devis et trouver une entreprise', 'Fourniture et Pose', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit', 'Qualifié', '1000', '100', '1', NULL, '2017-12-25 12:02:10', '2017-12-30 11:43:48', 1),
+(15, 2, 7, 49, 2, 'spa request', 'Dans l\'année', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit', 'Société', 'Futur Locataire', 'Appartement', '5000', 'Demande de crédit en cours', 'Avoir juste une idée des prix', 'Pose Uniquement', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit', 'Trop tard', '1000', '330', '1', NULL, '2017-12-25 21:07:57', '2017-12-29 19:07:19', NULL),
+(16, 2, 3, 50, 2, 'fenetres demande 2', '', 'lorem ipsum lorem ipsum lorem ipsum', 'Syndic de Copropriété', 'Futur Locataire', 'Bureau', '5090', '', '', '', 'lorem ipsum lorem ipsum lorem ipsum', '', '300', '5000', '1', NULL, '2017-12-26 13:13:29', '2017-12-29 16:22:57', NULL),
+(17, 2, 1, 51, 2, 'demande piscine', 'Dans moins de 6 mois', '', 'Profession Libérale', 'Futur Propriétaire', 'Maison Indviduelle', '1000', 'Comptant', 'Trouver une entreprise disponible', 'Fourniture et Pose', '', '', '898', '800', '1', NULL, '2017-12-26 14:58:10', '2017-12-30 11:41:12', NULL),
+(21, 2, 8, 52, 2, 'climatisation', 'Au plus vite', 'dadada', 'Particulier', 'Futur Propriétaire', 'Maison Indviduelle', '5000', 'Demande de crédit en cours', 'Obtenir des devis et trouver une entreprise', 'Fourniture et Pose', '', 'Qualifié', '', '', '1', NULL, '2017-12-26 22:26:47', '2017-12-30 11:44:51', 1),
+(39, 20, 3, 55, 2, 'une demande', '', '', '', '', '', '', '', '', '', '', '', '', '', '1', NULL, '2017-12-27 20:37:18', '2017-12-30 11:41:44', NULL);
 
 -- --------------------------------------------------------
 
@@ -407,10 +383,7 @@ CREATE TABLE `qualif_fenetre` (
 --
 
 INSERT INTO `qualif_fenetre` (`ID_QUALIF_FENETRE`, `ID_DEMANDE`, `NBRE_FENETRE`, `DEPOSE_FENETRE_EXISTANT`, `TYPE_FENETRE`, `TYPE_TRAVAUX`) VALUES
-(2, 9, '4', 1, 'Bois', 'Réparation'),
 (3, 16, '3', 1, 'Aluminium', 'Réparation'),
-(4, 34, '', 0, '', ''),
-(5, 35, '', 0, '', ''),
 (6, 39, '', 0, '', '');
 
 -- --------------------------------------------------------
@@ -567,7 +540,8 @@ CREATE TABLE `specialiste` (
 INSERT INTO `specialiste` (`ID_ARTISAN`, `ID_ACTIVITE`) VALUES
 (16, 2),
 (17, 2),
-(21, 4);
+(18, 2),
+(21, 2);
 
 -- --------------------------------------------------------
 
@@ -610,8 +584,6 @@ CREATE TABLE `zone` (
   `CODE` varchar(10) NOT NULL,
   `VILLE` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-
 
 --
 -- Dumping data for table `zone`
@@ -37140,7 +37112,6 @@ ALTER TABLE `artisan`
   ADD PRIMARY KEY (`ID_ARTISAN`),
   ADD KEY `ID_ZONE` (`ID_ZONE`);
 
-
 --
 -- Indexes for table `chantier`
 --
@@ -37157,13 +37128,6 @@ ALTER TABLE `demande_devis`
   ADD KEY `FK_CONCERNE` (`ID_CHANTIER`),
   ADD KEY `FK_FAIT` (`ID_PARTICULIER`),
   ADD KEY `FK_TRAITER` (`ID_USER`);
-
---
--- Indexes for table `geolocaliser`
---
-ALTER TABLE `geolocaliser`
-  ADD PRIMARY KEY (`ID_ARTISAN`,`ID_ZONE`),
-  ADD KEY `FK_GEOLOCALISER` (`ID_ZONE`);
 
 --
 -- Indexes for table `particulier`
@@ -37306,11 +37270,6 @@ ALTER TABLE `chantier`
 ALTER TABLE `demande_devis`
   MODIFY `ID_DEMANDE` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 --
--- AUTO_INCREMENT for table `geolocaliser`
---
-ALTER TABLE `geolocaliser`
-  MODIFY `ID_ARTISAN` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
---
 -- AUTO_INCREMENT for table `particulier`
 --
 ALTER TABLE `particulier`
@@ -37395,105 +37354,110 @@ ALTER TABLE `zone`
 --
 
 --
+-- Constraints for table `artisan`
+--
+ALTER TABLE `artisan`
+  ADD CONSTRAINT `FK_ARTISAN_ZON` FOREIGN KEY (`ID_ZONE`) REFERENCES `zone` (`ID_ZONE`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
 -- Constraints for table `chantier`
 --
 ALTER TABLE `chantier`
-  ADD CONSTRAINT `FK_APPARTIENT` FOREIGN KEY (`ID_ZONE`) REFERENCES `zone` (`ID_ZONE`);
+  ADD CONSTRAINT `FK_CHANTIER_ZONE` FOREIGN KEY (`ID_ZONE`) REFERENCES `zone` (`ID_ZONE`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `demande_devis`
 --
 ALTER TABLE `demande_devis`
-  ADD CONSTRAINT `FK_CATEGORISEE` FOREIGN KEY (`ID_ACTIVITE`) REFERENCES `activite` (`id_activite`),
-  ADD CONSTRAINT `FK_CONCERNE` FOREIGN KEY (`ID_CHANTIER`) REFERENCES `chantier` (`id_chantier`),
-  ADD CONSTRAINT `FK_FAIT` FOREIGN KEY (`ID_PARTICULIER`) REFERENCES `particulier` (`id_particulier`),
-  ADD CONSTRAINT `FK_TRAITER` FOREIGN KEY (`ID_USER`) REFERENCES `user` (`id_user`);
-
---
--- Constraints for table `geolocaliser`
---
-ALTER TABLE `geolocaliser`
-  ADD CONSTRAINT `FK_GEOLOCALISER` FOREIGN KEY (`ID_ZONE`) REFERENCES `zone` (`ID_ZONE`),
-  ADD CONSTRAINT `FK_GEOLOCALISER2` FOREIGN KEY (`ID_ARTISAN`) REFERENCES `artisan` (`id_artisan`);
+  ADD CONSTRAINT `FK_CATEGORISEE` FOREIGN KEY (`ID_ACTIVITE`) REFERENCES `activite` (`ID_ACTIVITE`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_CONCERNE` FOREIGN KEY (`ID_CHANTIER`) REFERENCES `chantier` (`ID_CHANTIER`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_FAIT` FOREIGN KEY (`ID_PARTICULIER`) REFERENCES `particulier` (`ID_PARTICULIER`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_TRAITER` FOREIGN KEY (`ID_USER`) REFERENCES `user` (`ID_USER`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `qualif_alarme_incendie`
 --
 ALTER TABLE `qualif_alarme_incendie`
-  ADD CONSTRAINT `FK_QUALIFIER_INCENDIE` FOREIGN KEY (`ID_DEMANDE`) REFERENCES `demande_devis` (`id_demande`);
+  ADD CONSTRAINT `FK_QUALIFIER_INCENDIE` FOREIGN KEY (`ID_DEMANDE`) REFERENCES `demande_devis` (`ID_DEMANDE`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `qualif_alarme_maison`
 --
 ALTER TABLE `qualif_alarme_maison`
-  ADD CONSTRAINT `FK_QUALIFIER_AL_MAISON` FOREIGN KEY (`ID_DEMANDE`) REFERENCES `demande_devis` (`id_demande`);
+  ADD CONSTRAINT `FK_QUALIFIER_AL_MAISON` FOREIGN KEY (`ID_DEMANDE`) REFERENCES `demande_devis` (`ID_DEMANDE`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `qualif_chauffage`
 --
 ALTER TABLE `qualif_chauffage`
-  ADD CONSTRAINT `FK_QUALIFIER_CHAUFFAGE` FOREIGN KEY (`ID_DEMANDE`) REFERENCES `demande_devis` (`id_demande`);
+  ADD CONSTRAINT `FK_QUALIFIER_CHAUFFAGE` FOREIGN KEY (`ID_DEMANDE`) REFERENCES `demande_devis` (`ID_DEMANDE`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `qualif_climatisation`
 --
 ALTER TABLE `qualif_climatisation`
-  ADD CONSTRAINT `FK_QUALIFIER_CLIMATISATION` FOREIGN KEY (`ID_DEMANDE`) REFERENCES `demande_devis` (`id_demande`);
+  ADD CONSTRAINT `FK_QUALIFIER_CLIMATISATION` FOREIGN KEY (`ID_DEMANDE`) REFERENCES `demande_devis` (`ID_DEMANDE`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `qualif_cuisine`
 --
 ALTER TABLE `qualif_cuisine`
-  ADD CONSTRAINT `FK_QUALIFIER_CUISINE` FOREIGN KEY (`ID_DEMANDE`) REFERENCES `demande_devis` (`id_demande`);
+  ADD CONSTRAINT `FK_QUALIFIER_CUISINE` FOREIGN KEY (`ID_DEMANDE`) REFERENCES `demande_devis` (`ID_DEMANDE`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `qualif_demenagement`
 --
 ALTER TABLE `qualif_demenagement`
-  ADD CONSTRAINT `FK_QUALIFIER_DEMENAGEMENT` FOREIGN KEY (`ID_DEMANDE`) REFERENCES `demande_devis` (`id_demande`);
+  ADD CONSTRAINT `FK_QUALIFIER_DEMENAGEMENT` FOREIGN KEY (`ID_DEMANDE`) REFERENCES `demande_devis` (`ID_DEMANDE`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `qualif_fenetre`
 --
 ALTER TABLE `qualif_fenetre`
-  ADD CONSTRAINT `FK_QUALIFIER_FENETRE` FOREIGN KEY (`ID_DEMANDE`) REFERENCES `demande_devis` (`id_demande`);
+  ADD CONSTRAINT `FK_QUALIFIER_FENETRE` FOREIGN KEY (`ID_DEMANDE`) REFERENCES `demande_devis` (`ID_DEMANDE`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `qualif_piscine`
 --
 ALTER TABLE `qualif_piscine`
-  ADD CONSTRAINT `FK_QUALIFIER_PISCINE` FOREIGN KEY (`ID_DEMANDE`) REFERENCES `demande_devis` (`id_demande`);
+  ADD CONSTRAINT `FK_QUALIFIER_PISCINE` FOREIGN KEY (`ID_DEMANDE`) REFERENCES `demande_devis` (`ID_DEMANDE`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `qualif_porte_blindee`
 --
 ALTER TABLE `qualif_porte_blindee`
-  ADD CONSTRAINT `FK_QUALIFIER_PORTE_BLINDEE` FOREIGN KEY (`ID_DEMANDE`) REFERENCES `demande_devis` (`id_demande`);
+  ADD CONSTRAINT `FK_QUALIFIER_PORTE_BLINDEE` FOREIGN KEY (`ID_DEMANDE`) REFERENCES `demande_devis` (`ID_DEMANDE`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `qualif_salle_bain`
 --
 ALTER TABLE `qualif_salle_bain`
-  ADD CONSTRAINT `FK_QUALIFIER_SALLE_BAIN` FOREIGN KEY (`ID_DEMANDE`) REFERENCES `demande_devis` (`id_demande`);
+  ADD CONSTRAINT `FK_QUALIFIER_SALLE_BAIN` FOREIGN KEY (`ID_DEMANDE`) REFERENCES `demande_devis` (`ID_DEMANDE`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `qualif_sauna_hammam`
 --
 ALTER TABLE `qualif_sauna_hammam`
-  ADD CONSTRAINT `FK_QUALIFIER_SAUNA_SPA` FOREIGN KEY (`ID_DEMANDE`) REFERENCES `demande_devis` (`id_demande`);
+  ADD CONSTRAINT `FK_QUALIFIER_SAUNA_SPA` FOREIGN KEY (`ID_DEMANDE`) REFERENCES `demande_devis` (`ID_DEMANDE`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `qualif_spa`
+--
+ALTER TABLE `qualif_spa`
+  ADD CONSTRAINT `FK_QUALIF_SPA` FOREIGN KEY (`ID_DEMANDE`) REFERENCES `demande_devis` (`ID_DEMANDE`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `qualif_video_surveillance`
 --
 ALTER TABLE `qualif_video_surveillance`
-  ADD CONSTRAINT `FK_QUALIFIER_VIDEO_SURVEILLANCE` FOREIGN KEY (`ID_DEMANDE`) REFERENCES `demande_devis` (`id_demande`);
+  ADD CONSTRAINT `FK_QUALIFIER_VIDEO_SURVEILLANCE` FOREIGN KEY (`ID_DEMANDE`) REFERENCES `demande_devis` (`ID_DEMANDE`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `specialiste`
 --
 ALTER TABLE `specialiste`
-  ADD CONSTRAINT `FK_SPECIALISTE` FOREIGN KEY (`ID_ACTIVITE`) REFERENCES `activite` (`id_activite`),
-  ADD CONSTRAINT `FK_SPECIALISTE2` FOREIGN KEY (`ID_ARTISAN`) REFERENCES `artisan` (`id_artisan`);
+  ADD CONSTRAINT `FK_SPECIALISTE` FOREIGN KEY (`ID_ACTIVITE`) REFERENCES `activite` (`ID_ACTIVITE`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_SPECIALISTE2` FOREIGN KEY (`ID_ARTISAN`) REFERENCES `artisan` (`ID_ARTISAN`) ON DELETE CASCADE ON UPDATE CASCADE;
 SET FOREIGN_KEY_CHECKS=1;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
