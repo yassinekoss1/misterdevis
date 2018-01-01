@@ -1,13 +1,13 @@
-<?php $this->layout()->setLayout('layout_fo_ehcg'); ?>
+<?php $this->layout()->setLayout( 'layout_fo_ehcg' ); ?>
 
 <!--data table-->
-<script src="<?= $this->baseUrl('resources_fo_ehcg/js/jquery.dataTables.js'); ?>"></script>
-<script src="<?= $this->baseUrl('resources_fo_ehcg/js/dataTables.tableTools.js'); ?>"></script>
-<script src="<?= $this->baseUrl('resources_fo_ehcg/js/jquery.dataTables.bootstrap.js'); ?>"></script>
+<script src="<?= $this->baseUrl( 'resources_fo_ehcg/js/jquery.dataTables.js' ); ?>"></script>
+<script src="<?= $this->baseUrl( 'resources_fo_ehcg/js/dataTables.tableTools.js' ); ?>"></script>
+<script src="<?= $this->baseUrl( 'resources_fo_ehcg/js/jquery.dataTables.bootstrap.js' ); ?>"></script>
 
 <!-- Data table-->
-<link rel="stylesheet" type="text/css" href="<?= $this->baseUrl('resources_fo_ehcg/css/libs/dataTables.fixedHeader.css'); ?>">
-<link rel="stylesheet" type="text/css" href="<?= $this->baseUrl('resources_fo_ehcg/css/libs/dataTables.tableTools.css'); ?>">
+<link rel="stylesheet" type="text/css" href="<?= $this->baseUrl( 'resources_fo_ehcg/css/libs/dataTables.fixedHeader.css' ); ?>">
+<link rel="stylesheet" type="text/css" href="<?= $this->baseUrl( 'resources_fo_ehcg/css/libs/dataTables.tableTools.css' ); ?>">
 <div class="row">
 	<div class="col-lg-12">
 		<div class="main-box clearfix">
@@ -19,11 +19,11 @@
 							<li><a style="cursor: pointer;">
 									<i class="fa fa-home"></i>
 									Tableau de bord</a></li>
-
+							
 							<li><a class="current" style="cursor: pointer;">
 									<i class="fa fa-files-o"></i>
 									Fenetre</a></li>
-
+						
 						</ul>
 					</div>
 					<div class="col-md-6">
@@ -31,7 +31,11 @@
 							<ul>
 								<li id="notif" class="dropdown hidden-xs"></li>
 							</ul>
-
+						</div>
+						<div class="pull-right">
+							<a style="font-size: 12px;" class="btn btn-success" href="/auth/fenetre/add">
+								<i class="fa fa-plus-circle"></i>
+								Nouvelle demande </a>
 						</div>
 					</div>
 				</div>
@@ -39,10 +43,13 @@
 			<div class="main-box-body clearfix">
 				<div class="col-md-12">
 					<div class="table-responsive" style="overflow: hidden;">
-						<?php if ($_SESSION['flash']): ?>
+						<?php if ( $_SESSION['flash'] ): ?>
 							<div class="alert alert-success ">
 								<?= $_SESSION['flash'];
 								$_SESSION['flash'] = null; ?>
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
 							</div>
 						<?php endif; ?>
 						<table id="jobs-table" class="table table-hover user-list">
@@ -63,7 +70,7 @@
 							</tr>
 							</thead>
 							<tbody>
-							<?php foreach ($this->demandes as $demande): ?>
+							<?php foreach ( $this->demandes as $demande ): ?>
 								<tr class="job-link" data-url="/auth/fenetre/edit/id/<?= $demande['id_demande']; ?>">
 									<td>
 										<a class="user-link" id="title-client-<?= $demande['id_demande']; ?>" style="cursor: pointer; margin-left: 0; padding-top: 0">
@@ -75,15 +82,15 @@
 										<?= $demande['titre_demande']; ?>
 									</td>
 									<td>
-										<?= date('d/m/Y', strtotime($demande['date_publication'])) ?>
+										<?= date( 'd/m/Y', strtotime( $demande['date_publication'] ) ) ?>
 									</td>
 									<td>
-										<?= date('d/m/Y', strtotime($demande['date_creation'])) ?>
+										<?= date( 'd/m/Y', strtotime( $demande['date_creation'] ) ) ?>
 									</td>
 									<td>
 										<?= $demande['lastname_user'] . ' ' . $demande['firstname_user']; ?>
 									</td>
-
+									
 									<td>
 										<?= $demande['publier_en_ligne'] === '1' ? 'Oui' : 'Non'; ?>
 									</td>
@@ -122,7 +129,7 @@
 	</div>
 </div>
 <script>
-
+	
 	// Long polling notification data
 	function getNotifications(lastCount = -1) {
 		$.ajax({
@@ -138,7 +145,7 @@
 				}
 			},
 			complete: function () {
-
+				
 				// wait before you retry
 				setTimeout(function () {
 					getNotifications(lastCount)
@@ -146,14 +153,14 @@
 			}
 		});
 	}
-
-
+	
+	
 	$(function () {
-
+		
 		// Loading notifications
 		getNotifications();
-
-
+		
+		
 		// DataTable setup
 		$('#jobs-table').dataTable({
 			'info': false,
@@ -170,7 +177,7 @@
 			"processing": true,
 			"searching": true
 		});
-
+		
 		//$('.job-link').on('click', function (e) {
 		//	e.preventDefault();
 		//	const url = $(this).data('url');

@@ -136,11 +136,13 @@ class Auth_Model_DemandedevisRepository extends EntityRepository {
       ->leftJoin('d.id_activite', 'a');
 
 
-    if ($criteria['type'])
-      $q->andWhere("a.libelle IN  (:types)")->setParameter('types', array_map(function ($type) {
-
+    if ($criteria['type']){
+      $types = array_map(function($type){
         return $type['type'];
-      }, $criteria['type']));
+      }, $criteria['type']);
+
+      $q->andWhere("a.libelle IN  (:types)")->setParameter('types', $types);
+    }
 
     if ($criteria['online'])
       $q->andWhere('d.publier_en_ligne = 1');

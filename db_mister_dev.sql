@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Dec 30, 2017 at 11:48 AM
+-- Generation Time: Jan 01, 2018 at 04:20 PM
 -- Server version: 5.7.20-0ubuntu0.17.10.1
 -- PHP Version: 5.6.32-1+ubuntu17.10.1+deb.sury.org+2
 
@@ -97,37 +97,54 @@ CREATE TABLE `chantier` (
   `ID_CHANTIER` bigint(20) NOT NULL,
   `ID_ZONE` bigint(20) DEFAULT NULL,
   `ADRESSE` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
-  `ADRESSE2` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `VILLE` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
-  `CODE_POSTAL` varchar(200) COLLATE utf8_unicode_ci NOT NULL
+  `ADRESSE2` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `chantier`
 --
 
-INSERT INTO `chantier` (`ID_CHANTIER`, `ID_ZONE`, `ADRESSE`, `ADRESSE2`, `VILLE`, `CODE_POSTAL`) VALUES
-(22, 1, 'QUARTIER DECHAMPS N°253', 'SYBA', 'PARIS', '75004'),
-(23, 1, 'Winterfell', 'The north', 'Westros', '66000'),
-(24, 2, '433 STEWART STREET', '', 'INDIANAPOLIS', '47715'),
-(25, 2, '433 STEWART STREET', '', 'INDIANAPOLIS', '47715'),
-(26, 2, '2nd street', 'Derry', 'Maine', '5909'),
-(27, 1, 'Bushwick Brooklyn, NY', '', 'Brooklyn', '11207'),
-(28, 1, '22 1b baker street', '', 'london', '2049'),
-(29, 2, 'Dragonstone', '', 'Westros', '2988'),
-(37, 1806, '433 stewart street', 'kjkk', 'indianapolis', '47715'),
-(39, 2, '433 stewart street', '', 'indianapolis', '47715'),
-(45, 2362, '433 stewart street', '', 'boujdour', '71000'),
-(46, 2276, '198 lot taalim', '', 'boujdour', '71000'),
-(47, 2186, '433 stewart street', 'adresse 2 here', 'marrakech', '40000'),
-(48, 2368, '433 stewart street', '', 'indianapolis', '47715'),
-(49, 2888, '433 stewart street', '', 'brooklyn', '11207'),
-(50, 3146, '433 stewart street', '', 'indianapolis', '47715'),
-(51, 5815, '433 stewart street', '433 stewart street', 'INDIANAPOLIS', '47715'),
-(52, 1, 'adresse fake', '', '', ''),
-(53, 2378, '433 stewart street', '', 'INDIANAPOLIS', '47715'),
-(54, 1, '198 lot taalim', '', 'boujdour', '71000'),
-(55, 1, '433 stewart street', '', 'indianapolis', '47715');
+INSERT INTO `chantier` (`ID_CHANTIER`, `ID_ZONE`, `ADRESSE`, `ADRESSE2`) VALUES
+(22, 1, 'QUARTIER DECHAMPS N°253', 'SYBA'),
+(23, 1, 'Winterfell', 'The north'),
+(24, 2, '433 STEWART STREET', ''),
+(25, 2, '433 STEWART STREET', ''),
+(26, 2, '2nd street', 'Derry'),
+(27, 1, 'Bushwick Brooklyn, NY', ''),
+(28, 1, '22 1b baker street', ''),
+(29, 2, 'Dragonstone', ''),
+(37, 1806, '433 stewart street', 'kjkk'),
+(39, 2, '433 stewart street', ''),
+(45, 2362, '433 stewart street', ''),
+(46, 2276, '198 lot taalim', ''),
+(47, 2186, '433 stewart street', 'adresse 2 here'),
+(48, 2368, '433 stewart street', ''),
+(49, 2888, '433 stewart street', ''),
+(50, 3146, '433 stewart street', ''),
+(51, 2005, '433 stewart street N° 12', '433 stewart street'),
+(52, 1, 'adresse fake', ''),
+(53, 2378, '433 stewart street', ''),
+(54, 1, '198 lot taalim', ''),
+(55, 1, '433 stewart street', ''),
+(56, 1, 'adresse fake', ''),
+(57, 2041, 'jlsdfjsdlf', ''),
+(58, 22692, 'flkmsdkf m', ''),
+(59, 2362, 'razori azie paozie', ''),
+(60, 788, 'Fake adresse', ''),
+(61, 788, 'fake adresse', ''),
+(62, 3230, 'Fake adresse', ''),
+(63, 8473, 'Fake adresse', 'fake adresse 2'),
+(64, 8473, 'Fake adresse', 'fake adresse 2'),
+(65, 8473, 'Fake adresse', 'fake adresse 2'),
+(66, 8473, 'Fake adresse', 'fake adresse 2'),
+(67, 4287, 'adresse fake', ''),
+(68, 20293, 'Fake adresse', ''),
+(69, 24033, 'Adresse fake', ''),
+(70, 1408, 'fake adresse', ''),
+(71, 645, 'Fake adresse', ''),
+(72, 32, 'Fake adresse', ''),
+(73, 4466, 'fake address', ''),
+(74, 3194, 'Fake address', '');
 
 -- --------------------------------------------------------
 
@@ -160,25 +177,35 @@ CREATE TABLE `demande_devis` (
   `CHEMIN_PDF` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   `DATE_CREATION` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `DATE_PUBLICATION` datetime DEFAULT NULL,
-  `PUBLIER_ENVOI` tinyint(1) DEFAULT '0'
+  `PUBLIER_ENVOI` tinyint(1) DEFAULT '0',
+  `VENDU` tinyint(1) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `demande_devis`
 --
 
-INSERT INTO `demande_devis` (`ID_DEMANDE`, `ID_PARTICULIER`, `ID_ACTIVITE`, `ID_CHANTIER`, `ID_USER`, `TITRE_DEMANDE`, `DELAI_SOUHAITE`, `DESCRIPTION`, `TYPE_DEMANDEUR`, `TYPE_PROPRIETE`, `TYPE_BATIMENT`, `BUDGET_APPROXIMATIF`, `FINANCEMENT_PROJET`, `OBJECTIF_DEMANDE`, `PRESTATION_SOUHAITE`, `INDICATION_COMPLEMENTAIRE`, `QUALIFICATION`, `PRIX_MISE_EN_LIGNE`, `PRIX_PROMO`, `PUBLIER_EN_LIGNE`, `CHEMIN_PDF`, `DATE_CREATION`, `DATE_PUBLICATION`, `PUBLIER_ENVOI`) VALUES
-(8, 2, 2, 28, 2, 'installation chauffage', 'Dans moins d\'un mois', 'lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet .', 'Autre', 'Administrateur', 'Immeuble', '1000', 'Crédit Obtenu', 'Obtenir des devis et trouver une entreprise', 'Pose Uniquement', 'lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet .', 'Occupé', '1000', '3000', '1', NULL, '2017-12-23 18:44:19', '2017-12-29 19:01:55', NULL),
-(10, 1, 2, 37, 2, 'demande chanffage 2', 'Au plus vite', 'lorem ipsum dolor', 'Commerçant', 'Futur Propriétaire', 'Bureau', '5000', 'Demande de crédit en cours', 'Obtenir des devis et trouver une entreprise', 'Fourniture et Pose', 'lorem ipsum dolor', 'NRP', '1000', '100', '1', NULL, '2017-12-24 20:41:33', '2017-12-30 11:33:23', NULL),
-(11, 1, 4, 45, 2, 'installation de cuisine', 'Dans moins d\'un mois', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit.', '', '', 'Commerce', '5000', 'Crédit Obtenu', 'Obtenir des devis et trouver une entreprise', 'Pose Uniquement', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit.', 'Qualifié', '1000', '100', '1', NULL, '2017-12-24 23:19:08', '2017-12-30 11:42:22', NULL),
-(12, 1, 5, 46, 2, 'travaux salle de bain', 'Dans moins d\'un mois', 'lotem ipsum', 'Industriel', 'Futur Propriétaire', 'Commerce', '5000', 'Crédit Obtenu', 'Obtenir des devis et trouver une entreprise', 'Pose Uniquement', 'lorem ipsum dolor', 'Non qualifiée', '1000', '100', '1', NULL, '2017-12-25 01:28:11', '2017-12-30 11:42:47', NULL),
-(13, 1, 6, 47, 2, 'i want a sauna', 'Dans moins de 2 mois', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit', 'Profession Libérale', 'Locataire', 'Bureau', '5000', 'Crédit Obtenu', 'Obtenir des devis et trouver une entreprise', 'Pose Uniquement', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit', 'NRP', '1000', '300', '1', NULL, '2017-12-25 11:12:03', '2017-12-30 11:43:31', 1),
-(14, 1, 7, 48, 2, 'je veux un spa', 'Dans moins de 2 mois', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit', 'Industriel', 'Locataire', 'Bureau', '4000', 'Demande de crédit en cours', 'Obtenir des devis et trouver une entreprise', 'Fourniture et Pose', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit', 'Qualifié', '1000', '100', '1', NULL, '2017-12-25 12:02:10', '2017-12-30 11:43:48', 1),
-(15, 2, 7, 49, 2, 'spa request', 'Dans l\'année', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit', 'Société', 'Futur Locataire', 'Appartement', '5000', 'Demande de crédit en cours', 'Avoir juste une idée des prix', 'Pose Uniquement', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit', 'Trop tard', '1000', '330', '1', NULL, '2017-12-25 21:07:57', '2017-12-29 19:07:19', NULL),
-(16, 2, 3, 50, 2, 'fenetres demande 2', '', 'lorem ipsum lorem ipsum lorem ipsum', 'Syndic de Copropriété', 'Futur Locataire', 'Bureau', '5090', '', '', '', 'lorem ipsum lorem ipsum lorem ipsum', '', '300', '5000', '1', NULL, '2017-12-26 13:13:29', '2017-12-29 16:22:57', NULL),
-(17, 2, 1, 51, 2, 'demande piscine', 'Dans moins de 6 mois', '', 'Profession Libérale', 'Futur Propriétaire', 'Maison Indviduelle', '1000', 'Comptant', 'Trouver une entreprise disponible', 'Fourniture et Pose', '', '', '898', '800', '1', NULL, '2017-12-26 14:58:10', '2017-12-30 11:41:12', NULL),
-(21, 2, 8, 52, 2, 'climatisation', 'Au plus vite', 'dadada', 'Particulier', 'Futur Propriétaire', 'Maison Indviduelle', '5000', 'Demande de crédit en cours', 'Obtenir des devis et trouver une entreprise', 'Fourniture et Pose', '', 'Qualifié', '', '', '1', NULL, '2017-12-26 22:26:47', '2017-12-30 11:44:51', 1),
-(39, 20, 3, 55, 2, 'une demande', '', '', '', '', '', '', '', '', '', '', '', '', '', '1', NULL, '2017-12-27 20:37:18', '2017-12-30 11:41:44', NULL);
+INSERT INTO `demande_devis` (`ID_DEMANDE`, `ID_PARTICULIER`, `ID_ACTIVITE`, `ID_CHANTIER`, `ID_USER`, `TITRE_DEMANDE`, `DELAI_SOUHAITE`, `DESCRIPTION`, `TYPE_DEMANDEUR`, `TYPE_PROPRIETE`, `TYPE_BATIMENT`, `BUDGET_APPROXIMATIF`, `FINANCEMENT_PROJET`, `OBJECTIF_DEMANDE`, `PRESTATION_SOUHAITE`, `INDICATION_COMPLEMENTAIRE`, `QUALIFICATION`, `PRIX_MISE_EN_LIGNE`, `PRIX_PROMO`, `PUBLIER_EN_LIGNE`, `CHEMIN_PDF`, `DATE_CREATION`, `DATE_PUBLICATION`, `PUBLIER_ENVOI`, `VENDU`) VALUES
+(8, 2, 2, 57, 2, 'installation chauffage', 'Dans moins d\'un mois', 'lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet .', 'Autre', 'Administrateur', 'Immeuble', '1000', 'Crédit Obtenu', 'Obtenir des devis et trouver une entreprise', 'Pose Uniquement', 'lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet .', 'Occupé', '1000', '3000', '0', NULL, '2017-12-23 18:44:19', '2018-01-01 14:55:06', 0, 0),
+(10, 1, 2, 59, 2, 'nice demande', 'Au plus vite', 'lorem ipsum dolor', 'Commerçant', 'Futur Propriétaire', 'Bureau', '5000', 'Demande de crédit en cours', 'Obtenir des devis et trouver une entreprise', 'Fourniture et Pose', 'lorem ipsum dolor', 'NRP', '1000', '100', '1', NULL, '2017-12-24 20:41:33', '2018-01-01 14:54:55', 1, 1),
+(11, 1, 4, 45, 2, 'installation de cuisine', 'Dans moins d\'un mois', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit.', '', '', 'Commerce', '5000', 'Crédit Obtenu', 'Obtenir des devis et trouver une entreprise', 'Pose Uniquement', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit.', 'Qualifié', '1000', '100', '1', NULL, '2017-12-24 23:19:08', '2018-01-01 15:12:56', 1, 0),
+(12, 1, 5, 46, 2, 'Demande Salle de Bain', 'Dans moins d\'un mois', 'lotem ipsum', 'Industriel', 'Futur Propriétaire', 'Commerce', '5000', 'Crédit Obtenu', 'Obtenir des devis et trouver une entreprise', 'Pose Uniquement', 'lorem ipsum dolor', 'Non qualifiée', '1000', '100', '1', NULL, '2017-12-25 01:28:11', '2018-01-01 15:51:56', 1, 0),
+(13, 1, 6, 47, 2, 'Want a sauna', 'Dans moins de 2 mois', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit', 'Profession Libérale', 'Locataire', 'Bureau', '5000', 'Crédit Obtenu', 'Obtenir des devis et trouver une entreprise', 'Pose Uniquement', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit', 'NRP', '1000', '300', '1', NULL, '2017-12-25 11:12:03', '2018-01-01 16:02:17', 1, 0),
+(14, 1, 7, 48, 2, 'je veux un spa', 'Dans moins de 2 mois', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit', 'Industriel', 'Locataire', 'Bureau', '4000', 'Demande de crédit en cours', 'Obtenir des devis et trouver une entreprise', 'Fourniture et Pose', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit', 'Qualifié', '1000', '100', '1', NULL, '2017-12-25 12:02:10', '2017-12-30 11:43:48', 0, 0),
+(15, 2, 7, 49, 2, 'spa request', 'Dans l\'année', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit', 'Société', 'Futur Locataire', 'Appartement', '5000', 'Demande de crédit en cours', 'Avoir juste une idée des prix', 'Pose Uniquement', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit', 'Trop tard', '1000', '330', '1', NULL, '2017-12-25 21:07:57', '2018-01-01 16:08:18', 1, 0),
+(16, 2, 3, 50, 2, 'fenetres demande 2', '', 'lorem ipsum lorem ipsum lorem ipsum', 'Syndic de Copropriété', 'Futur Locataire', 'Bureau', '5090', '', '', '', 'lorem ipsum lorem ipsum lorem ipsum', '', '300', '5000', '1', NULL, '2017-12-26 13:13:29', '2017-12-29 16:22:57', 0, 0),
+(17, 2, 1, 51, 2, 'demande piscine', 'Dans moins de 6 mois', '', 'Profession Libérale', 'Futur Propriétaire', 'Maison Indviduelle', '1000', 'Comptant', 'Trouver une entreprise disponible', 'Fourniture et Pose', '', '', '898', '800', '1', NULL, '2017-12-26 14:58:10', '2017-12-30 16:23:25', 0, 0),
+(21, 2, 8, 52, 2, 'climatisation', 'Au plus vite', 'dadada', 'Particulier', 'Futur Propriétaire', 'Maison Indviduelle', '5000', 'Demande de crédit en cours', 'Obtenir des devis et trouver une entreprise', 'Fourniture et Pose', '', 'Qualifié', '3000', '2000', '1', NULL, '2017-12-26 22:26:47', '2018-01-01 13:38:18', 1, 0),
+(39, 20, 3, 55, 2, 'une demande', '', '', '', '', '', '', '', '', '', '', '', '', '', '1', NULL, '2017-12-27 20:37:18', '2017-12-30 11:41:44', 0, 0),
+(40, 22, 2, 61, 2, 'Demande', 'Dans moins d\'un mois', 'lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet', 'Société', 'Propriétaire Bailleur', 'Bureau', '3000', 'Je ne sais pas', 'Avoir juste une idée des prix', 'Fourniture Uniquement', 'lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet', 'Occupé', '300', '200', '0', NULL, '2017-12-30 23:22:12', '2018-01-01 14:53:36', 0, 0),
+(46, 28, 8, 67, 2, 'climatisation demande 2', 'Dans moins de 6 mois', 'lorem ipsum dolor sit amet consectetur adipiscing elit.  ac interdum nisi lorem ipsum dolor sit amet consectetur adipiscing elit. aenean ac interdum nisi  lorem ipsum dolor sit amet consectetur adipiscing elit.  ac interdum nisi lorem ipsum dolor sit amet consectetur adipiscing elit. aenean ac interdum nisi', 'Profession Libérale', 'Propriétaire Bailleur', NULL, '4000', 'Crédit Obtenu', 'Obtenir des devis et trouver une entreprise', 'Fourniture et Pose', 'lorem ipsum dolor sit amet consectetur adipiscing elit.  ac interdum nisi lorem ipsum dolor sit amet consectetur adipiscing elit. aenean ac interdum nisi  lorem ipsum dolor sit amet consectetur adipiscing elit.  ac interdum nisi lorem ipsum dolor sit amet consectetur adipiscing elit. aenean ac interdum nisi', 'NRP', '30', '20', '1', NULL, '2018-01-01 14:15:25', '2018-01-01 14:55:47', 1, 0),
+(47, 29, 2, 68, 2, 'Demande chauffage 4', 'Dans moins d\'un mois', 'lorem ipsum dolor sit amet  adipiscing elit. aenean ac interdum nisi lorem ipsum dolor sit amet consectetur  elit. aenean ac interdum lorem ipsum dolor sit amet  adipiscing elit. aenean ac interdum nisi lorem ipsum dolor sit amet consectetur adipiscing elit. aenean ac interdum nisi', 'Industriel', 'Futur Propriétaire', 'Immeuble', '3000', 'Comptant', 'Obtenir des devis et trouver une entreprise', NULL, 'lorem ipsum dolor sit amet  adipiscing elit. aenean ac interdum nisi lorem ipsum dolor sit amet consectetur  elit. aenean ac interdum lorem ipsum dolor sit amet  adipiscing elit. aenean ac interdum nisi lorem ipsum dolor sit amet consectetur adipiscing elit. aenean ac interdum nisi', 'Qualifié', '30', '20', '1', NULL, '2018-01-01 14:51:07', '2018-01-01 14:51:07', 1, 0),
+(48, 30, 4, 69, 2, 'Demande cuisine 3', 'Dans moins d\'un mois', 'Lorem ipsum', 'Profession Libérale', 'Futur Propriétaire', 'Bureau', '5900', 'Crédit Obtenu', 'Avoir juste une idée des prix', NULL, 'Lorem ipsum', 'Qualifié', '40', '32', '1', NULL, '2018-01-01 15:10:36', '2018-01-01 15:10:36', 1, 0),
+(49, 31, 3, 70, 2, 'demande fenetre 3', 'Dans moins de 2 mois', 'lorem ipsum dolor sit amit', 'Société', 'Propriétaire Bailleur', 'Maison Individuelle', '300', 'Demande de crédit en cours', 'Obtenir des devis et trouver une entreprise', NULL, 'lorem ipsum dolor sit amit', 'Qualifié', '30', '20', '1', NULL, '2018-01-01 15:24:49', '2018-01-01 15:25:12', 1, 0),
+(50, 32, 1, 71, 2, 'Demande piscine', 'Dans moins d\'un mois', 'Lorem ipsum', 'Profession Libérale', 'Futur Propriétaire', 'Local Industriel', '300', 'Demande de crédit en cours', 'Avoir juste une idée des prix', NULL, 'Lorem ipsum', 'Occupé', '30', '20', '1', NULL, '2018-01-01 15:45:17', '2018-01-01 15:45:17', 1, 0),
+(51, 33, 5, 72, 2, 'Demande salle de bain 3', 'Dans moins de 6 mois', 'Lorem ipsum dolor sit', 'Administration', NULL, 'Maison Individuelle', '300', 'Demande de crédit en cours', 'Obtenir des devis et trouver une entreprise', NULL, 'Lorem ipsum dolor sit amit', 'Occupé', '34', '20', '1', NULL, '2018-01-01 15:56:11', '2018-01-01 15:56:11', 1, 0),
+(52, 34, 6, 73, 2, 'Demande hammam', 'Dans moins de 2 mois', 'Lorem ipsum dolor sit amit', 'Industriel', NULL, 'Bureau', '1000', 'Demande de crédit en cours', 'Obtenir des devis et trouver une entreprise', NULL, 'Lorem ipsum dolor sit amit', 'NRP', '30', '20', '1', NULL, '2018-01-01 16:04:11', '2018-01-01 16:04:11', 1, 0),
+(53, 35, 7, 74, 2, 'Demande spa 3', 'Dans moins d\'un mois', 'Lorem ipsum dolor sit amit', 'Industriel', NULL, 'Commerce', '2000', 'Comptant', 'Obtenir des devis et trouver une entreprise', NULL, 'Lorem ipsum dolor sit amit', 'Occupé', '33', '20', '1', NULL, '2018-01-01 16:09:51', '2018-01-01 16:09:51', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -204,7 +231,7 @@ CREATE TABLE `particulier` (
 
 INSERT INTO `particulier` (`ID_PARTICULIER`, `NOM_PARTICULIER`, `PRENOM_PARTICULIER`, `TELEPHONE_FIXE`, `TELEPHONE_PORTABLE`, `CIVILITE`, `EMAIL`, `HORAIRERDV`) VALUES
 (1, 'hutcherson', 'robert', '3176580687', '3176580687', 'M.', 'yerratbi@gmail.com', '10h-12h'),
-(2, 'robert jon hutcherson', 'robert', '3176580687', '3176580687', 'M.', 'yerratbi@gmail.com', '10h-12h'),
+(2, 'Hutchun', 'robert', '3176580687', '3176580687', 'Mme.', 'yerratbi@gmail.com', '10h-12h'),
 (3, 'Erratbi', 'Youssef', NULL, '061394059', NULL, 'y.er.ratbi@gmail.com', NULL),
 (7, 'foo', 'bar', NULL, '10938490', NULL, 'yerratbigmail.com', NULL),
 (8, 'foo', 'bar', NULL, '10938490', NULL, 'yerratbigmail.com', NULL),
@@ -219,7 +246,17 @@ INSERT INTO `particulier` (`ID_PARTICULIER`, `NOM_PARTICULIER`, `PRENOM_PARTICUL
 (17, 'snow', 'JON', NULL, '3176580687', NULL, 'yerratbi%40gmail.com', NULL),
 (18, 'foo', 'bar', NULL, '10938490', NULL, 'yerratbigmail.com', NULL),
 (19, 'foo', 'bar', NULL, '10938490', NULL, 'yerratbigmail.com', NULL),
-(20, 'hutcherson', 'robert', '3176580687', '3176580687', 'M.', 'yerratbi@gmail.com', '');
+(20, 'hutcherson', 'robert', '3176580687', '3176580687', 'M.', 'yerratbi@gmail.com', ''),
+(21, 'Jamal', 'Bouzidi', '', '01234658', 'M.', 'yerratbi@gmai.com', ''),
+(22, 'jamal', 'bouzidi', '', '01234658', 'M.', 'yerratbi@gmai.com', ''),
+(28, 'belish', 'pyter', '0123456', '0123456', 'M.', 'yerratbi@gmail.com', '16h-18h'),
+(29, 'Stark', 'Sansa', '0123456', '0123456', 'Mme.', 'yerratbi@gmail.com', '17h-19h'),
+(30, 'Stark', 'Eddard', '0123456', '0123456', 'M.', 'yerratbi@gmail.com', '16h-19h'),
+(31, 'tywin', 'lannister', '012345-', '0123456', 'M.', 'yerratbi@gmail.com', '11h-20h'),
+(32, 'Stark', 'Sansa', '0123456', '0123456', 'Mme.', 'yerratbi@gmail.com', '12h-14h'),
+(33, 'Bronn', 'Black water', '0123456', '0123456', 'M.', 'yerratbi@gmail.com', '12h-19h'),
+(34, 'Stark', 'Arya', '0123456', '0123456', 'Mme.', 'yerratbi@gmail.com', '10h-12h'),
+(35, 'Lannister', 'Cersi', '0124567', '0124567', 'Mme.', 'yerratbi@gmail.com', '10h-20h');
 
 -- --------------------------------------------------------
 
@@ -282,7 +319,9 @@ CREATE TABLE `qualif_chauffage` (
 
 INSERT INTO `qualif_chauffage` (`ID_QUALIF_CHAUFFAGE`, `ID_DEMANDE`, `TYPE_CHAUFFAGE`, `TYPE_INSTALLATION`, `CONDUITE_FUMEE`, `NBRE_ETAGE`, `SURFACE_TOTALE`, `HAUTEUR_SOUS_PLAFOND`, `TYPE_RADIATEUR`, `TYPE_DIFFUSION_CHALEUR`, `TYPE_ENERGIE`, `DISPOSE_JARDIN`, `TYPE_TRAVAUX`) VALUES
 (1, 8, 'Chauffage à bois', 'Chauffage à Bois', 'A remplacer', '3', '100', '2.76', NULL, NULL, 'Géothermie/Aérothermie', NULL, 'Réparation'),
-(10, 10, 'Chauffage electrique', NULL, NULL, 'plus de 3', '200', '2', 'Plancher chauffant électrique', NULL, NULL, NULL, 'Entretien/Maintenance');
+(10, 10, 'Chauffage electrique', NULL, NULL, 'plus de 3', '200', '2', 'Plancher chauffant électrique', NULL, NULL, NULL, 'Entretien/Maintenance'),
+(11, 40, 'Chauffage electrique', NULL, NULL, '3', '300', '3', 'Plancher chauffant électrique', NULL, NULL, NULL, 'Installation Neuve'),
+(12, 47, 'Chauffage Fiol', NULL, NULL, '1', '120', '3', 'Radiateur', NULL, NULL, NULL, 'Installation Neuve');
 
 -- --------------------------------------------------------
 
@@ -306,7 +345,8 @@ CREATE TABLE `qualif_climatisation` (
 --
 
 INSERT INTO `qualif_climatisation` (`ID_QUALIF_CLIMATISATION`, `ID_DEMANDE`, `NBRE_PIECE`, `SURFACE_CLIMATISER`, `HAUTEUR_PLAFOND`, `ACCORD_COPROPRIETE`, `TYPE_TRAVAUX`) VALUES
-(1, 21, '3', '2', '3', 'NON', 'Installation neuve');
+(1, 21, '3', '2', '3', 'NON', 'Installation neuve'),
+(6, 46, '3', '120', '3', 'Oui', NULL);
 
 -- --------------------------------------------------------
 
@@ -336,7 +376,8 @@ CREATE TABLE `qualif_cuisine` (
 --
 
 INSERT INTO `qualif_cuisine` (`ID_QUALIF_CUISINE`, `ID_DEMANDE`, `DEPOSE_ANCIENNE_CUISINE`, `NIVEAU_GAMME_SOUHAITE`, `STYLE_FUTUR_CUISINE`, `SURFACE_AU_SOL_CUISINE`, `TRAVAUX_PEINTURE`, `TRAVAUX_PLOMBERIE`, `TRAVAUX_REVETEMENT_SOL`, `TRAVAUX_ELECTRICITE`, `EQUIPEMENT_ELECTROMENAGER`, `HAUTEUR_SOUS_PLAFOND`, `TYPE_TRAVAUX`) VALUES
-(2, 11, 'Oui', 'Premier Prix', 'Classique', 'Plus de 7 m²', 'Oui', 'Oui', 'Non', 'Oui', 'Oui', '2', 'Remplacer une Cuisine Existante');
+(2, 11, 'Oui', 'Premier Prix', 'Classique', 'Plus de 7 m²', 'Oui', 'Oui', 'Non', 'Oui', 'Oui', '2', 'Remplacer une Cuisine Existante'),
+(3, 48, 'Oui', 'Premier Prix', 'Moderne', 'Plus de 7 m²', 'Oui', 'Oui', 'Oui', 'Oui', 'Oui', '3', 'Remplacer une Cuisine Existante');
 
 -- --------------------------------------------------------
 
@@ -384,7 +425,8 @@ CREATE TABLE `qualif_fenetre` (
 
 INSERT INTO `qualif_fenetre` (`ID_QUALIF_FENETRE`, `ID_DEMANDE`, `NBRE_FENETRE`, `DEPOSE_FENETRE_EXISTANT`, `TYPE_FENETRE`, `TYPE_TRAVAUX`) VALUES
 (3, 16, '3', 1, 'Aluminium', 'Réparation'),
-(6, 39, '', 0, '', '');
+(6, 39, '', 0, '', ''),
+(7, 49, '3', 1, 'PVC', 'Installation Neuve');
 
 -- --------------------------------------------------------
 
@@ -408,7 +450,8 @@ CREATE TABLE `qualif_piscine` (
 --
 
 INSERT INTO `qualif_piscine` (`ID_QUALIF_PISCINE`, `ID_DEMANDE`, `TYPE_PISCINE`, `DIMENSION`, `FORME_PISCINE`, `SECURITE_PISCINE`, `TYPE_TRAVAUX`) VALUES
-(1, 17, 'Piscine Béton', '5', 'Ovale ', 'Alarme de Piscine', 'Installation neuve');
+(1, 17, 'Piscine Béton', '5', 'Ovale ', 'Alarme de Piscine', 'Installation neuve'),
+(2, 50, 'Piscine Béton', '12x20', 'Haricot', 'Couverture de Piscine', NULL);
 
 -- --------------------------------------------------------
 
@@ -452,7 +495,8 @@ CREATE TABLE `qualif_salle_bain` (
 --
 
 INSERT INTO `qualif_salle_bain` (`ID_QUALIF_SALLE_BAIN`, `ID_DEMANDE`, `EQUIPEMENT_FUTUR_SALLE`, `SURFACE_AU_SOL`, `DEPOSE_ANCIENNE_SALLE`, `TRAVAUX_PLOMBERIE`, `TRAVAUX_ELECTRICITE`, `TRAVAUX_REVETEMENT`, `TRAVAUX_PEINTURE`, `MEUBLE_RENGEMENT`, `NIVEAU_GAMME`, `HAUTEUR_SOUS_PLAFOND`, `TYPE_TRAVAUX`) VALUES
-(1, 12, 'WC', 'Plus de 5 m²', 'Oui', 'Oui', '', 'Oui', 'Oui', NULL, 'Premier Prix', '3', 'Rénover une salle de bains existante');
+(1, 12, 'WC', 'Plus de 5 m²', 'Oui', 'Oui', '', 'Oui', 'Oui', NULL, 'Premier Prix', '3', 'Rénover une salle de bains existante'),
+(2, 51, 'Baignoire', 'Moins de 5 m²', 'Oui', 'Oui', 'Non', 'Oui', 'Non', NULL, 'Premier Prix', '3', 'Créer une Salle de Bains neuve');
 
 -- --------------------------------------------------------
 
@@ -478,7 +522,8 @@ CREATE TABLE `qualif_sauna_hammam` (
 --
 
 INSERT INTO `qualif_sauna_hammam` (`ID_QUALIF_SAUNA_HAMMAM`, `ID_DEMANDE`, `SURFACE_AU_SOL`, `TRAVAUX_PLOMBERIE`, `TRAVAUX_ELECTRICITE`, `TRAVAUX_REVETEMENT`, `TRAVAUX_PEINTURE`, `NIVEAU_GAMME`, `TYPE_TRAVAUX`) VALUES
-(1, 13, 'Plus de 5 m²', 'Oui', 'Oui', 'Oui', 'Non', 'Premier Prix', 'Créer un Sauna');
+(1, 13, 'Plus de 5 m²', 'Oui', 'Oui', 'Oui', 'Non', 'Premier Prix', 'Créer un Sauna'),
+(2, 52, 'Plus de 5 m²', 'Oui', 'Oui', 'Oui', 'Oui', 'Premier Prix', 'Créer un Sauna');
 
 -- --------------------------------------------------------
 
@@ -505,7 +550,8 @@ CREATE TABLE `qualif_spa` (
 
 INSERT INTO `qualif_spa` (`ID_QUALIF_SPA`, `ID_DEMANDE`, `SURFACE_AU_SOL`, `TRAVAUX_PLOMBERIE`, `TRAVAUX_ELECTRICITE`, `TRAVAUX_REVETEMENT`, `TRAVAUX_PEINTURE`, `NIVEAU_GAMME`, `TYPE_TRAVAUX`) VALUES
 (1, 14, 'Plus de 7 m²', 'Oui', 'Oui', 'Non', 'Oui', 'Premier Prix', 'Créer un SPA'),
-(2, 15, 'Plus de 7 m²', 'Oui', 'Non', 'Oui', 'Non', 'Moyen de Gamme', 'Créer un SPA');
+(2, 15, 'Plus de 7 m²', 'Oui', 'Non', 'Oui', 'Non', 'Moyen de Gamme', 'Créer un SPA'),
+(3, 53, 'Plus de 7 m²', 'Oui', 'Oui', 'Oui', 'Oui', 'Moyen de Gamme', 'Créer un Bains à Bulle');
 
 -- --------------------------------------------------------
 
@@ -541,7 +587,8 @@ INSERT INTO `specialiste` (`ID_ARTISAN`, `ID_ACTIVITE`) VALUES
 (16, 2),
 (17, 2),
 (18, 2),
-(21, 2);
+(21, 2),
+(16, 3);
 
 -- --------------------------------------------------------
 
@@ -37263,17 +37310,17 @@ ALTER TABLE `artisan`
 -- AUTO_INCREMENT for table `chantier`
 --
 ALTER TABLE `chantier`
-  MODIFY `ID_CHANTIER` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `ID_CHANTIER` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
 --
 -- AUTO_INCREMENT for table `demande_devis`
 --
 ALTER TABLE `demande_devis`
-  MODIFY `ID_DEMANDE` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `ID_DEMANDE` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 --
 -- AUTO_INCREMENT for table `particulier`
 --
 ALTER TABLE `particulier`
-  MODIFY `ID_PARTICULIER` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `ID_PARTICULIER` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 --
 -- AUTO_INCREMENT for table `qualif_alarme_incendie`
 --
@@ -37288,17 +37335,17 @@ ALTER TABLE `qualif_alarme_maison`
 -- AUTO_INCREMENT for table `qualif_chauffage`
 --
 ALTER TABLE `qualif_chauffage`
-  MODIFY `ID_QUALIF_CHAUFFAGE` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `ID_QUALIF_CHAUFFAGE` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `qualif_climatisation`
 --
 ALTER TABLE `qualif_climatisation`
-  MODIFY `ID_QUALIF_CLIMATISATION` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ID_QUALIF_CLIMATISATION` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `qualif_cuisine`
 --
 ALTER TABLE `qualif_cuisine`
-  MODIFY `ID_QUALIF_CUISINE` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID_QUALIF_CUISINE` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `qualif_demenagement`
 --
@@ -37308,12 +37355,12 @@ ALTER TABLE `qualif_demenagement`
 -- AUTO_INCREMENT for table `qualif_fenetre`
 --
 ALTER TABLE `qualif_fenetre`
-  MODIFY `ID_QUALIF_FENETRE` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `ID_QUALIF_FENETRE` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `qualif_piscine`
 --
 ALTER TABLE `qualif_piscine`
-  MODIFY `ID_QUALIF_PISCINE` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ID_QUALIF_PISCINE` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `qualif_porte_blindee`
 --
@@ -37323,17 +37370,17 @@ ALTER TABLE `qualif_porte_blindee`
 -- AUTO_INCREMENT for table `qualif_salle_bain`
 --
 ALTER TABLE `qualif_salle_bain`
-  MODIFY `ID_QUALIF_SALLE_BAIN` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ID_QUALIF_SALLE_BAIN` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `qualif_sauna_hammam`
 --
 ALTER TABLE `qualif_sauna_hammam`
-  MODIFY `ID_QUALIF_SAUNA_HAMMAM` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ID_QUALIF_SAUNA_HAMMAM` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `qualif_spa`
 --
 ALTER TABLE `qualif_spa`
-  MODIFY `ID_QUALIF_SPA` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID_QUALIF_SPA` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `qualif_video_surveillance`
 --

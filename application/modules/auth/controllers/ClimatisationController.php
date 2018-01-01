@@ -5,80 +5,85 @@
  * Class Auth_ClimatisationController
  *
  * @author  Youssef Erratbi <yerratbi@gmail.com>
- * @date    24/12/17
+ * @date    23/12/17
  */
 class Auth_ClimatisationController extends Zend_Controller_Action {
-
+  
   private $_sys_email;
-
-
+  private $type       = 'CLIMATISATION';
+  private $slug       = 'climatisation';
+  private $name       = 'Climatisation';
+  private $form_name  = 'Auth_Form_Climatisation';
+  private $model_name = 'Auth_Model_Climatisation';
+  
+  
   public function init() {
-
-    $config = new Zend_Config_Ini(APPLICATION_PATH . '/configs/application.ini', APPLICATION_ENV);
+    
+    $config           = new Zend_Config_Ini( APPLICATION_PATH . '/configs/application.ini', APPLICATION_ENV );
     $this->_sys_email = $config->system->email->toArray();
   }
-
-
+  
+  
   public function indexAction() {
-
-    $this->_helper->layout->setLayout('layout_fo_ehcg');
+    
+    //$this->_helper->layout()->disableLayout();
+    $this->_helper->layout->setLayout( 'layout_fo_ehcg' );
     $em = $this->getRequest()->_em;
-
-
-    $this->view->demandes = $em->getRepository('Auth_Model_Climatisation')->getList();
+    
+    $this->view->demandes = $em->getRepository( $this->model_name )->getList();
   }
-
-
+  
+  
   public function notificationAction() {
-
+    
     // Disabling render and layout to be able to return json
     $this->_helper->layout()->disableLayout();
-    $this->_helper->viewRenderer->setNoRender(true);
-
-
+    $this->_helper->viewRenderer->setNoRender( true );
+    
+    
     // Getting the initial counts
-    $lastCount = $this->getRequest()->getParam('count') ? (int)$this->getRequest()->getParam('count') : -1;
-    $this->view->count = (int)$this->getRequest()->_em->getRepository('Auth_Model_Climatisation')->getNotifications(true);
-
-
+    $lastCount         = $this->getRequest()->getParam( 'count' ) ? (int) $this->getRequest()->getParam( 'count' ) : - 1;
+    $this->view->count = (int) $this->getRequest()->_em->getRepository( $this->model_name )->getNotifications( true );
+    
+    
     // Checcking if there is a change
-    while ($this->view->count === 0 || $this->view->count === $lastCount) {
+    while ( $this->view->count === 0 || $this->view->count === $lastCount ) {
       flush();
-      usleep(5000);
+      usleep( 5000 );
       clearstatcache();
       session_write_close();
-      $this->view->count = (int)$this->getRequest()->_em->getRepository('Auth_Model_Climatisation')->getNotifications(true);
+      $this->view->count = (int) $this->getRequest()->_em->getRepository( $this->model_name )->getNotifications( true );
     }
-
+    
     // Fetching the new demandes
-    $this->view->notifications = $this->getRequest()->_em->getRepository('Auth_Model_Climatisation')->getNotifications();
-
+    $this->view->notifications = $this->getRequest()->_em->getRepository( $this->model_name )->getNotifications();
+    
     // Preparing data to send back
     $data = [
       'count' => $this->view->count,
-      'html'  => $this->view->render('climatisation/notification.phtml'),
+      'html'  => $this->view->render( "{$this->slug}/notification.phtml" ),
     ];
-
+    
     // Changing the response header content type to json
-    $this->_response->setHeader('Content-type', 'application/json');
-
-    echo json_encode($data);
+    $this->_response->setHeader( 'Content-type', 'application/json' );
+    
+    echo json_encode( $data );
     flush();
-
+    
   }
-
-
-  private function sendEmailNotifications($demande) {
-
+  
+  
+  private function sendEmailNotifications( $demande ) {
+    
     $em = $this->getRequest()->_em;
-
-
+    
+    
     // Fetching the artisans concerned with this demande
-    $artisans = $em->getRepository('Auth_Model_Artisan')->findListEmail(
+    $artisans = $em->getRepository( 'Auth_Model_Artisan' )->findListEmail(
       $demande->getId_activite()->getId_activite(),
       $demande->getId_chantier()->getId_zone()
     );
-
+    
     $data = [
       'artisans'     => $artisans,
       'particuliers' => [
@@ -89,154 +94,175 @@ class Auth_ClimatisationController extends Zend_Controller_Action {
       ],
       'ref'          => $demande->getRef(),
     ];
-
-    $data_string = json_encode($data);
-
-
-    $ch = curl_init('0.0.0.0:3000');
-    curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, false);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+    
+    $data_string = json_encode( $data );
+    
+    
+    $ch = curl_init( '127.0.0.1:3000' );
+    curl_setopt( $ch, CURLOPT_POST, 1 );
+    curl_setopt( $ch, CURLOPT_POSTFIELDS, $data_string );
+    curl_setopt( $ch, CURLOPT_RETURNTRANSFER, false );
+    curl_setopt( $ch, CURLOPT_HTTPHEADER, [
       'Content-Type: application/json',
-      'Authorization: ' . md5('erratbi'),
-      'Content-Length: ' . strlen($data_string),
-    ]);
-
-    curl_exec($ch);
+      'Authorization: ' . md5( 'erratbi' ),
+      'Content-Length: ' . strlen( $data_string ),
+    ] );
+    
+    curl_exec( $ch );
   }
-
-
-  public function editAction() {
-
-    // If it's an ajax request disable the layout
-    if ($this->getRequest()->isXmlHttpRequest()) $this->_helper->layout()->disableLayout();
-    else $this->_helper->layout->setLayout('layout_fo_ehcg');
-
-    $id = $this->getRequest()->getParam('id');
-    $em = $this->getRequest()->_em;
-
-    // Load demande;
-    $demande = $em->getRepository('Auth_Model_Demandedevis')->find($id);
-
-
-    // Check inf the data is there or redirect to listing
-    if (!$demande || $demande->id_activite->libelle !== 'CLIMATISATION') $this->_redirect('/auth/climatisation');
-
-    // Initializing the forms
+  
+  
+  public function addAction() {
+    
+    $this->_helper->layout->setLayout( 'layout_fo_ehcg' );
+    
     $form = new Zend_Form();
-    $form->addSubForms([
+    $form->addSubForms( [
       'form_demande'     => new Auth_Form_Demande,
-      'form_qualif'      => new Auth_Form_Climatisation,
+      'form_qualif'      => new $this->form_name,
       'form_chantier'    => new Auth_Form_Chantier,
       'form_particulier' => new Auth_Form_Particulier,
-    ]);
-
-    $form->form_chantier->code_postal->setAttrib('autocomplete', 'off');
-
+    ] );
+    
+    $this->view->form = $form;
+    
+    $this->render( 'edit' );
+  }
+  
+  
+  public function editAction() {
+    
+    // If it's an ajax request disable the layout
+    if ( $this->getRequest()->isXmlHttpRequest() ) {
+      $this->_helper->layout()->disableLayout();
+    } else {
+      $this->_helper->layout->setLayout( 'layout_fo_ehcg' );
+    }
+    
+    $id = $this->getRequest()->getParam( 'id' );
+    $em = $this->getRequest()->_em;
+    
+    // Load demande;
+    $demande = $em->getRepository( 'Auth_Model_Demandedevis' )->find( $id );
+    if ( ! $demande ) {
+      $demande = new Auth_Model_Demandedevis;
+    }
+    
+    
+    // Initializing the forms
+    $form = new Zend_Form();
+    $form->addSubForms( [
+      'form_demande'     => new Auth_Form_Demande,
+      'form_qualif'      => new $this->form_name,
+      'form_chantier'    => new Auth_Form_Chantier,
+      'form_particulier' => new Auth_Form_Particulier,
+    ] );
+    
+    $form->form_chantier->code_postal->setAttrib( 'autocomplete', 'off' );
+    
     // Load qualification
-    $qualification = $em->getRepository('Auth_Model_Climatisation')->findOneBy(['id_demande' => $id]);
-
-    $form->setDefaults([
-      'Demande'       => $demande ? $demande->toArray() : null,
-      'Particulier'   => $demande->id_particulier ? $demande->id_particulier->toArray() : null,
-      'Chantier'      => $demande->id_chantier ? $demande->id_chantier->toArray() : null,
-      'Climatisation' => $qualification ? $qualification->toArray() : null,
-    ]);
-
-    $form->form_chantier->setDefaults(['code_postal' => $demande->id_chantier->zone->code]);
-
+    $qualification = $em->getRepository( $this->model_name )->findOneBy( [ 'id_demande' => $id ] );
+    
+    $form->setDefaults( [
+      'Demande'     => $demande ? $demande->toArray() : null,
+      'Particulier' => $demande->id_particulier ? $demande->id_particulier->toArray() : null,
+      'Chantier'    => $demande->id_chantier ? $demande->id_chantier->toArray() : null,
+      $this->name   => $qualification ? $qualification->toArray() : null,
+    ] );
+    
+    $form->form_chantier->setDefaults( [ 'code_postal' => $demande->id_chantier->zone->code ] );
+    
     // Proccess the posted data;
-    if ($this->getRequest()->isPost()) {
+    if ( $this->getRequest()->isPost() ) {
       $data = $this->getRequest()->getPost();
-      $zone = $em->getRepository('Auth_Model_Zone')->findOneBy(['code' => $data['Chantier']['code_postal']]);
-
-      $valid = $form->isValid($data);
-
-      if (!$zone)
-        $form->form_chantier->code_postal->setAttribs(['class' => 'has-error']);
-
-
-      if ($valid && $zone !== null) {
-
+      $zone = $em->getRepository( 'Auth_Model_Zone' )->findOneBy( [ 'code' => $data['Chantier']['code_postal'] ] );
+      
+      $valid = $form->isValid( $data );
+      
+      if ( ! $zone ) {
+        $form->form_chantier->code_postal->setAttribs( [ 'class' => 'has-error' ] );
+      } else {
+        $data['Chantier']['id_zone'] = $zone->getId_zone();
+      }
+      
+      
+      if ( $valid && $zone !== null ) {
         // We will send an email
         $sendEmail = false;
-
-        $data['Chantier']['id_zone'] = $zone->getId_zone();
-        if ($data['Demande']['publier_en_ligne']) {
-          $sendEmail = !((bool)$demande->getPublier_envoi());
+        
+        if ( $data['Demande']['publier_en_ligne'] ) {
+          $sendEmail                        = ! $demande || ! $demande->getPublier_envoi();
           $data['Demande']['publier_envoi'] = true;
         }
-
-
+        
+        
         // Fetching the current user id
-        $data['id_user'] = unserialize(Zend_Auth::getInstance()->getIdentity())->id_user;
-
-
+        $data['id_user'] = unserialize( Zend_Auth::getInstance()->getIdentity() )->id_user;
+        
         // Save the qualification
-        $qualification = $em->getRepository('Auth_Model_Climatisation')->save($id, $data);
-
-        if ($qualification) {
-
-
-          // Send an email if there hasn't been one sent
-          if ($sendEmail)
-            $this->sendEmailNotifications($demande);
-
-
-          $_SESSION['flash'] = "La mise à jour a été effectuée avec success";
-          $this->getResponse()->setRedirect('/auth/climatisation');
-
-
+        $qualification = $em->getRepository( $this->model_name )->save( $id, $data );
+        
+        if ( $qualification ) {
+          if ( $sendEmail ) {
+            // Send an email if there hasn't been one sent
+            $this->sendEmailNotifications( $qualification->id_demande );
+          }
         }
-
-
-      } else
-
-        // If the form is not valid keep the data provided by the user
-        $form->setDefaults($data);
-
+        
+        
+        $_SESSION['flash'] = "La mise à jour a été effectuée avec success";
+        $this->getResponse()->setRedirect( "/auth/{$this->slug}" );
+        
+      } else // If the form is not valid keep the data provided by the user
+      
+      {
+        $form->setDefaults( $data );
+      }
+      
+      
     }
-
-
-    $this->view->form = $form;
-    $this->view->id = $id;
+    
+    
+    $this->view->form          = $form;
+    $this->view->id            = $id;
     $this->view->qualification = $qualification;
   }
-
-
+  
+  
   public function pdfAction() {
-
+    
     // Setting up the view to supress rendring
     $em = $this->getRequest()->_em;
     $this->_helper->layout()->disableLayout();
-    $this->_helper->viewRenderer->setNoRender(true);
-
+    $this->_helper->viewRenderer->setNoRender( true );
+    
     // Initializing data
-    $id = $this->getRequest()->getParam('id');
-    $qualification = $em->getRepository('Auth_Model_Climatisation')->findOneBy(['id_demande' => $id]);
-    if (!$qualification) $this->_redirect('/auth/climatisation');
-
+    $id            = $this->getRequest()->getParam( 'id' );
+    $qualification = $em->getRepository( $this->model_name )->findOneBy( [ 'id_demande' => $id ] );
+    if ( ! $qualification ) {
+      $this->_redirect( "/auth/{$this->slug}" );
+    }
+    
     $this->view->qualification = $qualification;
-    $this->view->demande = $qualification->id_demande;
-
+    $this->view->demande       = $qualification->id_demande;
+    
     // Fetching the html string from the view
-    $html = $this->view->render('shared/pdf.phtml');
-
-
+    $html = $this->view->render( 'shared/pdf.phtml' );
+    
+    
     // Initializing the pdf object
-    $pdf = new Auth_Controller_Helper_MyPdf('P', 'mm', 'A4', true, 'UTF-8', false);
-
-
+    $pdf = new Auth_Controller_Helper_MyPdf( 'P', 'mm', 'A4', true, 'UTF-8', false );
+    
+    
     // Set document info
-    $pdf->SetAuthor('MisterDevis');
-    $pdf->SetTitle($this->view->demande->getTitre_demande());
-
-
+    $pdf->SetAuthor( 'MisterDevis' );
+    $pdf->SetTitle( $this->view->demande->getTitre_demande() );
+    
+    
     // Set the page
     $pdf->AddPage();
-
-    $pdf->writeHTML($html);
-    $pdf->Output("{$this->view->demande->titre_demande}-" . time() . ".pdf", 'D');
+    
+    $pdf->writeHTML( $html );
+    $pdf->Output( "{$this->view->demande->titre_demande}-" . time() . ".pdf", 'D' );
   }
 }
