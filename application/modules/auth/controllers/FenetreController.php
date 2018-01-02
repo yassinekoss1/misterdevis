@@ -98,7 +98,7 @@ class Auth_FenetreController extends Zend_Controller_Action {
     $data_string = json_encode( $data );
     
     
-    $ch = curl_init( '127.0.0.1:3000' );
+    $ch = curl_init( '127.0.0.1:9090' );
     curl_setopt( $ch, CURLOPT_POST, 1 );
     curl_setopt( $ch, CURLOPT_POSTFIELDS, $data_string );
     curl_setopt( $ch, CURLOPT_RETURNTRANSFER, false );

@@ -37,7 +37,8 @@ class Auth_ApiController extends Zend_Controller_Action {
           'prix'        => $demande->getPrix_mise_en_ligne(),
           'ref'         => $demande->getRef(),
           'ville'       => $demande->getId_chantier()->getZone()->getVille(),
-          'code_postal' => $demande->getId_chantier()->getZone()->getCode(),
+          'code_postal' => $demande->getId_chantier()->getZone()->getCode()
+		  
         ];
         
       }, $demandes );
@@ -73,6 +74,17 @@ class Auth_ApiController extends Zend_Controller_Action {
         'titre'   => $demande->titre_demande,
         'ref'     => $demande->getRef(),
         'libelle' => "$demande->titre_demande {$demande->getRef()}",
+		'prix'        => $demande->getPrix_mise_en_ligne(),
+		'ville'       => $demande->getId_chantier()->getZone()->getVille(),
+        'code_postal' => $demande->getId_chantier()->getZone()->getCode(),
+		'type_demandeur' => $demande->getType_demandeur(),
+	    'type_propriete' => $demande->getType_propriete(),
+	    'type_batiment'  => $demande->getType_batiment(),
+	    'delai_souhaite' => $demande->getDelai_souhaite(),
+	    'budget_approximatif' => $demande->getBudget_approximatif(),
+	    'financement_projet'  => $demande->getFinancement_projet(),
+	    'objectif_demande'    => $demande->getObjectif_demande(),
+	    'description'         => $demande->getDescription()
       ] );
     }
   }
