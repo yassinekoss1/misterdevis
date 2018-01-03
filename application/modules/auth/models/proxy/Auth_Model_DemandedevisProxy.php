@@ -190,6 +190,12 @@ class Auth_Model_DemandedevisProxy extends \Auth_Model_Demandedevis implements \
         return parent::getId_user();
     }
 
+    public function getVendu()
+    {
+        $this->__load();
+        return parent::getVendu();
+    }
+
     public function setId_demande($id_demande)
     {
         $this->__load();
@@ -334,6 +340,12 @@ class Auth_Model_DemandedevisProxy extends \Auth_Model_Demandedevis implements \
         return parent::setId_user($id_user);
     }
 
+    public function setVendu($vendu)
+    {
+        $this->__load();
+        return parent::setVendu($vendu);
+    }
+
     public function getUrl()
     {
         $this->__load();
@@ -349,7 +361,7 @@ class Auth_Model_DemandedevisProxy extends \Auth_Model_Demandedevis implements \
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id_demande', 'titre_demande', 'delai_souhaite', 'description', 'type_demandeur', 'type_propriete', 'type_batiment', 'budget_approximatif', 'financement_projet', 'objectif_demande', 'prestation_souhaite', 'indication_complementaire', 'qualification', 'prix_mise_en_ligne', 'prix_promo', 'publier_en_ligne', 'publier_envoi', 'chemin_pdf', 'date_creation', 'date_publication', 'id_particulier', 'id_activite', 'id_chantier', 'id_user');
+        return array('__isInitialized__', 'id_demande', 'titre_demande', 'delai_souhaite', 'description', 'type_demandeur', 'type_propriete', 'type_batiment', 'budget_approximatif', 'financement_projet', 'objectif_demande', 'prestation_souhaite', 'indication_complementaire', 'qualification', 'prix_mise_en_ligne', 'prix_promo', 'publier_en_ligne', 'publier_envoi', 'chemin_pdf', 'date_creation', 'date_publication', 'id_particulier', 'id_activite', 'id_chantier', 'id_user', 'vendu', 'acheteurs');
     }
 
     public function __clone()

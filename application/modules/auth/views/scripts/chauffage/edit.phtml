@@ -61,7 +61,7 @@
 				<!-- end breadcumbs -->
 			</header>
 			<div class="main-box-body clearfix">
-				<form action="/auth/chauffage/edit/id/<?= $this->id; ?>" method="POST" class="must-validate" novalidate>
+				<form action="/auth/chauffage/edit/id<?= $this->id ? '/' . $this->id : null; ?>" method="POST" class="must-validate" novalidate>
 					
 					<div class="panel-group accordion" id="qualification-form">
 						<div class="panel panel-default">

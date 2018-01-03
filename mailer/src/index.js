@@ -9,7 +9,7 @@ import cors from "cors";
 
 
 const app = express();
-const PORT = 3000;
+const PORT = 9090;
 const SLEEP_TIME = 1500;
 
 app.use(bodyParser.json());
@@ -52,7 +52,18 @@ const sendArtisanMail = async ({email_artisan, nom_artisan}, ref) => {
         `
 	};
 	transport.sendMail(options, err => {
-		if (err) throw err;
+		if (err) throw err;		html: `
+        <div style="width: 650px; margin: 80px auto;">
+            <div style="text-align: center; padding: 10px;"><img src="https://www.mister-devis.com/wp-content/uploads/2017/03/logo_mister_devis-1.png" /></div>
+            <h1 style="background-color:#0184c2;padding: 50px;color:#fff;text-align: center;">Une nouvelle demande de devis a été mise en ligne</h1>
+            <p>Bonjour ${nom_artisan},</p>
+            <p>Nous vous informons qu'une nouvelle demande de devis concernant votre activité et votre zone d'intervention a été publiée dans la plateforme.</p>
+            <p>Vous pouvez la consulter dans votre espace pro.</p>
+            <h1>Demande N°: ${ref}</h1>
+            <p> A très bientôt</p>
+            <p>L'équipe <a href="http://mister-devis.com">mister-devis.com</a></p>
+        </div>
+        `
 	});
 };
 

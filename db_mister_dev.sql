@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jan 01, 2018 at 04:20 PM
+-- Generation Time: Jan 03, 2018 at 11:17 PM
 -- Server version: 5.7.20-0ubuntu0.17.10.1
 -- PHP Version: 5.6.32-1+ubuntu17.10.1+deb.sury.org+2
 
@@ -20,6 +20,26 @@ SET time_zone = "+00:00";
 --
 -- Database: `db_mister_dev`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `acheter`
+--
+
+DROP TABLE IF EXISTS `acheter`;
+CREATE TABLE `acheter` (
+  `ID_ARTISAN` bigint(20) NOT NULL,
+  `ID_DEMANDE` bigint(20) NOT NULL,
+  `MODE_PAIEMENT` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `acheter`
+--
+
+INSERT INTO `acheter` (`ID_ARTISAN`, `ID_DEMANDE`, `MODE_PAIEMENT`) VALUES
+(2, 8, 'CARTE BANCAIRE');
 
 -- --------------------------------------------------------
 
@@ -57,10 +77,12 @@ INSERT INTO `activite` (`ID_ACTIVITE`, `LIBELLE`, `GROUP`) VALUES
 DROP TABLE IF EXISTS `artisan`;
 CREATE TABLE `artisan` (
   `ID_ARTISAN` bigint(20) NOT NULL,
-  `ID_ZONE` bigint(20) DEFAULT NULL,
+  `ID_CHANTIER` bigint(20) DEFAULT NULL,
   `CODE_ARTISAN` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   `NOM_ARTISAN` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
   `PRENOM_ARTISAN` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `LOGIN` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `PASS` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
   `RAISON_SOCIALE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   `EMAIL_ARTISAN` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
   `TELEPHONE_FIXE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -69,9 +91,7 @@ CREATE TABLE `artisan` (
   `RCS` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   `SIRET` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   `CODE_NAF` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `HORAIRERDV` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
-  `ADRESSE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `ADRESSE2` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `HORAIRERDV` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   `DESCRIPTION` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   `QUALIFICATION` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -80,11 +100,9 @@ CREATE TABLE `artisan` (
 -- Dumping data for table `artisan`
 --
 
-INSERT INTO `artisan` (`ID_ARTISAN`, `ID_ZONE`, `CODE_ARTISAN`, `NOM_ARTISAN`, `PRENOM_ARTISAN`, `RAISON_SOCIALE`, `EMAIL_ARTISAN`, `TELEPHONE_FIXE`, `TELEPHONE_PORTABLE`, `FAX`, `RCS`, `SIRET`, `CODE_NAF`, `HORAIRERDV`, `ADRESSE`, `ADRESSE2`, `DESCRIPTION`, `QUALIFICATION`) VALUES
-(16, 1806, NULL, 'Lannister', 'Jamie', 'rs', 'yerratbi@email.com', '061239489', '061234589', NULL, NULL, NULL, NULL, '16h-18h', NULL, NULL, NULL, NULL),
-(17, 1806, NULL, 'Lannister', 'Cersie', 'rs', 'yerra.tb.i@email.com', '061239489', '061234589', NULL, NULL, NULL, NULL, '16h-18h', NULL, NULL, NULL, NULL),
-(18, 1806, NULL, 'Bronn', 'Bronn', 'rs', 'y.erratbi@email.com', '061239489', '061234589', NULL, NULL, NULL, NULL, '16h-18h', NULL, NULL, NULL, NULL),
-(21, 1806, NULL, 'Test', 'Testeur', 'Testing', 'y.e.rr.atbi@gmail.com', '01 23 45 67 88', '09 27 49 83 98', NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL);
+INSERT INTO `artisan` (`ID_ARTISAN`, `ID_CHANTIER`, `CODE_ARTISAN`, `NOM_ARTISAN`, `PRENOM_ARTISAN`, `LOGIN`, `PASS`, `RAISON_SOCIALE`, `EMAIL_ARTISAN`, `TELEPHONE_FIXE`, `TELEPHONE_PORTABLE`, `FAX`, `RCS`, `SIRET`, `CODE_NAF`, `HORAIRERDV`, `DESCRIPTION`, `QUALIFICATION`) VALUES
+(1, 85, NULL, 'Snow', 'Jon', 'erratbi', 'f6998904481a9cb65f9803093f7fbe88aea964e82afac6a37c9b958afc7c77e8', NULL, 'yerratbi@gmail.com', '01837346', '01983746', '0193472829', 'fake rcs', 'fake siret', 'fake code naf', '12h-20h', 'Lorem ipsum dolor sit amit', 'Qualifié'),
+(2, 86, NULL, 'Sansa', 'Stark', 'sansa', 'f6998904481a9cb65f9803093f7fbe88aea964e82afac6a37c9b958afc7c77e8', NULL, 'y.erratbi@gmail.com', '0198376', '0123467', '029837', 'rcs', 'siret', 'naf', '11h-12h', 'lorem ipsum', 'Occupé');
 
 -- --------------------------------------------------------
 
@@ -127,7 +145,7 @@ INSERT INTO `chantier` (`ID_CHANTIER`, `ID_ZONE`, `ADRESSE`, `ADRESSE2`) VALUES
 (54, 1, '198 lot taalim', ''),
 (55, 1, '433 stewart street', ''),
 (56, 1, 'adresse fake', ''),
-(57, 2041, 'jlsdfjsdlf', ''),
+(57, 14539, 'jlsdfjsdlf', ''),
 (58, 22692, 'flkmsdkf m', ''),
 (59, 2362, 'razori azie paozie', ''),
 (60, 788, 'Fake adresse', ''),
@@ -144,7 +162,19 @@ INSERT INTO `chantier` (`ID_CHANTIER`, `ID_ZONE`, `ADRESSE`, `ADRESSE2`) VALUES
 (71, 645, 'Fake adresse', ''),
 (72, 32, 'Fake adresse', ''),
 (73, 4466, 'fake address', ''),
-(74, 3194, 'Fake address', '');
+(74, 3194, 'Fake address', ''),
+(75, 3194, 'fake adresse', 'fake adresse2'),
+(76, 3194, 'fake adresse', 'fake adresse2'),
+(77, 3194, 'fake adresse', 'fake adresse2'),
+(78, 853, 'fake adresse', 'fake adresse2'),
+(79, 853, 'fake adresse', 'fake adresse2'),
+(80, 853, 'fake adresse', 'fake adresse2'),
+(81, 853, 'fake adresse', 'fake adresse2'),
+(82, 853, 'fake adresse', 'fake adresse2'),
+(83, 853, 'fake adresse', 'fake adresse2'),
+(84, 853, 'fake adresse', 'fake adresse2'),
+(85, 853, 'fake adresse', 'fake adresse2'),
+(86, 14539, 'azeaze', 'azeaze');
 
 -- --------------------------------------------------------
 
@@ -186,18 +216,18 @@ CREATE TABLE `demande_devis` (
 --
 
 INSERT INTO `demande_devis` (`ID_DEMANDE`, `ID_PARTICULIER`, `ID_ACTIVITE`, `ID_CHANTIER`, `ID_USER`, `TITRE_DEMANDE`, `DELAI_SOUHAITE`, `DESCRIPTION`, `TYPE_DEMANDEUR`, `TYPE_PROPRIETE`, `TYPE_BATIMENT`, `BUDGET_APPROXIMATIF`, `FINANCEMENT_PROJET`, `OBJECTIF_DEMANDE`, `PRESTATION_SOUHAITE`, `INDICATION_COMPLEMENTAIRE`, `QUALIFICATION`, `PRIX_MISE_EN_LIGNE`, `PRIX_PROMO`, `PUBLIER_EN_LIGNE`, `CHEMIN_PDF`, `DATE_CREATION`, `DATE_PUBLICATION`, `PUBLIER_ENVOI`, `VENDU`) VALUES
-(8, 2, 2, 57, 2, 'installation chauffage', 'Dans moins d\'un mois', 'lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet .', 'Autre', 'Administrateur', 'Immeuble', '1000', 'Crédit Obtenu', 'Obtenir des devis et trouver une entreprise', 'Pose Uniquement', 'lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet .', 'Occupé', '1000', '3000', '0', NULL, '2017-12-23 18:44:19', '2018-01-01 14:55:06', 0, 0),
+(8, 2, 2, 86, 2, 'commande chauffage', 'Dans moins d\'un mois', 'lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet .', 'Autre', 'Administrateur', 'Immeuble', '1000', 'Crédit Obtenu', 'Obtenir des devis et trouver une entreprise', 'Pose Uniquement', 'lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet  lorem ipsum dolor sit amet .', 'Occupé', '1000', '3000', '1', NULL, '2017-12-23 18:44:19', '2018-01-03 23:06:11', 1, 0),
 (10, 1, 2, 59, 2, 'nice demande', 'Au plus vite', 'lorem ipsum dolor', 'Commerçant', 'Futur Propriétaire', 'Bureau', '5000', 'Demande de crédit en cours', 'Obtenir des devis et trouver une entreprise', 'Fourniture et Pose', 'lorem ipsum dolor', 'NRP', '1000', '100', '1', NULL, '2017-12-24 20:41:33', '2018-01-01 14:54:55', 1, 1),
 (11, 1, 4, 45, 2, 'installation de cuisine', 'Dans moins d\'un mois', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit.', '', '', 'Commerce', '5000', 'Crédit Obtenu', 'Obtenir des devis et trouver une entreprise', 'Pose Uniquement', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit.', 'Qualifié', '1000', '100', '1', NULL, '2017-12-24 23:19:08', '2018-01-01 15:12:56', 1, 0),
 (12, 1, 5, 46, 2, 'Demande Salle de Bain', 'Dans moins d\'un mois', 'lotem ipsum', 'Industriel', 'Futur Propriétaire', 'Commerce', '5000', 'Crédit Obtenu', 'Obtenir des devis et trouver une entreprise', 'Pose Uniquement', 'lorem ipsum dolor', 'Non qualifiée', '1000', '100', '1', NULL, '2017-12-25 01:28:11', '2018-01-01 15:51:56', 1, 0),
 (13, 1, 6, 47, 2, 'Want a sauna', 'Dans moins de 2 mois', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit', 'Profession Libérale', 'Locataire', 'Bureau', '5000', 'Crédit Obtenu', 'Obtenir des devis et trouver une entreprise', 'Pose Uniquement', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit', 'NRP', '1000', '300', '1', NULL, '2017-12-25 11:12:03', '2018-01-01 16:02:17', 1, 0),
-(14, 1, 7, 48, 2, 'je veux un spa', 'Dans moins de 2 mois', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit', 'Industriel', 'Locataire', 'Bureau', '4000', 'Demande de crédit en cours', 'Obtenir des devis et trouver une entreprise', 'Fourniture et Pose', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit', 'Qualifié', '1000', '100', '1', NULL, '2017-12-25 12:02:10', '2017-12-30 11:43:48', 0, 0),
+(14, 1, 7, 86, 2, 'je veux un spa', 'Dans moins de 2 mois', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit', 'Industriel', 'Locataire', 'Bureau', '4000', 'Demande de crédit en cours', 'Obtenir des devis et trouver une entreprise', 'Fourniture et Pose', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit', 'Qualifié', '1000', '100', '1', NULL, '2017-12-25 12:02:10', '2017-12-30 11:43:48', 0, 0),
 (15, 2, 7, 49, 2, 'spa request', 'Dans l\'année', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit', 'Société', 'Futur Locataire', 'Appartement', '5000', 'Demande de crédit en cours', 'Avoir juste une idée des prix', 'Pose Uniquement', 'lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit lorem ipsum dolor sit amit', 'Trop tard', '1000', '330', '1', NULL, '2017-12-25 21:07:57', '2018-01-01 16:08:18', 1, 0),
 (16, 2, 3, 50, 2, 'fenetres demande 2', '', 'lorem ipsum lorem ipsum lorem ipsum', 'Syndic de Copropriété', 'Futur Locataire', 'Bureau', '5090', '', '', '', 'lorem ipsum lorem ipsum lorem ipsum', '', '300', '5000', '1', NULL, '2017-12-26 13:13:29', '2017-12-29 16:22:57', 0, 0),
 (17, 2, 1, 51, 2, 'demande piscine', 'Dans moins de 6 mois', '', 'Profession Libérale', 'Futur Propriétaire', 'Maison Indviduelle', '1000', 'Comptant', 'Trouver une entreprise disponible', 'Fourniture et Pose', '', '', '898', '800', '1', NULL, '2017-12-26 14:58:10', '2017-12-30 16:23:25', 0, 0),
 (21, 2, 8, 52, 2, 'climatisation', 'Au plus vite', 'dadada', 'Particulier', 'Futur Propriétaire', 'Maison Indviduelle', '5000', 'Demande de crédit en cours', 'Obtenir des devis et trouver une entreprise', 'Fourniture et Pose', '', 'Qualifié', '3000', '2000', '1', NULL, '2017-12-26 22:26:47', '2018-01-01 13:38:18', 1, 0),
 (39, 20, 3, 55, 2, 'une demande', '', '', '', '', '', '', '', '', '', '', '', '', '', '1', NULL, '2017-12-27 20:37:18', '2017-12-30 11:41:44', 0, 0),
-(40, 22, 2, 61, 2, 'Demande', 'Dans moins d\'un mois', 'lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet', 'Société', 'Propriétaire Bailleur', 'Bureau', '3000', 'Je ne sais pas', 'Avoir juste une idée des prix', 'Fourniture Uniquement', 'lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet', 'Occupé', '300', '200', '0', NULL, '2017-12-30 23:22:12', '2018-01-01 14:53:36', 0, 0),
+(40, 22, 2, 61, 2, 'demande', 'Dans moins d\'un mois', 'lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet', 'Société', 'Propriétaire Bailleur', 'Bureau', '3000', 'Je ne sais pas', 'Avoir juste une idée des prix', 'Fourniture Uniquement', 'lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet', 'Occupé', '300', '200', '1', NULL, '2017-12-30 23:22:12', '2018-01-03 23:03:36', 1, 0),
 (46, 28, 8, 67, 2, 'climatisation demande 2', 'Dans moins de 6 mois', 'lorem ipsum dolor sit amet consectetur adipiscing elit.  ac interdum nisi lorem ipsum dolor sit amet consectetur adipiscing elit. aenean ac interdum nisi  lorem ipsum dolor sit amet consectetur adipiscing elit.  ac interdum nisi lorem ipsum dolor sit amet consectetur adipiscing elit. aenean ac interdum nisi', 'Profession Libérale', 'Propriétaire Bailleur', NULL, '4000', 'Crédit Obtenu', 'Obtenir des devis et trouver une entreprise', 'Fourniture et Pose', 'lorem ipsum dolor sit amet consectetur adipiscing elit.  ac interdum nisi lorem ipsum dolor sit amet consectetur adipiscing elit. aenean ac interdum nisi  lorem ipsum dolor sit amet consectetur adipiscing elit.  ac interdum nisi lorem ipsum dolor sit amet consectetur adipiscing elit. aenean ac interdum nisi', 'NRP', '30', '20', '1', NULL, '2018-01-01 14:15:25', '2018-01-01 14:55:47', 1, 0),
 (47, 29, 2, 68, 2, 'Demande chauffage 4', 'Dans moins d\'un mois', 'lorem ipsum dolor sit amet  adipiscing elit. aenean ac interdum nisi lorem ipsum dolor sit amet consectetur  elit. aenean ac interdum lorem ipsum dolor sit amet  adipiscing elit. aenean ac interdum nisi lorem ipsum dolor sit amet consectetur adipiscing elit. aenean ac interdum nisi', 'Industriel', 'Futur Propriétaire', 'Immeuble', '3000', 'Comptant', 'Obtenir des devis et trouver une entreprise', NULL, 'lorem ipsum dolor sit amet  adipiscing elit. aenean ac interdum nisi lorem ipsum dolor sit amet consectetur  elit. aenean ac interdum lorem ipsum dolor sit amet  adipiscing elit. aenean ac interdum nisi lorem ipsum dolor sit amet consectetur adipiscing elit. aenean ac interdum nisi', 'Qualifié', '30', '20', '1', NULL, '2018-01-01 14:51:07', '2018-01-01 14:51:07', 1, 0),
 (48, 30, 4, 69, 2, 'Demande cuisine 3', 'Dans moins d\'un mois', 'Lorem ipsum', 'Profession Libérale', 'Futur Propriétaire', 'Bureau', '5900', 'Crédit Obtenu', 'Avoir juste une idée des prix', NULL, 'Lorem ipsum', 'Qualifié', '40', '32', '1', NULL, '2018-01-01 15:10:36', '2018-01-01 15:10:36', 1, 0),
@@ -231,7 +261,7 @@ CREATE TABLE `particulier` (
 
 INSERT INTO `particulier` (`ID_PARTICULIER`, `NOM_PARTICULIER`, `PRENOM_PARTICULIER`, `TELEPHONE_FIXE`, `TELEPHONE_PORTABLE`, `CIVILITE`, `EMAIL`, `HORAIRERDV`) VALUES
 (1, 'hutcherson', 'robert', '3176580687', '3176580687', 'M.', 'yerratbi@gmail.com', '10h-12h'),
-(2, 'Hutchun', 'robert', '3176580687', '3176580687', 'Mme.', 'yerratbi@gmail.com', '10h-12h'),
+(2, 'hutchun', 'robert', '3176580687', '3176580687', 'Mme.', 'yerratbi@gmail.com', '10h-12h'),
 (3, 'Erratbi', 'Youssef', NULL, '061394059', NULL, 'y.er.ratbi@gmail.com', NULL),
 (7, 'foo', 'bar', NULL, '10938490', NULL, 'yerratbigmail.com', NULL),
 (8, 'foo', 'bar', NULL, '10938490', NULL, 'yerratbigmail.com', NULL),
@@ -584,11 +614,8 @@ CREATE TABLE `specialiste` (
 --
 
 INSERT INTO `specialiste` (`ID_ARTISAN`, `ID_ACTIVITE`) VALUES
-(16, 2),
-(17, 2),
-(18, 2),
-(21, 2),
-(16, 3);
+(2, 7),
+(2, 8);
 
 -- --------------------------------------------------------
 
@@ -37147,6 +37174,13 @@ INSERT INTO `zone` (`ID_ZONE`, `CODE`, `VILLE`) VALUES
 --
 
 --
+-- Indexes for table `acheter`
+--
+ALTER TABLE `acheter`
+  ADD PRIMARY KEY (`ID_ARTISAN`,`ID_DEMANDE`),
+  ADD KEY `ID_DEMANDE` (`ID_DEMANDE`);
+
+--
 -- Indexes for table `activite`
 --
 ALTER TABLE `activite`
@@ -37157,7 +37191,8 @@ ALTER TABLE `activite`
 --
 ALTER TABLE `artisan`
   ADD PRIMARY KEY (`ID_ARTISAN`),
-  ADD KEY `ID_ZONE` (`ID_ZONE`);
+  ADD UNIQUE KEY `LOGIN_ARTISAN` (`LOGIN`),
+  ADD KEY `ARTISAN_ID_CHANTIER` (`ID_CHANTIER`);
 
 --
 -- Indexes for table `chantier`
@@ -37305,12 +37340,12 @@ ALTER TABLE `activite`
 -- AUTO_INCREMENT for table `artisan`
 --
 ALTER TABLE `artisan`
-  MODIFY `ID_ARTISAN` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `ID_ARTISAN` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `chantier`
 --
 ALTER TABLE `chantier`
-  MODIFY `ID_CHANTIER` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
+  MODIFY `ID_CHANTIER` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=87;
 --
 -- AUTO_INCREMENT for table `demande_devis`
 --
@@ -37401,10 +37436,17 @@ ALTER TABLE `zone`
 --
 
 --
+-- Constraints for table `acheter`
+--
+ALTER TABLE `acheter`
+  ADD CONSTRAINT `FK_ACHETER_ARTISAN` FOREIGN KEY (`ID_ARTISAN`) REFERENCES `artisan` (`ID_ARTISAN`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_ACHETER_DEMANDE` FOREIGN KEY (`ID_DEMANDE`) REFERENCES `demande_devis` (`ID_DEMANDE`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `artisan`
 --
 ALTER TABLE `artisan`
-  ADD CONSTRAINT `FK_ARTISAN_ZON` FOREIGN KEY (`ID_ZONE`) REFERENCES `zone` (`ID_ZONE`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_ARTISAN_CHANTIER` FOREIGN KEY (`ID_CHANTIER`) REFERENCES `chantier` (`ID_CHANTIER`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `chantier`

@@ -9,7 +9,7 @@
  *
  */
 class IndexController extends Zend_Controller_Action {
-
+  
   /**
    * Initialisation method
    *
@@ -21,11 +21,11 @@ class IndexController extends Zend_Controller_Action {
    *
    */
   public function init() {
-
+    
     parent::init();
   }
-
-
+  
+  
   /**
    * post dispatch method
    *
@@ -37,11 +37,11 @@ class IndexController extends Zend_Controller_Action {
    *
    */
   public function postDispatch() {
-
+    
     parent::postDispatch();
   }
-
-
+  
+  
   /**
    * default method
    *
@@ -53,8 +53,9 @@ class IndexController extends Zend_Controller_Action {
    *
    */
   public function indexAction() {
-
+    
+    $this->_redirect( '/auth/dashboard' );
   }
-
+  
 }
 

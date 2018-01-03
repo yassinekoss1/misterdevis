@@ -84,6 +84,7 @@ class Auth_ChauffageController extends Zend_Controller_Action {
       $demande->getId_chantier()->getId_zone()
     );
     
+    
     $data = [
       'artisans'     => $artisans,
       'particuliers' => [

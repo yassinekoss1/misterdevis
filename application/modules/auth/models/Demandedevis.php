@@ -205,6 +205,17 @@ class Auth_Model_Demandedevis {
   
   
   /**
+   * Many Demandes have Many Artisan.
+   * @ManyToMany(targetEntity="Auth_Model_Artisan", inversedBy="acheteurs")
+   * @JoinTable(name="acheter",
+   *      joinColumns={@JoinColumn(name="ID_DEMANDE", referencedColumnName="ID_DEMANDE")},
+   *      inverseJoinColumns={@JoinColumn(name="ID_ARTISAN", referencedColumnName="ID_ARTISAN")}
+   *   )
+   */
+  private $acheteurs;
+  
+  
+  /**
    * @return the attribute
    */
   public function __set( $attr, $val ) {
