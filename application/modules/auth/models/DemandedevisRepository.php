@@ -65,18 +65,4 @@ class Auth_Model_DemandedevisRepository extends EntityRepository {
     
     return $q->getQuery()->getResult();
   }
-  
-  
-  public function saveVendu( $id_demande, $vendu ) {
-    
-    $demande = $this->_em->getRepository( 'Auth_Model_Demandedevis' )->find( $id_demande );
-    
-    $demande->vendu = $vendu;
-    
-    $this->_em->persist( $demande );
-    $this->_em->flush();
-    
-    return $demande;
-    
-  }
 }

@@ -2,6 +2,7 @@
 
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\EntityRepository;
 
 
 /**
@@ -11,6 +12,13 @@ use Doctrine\ORM\Mapping as ORM;
  * @Entity(repositoryClass="Auth_Model_DemandedevisRepository")
  */
 class Auth_Model_Demandedevis {
+  
+  protected $repo;
+  
+  public function __construct( EntityRepository $repo ) {
+    
+    $this->repo = $repo;
+  }
   
   /**
    * @var integer $id_demande
@@ -691,15 +699,57 @@ class Auth_Model_Demandedevis {
   }
   
   
-  public function getUrl() {
+  public function getUrl( $toPdf = false ) {
     
-    $baseUrl = $_SERVER['HTTP_HOST'];
-    $type    = strtolower( $this->getId_activite()->getLibelle() );
+    $baseUrl  = $_SERVER['HTTP_HOST'];
+    $protocol = strtolower( substr( $_SERVER["SERVER_PROTOCOL"], 0, strpos( $_SERVER["SERVER_PROTOCOL"], '/' ) ) ) . '://';
     
     
-    return "{$baseUrl}/auth/{$type}/edit/id/{$this->getId_demande()}";
+    $type = null;
+    switch ( $this->getId_activite()->getLibelle() ) {
+      case 'SAUNA HAMMAM':
+        $type = 'sauna';
+        break;
+      case 'SALLE BAIN':
+        $type = 'sallebain';
+        break;
+      default:
+        $type = strtolower( $this->id_activite->libelle );
+    }
+    
+    
+    return "{$protocol}{$baseUrl}/auth/{$type}/" . ( $toPdf ? 'pdf' : 'edit' ) . "/id/{$this->getId_demande()}";
   }
   
+  public function pdfLocation() {
+    
+    $type = null;
+    switch ( $this->getId_activite()->getLibelle() ) {
+      case 'SAUNA HAMMAM':
+        $type = 'sauna';
+        break;
+      case 'SALLE BAIN':
+        $type = 'sallebain';
+        break;
+      default:
+        $type = strtolower( $this->id_activite->libelle );
+    }
+    
+    $pdf_path = realpath( APPLICATION_PATH . "/../public/pdf/" );
+    
+    if ( ! is_dir( "{$pdf_path}/{$type}" ) ) {
+      $path = mkdir( "{$pdf_path}/{$type}", 0777 );
+    }
+    
+    
+    return realpath( "{$pdf_path}/{$type}" );
+  }
+  
+  
+  public function soldCount() {
+    
+    return $this->acheteurs->count();
+  }
   
   public function getRef() {
     
