@@ -65,4 +65,58 @@ class Auth_Model_DemandedevisRepository extends EntityRepository {
     
     return $q->getQuery()->getResult();
   }
+  
+  
+  public function countBy( $criteria ) {
+    
+    $type = isset( $criteria['type'] ) ? $criteria['type'] : null;
+    $q    = null;
+    
+    if ( $type ) {
+      try {
+        $q = $this->_em->createQueryBuilder()->from( 'Auth_Model_' . $type, 'd' );
+        $q->select( 'COUNT(d)' );
+      } catch ( Exception $e ) {
+        die( $e->getMessage() );
+        
+        return 0;
+      }
+    } else {
+      $q = $this->_em->createQueryBuilder()->from( 'Auth_Model_Demandedevis', 'd' );
+      $q->select( 'COUNT(d)' );
+    }
+    
+    if ( isset( $criteria['qualification'] ) ) {
+      $q->where( 'd.qualification = :qualif' )
+        ->setParameter( 'qualif', $criteria['qualification'] );
+    }
+    
+    
+    if ( isset( $criteria['sold'] ) ) {
+      $q->from( 'Auth_Model_Acheter', 'ach' )
+        ->where( 'd.id_demande = ach.id_demande' )
+        ->andWhere( 'ach.reglee = :sold' )
+        ->setParameter( 'sold', $criteria['sold'] );
+    }
+    
+    if ( isset( $criteria['payement'] ) ) {
+      if ( ! isset( $criteria['sold'] ) ) {
+        $q->from( 'Auth_Model_Acheter', 'ach' );
+      }
+      
+      $q->andWhere( 'd.id_demande = ach.id_demande' )
+        ->andWhere( 'ach.mode_paiement = :mode' )
+        ->setParameter( 'mode', ( $criteria['payement'] === 'cart' ? 'CARTE BANCAIRE' : 'VIREMENT BANCAIRE' ) );
+    }
+    
+    try {
+      
+      return (int) $q->getQuery()
+                     ->getSingleScalarResult();
+    } catch ( Exception $e ) {
+      die( $e->getMessage() );
+      
+      return 0;
+    }
+  }
 }

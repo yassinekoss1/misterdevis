@@ -57,5 +57,19 @@ class IndexController extends Zend_Controller_Action {
     $this->_redirect( '/auth/dashboard' );
   }
   
+  
+  public function downloadAction() {
+    
+    $em = $this->getRequest()->_em;
+    
+    $id = $this->getRequest()->getParam( 'id' );
+    
+    
+    $demande = $em->getRepository( 'Auth_Model_Demandedevis' )->find( $id );
+    
+    if ( ! $demande ) {
+      $this->_redirect( 'http://mister-devis.com' );
+    }
+  }
 }
 

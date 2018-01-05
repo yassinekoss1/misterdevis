@@ -1,0 +1,170 @@
+<div dir="ltr" style="background-color:#f5f5f5;margin:0;padding:70px 0 70px 0;width:100%">
+	<table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%">
+		<tbody>
+		<tr>
+			<td align="center" valign="top">
+				<div>
+					<p style="margin-top:0">
+						<img src="http://www.mister-devis.com/wp-content/uploads/2017/03/logo_mister_devis-1.png" alt="Mister Devis">
+					</p>
+				</div>
+				<table border="0" cellpadding="0" cellspacing="0" width="600" style="background-color:#fdfdfd;border:1px solid #dcdcdc;border-radius:3px!important">
+					<tbody>
+					<tr>
+						<td align="center" valign="top">
+							
+							<table border="0" cellpadding="0" cellspacing="0" width="600" style="background-color:#0182bf;border-radius:3px 3px 0 0!important;color:#ffffff;border-bottom:0;font-weight:bold;line-height:100%;vertical-align:middle;font-family:&quot;Helvetica Neue&quot;,Helvetica,Roboto,Arial,sans-serif">
+								<tbody>
+								<tr>
+									<td style="padding:36px 48px;display:block">
+										<h1 style="color:#ffffff;font-family:&quot;Helvetica Neue&quot;,Helvetica,Roboto,Arial,sans-serif;font-size:30px;font-weight:300;line-height:150%;margin:0;text-align:left">
+											Merci pour votre commande</h1>
+									</td>
+								</tr>
+								</tbody>
+							</table>
+						
+						</td>
+					</tr>
+					<tr>
+						<td align="center" valign="top">
+							
+							<table border="0" cellpadding="0" cellspacing="0" width="600">
+								<tbody>
+								<tr>
+									<td valign="top" style="background-color:#fdfdfd">
+										
+										<table border="0" cellpadding="20" cellspacing="0" width="100%">
+											<tbody>
+											<tr>
+												<td valign="top" style="padding:48px">
+													<div style="color:#737373;font-family:&quot;Helvetica Neue&quot;,Helvetica,Roboto,Arial,sans-serif;font-size:14px;line-height:150%;text-align:left">
+														<span>
+															
+															<p style="margin:0 0 16px">
+																Bonjour,<br> Votre commande est en attente jusqu'à ce que nous ayons la confirmation que le paiement a été reçu. Les détails de votre commande sont indiqués ci-dessous pour
+																information&nbsp;:
+															</p>
+															
+															<p style="margin:0 0 16px">instruction pour virement bancaire</p>
+															
+															<section>
+																<h2 style="color:#0182bf;display:block;font-family:&quot;Helvetica Neue&quot;,Helvetica,Roboto,Arial,sans-serif;font-size:18px;font-weight:bold;line-height:130%;margin:16px 0 8px;text-align:left">
+																	Nos détails bancaires</h2>
+																<h3 style="color:#0182bf;display:block;font-family:&quot;Helvetica Neue&quot;,Helvetica,Roboto,Arial,sans-serif;font-size:16px;font-weight:bold;line-height:130%;margin:16px 0 8px;text-align:left">
+																	Digital Immobilier:</h3>
+																<ul>
+																	<li>Banque: <strong>Banque Populaire du Sud</strong>
+																	</li>
+																	<li>Numéro du compte: <strong>1660 70000 8658 1216 9388</strong>
+																	</li>
+																	<li>Code guichet: <strong>011</strong>
+																	</li>
+																	<li>IBAN: <strong>FR76</strong>
+																	</li>
+																	<li>BIC: <strong>CCBPFRPPPPG</strong>
+																	</li>
+																</ul>
+															</section>
+														</span>
+														<h2 style="color:#0182bf;display:block;font-family:&quot;Helvetica Neue&quot;,Helvetica,Roboto,Arial,sans-serif;font-size:18px;font-weight:bold;line-height:130%;margin:16px 0 8px;text-align:left">
+															Commande <?= $this->demande->getRef(); ?></h2>
+														
+														<table cellspacing="0" cellpadding="6" style="width:100%;font-family:'Helvetica Neue',Helvetica,Roboto,Arial,sans-serif;color:#737373;border:1px solid #e4e4e4" border="1">
+															<thead>
+															<tr>
+																<th scope="col" style="text-align:left;color:#737373;border:1px solid #e4e4e4;padding:12px">Produit</th>
+																<th scope="col" style="text-align:left;color:#737373;border:1px solid #e4e4e4;padding:12px">Quantité</th>
+																<th scope="col" style="text-align:left;color:#737373;border:1px solid #e4e4e4;padding:12px">Prix</th>
+															</tr>
+															</thead>
+															<tbody>
+															<tr>
+																<td style="text-align:left;vertical-align:middle;border:1px solid #eee;word-wrap:break-word;color:#737373;padding:12px">
+																	<?= $this->demande->getLibelle(); ?>
+																</td>
+																<td style="text-align:left;vertical-align:middle;border:1px solid #eee;color:#737373;padding:12px">1</td>
+																<td style="text-align:left;vertical-align:middle;border:1px solid #eee;color:#737373;padding:12px">
+																	<span class="m_2518732766848151301m_9006507220223450908woocommerce-Price-amount
+amount"><?= $this->demande->getTotalHT(); ?>&nbsp;<span>€</span></span>
+																</td>
+															</tr>
+															</tbody>
+															<tfoot>
+															<tr>
+																<th scope="row" colspan="2" style="text-align:left;border-top-width:4px;color:#737373;border:1px solid #e4e4e4;padding:12px">
+																	Sous-total&nbsp;:
+																</th>
+																<td style="text-align:left;border-top-width:4px;color:#737373;border:1px solid #e4e4e4;padding:12px">
+																	<span>
+																		<?= $this->demande->getTotalHT(); ?>&nbsp;<span>€</span></span>
+																</td>
+															</tr>
+															<tr>
+																<th scope="row" colspan="2" style="text-align:left;color:#737373;border:1px solid #e4e4e4;padding:12px">TVA (20%):</th>
+																<td style="text-align:left;color:#737373;border:1px solid #e4e4e4;padding:12px">
+																	<span>
+																		<?= $this->demande->getTVA(); ?>&nbsp;<span>€</span></span>
+																</td>
+															</tr>
+															<tr>
+																<th scope="row" colspan="2" style="text-align:left;color:#737373;border:1px solid #e4e4e4;padding:12px">Moyen de paiement&nbsp;:</th>
+																<td style="text-align:left;color:#737373;border:1px solid #e4e4e4;padding:12px">Virement Bancaire</td>
+															</tr>
+															<tr>
+																<th scope="row" colspan="2" style="text-align:left;color:#737373;border:1px solid #e4e4e4;padding:12px">Total&nbsp;:</th>
+																<td style="text-align:left;color:#737373;border:1px solid #e4e4e4;padding:12px">
+																	<span>
+																		<?= $this->demande->getTotal(); ?>&nbsp;<span>€</span></span>
+																</td>
+															</tr>
+															</tfoot>
+														</table>
+														<span>
+															<h2 style="color:#0182bf;display:block;font-family:&quot;Helvetica Neue&quot;,Helvetica,Roboto,Arial,sans-serif;font-size:18px;font-weight:bold;line-height:130%;margin:16px 0 8px;text-align:left">
+																Détails du client</h2>
+															<ul>
+																<li>
+																	<strong>Adresse de messagerie:</strong>
+																	<span style="color:#505050;font-family:&quot;Helvetica Neue&quot;,Helvetica,Roboto,Arial,sans-serif">
+																		<a href="mailto:<?= $this->artisan->email_artisan; ?>" target="_blank"><?= $this->artisan->email_artisan; ?></a></span>
+																</li>
+																<li>
+																	<strong>Téléphone&nbsp;:</strong>
+																	<span style="color:#505050;font-family:&quot;Helvetica Neue&quot;,Helvetica,Roboto,Arial,sans-serif"><?= $this->artisan->telephone_portable; ?></span>
+																</li>
+															</ul>
+															<table cellspacing="0" cellpadding="0" style="width:100%;vertical-align:top" border="0">
+																<tbody>
+																<tr>
+																	<td style="text-align:left;color:#737373;border:1px solid #e4e4e4;padding:12px" valign="top" width="50%">
+																		<h3 style="color:#0182bf;display:block;font-family:&quot;Helvetica Neue&quot;,Helvetica,Roboto,Arial,sans-serif;font-size:16px;font-weight:bold;line-height:130%;margin:16px 0 8px;text-align:left">
+																			Adresse de facturation</h3>
+																		
+																		<p style="color:#505050;font-family:&quot;Helvetica Neue&quot;,Helvetica,Roboto,Arial,sans-serif;margin:0 0 16px">
+																			<?= "{$this->artisan->prenom_artisan} {$this->artisan->nom_artisan}"; ?><br><?= $this->artisan->raison_social; ?><br><?= $this->artisan->chantier->adresse; ?><br><?=
+																			$this->artisan->chantier->ville; ?>
+																		</p>
+																	</td>
+																</tr>
+																</tbody>
+															</table>
+														</span>
+													</div>
+												</td>
+											</tr>
+											</tbody>
+										</table>
+									</td>
+								</tr>
+								</tbody>
+							</table>
+						</td>
+					</tr>
+					</tbody>
+				</table>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+</div>

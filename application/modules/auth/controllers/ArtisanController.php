@@ -119,8 +119,10 @@ class Auth_ArtisanController extends Zend_Controller_Action {
           $data['Artisan']['notifie'] = true;
         }
         
+        $hash = $this->getRequest()->_registry->config->auth->hash;
+        
         // Save the artisan
-        $artisan = $em->getRepository( 'Auth_Model_Artisan' )->save( $id, $data );
+        $artisan = $em->getRepository( 'Auth_Model_Artisan' )->save( $id, $data, $hash );
         
         if ( $artisan ) {
           if ( $sendEmail ) {

@@ -42,7 +42,7 @@ class Auth_Model_ArtisanRepository extends EntityRepository {
   }
   
   
-  public function save( $id = null, $data ) {
+  public function save( $id = null, $data, $hash = 'secret' ) {
     
     
     // Grabing the demande or creating new one

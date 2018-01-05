@@ -346,16 +346,64 @@ class Auth_Model_DemandedevisProxy extends \Auth_Model_Demandedevis implements \
         return parent::setVendu($vendu);
     }
 
-    public function getUrl()
+    public function getUrl($toPdf = false)
     {
         $this->__load();
-        return parent::getUrl();
+        return parent::getUrl($toPdf);
+    }
+
+    public function pdfLocation($full = false)
+    {
+        $this->__load();
+        return parent::pdfLocation($full);
+    }
+
+    public function factureLocation($id_artisan, $full = false)
+    {
+        $this->__load();
+        return parent::factureLocation($id_artisan, $full);
+    }
+
+    public function soldCount()
+    {
+        $this->__load();
+        return parent::soldCount();
     }
 
     public function getRef()
     {
         $this->__load();
         return parent::getRef();
+    }
+
+    public function getLibelle()
+    {
+        $this->__load();
+        return parent::getLibelle();
+    }
+
+    public function getTotalHT()
+    {
+        $this->__load();
+        return parent::getTotalHT();
+    }
+
+    public function getTVA()
+    {
+        $this->__load();
+        return parent::getTVA();
+    }
+
+    public function getTotal()
+    {
+        $this->__load();
+        return parent::getTotal();
+    }
+
+    public function getDownloadUrl()
+    {
+        $this->__load();
+        return parent::getDownloadUrl();
     }
 
 

@@ -18,6 +18,5 @@ class Auth_IndexController extends Zend_Controller_Action {
 
 
     echo json_encode($data);
-
   }
 }

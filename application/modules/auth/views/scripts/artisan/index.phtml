@@ -54,64 +54,86 @@
 			</header>
 			<div class="main-box-body clearfix">
 				<div class="col-md-12">
-					<div class="table-responsive">
-						<?php if ( $_SESSION['flash'] ): ?>
-							<div class="alert alert-success ">
-								<?= $_SESSION['flash'];
-								$_SESSION['flash'] = null; ?>
-								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-									<span aria-hidden="true">&times;</span>
-								</button>
-							</div>
-						<?php endif; ?>
-						<table id="table-artisan" class="table table-hover artisan-list">
-							<thead>
-							<tr>
-								<th>ID</th>
-								<th>NOM</th>
-								<th>PRENOM</th>
-								<th>RAISON SOCIAL</th>
-								<th>EMAIL</th>
-								<th>ACTION</th>
-							</tr>
-							</thead>
-							<tbody>
-							<?php
+					<?php if ( $_SESSION['flash'] ): ?>
+						<div class="alert alert-success ">
+							<?= $_SESSION['flash'];
+							$_SESSION['flash'] = null; ?>
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+					<?php endif; ?>
+					<table id="table-artisan" class="table table-hover artisan-list">
+						<thead>
+						<tr>
+							<th>ID</th>
+							<th>NOM</th>
+							<th>PRENOM</th>
+							<th>RAISON SOCIAL</th>
+							<th>EMAIL</th>
+							<th style="width: 100px">ACTION</th>
+						</tr>
+						</thead>
+						<tbody>
+						<?php
+						
+						foreach ( $this->artisans as $artisan ):?>
 							
-							foreach ( $this->artisans as $artisan ):?>
-								
-								<tr>
-									<td>
-										<?= $artisan->id_artisan; ?>
-									</td>
-									<td>
-										<?= $artisan->nom_artisan; ?>
-									</td>
-									<td>
-										<?= $artisan->prenom_artisan; ?>
-									</td>
-									<td>
-										<?= $artisan->raison_social ? $artisan->raison_social : 'N/A'; ?>
-									</td>
-									<td>
-										<?= $artisan->email_artisan; ?>
-									</td>
-									<td><a href="/auth/artisan/edit/id/<?= $artisan->id_artisan ?>" class="table-link" id="btn-edit-artisan-<?= $artisan->id_artisan; ?>" style="cursor: pointer;">
-											<span class="fa-stack" title="Editer">
-												<i class="fa fa-square fa-stack-2x"></i>
-												<i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-											</span>
-										
-										</a>
+							<tr>
+								<td>
+									<?= $artisan->id_artisan; ?>
+								</td>
+								<td>
+									<?= $artisan->nom_artisan; ?>
+								</td>
+								<td>
+									<?= $artisan->prenom_artisan; ?>
+								</td>
+								<td>
+									<?= $artisan->raison_social ? $artisan->raison_social : 'N/A'; ?>
+								</td>
+								<td>
+									<?= $artisan->email_artisan; ?>
+								</td>
+								<td style="text-align: center;"><a href="/auth/artisan/edit/id/<?= $artisan->id_artisan ?>" class="table-link" id="btn-edit-artisan-<?= $artisan->id_artisan; ?>" style="cursor: pointer;">
+										<span class="fa-stack" title="Editer">
+											<i class="fa fa-square fa-stack-2x"></i>
+											<i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+										</span>
 									
-									</td>
-								</tr>
-							<?php endforeach; ?>
-							</tbody>
-						</table>
-					</div>
+									</a>
+								
+								</td>
+							</tr>
+						<?php endforeach; ?>
+						</tbody>
+					</table>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
+<script>
+	
+	$(function () {
+		
+		
+		
+		// DataTable setup
+		$('#table-artisan').dataTable({
+			'info': false,
+			'oLanguage': {
+				sProcessing: '<i style="font-size:50px;color:#6A6E9B" class="fa fa-spinner fa-spin"></i> Chargement en cours ...'
+			},
+			"jQueryUI": true,
+			'sDom': 'lTfr<"clearfix">tip',
+			'oTableTools': {
+				'aButtons': []
+			},
+			"paging": false,
+			"ordering": true,
+			"processing": true,
+			"searching": true
+		});
+	});
+</script>

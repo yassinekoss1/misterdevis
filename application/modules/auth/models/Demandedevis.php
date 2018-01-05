@@ -721,28 +721,20 @@ class Auth_Model_Demandedevis {
     return "{$protocol}{$baseUrl}/auth/{$type}/" . ( $toPdf ? 'pdf' : 'edit' ) . "/id/{$this->getId_demande()}";
   }
   
-  public function pdfLocation() {
-    
-    $type = null;
-    switch ( $this->getId_activite()->getLibelle() ) {
-      case 'SAUNA HAMMAM':
-        $type = 'sauna';
-        break;
-      case 'SALLE BAIN':
-        $type = 'sallebain';
-        break;
-      default:
-        $type = strtolower( $this->id_activite->libelle );
-    }
+  
+  public function pdfLocation( $full = false ) {
     
     $pdf_path = realpath( APPLICATION_PATH . "/../public/pdf/" );
     
-    if ( ! is_dir( "{$pdf_path}/{$type}" ) ) {
-      $path = mkdir( "{$pdf_path}/{$type}", 0777 );
-    }
+    return $pdf_path . ( $full ? "/{$this->getRef()}.pdf" : "" );
+  }
+  
+  
+  public function factureLocation( $id_artisan, $full = false ) {
     
+    $facture_path = realpath( APPLICATION_PATH . "/../public/pdf/factures" );
     
-    return realpath( "{$pdf_path}/{$type}" );
+    return $facture_path . ( $full ? "/FAC-{$this->getRef()}-{$id_artisan}.pdf" : "" );
   }
   
   
@@ -784,4 +776,34 @@ class Auth_Model_Demandedevis {
     return ( $type ? "{$type}-" : "" ) . str_pad( $this->getId_demande(), 6, '0', STR_PAD_LEFT );
   }
   
+  public function getLibelle() {
+    
+    return "{$this->titre_demande} {$this->getRef()}";
+  }
+  
+  public function getTotalHT() {
+    
+    return round( (float) $this->prix_mise_en_ligne, 2 );
+  }
+  
+  
+  public function getTVA() {
+    
+    return round( $this->getTotalHT() * .2, 2 );
+  }
+  
+  public function getTotal() {
+    
+    return round( $this->getTotalHT() * 1.2, 2 );
+  }
+  
+  public function getDownloadUrl() {
+    
+    $baseUrl  = $_SERVER['HTTP_HOST'];
+    $protocol = strtolower( substr( $_SERVER["SERVER_PROTOCOL"], 0, strpos( $_SERVER["SERVER_PROTOCOL"], '/' ) ) ) . '://';
+    
+    return "{$protocol}{$baseUrl}/pdf/{$this->getRef()}.pdf";
+    
+    
+  }
 }

@@ -3,6 +3,15 @@
 
 class Auth_ApiController extends Zend_Controller_Action {
   
+  private $_sys_email;
+  
+  public function init() {
+    
+    $config           = new Zend_Config_Ini( APPLICATION_PATH . '/configs/application.ini', APPLICATION_ENV );
+    $this->_sys_email = $config->system->email->toArray();
+  }
+  
+  
   public function demandesAction() {
     
     $em = $this->getRequest()->_em;
@@ -106,7 +115,7 @@ class Auth_ApiController extends Zend_Controller_Action {
     }
   }
   
-  public function chekoutAction() {
+  public function checkoutAction() {
     
     $em = $this->getRequest()->_em;
     
@@ -151,67 +160,42 @@ class Auth_ApiController extends Zend_Controller_Action {
   
   public function updateAction() {
     
+    $date = new Zend_Date();
+    
     $em = $this->getRequest()->_em;
     $this->_helper->layout()->disableLayout();
     $this->_helper->viewRenderer->setNoRender( true );
     
-    $id    = $this->getRequest()->getParam( 'id' );
-    $email = $this->getRequest()->getParam( 'email' );
-    
-    $artisan       = $em->getRepository( 'Auth_Model_Artisan' )->findOneBy( [ 'email_artisan' => $email ] );
-    $demande       = $em->getRepository( 'Auth_Model_Demandedevis' )->find( $id );
-    $qualification = null;
-    
-    switch ( $demande->id_activite->libelle ) {
-      case 'SALLE BAIN':
-        $qualification = $em->getRepository( 'Auth_Model_Sallebain' )->findOneBy( [ 'id_demande' => $id ] );
-        break;
-      case 'SAUNA HAMMAM':
-        $qualification = $em->getRepository( 'Auth_Model_Sauna' )->findOneBy( [ 'id_demande' => $id ] );
-        break;
-      default:
-        $qualification = $em->getRepository( 'Auth_Model_' . ucfirst( strtolower( $demande->id_activite->libelle ) ) )->findOneBy( [ 'id_demande' => $id ] );
-    }
+    $id    = $this->getRequest()->getPost( 'id' );
+    $email = urldecode( $this->getRequest()->getPost( 'email' ) );
     
     
-    // Trying to save the transaction
+    $artisan = $em->getRepository( 'Auth_Model_Artisan' )->findOneBy( [ 'email_artisan' => $email ] );
+    $demande = $em->getRepository( 'Auth_Model_Demandedevis' )->find( $id );
     
+    $ref = $demande->getRef();
+    
+    //Saving and generating Facture
     try {
-      $artisan->demandes[] = $demande;
-      // $em->persist( $artisan );
-      //$em->flush();
+      $acheter = new Auth_Model_Acheter();
       
+      $acheter->setArtisan( $artisan );
+      $acheter->setId_artisan( $artisan->id_artisan );
+      $acheter->setDemande( $demande );
+      $acheter->setId_demande( $demande->id_demande );
+      $acheter->setReglee( true );
+      $acheter->setMode_paiement( 'CARTE BANCAIRE' );
       
-      $title = $demande->titre_demande;
+      $em->persist( $acheter );
+      $em->flush();
       
       // Fetching the html string from the view
-      $html = $this->view->partial( 'shared/pdf.phtml', [
-        'demande'       => $demande,
-        'qualification' => $qualification,
+      $html = $this->view->partial( 'shared/facture.phtml', [
+        'demande' => $demande,
+        'artisan' => $artisan,
       ] );
       
-      
-      $filename = $this->generatePdf( $title, $html, $demande->pdfLocation() );
-      
-      $contents = file_get_contents( $filename );
-      
-      
-      $mail = new Zend_Mail( 'utf-8' );
-      
-      $attachement              = new Zend_Mime_Part( $contents );
-      $attachement->type        = 'application/pdf';
-      $attachement->disposition = Zend_Mime::DISPOSITION_ATTACHMENT;
-      $attachement->encoding    = Zend_Mime::ENCODING_BASE64;
-      $attachement->filename    = "{$title}-" . time() . ".pdf";
-      
-      
-      $mail->setBodyHtml( "<h1>{$title}</h1>" );
-      $mail->setFrom( 'MisterDevis <service-clients@mister-devis.com' );
-      $mail->setSubject( 'You bought a project' );
-      $mail->addTo( $artisan->email_artisan );
-      $mail->addAttachment( $attachement );
-      
-      $mail->send();
+      $this->generateFacture( $ref . "-" . $artisan->id_artisan, $html );
       
       
     } catch ( Exception $e ) {
@@ -219,14 +203,113 @@ class Auth_ApiController extends Zend_Controller_Action {
     }
     
     
-    //Envoi des emails
+    $pdf_location     = $demande->pdfLocation( true );
+    $facture_location = $demande->factureLocation( $artisan->id_artisan, true );
+    
+    $pdf_content     = file_get_contents( $pdf_location );
+    $facture_content = file_get_contents( $facture_location );
+    
+    // Preparing attachements
+    
+    $pdf_attachement              = new Zend_Mime_Part( $pdf_content );
+    $pdf_attachement->type        = 'application/pdf';
+    $pdf_attachement->disposition = Zend_Mime::DISPOSITION_ATTACHMENT;
+    $pdf_attachement->encoding    = Zend_Mime::ENCODING_BASE64;
+    $pdf_attachement->filename    = $ref . ".pdf";
+    
+    
+    $facture_attachement              = new Zend_Mime_Part( $facture_content );
+    $facture_attachement->type        = 'application/pdf';
+    $facture_attachement->disposition = Zend_Mime::DISPOSITION_ATTACHMENT;
+    $facture_attachement->encoding    = Zend_Mime::ENCODING_BASE64;
+    $facture_attachement->filename    = "FAC-{$ref}-{$artisan->id_artisan}.pdf";
+    
+    
+    // Sending email
+    try {
+      
+      $html = $this->view->partial( 'shared/mail_invoice_artisan.phtml', [
+        'artisan' => $artisan,
+        'demande' => $demande,
+        'acheter' => $acheter,
+      ] );
+      
+      $mail = new Zend_Mail( 'utf-8' );
+      $mail->setBodyHtml( $html );
+      $mail->setFrom( $this->_sys_email['address'], $this->_sys_email['name'] );
+      $mail->setSubject( "Votre commande du " . $date->toString( 'd MMMM Y' ) . " sur Mister Devis est complète" );
+      $mail->addTo( $artisan->email_artisan );
+      $mail->addAttachment( $pdf_attachement );
+      $mail->addAttachment( $facture_attachement );
+      
+      $mail->send();
+    } catch ( Exception $e ) {
+      die( $e->getMessage() );
+    }
     
   }
   
   
-  private function generatePdf( $title, $html, $location ) {
+  public function virementAction() {
     
-    $filename = "{$location}/" . time() . ".pdf";
+    $date = new Zend_Date();
+    
+    $em = $this->getRequest()->_em;
+    $this->_helper->layout()->disableLayout();
+    $this->_helper->viewRenderer->setNoRender( true );
+    
+    $id    = $this->getRequest()->getPost( 'id' );
+    $email = urldecode( $this->getRequest()->getPost( 'email' ) );
+    
+    
+    $artisan = $em->getRepository( 'Auth_Model_Artisan' )->findOneBy( [ 'email_artisan' => $email ] );
+    $demande = $em->getRepository( 'Auth_Model_Demandedevis' )->find( $id );
+    
+    $ref = $demande->getRef();
+    
+    //Saving and generating Facture
+    try {
+      $acheter = new Auth_Model_Acheter();
+      
+      $acheter->setArtisan( $artisan );
+      $acheter->setId_artisan( $artisan->id_artisan );
+      $acheter->setDemande( $demande );
+      $acheter->setId_demande( $demande->id_demande );
+      $acheter->setReglee( false );
+      $acheter->setMode_paiement( 'VIREMENT BANCAIRE' );
+      
+      $em->persist( $acheter );
+      $em->flush();
+      
+    } catch ( Exception $e ) {
+      die( $e->getMessage() );
+    }
+    
+    // Sending email
+    try {
+      
+      $html = $this->view->partial( 'shared/mail_virement_artisan.phtml', [
+        'artisan' => $artisan,
+        'demande' => $demande,
+      ] );
+      
+      $mail = new Zend_Mail( 'utf-8' );
+      $mail->setBodyHtml( $html );
+      $mail->setFrom( $this->_sys_email['address'], $this->_sys_email['name'] );
+      $mail->setSubject( "Reçu de votre commande du " . $date->toString( 'd MMMM Y' ) . " sur Mister Devis" );
+      $mail->addTo( $artisan->email_artisan );
+      
+      $mail->send();
+    } catch ( Exception $e ) {
+      die( $e->getMessage() );
+    }
+    
+  }
+  
+  
+  private function generateFacture( $ref, $html ) {
+    
+    $filename = "pdf/factures/FAC-{$ref}.pdf";
     
     // Initializing the pdf object
     $pdf = new Auth_Controller_Helper_MyPdf( 'P', 'mm', 'A4', true, 'UTF-8', false );
@@ -234,7 +317,7 @@ class Auth_ApiController extends Zend_Controller_Action {
     
     // Set document info
     $pdf->SetAuthor( 'MisterDevis' );
-    $pdf->SetTitle( $title );
+    $pdf->SetTitle( "FAC-{$ref}" );
     
     
     // Set the page

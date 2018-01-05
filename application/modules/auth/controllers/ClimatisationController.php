@@ -209,6 +209,19 @@ class Auth_ClimatisationController extends Zend_Controller_Action {
           }
         }
         
+        $title = $demande->titre_demande;
+        
+        $ref = $demande->getRef();
+        
+        // Fetching the html string from the view
+        $html = $this->view->partial( 'shared/pdf.phtml', [
+          'demande'       => $demande,
+          'qualification' => $qualification,
+        ] );
+        
+        
+        $this->generatePdf( $ref, $title, $html, $demande->pdfLocation( true ) );
+        
         
         $_SESSION['flash'] = "La mise à jour a été effectuée avec success";
         $this->getResponse()->setRedirect( "/auth/{$this->slug}" );
@@ -229,26 +242,7 @@ class Auth_ClimatisationController extends Zend_Controller_Action {
   }
   
   
-  public function pdfAction() {
-    
-    // Setting up the view to supress rendring
-    $em = $this->getRequest()->_em;
-    $this->_helper->layout()->disableLayout();
-    $this->_helper->viewRenderer->setNoRender( true );
-    
-    // Initializing data
-    $id            = $this->getRequest()->getParam( 'id' );
-    $qualification = $em->getRepository( $this->model_name )->findOneBy( [ 'id_demande' => $id ] );
-    if ( ! $qualification ) {
-      $this->_redirect( "/auth/{$this->slug}" );
-    }
-    
-    $this->view->qualification = $qualification;
-    $this->view->demande       = $qualification->id_demande;
-    
-    // Fetching the html string from the view
-    $html = $this->view->render( 'shared/pdf.phtml' );
-    
+  private function generatePdf( $ref, $title, $html, $location ) {
     
     // Initializing the pdf object
     $pdf = new Auth_Controller_Helper_MyPdf( 'P', 'mm', 'A4', true, 'UTF-8', false );
@@ -256,13 +250,39 @@ class Auth_ClimatisationController extends Zend_Controller_Action {
     
     // Set document info
     $pdf->SetAuthor( 'MisterDevis' );
-    $pdf->SetTitle( $this->view->demande->getTitre_demande() );
+    $pdf->SetTitle( $title );
     
     
     // Set the page
     $pdf->AddPage();
     
     $pdf->writeHTML( $html );
-    $pdf->Output( "{$this->view->demande->titre_demande}-" . time() . ".pdf", 'D' );
+    
+    $pdf->Output( $location, 'F' );
+    
+    return $location;
+  }
+  
+  public function pdfAction() {
+    
+    $this->_helper->layout()->disableLayout();
+    
+    $this->_helper->viewRenderer->setNoRender( true );
+    
+    $id = $this->getRequest()->getParam( 'id' );
+    
+    $em = $this->getRequest()->_em;
+    
+    $demande = $em->getRepository( 'Auth_Model_Demandedevis' )->find( $id );
+    
+    $location = $demande->pdfLocation( true );
+    
+    header( "Content-disposition: attachment; filename=" . $demande->getRef() . ".pdf" );
+    header( "Cache-Control: must-revalidate, post-check=0, pre-check=0, public" );
+    header( "Content-Type: application/force-download" );
+    header( "Pragma: no-cache" );
+    header( "Expires: 0" );
+    
+    readfile( $location );
   }
 }

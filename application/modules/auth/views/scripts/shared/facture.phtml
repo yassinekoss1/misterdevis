@@ -1,0 +1,113 @@
+<div id="page">
+	<table>
+		<tr>
+			<td align="right" style="font-size:38px; font-weight: bold; text-align: right;">
+				<?= "Facture - " . str_pad( $this->demande->id_demande, '4', '0', 0 ) . str_pad( $this->artisan->id_artisan, '4', '0', 0 ) . " du " . date( 'd/m/Y' ) ?>
+				<br>
+				<?= "Objet - {$this->demande->titre_demande}" ?>
+			</td>
+		</tr>
+	</table>
+	<br>
+	<table>
+		<tr>
+			<td style="text-align:right; font-size: 38px">
+				<strong>
+					<?= "{$this->artisan->prenom_artisan} {$this->artisan->nom_artisan}"; ?>
+				</strong>
+				
+				<br>
+				<?= $this->artisan->chantier->adresse; ?>
+				<br>
+				<?= "Tél: {$this->artisan->telephone_portable}"; ?>
+				<br>
+				<?= "E-mail: {$this->artisan->email_artisan}"; ?>
+			
+			</td>
+		</tr>
+	</table>
+	<br> <br> <br> <br> <br> <br>
+	<table class="table3">
+		<tr>
+			<th>Libellé</th>
+			<th>Qté</th>
+			<th>PU HT</th>
+			<th>TVA</th>
+			<th>Total HT</th>
+		</tr>
+		<tr>
+			<td>
+				<strong> <em><?= $this->demande->getRef(); ?></em> </strong>
+			</td>
+			<td>1</td>
+			<td><?= round( $this->demande->prix_mise_en_ligne, 2 ); ?> &euro;</td>
+			<td>20%</td>
+			<td><?= round( $this->demande->prix_mise_en_ligne, 2 ); ?>&euro;</td>
+		</tr>
+	</table>
+	
+	<br> <br> <br> <br> <br>
+	<table style="font-size:30px">
+		<tr>
+			<td width="40%" style="border:1px solid #000; text-align:left;">
+				<strong>DATE DE LIVRAISON : </strong><font><?= ucfirst( date( 'd/m/Y' ) ); ?></font><br /><br /> <strong>ADRESSE DE LIVRAISON : </strong><br /><?= $this->artisan->getChantier()->getAdresse(); ?>
+				<br /><br />
+			</td>
+			
+			<td width="7%" style="border:1px solid #000;text-align:right;">
+				<div style="text-align:right;border-bottom:1px solid #000;">Taux&nbsp;&nbsp;</div>
+				<?php
+				
+				echo '20 %&nbsp;&nbsp;<br/>';
+				
+				?>
+			</td>
+			<td width="13%" style="border:1px solid #000;text-align:right;">
+				<div style="text-align:right;border-bottom:1px solid #000;">Montant HT&nbsp;&nbsp;</div>
+				<?php
+				
+				echo $this->demande->prix_mise_en_ligne . ' €<br/>';
+				
+				?>
+			</td>
+			<td width="13%" style="border:1px solid #000;text-align:right;">
+				<div style="text-align:right;border-bottom:1px solid #000;">TVA&nbsp;&nbsp;</div>
+				<?php
+				
+				echo number_format( round( $this->demande->prix_mise_en_ligne * 0.2, 2 ), 2, ",", " " ) . ' €<br/>';
+				
+				?>
+			</td>
+			<td width="27%" style="border:1px solid #000;text-align:left;font-size:30px;">
+				<table cellpadding="0" cellspacing="0">
+					<tr>
+						<td width="60%" align="right"><strong>TOTAL HT :</strong></td>
+						<td width="40%" align="right"><?= $this->demande->prix_mise_en_ligne; ?> €</td>
+					</tr>
+					<tr>
+						<td width="60%" align="right"><strong>TOTAL TVA :</strong></td>
+						<td width="40%" align="right"><?= number_format( round( $this->demande->prix_mise_en_ligne * 0.2, 2 ), 2, ",", " " ); ?> €</td>
+					</tr>
+					<tr>
+						<td width="60%" align="right"><strong>TOTAL TTC :</strong></td>
+						<td width="40%" align="right"><?= number_format( round( $this->demande->prix_mise_en_ligne * 1.2, 2 ), 2, ",", " " ); ?> €</td>
+					</tr>
+					<tr>
+						<td style="width:100%; height:10px;">&nbsp;</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</div>
+
+<style type="text/css">
+	.table3 th,
+	.table3 td {
+		border-bottom: 1px solid black;
+		height: 25px;
+		vertical-align: middle;
+		line-height: 10px;
+	}
+
+</style>
