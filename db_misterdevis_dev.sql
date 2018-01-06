@@ -1,13 +1,12 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.6deb5
+-- version 4.6.6
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Jan 05, 2018 at 11:15 PM
--- Server version: 5.7.20-0ubuntu0.17.10.1
--- PHP Version: 5.6.32-1+ubuntu17.10.1+deb.sury.org+2
+-- Client :  localhost:3306
+-- Généré le :  Sam 06 Janvier 2018 à 15:59
+-- Version du serveur :  5.5.58-0ubuntu0.14.04.1
+-- Version de PHP :  5.6.14
 
-SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
@@ -18,16 +17,15 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `db_misterdevis_dev`
+-- Base de données :  `db_misterdevis_dev`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `acheter`
+-- Structure de la table `acheter`
 --
 
-DROP TABLE IF EXISTS `acheter`;
 CREATE TABLE `acheter` (
   `ID_ARTISAN` bigint(20) NOT NULL,
   `ID_DEMANDE` bigint(20) NOT NULL,
@@ -36,7 +34,7 @@ CREATE TABLE `acheter` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `acheter`
+-- Contenu de la table `acheter`
 --
 
 INSERT INTO `acheter` (`ID_ARTISAN`, `ID_DEMANDE`, `MODE_PAIEMENT`, `REGLEE`) VALUES
@@ -47,10 +45,9 @@ INSERT INTO `acheter` (`ID_ARTISAN`, `ID_DEMANDE`, `MODE_PAIEMENT`, `REGLEE`) VA
 -- --------------------------------------------------------
 
 --
--- Table structure for table `activite`
+-- Structure de la table `activite`
 --
 
-DROP TABLE IF EXISTS `activite`;
 CREATE TABLE `activite` (
   `ID_ACTIVITE` bigint(20) NOT NULL,
   `LIBELLE` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
@@ -58,7 +55,7 @@ CREATE TABLE `activite` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `activite`
+-- Contenu de la table `activite`
 --
 
 INSERT INTO `activite` (`ID_ACTIVITE`, `LIBELLE`, `GROUP`) VALUES
@@ -74,10 +71,9 @@ INSERT INTO `activite` (`ID_ACTIVITE`, `LIBELLE`, `GROUP`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `artisan`
+-- Structure de la table `artisan`
 --
 
-DROP TABLE IF EXISTS `artisan`;
 CREATE TABLE `artisan` (
   `ID_ARTISAN` bigint(20) NOT NULL,
   `ID_CHANTIER` bigint(20) DEFAULT NULL,
@@ -100,7 +96,7 @@ CREATE TABLE `artisan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `artisan`
+-- Contenu de la table `artisan`
 --
 
 INSERT INTO `artisan` (`ID_ARTISAN`, `ID_CHANTIER`, `CODE_ARTISAN`, `NOM_ARTISAN`, `PRENOM_ARTISAN`, `LOGIN`, `PASS`, `RAISON_SOCIALE`, `EMAIL_ARTISAN`, `TELEPHONE_FIXE`, `TELEPHONE_PORTABLE`, `FAX`, `RCS`, `SIRET`, `CODE_NAF`, `HORAIRERDV`, `DESCRIPTION`, `QUALIFICATION`) VALUES
@@ -112,10 +108,9 @@ INSERT INTO `artisan` (`ID_ARTISAN`, `ID_CHANTIER`, `CODE_ARTISAN`, `NOM_ARTISAN
 -- --------------------------------------------------------
 
 --
--- Table structure for table `chantier`
+-- Structure de la table `chantier`
 --
 
-DROP TABLE IF EXISTS `chantier`;
 CREATE TABLE `chantier` (
   `ID_CHANTIER` bigint(20) NOT NULL,
   `ID_ZONE` bigint(20) DEFAULT NULL,
@@ -124,7 +119,7 @@ CREATE TABLE `chantier` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `chantier`
+-- Contenu de la table `chantier`
 --
 
 INSERT INTO `chantier` (`ID_CHANTIER`, `ID_ZONE`, `ADRESSE`, `ADRESSE2`) VALUES
@@ -186,10 +181,9 @@ INSERT INTO `chantier` (`ID_CHANTIER`, `ID_ZONE`, `ADRESSE`, `ADRESSE2`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `demande_devis`
+-- Structure de la table `demande_devis`
 --
 
-DROP TABLE IF EXISTS `demande_devis`;
 CREATE TABLE `demande_devis` (
   `ID_DEMANDE` bigint(20) NOT NULL,
   `ID_PARTICULIER` bigint(20) DEFAULT NULL,
@@ -212,14 +206,14 @@ CREATE TABLE `demande_devis` (
   `PRIX_PROMO` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   `PUBLIER_EN_LIGNE` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   `CHEMIN_PDF` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `DATE_CREATION` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `DATE_CREATION` datetime NOT NULL,
   `DATE_PUBLICATION` datetime DEFAULT NULL,
   `PUBLIER_ENVOI` tinyint(1) DEFAULT '0',
   `VENDU` tinyint(1) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `demande_devis`
+-- Contenu de la table `demande_devis`
 --
 
 INSERT INTO `demande_devis` (`ID_DEMANDE`, `ID_PARTICULIER`, `ID_ACTIVITE`, `ID_CHANTIER`, `ID_USER`, `TITRE_DEMANDE`, `DELAI_SOUHAITE`, `DESCRIPTION`, `TYPE_DEMANDEUR`, `TYPE_PROPRIETE`, `TYPE_BATIMENT`, `BUDGET_APPROXIMATIF`, `FINANCEMENT_PROJET`, `OBJECTIF_DEMANDE`, `PRESTATION_SOUHAITE`, `INDICATION_COMPLEMENTAIRE`, `QUALIFICATION`, `PRIX_MISE_EN_LIGNE`, `PRIX_PROMO`, `PUBLIER_EN_LIGNE`, `CHEMIN_PDF`, `DATE_CREATION`, `DATE_PUBLICATION`, `PUBLIER_ENVOI`, `VENDU`) VALUES
@@ -247,10 +241,9 @@ INSERT INTO `demande_devis` (`ID_DEMANDE`, `ID_PARTICULIER`, `ID_ACTIVITE`, `ID_
 -- --------------------------------------------------------
 
 --
--- Table structure for table `particulier`
+-- Structure de la table `particulier`
 --
 
-DROP TABLE IF EXISTS `particulier`;
 CREATE TABLE `particulier` (
   `ID_PARTICULIER` bigint(20) NOT NULL,
   `NOM_PARTICULIER` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
@@ -263,7 +256,7 @@ CREATE TABLE `particulier` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `particulier`
+-- Contenu de la table `particulier`
 --
 
 INSERT INTO `particulier` (`ID_PARTICULIER`, `NOM_PARTICULIER`, `PRENOM_PARTICULIER`, `TELEPHONE_FIXE`, `TELEPHONE_PORTABLE`, `CIVILITE`, `EMAIL`, `HORAIRERDV`) VALUES
@@ -299,10 +292,9 @@ INSERT INTO `particulier` (`ID_PARTICULIER`, `NOM_PARTICULIER`, `PRENOM_PARTICUL
 -- --------------------------------------------------------
 
 --
--- Table structure for table `qualif_alarme_incendie`
+-- Structure de la table `qualif_alarme_incendie`
 --
 
-DROP TABLE IF EXISTS `qualif_alarme_incendie`;
 CREATE TABLE `qualif_alarme_incendie` (
   `ID_QUALIF_INCENDIE` bigint(20) NOT NULL,
   `ID_DEMANDE` bigint(20) NOT NULL,
@@ -314,10 +306,9 @@ CREATE TABLE `qualif_alarme_incendie` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `qualif_alarme_maison`
+-- Structure de la table `qualif_alarme_maison`
 --
 
-DROP TABLE IF EXISTS `qualif_alarme_maison`;
 CREATE TABLE `qualif_alarme_maison` (
   `ID_QUALIF_MAISON` bigint(20) NOT NULL,
   `ID_DEMANDE` bigint(20) NOT NULL,
@@ -331,10 +322,9 @@ CREATE TABLE `qualif_alarme_maison` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `qualif_chauffage`
+-- Structure de la table `qualif_chauffage`
 --
 
-DROP TABLE IF EXISTS `qualif_chauffage`;
 CREATE TABLE `qualif_chauffage` (
   `ID_QUALIF_CHAUFFAGE` bigint(20) NOT NULL,
   `ID_DEMANDE` bigint(20) NOT NULL,
@@ -352,7 +342,7 @@ CREATE TABLE `qualif_chauffage` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `qualif_chauffage`
+-- Contenu de la table `qualif_chauffage`
 --
 
 INSERT INTO `qualif_chauffage` (`ID_QUALIF_CHAUFFAGE`, `ID_DEMANDE`, `TYPE_CHAUFFAGE`, `TYPE_INSTALLATION`, `CONDUITE_FUMEE`, `NBRE_ETAGE`, `SURFACE_TOTALE`, `HAUTEUR_SOUS_PLAFOND`, `TYPE_RADIATEUR`, `TYPE_DIFFUSION_CHALEUR`, `TYPE_ENERGIE`, `DISPOSE_JARDIN`, `TYPE_TRAVAUX`) VALUES
@@ -364,10 +354,9 @@ INSERT INTO `qualif_chauffage` (`ID_QUALIF_CHAUFFAGE`, `ID_DEMANDE`, `TYPE_CHAUF
 -- --------------------------------------------------------
 
 --
--- Table structure for table `qualif_climatisation`
+-- Structure de la table `qualif_climatisation`
 --
 
-DROP TABLE IF EXISTS `qualif_climatisation`;
 CREATE TABLE `qualif_climatisation` (
   `ID_QUALIF_CLIMATISATION` bigint(20) NOT NULL,
   `ID_DEMANDE` bigint(20) NOT NULL,
@@ -379,7 +368,7 @@ CREATE TABLE `qualif_climatisation` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `qualif_climatisation`
+-- Contenu de la table `qualif_climatisation`
 --
 
 INSERT INTO `qualif_climatisation` (`ID_QUALIF_CLIMATISATION`, `ID_DEMANDE`, `NBRE_PIECE`, `SURFACE_CLIMATISER`, `HAUTEUR_PLAFOND`, `ACCORD_COPROPRIETE`, `TYPE_TRAVAUX`) VALUES
@@ -389,10 +378,9 @@ INSERT INTO `qualif_climatisation` (`ID_QUALIF_CLIMATISATION`, `ID_DEMANDE`, `NB
 -- --------------------------------------------------------
 
 --
--- Table structure for table `qualif_cuisine`
+-- Structure de la table `qualif_cuisine`
 --
 
-DROP TABLE IF EXISTS `qualif_cuisine`;
 CREATE TABLE `qualif_cuisine` (
   `ID_QUALIF_CUISINE` bigint(20) NOT NULL,
   `ID_DEMANDE` bigint(20) NOT NULL,
@@ -410,7 +398,7 @@ CREATE TABLE `qualif_cuisine` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `qualif_cuisine`
+-- Contenu de la table `qualif_cuisine`
 --
 
 INSERT INTO `qualif_cuisine` (`ID_QUALIF_CUISINE`, `ID_DEMANDE`, `DEPOSE_ANCIENNE_CUISINE`, `NIVEAU_GAMME_SOUHAITE`, `STYLE_FUTUR_CUISINE`, `SURFACE_AU_SOL_CUISINE`, `TRAVAUX_PEINTURE`, `TRAVAUX_PLOMBERIE`, `TRAVAUX_REVETEMENT_SOL`, `TRAVAUX_ELECTRICITE`, `EQUIPEMENT_ELECTROMENAGER`, `HAUTEUR_SOUS_PLAFOND`, `TYPE_TRAVAUX`) VALUES
@@ -420,10 +408,9 @@ INSERT INTO `qualif_cuisine` (`ID_QUALIF_CUISINE`, `ID_DEMANDE`, `DEPOSE_ANCIENN
 -- --------------------------------------------------------
 
 --
--- Table structure for table `qualif_demenagement`
+-- Structure de la table `qualif_demenagement`
 --
 
-DROP TABLE IF EXISTS `qualif_demenagement`;
 CREATE TABLE `qualif_demenagement` (
   `ID_QUALIF_DEMENAGEMENT` bigint(20) NOT NULL,
   `ID_DEMANDE` bigint(20) NOT NULL,
@@ -444,10 +431,9 @@ CREATE TABLE `qualif_demenagement` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `qualif_fenetre`
+-- Structure de la table `qualif_fenetre`
 --
 
-DROP TABLE IF EXISTS `qualif_fenetre`;
 CREATE TABLE `qualif_fenetre` (
   `ID_QUALIF_FENETRE` bigint(20) NOT NULL,
   `ID_DEMANDE` bigint(20) NOT NULL,
@@ -458,7 +444,7 @@ CREATE TABLE `qualif_fenetre` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `qualif_fenetre`
+-- Contenu de la table `qualif_fenetre`
 --
 
 INSERT INTO `qualif_fenetre` (`ID_QUALIF_FENETRE`, `ID_DEMANDE`, `NBRE_FENETRE`, `DEPOSE_FENETRE_EXISTANT`, `TYPE_FENETRE`, `TYPE_TRAVAUX`) VALUES
@@ -469,10 +455,9 @@ INSERT INTO `qualif_fenetre` (`ID_QUALIF_FENETRE`, `ID_DEMANDE`, `NBRE_FENETRE`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `qualif_piscine`
+-- Structure de la table `qualif_piscine`
 --
 
-DROP TABLE IF EXISTS `qualif_piscine`;
 CREATE TABLE `qualif_piscine` (
   `ID_QUALIF_PISCINE` bigint(20) NOT NULL,
   `ID_DEMANDE` bigint(20) NOT NULL,
@@ -484,7 +469,7 @@ CREATE TABLE `qualif_piscine` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `qualif_piscine`
+-- Contenu de la table `qualif_piscine`
 --
 
 INSERT INTO `qualif_piscine` (`ID_QUALIF_PISCINE`, `ID_DEMANDE`, `TYPE_PISCINE`, `DIMENSION`, `FORME_PISCINE`, `SECURITE_PISCINE`, `TYPE_TRAVAUX`) VALUES
@@ -494,10 +479,9 @@ INSERT INTO `qualif_piscine` (`ID_QUALIF_PISCINE`, `ID_DEMANDE`, `TYPE_PISCINE`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `qualif_porte_blindee`
+-- Structure de la table `qualif_porte_blindee`
 --
 
-DROP TABLE IF EXISTS `qualif_porte_blindee`;
 CREATE TABLE `qualif_porte_blindee` (
   `ID_QUALIF_PORTE_BLINDEE` bigint(20) NOT NULL,
   `ID_DEMANDE` bigint(20) NOT NULL,
@@ -508,10 +492,9 @@ CREATE TABLE `qualif_porte_blindee` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `qualif_salle_bain`
+-- Structure de la table `qualif_salle_bain`
 --
 
-DROP TABLE IF EXISTS `qualif_salle_bain`;
 CREATE TABLE `qualif_salle_bain` (
   `ID_QUALIF_SALLE_BAIN` bigint(20) NOT NULL,
   `ID_DEMANDE` bigint(20) DEFAULT NULL,
@@ -529,7 +512,7 @@ CREATE TABLE `qualif_salle_bain` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `qualif_salle_bain`
+-- Contenu de la table `qualif_salle_bain`
 --
 
 INSERT INTO `qualif_salle_bain` (`ID_QUALIF_SALLE_BAIN`, `ID_DEMANDE`, `EQUIPEMENT_FUTUR_SALLE`, `SURFACE_AU_SOL`, `DEPOSE_ANCIENNE_SALLE`, `TRAVAUX_PLOMBERIE`, `TRAVAUX_ELECTRICITE`, `TRAVAUX_REVETEMENT`, `TRAVAUX_PEINTURE`, `MEUBLE_RENGEMENT`, `NIVEAU_GAMME`, `HAUTEUR_SOUS_PLAFOND`, `TYPE_TRAVAUX`) VALUES
@@ -539,10 +522,9 @@ INSERT INTO `qualif_salle_bain` (`ID_QUALIF_SALLE_BAIN`, `ID_DEMANDE`, `EQUIPEME
 -- --------------------------------------------------------
 
 --
--- Table structure for table `qualif_sauna_hammam`
+-- Structure de la table `qualif_sauna_hammam`
 --
 
-DROP TABLE IF EXISTS `qualif_sauna_hammam`;
 CREATE TABLE `qualif_sauna_hammam` (
   `ID_QUALIF_SAUNA_HAMMAM` bigint(20) NOT NULL,
   `ID_DEMANDE` bigint(20) NOT NULL,
@@ -556,7 +538,7 @@ CREATE TABLE `qualif_sauna_hammam` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT;
 
 --
--- Dumping data for table `qualif_sauna_hammam`
+-- Contenu de la table `qualif_sauna_hammam`
 --
 
 INSERT INTO `qualif_sauna_hammam` (`ID_QUALIF_SAUNA_HAMMAM`, `ID_DEMANDE`, `SURFACE_AU_SOL`, `TRAVAUX_PLOMBERIE`, `TRAVAUX_ELECTRICITE`, `TRAVAUX_REVETEMENT`, `TRAVAUX_PEINTURE`, `NIVEAU_GAMME`, `TYPE_TRAVAUX`) VALUES
@@ -566,10 +548,9 @@ INSERT INTO `qualif_sauna_hammam` (`ID_QUALIF_SAUNA_HAMMAM`, `ID_DEMANDE`, `SURF
 -- --------------------------------------------------------
 
 --
--- Table structure for table `qualif_spa`
+-- Structure de la table `qualif_spa`
 --
 
-DROP TABLE IF EXISTS `qualif_spa`;
 CREATE TABLE `qualif_spa` (
   `ID_QUALIF_SPA` bigint(20) NOT NULL,
   `ID_DEMANDE` bigint(20) NOT NULL,
@@ -583,7 +564,7 @@ CREATE TABLE `qualif_spa` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT;
 
 --
--- Dumping data for table `qualif_spa`
+-- Contenu de la table `qualif_spa`
 --
 
 INSERT INTO `qualif_spa` (`ID_QUALIF_SPA`, `ID_DEMANDE`, `SURFACE_AU_SOL`, `TRAVAUX_PLOMBERIE`, `TRAVAUX_ELECTRICITE`, `TRAVAUX_REVETEMENT`, `TRAVAUX_PEINTURE`, `NIVEAU_GAMME`, `TYPE_TRAVAUX`) VALUES
@@ -594,10 +575,9 @@ INSERT INTO `qualif_spa` (`ID_QUALIF_SPA`, `ID_DEMANDE`, `SURFACE_AU_SOL`, `TRAV
 -- --------------------------------------------------------
 
 --
--- Table structure for table `qualif_video_surveillance`
+-- Structure de la table `qualif_video_surveillance`
 --
 
-DROP TABLE IF EXISTS `qualif_video_surveillance`;
 CREATE TABLE `qualif_video_surveillance` (
   `ID_QUALIF_VIDEO` bigint(20) NOT NULL,
   `ID_DEMANDE` bigint(20) NOT NULL,
@@ -608,17 +588,16 @@ CREATE TABLE `qualif_video_surveillance` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `specialiste`
+-- Structure de la table `specialiste`
 --
 
-DROP TABLE IF EXISTS `specialiste`;
 CREATE TABLE `specialiste` (
   `ID_ARTISAN` bigint(20) NOT NULL,
   `ID_ACTIVITE` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `specialiste`
+-- Contenu de la table `specialiste`
 --
 
 INSERT INTO `specialiste` (`ID_ARTISAN`, `ID_ACTIVITE`) VALUES
@@ -634,10 +613,9 @@ INSERT INTO `specialiste` (`ID_ARTISAN`, `ID_ACTIVITE`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user`
+-- Structure de la table `user`
 --
 
-DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `ID_USER` bigint(20) NOT NULL,
   `FIRSTNAME_USER` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -653,20 +631,20 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `user`
+-- Contenu de la table `user`
 --
 
 INSERT INTO `user` (`ID_USER`, `FIRSTNAME_USER`, `LASTNAME_USER`, `EMAIL_USER`, `LOGIN_USER`, `PASSWORD_USER`, `RANK_USER`, `ISACTIVE_USER`, `DATEREGISTER_USER`, `LASTLOGIN_USER`, `TOKEN`) VALUES
 (1, 'Abdelaziz', 'id mansour', 'aziz.idmansour@gmail.com', 'maidmansour', '49fb2fd3630355bc22647168c3df096ee1491f103983b028a2c252a712859bb2', '1', 49, '2017-12-20', NULL, NULL),
-(2, 'youssef', 'Erratbi', 'yerratbi@gmail.com', 'erratbi', '6286d3c2600686e1b101d2a99a2a303fa145a6dd915855cfa6f18df3fedd8db7', '1', 1, '2017-12-20', NULL, NULL);
+(2, 'youssef', 'Erratbi', 'yerratbi@gmail.com', 'erratbi', '6286d3c2600686e1b101d2a99a2a303fa145a6dd915855cfa6f18df3fedd8db7', '1', 1, '2017-12-20', NULL, NULL),
+(3, 'Yassine', 'kamar', 'yassine.kamar@gmail.com', 'yassine', '49fb2fd3630355bc22647168c3df096ee1491f103983b028a2c252a712859bb2', '1', 1, '2017-12-20', NULL, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `zone`
+-- Structure de la table `zone`
 --
 
-DROP TABLE IF EXISTS `zone`;
 CREATE TABLE `zone` (
   `ID_ZONE` bigint(20) NOT NULL,
   `CODE` varchar(10) NOT NULL,
@@ -674,7 +652,7 @@ CREATE TABLE `zone` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `zone`
+-- Contenu de la table `zone`
 --
 
 INSERT INTO `zone` (`ID_ZONE`, `CODE`, `VILLE`) VALUES
@@ -37184,24 +37162,24 @@ INSERT INTO `zone` (`ID_ZONE`, `CODE`, `VILLE`) VALUES
 (36482, '98890', 'PAITA');
 
 --
--- Indexes for dumped tables
+-- Index pour les tables exportées
 --
 
 --
--- Indexes for table `acheter`
+-- Index pour la table `acheter`
 --
 ALTER TABLE `acheter`
   ADD PRIMARY KEY (`ID_ARTISAN`,`ID_DEMANDE`),
   ADD KEY `ID_DEMANDE` (`ID_DEMANDE`);
 
 --
--- Indexes for table `activite`
+-- Index pour la table `activite`
 --
 ALTER TABLE `activite`
   ADD PRIMARY KEY (`ID_ACTIVITE`);
 
 --
--- Indexes for table `artisan`
+-- Index pour la table `artisan`
 --
 ALTER TABLE `artisan`
   ADD PRIMARY KEY (`ID_ARTISAN`),
@@ -37209,14 +37187,14 @@ ALTER TABLE `artisan`
   ADD KEY `ARTISAN_ID_CHANTIER` (`ID_CHANTIER`);
 
 --
--- Indexes for table `chantier`
+-- Index pour la table `chantier`
 --
 ALTER TABLE `chantier`
   ADD PRIMARY KEY (`ID_CHANTIER`),
   ADD KEY `FK_APPARTIENT` (`ID_ZONE`);
 
 --
--- Indexes for table `demande_devis`
+-- Index pour la table `demande_devis`
 --
 ALTER TABLE `demande_devis`
   ADD PRIMARY KEY (`ID_DEMANDE`),
@@ -37226,250 +37204,250 @@ ALTER TABLE `demande_devis`
   ADD KEY `FK_TRAITER` (`ID_USER`);
 
 --
--- Indexes for table `particulier`
+-- Index pour la table `particulier`
 --
 ALTER TABLE `particulier`
   ADD PRIMARY KEY (`ID_PARTICULIER`);
 
 --
--- Indexes for table `qualif_alarme_incendie`
+-- Index pour la table `qualif_alarme_incendie`
 --
 ALTER TABLE `qualif_alarme_incendie`
   ADD PRIMARY KEY (`ID_QUALIF_INCENDIE`),
   ADD KEY `FK_QUALIFIER_INCENDIE` (`ID_DEMANDE`);
 
 --
--- Indexes for table `qualif_alarme_maison`
+-- Index pour la table `qualif_alarme_maison`
 --
 ALTER TABLE `qualif_alarme_maison`
   ADD PRIMARY KEY (`ID_QUALIF_MAISON`),
   ADD KEY `FK_QUALIFIER_AL_MAISON` (`ID_DEMANDE`);
 
 --
--- Indexes for table `qualif_chauffage`
+-- Index pour la table `qualif_chauffage`
 --
 ALTER TABLE `qualif_chauffage`
   ADD PRIMARY KEY (`ID_QUALIF_CHAUFFAGE`),
   ADD KEY `FK_QUALIFIER_CHAUFFAGE` (`ID_DEMANDE`);
 
 --
--- Indexes for table `qualif_climatisation`
+-- Index pour la table `qualif_climatisation`
 --
 ALTER TABLE `qualif_climatisation`
   ADD PRIMARY KEY (`ID_QUALIF_CLIMATISATION`),
   ADD KEY `FK_QUALIFIER_CLIMATISATION` (`ID_DEMANDE`);
 
 --
--- Indexes for table `qualif_cuisine`
+-- Index pour la table `qualif_cuisine`
 --
 ALTER TABLE `qualif_cuisine`
   ADD PRIMARY KEY (`ID_QUALIF_CUISINE`),
   ADD KEY `FK_QUALIFIER_CUISINE` (`ID_DEMANDE`);
 
 --
--- Indexes for table `qualif_demenagement`
+-- Index pour la table `qualif_demenagement`
 --
 ALTER TABLE `qualif_demenagement`
   ADD PRIMARY KEY (`ID_QUALIF_DEMENAGEMENT`),
   ADD KEY `FK_QUALIFIER_DEMENAGEMENT` (`ID_DEMANDE`);
 
 --
--- Indexes for table `qualif_fenetre`
+-- Index pour la table `qualif_fenetre`
 --
 ALTER TABLE `qualif_fenetre`
   ADD PRIMARY KEY (`ID_QUALIF_FENETRE`),
   ADD KEY `FK_QUALIFIER_FENETRE` (`ID_DEMANDE`);
 
 --
--- Indexes for table `qualif_piscine`
+-- Index pour la table `qualif_piscine`
 --
 ALTER TABLE `qualif_piscine`
   ADD PRIMARY KEY (`ID_QUALIF_PISCINE`),
   ADD KEY `FK_QUALIFIER_PISCINE` (`ID_DEMANDE`);
 
 --
--- Indexes for table `qualif_porte_blindee`
+-- Index pour la table `qualif_porte_blindee`
 --
 ALTER TABLE `qualif_porte_blindee`
   ADD PRIMARY KEY (`ID_QUALIF_PORTE_BLINDEE`),
   ADD KEY `FK_QUALIFIER_PORTE_BLINDEE` (`ID_DEMANDE`);
 
 --
--- Indexes for table `qualif_salle_bain`
+-- Index pour la table `qualif_salle_bain`
 --
 ALTER TABLE `qualif_salle_bain`
   ADD PRIMARY KEY (`ID_QUALIF_SALLE_BAIN`),
   ADD KEY `FK_QUALIFIER_SALLE_BAIN` (`ID_DEMANDE`);
 
 --
--- Indexes for table `qualif_sauna_hammam`
+-- Index pour la table `qualif_sauna_hammam`
 --
 ALTER TABLE `qualif_sauna_hammam`
   ADD PRIMARY KEY (`ID_QUALIF_SAUNA_HAMMAM`),
   ADD KEY `FK_QUALIFIER_SAUNA_SPA` (`ID_DEMANDE`);
 
 --
--- Indexes for table `qualif_spa`
+-- Index pour la table `qualif_spa`
 --
 ALTER TABLE `qualif_spa`
   ADD PRIMARY KEY (`ID_QUALIF_SPA`),
   ADD KEY `FK_QUALIFIER_SAUNA_SPA` (`ID_DEMANDE`);
 
 --
--- Indexes for table `qualif_video_surveillance`
+-- Index pour la table `qualif_video_surveillance`
 --
 ALTER TABLE `qualif_video_surveillance`
   ADD PRIMARY KEY (`ID_QUALIF_VIDEO`),
   ADD KEY `FK_QUALIFIER_VIDEO_SURVEILLANCE` (`ID_DEMANDE`);
 
 --
--- Indexes for table `specialiste`
+-- Index pour la table `specialiste`
 --
 ALTER TABLE `specialiste`
   ADD PRIMARY KEY (`ID_ARTISAN`,`ID_ACTIVITE`),
   ADD KEY `FK_SPECIALISTE` (`ID_ACTIVITE`);
 
 --
--- Indexes for table `user`
+-- Index pour la table `user`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`ID_USER`);
 
 --
--- Indexes for table `zone`
+-- Index pour la table `zone`
 --
 ALTER TABLE `zone`
   ADD PRIMARY KEY (`ID_ZONE`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT pour les tables exportées
 --
 
 --
--- AUTO_INCREMENT for table `activite`
+-- AUTO_INCREMENT pour la table `activite`
 --
 ALTER TABLE `activite`
   MODIFY `ID_ACTIVITE` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
--- AUTO_INCREMENT for table `artisan`
+-- AUTO_INCREMENT pour la table `artisan`
 --
 ALTER TABLE `artisan`
   MODIFY `ID_ARTISAN` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
--- AUTO_INCREMENT for table `chantier`
+-- AUTO_INCREMENT pour la table `chantier`
 --
 ALTER TABLE `chantier`
   MODIFY `ID_CHANTIER` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
 --
--- AUTO_INCREMENT for table `demande_devis`
+-- AUTO_INCREMENT pour la table `demande_devis`
 --
 ALTER TABLE `demande_devis`
   MODIFY `ID_DEMANDE` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 --
--- AUTO_INCREMENT for table `particulier`
+-- AUTO_INCREMENT pour la table `particulier`
 --
 ALTER TABLE `particulier`
   MODIFY `ID_PARTICULIER` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 --
--- AUTO_INCREMENT for table `qualif_alarme_incendie`
+-- AUTO_INCREMENT pour la table `qualif_alarme_incendie`
 --
 ALTER TABLE `qualif_alarme_incendie`
   MODIFY `ID_QUALIF_INCENDIE` bigint(20) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `qualif_alarme_maison`
+-- AUTO_INCREMENT pour la table `qualif_alarme_maison`
 --
 ALTER TABLE `qualif_alarme_maison`
   MODIFY `ID_QUALIF_MAISON` bigint(20) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `qualif_chauffage`
+-- AUTO_INCREMENT pour la table `qualif_chauffage`
 --
 ALTER TABLE `qualif_chauffage`
   MODIFY `ID_QUALIF_CHAUFFAGE` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
--- AUTO_INCREMENT for table `qualif_climatisation`
+-- AUTO_INCREMENT pour la table `qualif_climatisation`
 --
 ALTER TABLE `qualif_climatisation`
   MODIFY `ID_QUALIF_CLIMATISATION` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
--- AUTO_INCREMENT for table `qualif_cuisine`
+-- AUTO_INCREMENT pour la table `qualif_cuisine`
 --
 ALTER TABLE `qualif_cuisine`
   MODIFY `ID_QUALIF_CUISINE` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
--- AUTO_INCREMENT for table `qualif_demenagement`
+-- AUTO_INCREMENT pour la table `qualif_demenagement`
 --
 ALTER TABLE `qualif_demenagement`
   MODIFY `ID_QUALIF_DEMENAGEMENT` bigint(20) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `qualif_fenetre`
+-- AUTO_INCREMENT pour la table `qualif_fenetre`
 --
 ALTER TABLE `qualif_fenetre`
   MODIFY `ID_QUALIF_FENETRE` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
--- AUTO_INCREMENT for table `qualif_piscine`
+-- AUTO_INCREMENT pour la table `qualif_piscine`
 --
 ALTER TABLE `qualif_piscine`
   MODIFY `ID_QUALIF_PISCINE` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
--- AUTO_INCREMENT for table `qualif_porte_blindee`
+-- AUTO_INCREMENT pour la table `qualif_porte_blindee`
 --
 ALTER TABLE `qualif_porte_blindee`
   MODIFY `ID_QUALIF_PORTE_BLINDEE` bigint(20) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `qualif_salle_bain`
+-- AUTO_INCREMENT pour la table `qualif_salle_bain`
 --
 ALTER TABLE `qualif_salle_bain`
   MODIFY `ID_QUALIF_SALLE_BAIN` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
--- AUTO_INCREMENT for table `qualif_sauna_hammam`
+-- AUTO_INCREMENT pour la table `qualif_sauna_hammam`
 --
 ALTER TABLE `qualif_sauna_hammam`
   MODIFY `ID_QUALIF_SAUNA_HAMMAM` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
--- AUTO_INCREMENT for table `qualif_spa`
+-- AUTO_INCREMENT pour la table `qualif_spa`
 --
 ALTER TABLE `qualif_spa`
   MODIFY `ID_QUALIF_SPA` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
--- AUTO_INCREMENT for table `qualif_video_surveillance`
+-- AUTO_INCREMENT pour la table `qualif_video_surveillance`
 --
 ALTER TABLE `qualif_video_surveillance`
   MODIFY `ID_QUALIF_VIDEO` bigint(20) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `user`
+-- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
-  MODIFY `ID_USER` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID_USER` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
--- AUTO_INCREMENT for table `zone`
+-- AUTO_INCREMENT pour la table `zone`
 --
 ALTER TABLE `zone`
   MODIFY `ID_ZONE` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36483;
 --
--- Constraints for dumped tables
+-- Contraintes pour les tables exportées
 --
 
 --
--- Constraints for table `acheter`
+-- Contraintes pour la table `acheter`
 --
 ALTER TABLE `acheter`
   ADD CONSTRAINT `FK_ACHETER_ARTISAN` FOREIGN KEY (`ID_ARTISAN`) REFERENCES `artisan` (`ID_ARTISAN`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_ACHETER_DEMANDE` FOREIGN KEY (`ID_DEMANDE`) REFERENCES `demande_devis` (`ID_DEMANDE`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `artisan`
+-- Contraintes pour la table `artisan`
 --
 ALTER TABLE `artisan`
   ADD CONSTRAINT `FK_ARTISAN_CHANTIER` FOREIGN KEY (`ID_CHANTIER`) REFERENCES `chantier` (`ID_CHANTIER`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
--- Constraints for table `chantier`
+-- Contraintes pour la table `chantier`
 --
 ALTER TABLE `chantier`
   ADD CONSTRAINT `FK_CHANTIER_ZONE` FOREIGN KEY (`ID_ZONE`) REFERENCES `zone` (`ID_ZONE`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
--- Constraints for table `demande_devis`
+-- Contraintes pour la table `demande_devis`
 --
 ALTER TABLE `demande_devis`
   ADD CONSTRAINT `FK_CATEGORISEE` FOREIGN KEY (`ID_ACTIVITE`) REFERENCES `activite` (`ID_ACTIVITE`) ON DELETE SET NULL ON UPDATE CASCADE,
@@ -37478,90 +37456,89 @@ ALTER TABLE `demande_devis`
   ADD CONSTRAINT `FK_TRAITER` FOREIGN KEY (`ID_USER`) REFERENCES `user` (`ID_USER`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
--- Constraints for table `qualif_alarme_incendie`
+-- Contraintes pour la table `qualif_alarme_incendie`
 --
 ALTER TABLE `qualif_alarme_incendie`
   ADD CONSTRAINT `FK_QUALIFIER_INCENDIE` FOREIGN KEY (`ID_DEMANDE`) REFERENCES `demande_devis` (`ID_DEMANDE`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `qualif_alarme_maison`
+-- Contraintes pour la table `qualif_alarme_maison`
 --
 ALTER TABLE `qualif_alarme_maison`
   ADD CONSTRAINT `FK_QUALIFIER_AL_MAISON` FOREIGN KEY (`ID_DEMANDE`) REFERENCES `demande_devis` (`ID_DEMANDE`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `qualif_chauffage`
+-- Contraintes pour la table `qualif_chauffage`
 --
 ALTER TABLE `qualif_chauffage`
   ADD CONSTRAINT `FK_QUALIFIER_CHAUFFAGE` FOREIGN KEY (`ID_DEMANDE`) REFERENCES `demande_devis` (`ID_DEMANDE`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `qualif_climatisation`
+-- Contraintes pour la table `qualif_climatisation`
 --
 ALTER TABLE `qualif_climatisation`
   ADD CONSTRAINT `FK_QUALIFIER_CLIMATISATION` FOREIGN KEY (`ID_DEMANDE`) REFERENCES `demande_devis` (`ID_DEMANDE`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `qualif_cuisine`
+-- Contraintes pour la table `qualif_cuisine`
 --
 ALTER TABLE `qualif_cuisine`
   ADD CONSTRAINT `FK_QUALIFIER_CUISINE` FOREIGN KEY (`ID_DEMANDE`) REFERENCES `demande_devis` (`ID_DEMANDE`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `qualif_demenagement`
+-- Contraintes pour la table `qualif_demenagement`
 --
 ALTER TABLE `qualif_demenagement`
   ADD CONSTRAINT `FK_QUALIFIER_DEMENAGEMENT` FOREIGN KEY (`ID_DEMANDE`) REFERENCES `demande_devis` (`ID_DEMANDE`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `qualif_fenetre`
+-- Contraintes pour la table `qualif_fenetre`
 --
 ALTER TABLE `qualif_fenetre`
   ADD CONSTRAINT `FK_QUALIFIER_FENETRE` FOREIGN KEY (`ID_DEMANDE`) REFERENCES `demande_devis` (`ID_DEMANDE`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `qualif_piscine`
+-- Contraintes pour la table `qualif_piscine`
 --
 ALTER TABLE `qualif_piscine`
   ADD CONSTRAINT `FK_QUALIFIER_PISCINE` FOREIGN KEY (`ID_DEMANDE`) REFERENCES `demande_devis` (`ID_DEMANDE`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `qualif_porte_blindee`
+-- Contraintes pour la table `qualif_porte_blindee`
 --
 ALTER TABLE `qualif_porte_blindee`
   ADD CONSTRAINT `FK_QUALIFIER_PORTE_BLINDEE` FOREIGN KEY (`ID_DEMANDE`) REFERENCES `demande_devis` (`ID_DEMANDE`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `qualif_salle_bain`
+-- Contraintes pour la table `qualif_salle_bain`
 --
 ALTER TABLE `qualif_salle_bain`
   ADD CONSTRAINT `FK_QUALIFIER_SALLE_BAIN` FOREIGN KEY (`ID_DEMANDE`) REFERENCES `demande_devis` (`ID_DEMANDE`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `qualif_sauna_hammam`
+-- Contraintes pour la table `qualif_sauna_hammam`
 --
 ALTER TABLE `qualif_sauna_hammam`
   ADD CONSTRAINT `FK_QUALIFIER_SAUNA_SPA` FOREIGN KEY (`ID_DEMANDE`) REFERENCES `demande_devis` (`ID_DEMANDE`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `qualif_spa`
+-- Contraintes pour la table `qualif_spa`
 --
 ALTER TABLE `qualif_spa`
   ADD CONSTRAINT `FK_QUALIF_SPA` FOREIGN KEY (`ID_DEMANDE`) REFERENCES `demande_devis` (`ID_DEMANDE`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `qualif_video_surveillance`
+-- Contraintes pour la table `qualif_video_surveillance`
 --
 ALTER TABLE `qualif_video_surveillance`
   ADD CONSTRAINT `FK_QUALIFIER_VIDEO_SURVEILLANCE` FOREIGN KEY (`ID_DEMANDE`) REFERENCES `demande_devis` (`ID_DEMANDE`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `specialiste`
+-- Contraintes pour la table `specialiste`
 --
 ALTER TABLE `specialiste`
   ADD CONSTRAINT `FK_SPECIALISTE` FOREIGN KEY (`ID_ACTIVITE`) REFERENCES `activite` (`ID_ACTIVITE`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_SPECIALISTE2` FOREIGN KEY (`ID_ARTISAN`) REFERENCES `artisan` (`ID_ARTISAN`) ON DELETE CASCADE ON UPDATE CASCADE;
-SET FOREIGN_KEY_CHECKS=1;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
