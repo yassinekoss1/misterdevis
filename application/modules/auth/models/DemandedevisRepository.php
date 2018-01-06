@@ -27,6 +27,37 @@ class Auth_Model_DemandedevisRepository extends EntityRepository {
     return $query->getResult();
   }
   
+  public function findOpenJobs( $email_artisan ) {
+    
+    $artisan = $this->_em->getRepository( 'Auth_Model_Artisan' )->findOneBy( [ 'email_artisan' => $email_artisan ] );
+    
+    if ( ! $artisan ) {
+      return [];
+    }
+    
+    $specialities = $artisan->getSpecialities();
+    
+    $q  = $this->createQueryBuilder( 'd' );
+    $q2 = $this->_em->createQueryBuilder();
+    
+    return $q->innerJoin( 'd.id_chantier', 'ch' )
+             ->where(
+               $q->expr()->notIn(
+                 'd.id_demande',
+                 $q2->select( 'ach.id_demande' )
+                    ->from( 'Auth_Model_Acheter', 'ach' )
+                    ->where( "ach.id_artisan = '{$artisan->id_artisan}'" )
+                    ->getDQL()
+               )
+             )
+             ->andWhere( 'ch.id_zone = :zone' )
+             ->andWhere( 'd.publier_en_ligne = 1' )
+             ->andWhere( 'd.id_activite IN (:type)' )
+             ->setParameter( 'zone', $artisan->chantier->id_zone )
+             ->setParameter( 'type', $specialities )
+             ->getQuery()
+             ->getResult();
+  }
   
   public function findAllBy( $criteria ) {
     

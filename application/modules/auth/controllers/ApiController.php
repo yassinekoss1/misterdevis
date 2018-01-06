@@ -29,14 +29,8 @@ class Auth_ApiController extends Zend_Controller_Action {
     if ( ! $artisan ) {
       echo json_encode( [] );
     } else {
-      $specialities = $em->getRepository( 'Auth_Model_Artisan' )->getSpecialities( $artisan->id_artisan );
-      $demandes     = $em->getRepository( 'Auth_Model_Demandedevis' )->findAllBy( [
-        'type'    => $specialities,
-        'limit'   => 5,
-        'online'  => 1,
-        'artisan' => $artisan->id_artisan,
-        'zone'    => $artisan->chantier->id_zone,
-      ] );
+      $demandes = $em->getRepository( 'Auth_Model_Demandedevis' )->findOpenJobs( $artisan->email_artisan );
+      
       
       $resp = array_map( function ( $demande ) use ( $artisan ) {
         

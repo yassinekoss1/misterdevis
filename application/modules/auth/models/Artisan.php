@@ -566,4 +566,17 @@ class Auth_Model_Artisan {
     $this->qualification = $qualification;
   }
   
+  
+  public function getSpecialities() {
+    
+    
+    $types = array_map( function ( $item ) {
+      
+      return $item->id_activite;
+    }, $this->activites->toArray() );
+    
+    return $types;
+    
+  }
+  
 }
