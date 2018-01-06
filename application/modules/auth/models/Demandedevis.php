@@ -736,7 +736,7 @@ class Auth_Model_Demandedevis {
     return $this->acheteurs->count();
   }
   
-  public function getRef() {
+  public function getType() {
     
     $type = '';
     switch ( $this->getId_activite()->getLibelle() ) {
@@ -765,6 +765,15 @@ class Auth_Model_Demandedevis {
         $type = 'SPA';
         break;
     }
+    
+    return $type;
+    
+    
+  }
+  
+  public function getRef() {
+    
+    $type = $this->getType();
     
     return ( $type ? "{$type}-" : "" ) . str_pad( $this->getId_demande(), 6, '0', STR_PAD_LEFT );
   }

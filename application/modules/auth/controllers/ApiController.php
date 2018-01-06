@@ -42,6 +42,7 @@ class Auth_ApiController extends Zend_Controller_Action {
           'prix'                => $demande->getPrix_mise_en_ligne(),
           'ref'                 => $demande->getRef(),
           'ville'               => $demande->getId_chantier()->getZone()->getVille(),
+          'icon'                => $demande->getType() . '.png',
           'code_postal'         => $demande->getId_chantier()->getZone()->getCode(),
           'type_demandeur'      => $demande->getType_demandeur(),
           'type_propriete'      => $demande->getType_propriete(),

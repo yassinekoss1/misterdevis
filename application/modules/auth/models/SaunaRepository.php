@@ -26,9 +26,7 @@ class Auth_Model_SaunaRepository extends EntityRepository {
               ->leftJoin( 'c.zone', 'z' )
               ->leftJoin( 'd.id_user', 'u' )
               ->leftJoin( 'd.id_activite', 'a' )
-              ->leftJoin( 'd.acheteurs', 'ach' )
-              ->where( 'ach.id_artisan IS NULL' )
-              ->andWhere( 'd.titre_demande IS NOT NULL and d.titre_demande != \'\'' )
+              ->where( 'd.titre_demande IS NOT NULL and d.titre_demande != \'\'' )
               ->orderBy( 'd.date_creation', 'DESC' )
               ->getQuery()
               ->getResult();
