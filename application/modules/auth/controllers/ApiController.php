@@ -265,8 +265,6 @@ class Auth_ApiController extends Zend_Controller_Action {
     $artisan = $em->getRepository( 'Auth_Model_Artisan' )->findOneBy( [ 'email_artisan' => $email ] );
     $demande = $em->getRepository( 'Auth_Model_Demandedevis' )->find( $id );
     
-    $ref = $demande->getRef();
-    
     //Saving and generating Facture
     try {
       $acheter = new Auth_Model_Acheter();

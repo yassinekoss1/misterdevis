@@ -13,13 +13,6 @@ use Doctrine\ORM\EntityRepository;
  */
 class Auth_Model_Demandedevis {
   
-  protected $repo;
-  
-  public function __construct( EntityRepository $repo ) {
-    
-    $this->repo = $repo;
-  }
-  
   /**
    * @var integer $id_demande
    *

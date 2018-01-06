@@ -14,7 +14,8 @@ class Auth_Model_SaunaRepository extends EntityRepository {
   
   public function getList() {
     
-    $qb = $this->_em->createQueryBuilder();
+    $qb  = $this->_em->createQueryBuilder();
+    $qb2 = $this->_em->createQueryBuilder();
     
     return $qb->from( $this->_entityName, 'ch' )
               ->select( 'd.id_demande, d.titre_demande, d.publier_en_ligne, p.nom_particulier, p.prenom_particulier,' .
@@ -27,7 +28,14 @@ class Auth_Model_SaunaRepository extends EntityRepository {
               ->leftJoin( 'd.id_user', 'u' )
               ->leftJoin( 'd.id_activite', 'a' )
               ->where( 'd.titre_demande IS NOT NULL and d.titre_demande != \'\'' )
-              ->andWhere( 'd.vendu <> 1' )
+              ->andWhere(
+                $qb->expr()->notIn(
+                  'd.id_demande',
+                  $qb2->select( 'ach.id_demande' )
+                      ->from( 'Auth_Model_Acheter', 'ach' )
+                      ->getDQL()
+                )
+              )
               ->orderBy( 'd.date_creation', 'DESC' )
               ->getQuery()
               ->getResult();

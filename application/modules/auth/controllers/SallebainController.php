@@ -145,7 +145,9 @@ class Auth_SallebainController extends Zend_Controller_Action {
     // Load demande;
     $demande = $em->getRepository( 'Auth_Model_Demandedevis' )->find( $id );
     if ( ! $demande ) {
-      $demande = new Auth_Model_Demandedevis;
+      $demande  = new Auth_Model_Demandedevis;
+      $activite = $em->getRepository( 'Auth_Model_Activite' )->findOneBy( [ 'libelle' => $this->type ] );
+      $demande->setId_activite( $activite );
     }
     
     

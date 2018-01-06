@@ -83,12 +83,13 @@ class ApiController extends Zend_Controller_Action {
         $demande->setId_particulier( $particulier );
         $demande->setId_activite( $activite );
         $demande->setDate_creation( date( 'Y-m-d H:i:s' ) );
+        
         $em->persist( $demande );
         $em->flush();
         
         
         $ops = $em->getRepository( 'Auth_Model_User' )->getOperatorsEmails();
-        
+    
         
         // Notify the operators
         
@@ -102,14 +103,14 @@ class ApiController extends Zend_Controller_Action {
           $mail->setFrom( $this->_sys_email['address'], $this->_sys_email['name'] );
           $mail->setBodyHtml( $this->view->render( 'shared/new_demande_mail.phtml' ) );
           
-          $mail->addTo( $op['emailuser'], $op['lastname_user'] );
+          $mail->addTo( $op['email_user'], $op['lastname_user'] );
           
           
           $mail->send();
         }
       }
     } catch ( Exception $e ) {
-      die( $e->getMessage() . 'ssss' );
+      die( $e->getMessage() );
       $h = fopen( APPLICATION_PATH . '/tmp/test.txt', 'w+' );
       fwrite( $h, $e->getMessage() );
       fclose( $h );
