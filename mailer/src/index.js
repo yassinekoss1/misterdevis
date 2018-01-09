@@ -93,6 +93,7 @@ const sendParticulierMail = async ({email_particulier, nom_particulier}, ref) =>
 };
 
 app.get('/', (req, res) => {
+	console.log('ok');
 	return res.status(403).send('<h1 style="font-size:46px; text-align: center">403 Forbidden</h1><hr />');
 });
 

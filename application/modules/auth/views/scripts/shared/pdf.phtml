@@ -378,6 +378,37 @@
 
 	<?php endif; ?>
 	<!-- END SPA -->
+	
+	<!-- PISCINE -->
+	<?php if ($this->demande->id_activite->libelle === 'PISCINE'): ?>
+
+		<?php if ($this->qualification->type_piscine !== null): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Type de la piscine</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->type_piscine; ?></td>
+			</tr>
+		<?php endif; ?>
+		<?php if ($this->qualification->forme_piscine !== null): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Forme de la piscine</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->forme_piscine; ?></td>
+			</tr>
+		<?php endif; ?>
+		<?php if ($this->qualification->dimension !== null): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Dimensions souhaitées</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->dimension; ?></td>
+			</tr>
+		<?php endif; ?>
+		<?php if ($this->qualification->securite_piscine !== null): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Sécurité de la piscine</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->securite_piscine; ?></td>
+			</tr>
+		<?php endif; ?>
+
+	<?php endif; ?>
+	<!-- END PISCINE -->
 
 	<?php if ($this->demande->objectif_demande): $alternate = !$alternate ?>
 		<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">

@@ -84,6 +84,10 @@ class Auth_ClimatisationController extends Zend_Controller_Action {
       $demande->getId_chantier()->getId_zone()
     );
     
+	//Envoi SMS
+	
+	$this->sendSMSNotification($artisans,$demande->getRef());
+	
     $data = [
       'artisans'     => $artisans,
       'particuliers' => [
@@ -109,6 +113,35 @@ class Auth_ClimatisationController extends Zend_Controller_Action {
     ] );
     
     curl_exec( $ch );
+  }
+  
+  public function sendSMSNotification($artisans,$ref){
+	  
+	   //Envoi SMS :
+	
+	$sms=new smsenvoi();
+	
+	$content="Bonjour, 1 nouveau chantier, pour l'installation d'une Climatisation : " . $ref .", est disponible près de chez vous. Vous avez reçu 1 mail et vous pouvez maintenant le découvrir sur www.mister-devis.com." ;
+	
+	foreach($artisans as $artisan){
+	
+		$tel=$artisan['telephone_portable'];
+		
+		if(strlen($tel)==10){
+			
+			$tel=substr($tel,1,9);
+			
+			$tel="+33".$tel;
+			
+			$sms->sendSMS($tel,$content,'PREMIUM','Mister Devis',date('Y-m-d'),date('H:m:s'));
+			
+		}else{
+			
+		}
+	
+		
+	}
+	  
   }
   
   

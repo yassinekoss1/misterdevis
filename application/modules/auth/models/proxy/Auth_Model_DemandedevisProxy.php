@@ -370,6 +370,12 @@ class Auth_Model_DemandedevisProxy extends \Auth_Model_Demandedevis implements \
         return parent::soldCount();
     }
 
+    public function getType()
+    {
+        $this->__load();
+        return parent::getType();
+    }
+
     public function getRef()
     {
         $this->__load();

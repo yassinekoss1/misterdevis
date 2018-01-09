@@ -89,7 +89,7 @@ class ApiController extends Zend_Controller_Action {
         
         
         $ops = $em->getRepository( 'Auth_Model_User' )->getOperatorsEmails();
-    
+        
         
         // Notify the operators
         

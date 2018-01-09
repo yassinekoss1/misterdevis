@@ -37,7 +37,7 @@
 							
 							<li><a class="current" style="cursor: pointer;">
 									<i class="fa fa-files-o"></i>
-									Gestion des Virement</a></li>
+									Virements Validés</a></li>
 						
 						</ul>
 					</div>
@@ -65,7 +65,6 @@
 								<th>E-MAIL</th>
 								<th>DEMANDE ACHETEE</th>
 								<th>Montant TTC</th>
-								<th style="width: 150px;">VALIDER L'ACHAT</th>
 							</tr>
 							</thead>
 							<tbody>
@@ -94,16 +93,6 @@
 									</td>
 									<td>
 										<?= round((float)($achat->demande->prix_mise_en_ligne) * 1.2,2); ?>&nbsp;&euro;
-									</td>
-									<td style="text-align: center">
-										<a href="/auth/dashboard/virement-valider/demande/<?= $achat->demande->id_demande ?>/artisan/<?= $achat->artisan->id_artisan; ?>" class="table-link" style="cursor: pointer;">
-											<span class="fa-stack" title="Valider">
-												<i class="fa fa-square fa-stack-2x"></i>
-												<i class="fa fa-check fa-stack-1x fa-inverse"></i>
-											</span>
-										
-										</a>
-									
 									</td>
 								</tr>
 							<?php endforeach; ?>

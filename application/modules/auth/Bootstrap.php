@@ -70,6 +70,21 @@ class Auth_Bootstrap extends Zend_Application_Module_Bootstrap
 
 
     }
+	
+	protected function _initSmsenvoi() {
+
+
+
+        require_once (APPLICATION_PATH .
+            DIRECTORY_SEPARATOR . '..' .
+            DIRECTORY_SEPARATOR . 'library' .
+            DIRECTORY_SEPARATOR . 'smsenvoi' .
+            DIRECTORY_SEPARATOR . 'smsenvoi.php'
+        );
+
+
+    }
+
 
     /**
      * Configuration

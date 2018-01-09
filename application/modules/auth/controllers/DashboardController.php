@@ -59,6 +59,34 @@ class Auth_DashboardController extends Zend_Controller_Action {
     $this->view->achats = $achats;
   }
   
+  public function virementvalideAction() {
+    
+    $this->_helper->layout->setLayout( 'layout_fo_ehcg' );
+    $em = $this->getRequest()->_em;
+    
+    
+    $achats = $em->getRepository( 'Auth_Model_Acheter' )->findBy( [
+      'mode_paiement' => 'VIREMENT BANCAIRE',
+      'reglee'        => 1,
+    ] );
+    
+    $this->view->achats = $achats;
+  }
+  
+  public function carteAction() {
+    
+    $this->_helper->layout->setLayout( 'layout_fo_ehcg' );
+    $em = $this->getRequest()->_em;
+    
+    
+    $achats = $em->getRepository( 'Auth_Model_Acheter' )->findBy( [
+      'mode_paiement' => 'CARTE BANCAIRE'
+    ] );
+    
+    $this->view->achats = $achats;
+  }
+  
+  
   
   public function virementValiderAction() {
     

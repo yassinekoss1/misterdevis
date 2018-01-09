@@ -220,7 +220,7 @@ class Auth_ApiController extends Zend_Controller_Action {
     $facture_attachement->filename    = "FAC-{$ref}-{$artisan->id_artisan}.pdf";
     
     
-    // Sending email
+    // Sending email to artisan
     try {
       
       $html = $this->view->partial( 'shared/mail_invoice_artisan.phtml', [
@@ -242,6 +242,25 @@ class Auth_ApiController extends Zend_Controller_Action {
       die( $e->getMessage() );
     }
     
+    // Sending email to particulier
+    
+    try {
+      
+      $html = $this->view->partial( 'shared/mail_confirme_particulier.phtml', [
+        'artisan'     => $artisan,
+        'particulier' => $demande->id_particulier,
+      ] );
+      
+      $mail = new Zend_Mail( 'utf-8' );
+      $mail->setBodyHtml( $html );
+      $mail->setFrom( $this->_sys_email['address'], $this->_sys_email['name'] );
+      $mail->setSubject( "Un artisan est intérssé par votre demande de devis" );
+      $mail->addTo( $demande->id_particulier->email );
+      
+      $mail->send();
+    } catch ( Exception $e ) {
+      die( $e->getMessage() );
+    }
   }
   
   
@@ -305,7 +324,7 @@ class Auth_ApiController extends Zend_Controller_Action {
     $filename = "pdf/factures/FAC-{$ref}.pdf";
     
     // Initializing the pdf object
-    $pdf = new Auth_Controller_Helper_MyPdf( 'P', 'mm', 'A4', true, 'UTF-8', false );
+    $pdf = new Auth_Controller_Helper_MyPdf2( 'P', 'mm', 'A4', true, 'UTF-8', false );
     
     
     // Set document info

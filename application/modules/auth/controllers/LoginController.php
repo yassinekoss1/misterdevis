@@ -127,8 +127,50 @@ class Auth_LoginController extends Zend_Controller_Action
      * @return           void
      *
      */
-    public function impersonateAction()
+    public function forgotpasswordAction()
     {
+		$this->_helper->layout->setLayout ( 'login_fo_ehcg' );
+		
+		if ($this->_request->isPost()) {
+            # get params
+            $data = $this->_request->getPost();
+			
+			$user = $this->getRequest()->_em->getRepository('Auth_Model_User')->findOneBy(array('email_user' => (string)$data['email']));
+			
+			if (count($user) === 1) {
+				
+                    $password = $this->getRequest()->_em->getRepository('Auth_Model_User')->generatePassword($this->getRequest()->_registry->config->auth->password->length);
+					
+                    $user->setPassword($password, $this->getRequest()->_registry->config->auth->hash);
+                    $this->getRequest()->_em->flush();
+
+                    # send email
+                 try {  
+					$html = $this->view->partial( 'shared/mail_forgot_password.phtml', ['password' => $password, 'name' => $user->getFirstname_user().' '.$user->getLastname_user()]);
+
+					$mail = new Zend_Mail( 'utf-8' );
+					$mail->setBodyHtml( $html );
+					$mail->setFrom( $this->getRequest()->_registry->config->application->system->email->address,
+                                            $this->getRequest()->_registry->config->application->system->email->name );
+					$mail->setSubject( "Réinitialisation du mot de passe" );
+					$mail->addTo( $user->getEmail_user(), $user->getFirstname_user().' '.$user->getLastname_user());
+					
+                    if ($mail->send()) {
+                        $_SESSION['flash'] = "Un email contenant votre nouveau mot de passe vous a été envoyé";
+						$this->getResponse()->setRedirect( "/auth/login" );
+                       
+                    }
+				} catch ( Exception $e ) {
+						die( $e->getMessage() );
+					}
+            } else {
+                    # Record event
+                    // $this->_helper->event->record('reset password failed'); // removed because no account to log against
+                    $_SESSION['flash'] = "L'email saisi n'existe pas";
+					$this->getResponse()->setRedirect( "/auth/login/forgotpassword" );
+            }
+			
+		}
 
     }
 

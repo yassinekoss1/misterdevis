@@ -7,8 +7,8 @@ class Auth_Controller_Helper_MyPdf extends tcpdf_TCPDF {
 
 
     // Logo
-    $image_file = realpath(APPLICATION_PATH . '/../public/resources_fo_ehcg/img/company_logo.png');
-    $this->Image($image_file, 5, 10, 72, '', 'PNG', '', 'M', false, 300, '', false, false, 0, false, false, false);
+    $image_file = realpath(APPLICATION_PATH . '/../public/resources_fo_ehcg/img/company_logo.jpg');
+    $this->Image($image_file, 5, 10, 72, '', 'JPG', '', 'M', false, 300, '', false, false, 0, false, false, false);
 
     $date = date('d/m/Y');
 
