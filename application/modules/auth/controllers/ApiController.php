@@ -4,19 +4,19 @@
  * Class Auth_ApiController
  *
  * @authors  Youssef Erratbi <yerratbi@gmail.com>  - Aziz Idmansour <aziz.idmansour@gmail.com>
- * @date    23/12/17
- 
+ * @date     23/12/17
  * Ce controlleur est api nécessaire au fonctionnement du site d'espace pro de mister devis
- * Il contient une action demandesAction qui permet de retourner toutes les demandes de devis qui 
+ * Il contient une action demandesAction qui permet de retourner toutes les demandes de devis qui
  * sont dans la zone géographique de l'artisan en question, aussi qui appartiennent aux activités de cet artisan.
  * Il y'a aussi l'action demandeAction qui permet de donner le détail d'une demande donnée.
  * Il y'a aussi l'action checkoutAction qui permet de retourner les informations de l'artisan qui a fait le checkout dans l'espace pro.
- * Il y'a aussi l'action updateAction qui permet de sauvegarder l'achat du chantier dans la table Acheter avec le mode de paiement 'CARTE BANCAIRE' 
+ * Il y'a aussi l'action updateAction qui permet de sauvegarder l'achat du chantier dans la table Acheter avec le mode de paiement 'CARTE BANCAIRE'
  * elle permet aussi d'envoyer un email à l'artisan contenant le pdf du chantier acheté et la facture qui sera génerée en appelant la fonction generateFacture
  * et aussi un email au particulier qui lui informant q'un artisan est intéressé par ça demande de devis.
  * Il y'a aussi l'action virementAction qui permet de sauvegarder  l'achat dans le cas où le professionnel a opté pour le mode de paiement 'VIREMENT BANCAIRE'.
  * Et enfin il y'a la fonction generateFacture qui permet de générer une facture au format pdf qui sera envoyée à l'artisan qui a fait l'achat du chantier.
-*/
+ */
+
 
 class Auth_ApiController extends Zend_Controller_Action {
   
