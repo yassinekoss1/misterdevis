@@ -1,19 +1,19 @@
 <?php
 /**
- * Auth Logout Controller
+ * Class Auth_LogoutController
  *
- *
- * @author          Lamari Alaa
- * @package       Auth Module
- *
- */
+ * @authors  Youssef Erratbi <yerratbi@gmail.com>  - Aziz Idmansour <aziz.idmansour@gmail.com>
+ * @date    23/12/17
+ 
+ * Ce controlleur est responsable sur la partie déconnexion de l'application
+ * Il contient une action indexAction qui permet de se déconneter de l'application.
+*/
 class Auth_LogoutController extends Zend_Controller_Action
 {
 
     /**
      * Initialisation method
      *
-     * @author          Lamari Alaa
      * @param           void
      * @return           void
      *
@@ -52,7 +52,6 @@ class Auth_LogoutController extends Zend_Controller_Action
     /**
      * default method
      *
-     * @author          Lamari Alaa
      * @param           void
      * @return           void
      *
@@ -70,19 +69,6 @@ class Auth_LogoutController extends Zend_Controller_Action
 
         # redirect
        echo ('vous avez été déconnecté');
-    }
-
-    /**
-     * Impersonate method
-     *
-     * @author          Lamari Alaa
-     * @param           void
-     * @return           void
-     *
-     */
-    public function impersonateAction()
-    {
-
     }
 
 }

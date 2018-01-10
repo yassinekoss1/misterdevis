@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * Class Auth_DashboardController
+ *
+ * @authors  Youssef Erratbi <yerratbi@gmail.com>  - Aziz Idmansour <aziz.idmansour@gmail.com>
+ * @date     23/12/17
+ * Ce controlleur est responsable sur le dashboard de l'application,
+ * il permet de lister des information des totals de quelques activités
+ * et des types de qualification en appelant, et aussi les achats réalisés avec leurs différents mode de paiemant,
+ * tout cela dans l'action indexAction,
+ * De lister les virements validés avec l'action virementvalideAction et ceux non validés avec l'action virementAction
+ * De valider les virements avec l'action virementValiderAction, lors de l'appel de cette action il y'a la modification
+ * de la table acheter et l'envoi d'un email au particulier et un autre à l'artisan centant le pdf de la demande de devis
+ * en question et une facture de son opération d'achat qui sera générée par la fonction generateFacture.
+ * elle y'a aussi l'action carteAction qui permet de lister les achats qui sont faits par carte bancaire.
+ */
+
 
 class Auth_DashboardController extends Zend_Controller_Action {
   
@@ -80,12 +96,11 @@ class Auth_DashboardController extends Zend_Controller_Action {
     
     
     $achats = $em->getRepository( 'Auth_Model_Acheter' )->findBy( [
-      'mode_paiement' => 'CARTE BANCAIRE'
+      'mode_paiement' => 'CARTE BANCAIRE',
     ] );
     
     $this->view->achats = $achats;
   }
-  
   
   
   public function virementValiderAction() {
@@ -163,6 +178,24 @@ class Auth_DashboardController extends Zend_Controller_Action {
       die( $e->getMessage() );
     }
     
+    
+    try {
+      
+      $html = $this->view->partial( 'shared/mail_confirme_particulier.phtml', [
+        'artisan'     => $achat->artisan,
+        'particulier' => $achat->demande->id_particulier,
+      ] );
+      
+      $mail = new Zend_Mail( 'utf-8' );
+      $mail->setBodyHtml( $html );
+      $mail->setFrom( $this->_sys_email['address'], $this->_sys_email['name'] );
+      $mail->setSubject( "Un artisan est intérssé par votre demande de devis" );
+      $mail->addTo( $achat->demande->id_particulier->email );
+      
+      $mail->send();
+    } catch ( Exception $e ) {
+      die( $e->getMessage() );
+    }
     
     // Flaging the transaction as sold
     $achat->setReglee( true );

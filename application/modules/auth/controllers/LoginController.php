@@ -1,13 +1,18 @@
 <?php
 
 /**
- * Auth Login Controller
+ * Class Auth_LoginController
  *
- *
- * @author          Lamari Alaa
- * @package       Auth Module
- *
- */
+ * @authors  Youssef Erratbi <yerratbi@gmail.com>  - Aziz Idmansour <aziz.idmansour@gmail.com>
+ * @date    23/12/17
+ 
+ * Ce controlleur est responsable sur la partie authentification à l'application,
+ * Il contient une action indexAction qui permet d'afficher le formulaire d'authentification
+ * Et une fonction authenticate qui permet de gérer l'authentification à l'application avec un login et mot de passe.
+ * Et enfin une action forgotpasswordAction qui permet de réinitialiser le mot de passe oublié d'utilisateur donné et
+ * de l'envoyer par email.
+*/
+
 class Auth_LoginController extends Zend_Controller_Action
 {
     public function init()
@@ -72,7 +77,6 @@ class Auth_LoginController extends Zend_Controller_Action
     /**
      * authentication method
      *
-     * @author          Lamari Alaa
      * @param           void
      * @return           void
      *
@@ -120,9 +124,8 @@ class Auth_LoginController extends Zend_Controller_Action
     }
 
     /**
-     * Impersonate method
+     * forgotpassword method
      *
-     * @author          Lamari Alaa
      * @param           void
      * @return           void
      *

@@ -39,6 +39,7 @@ class Auth_Model_DemandedevisRepository extends EntityRepository {
     
     $q  = $this->createQueryBuilder( 'd' );
     $q2 = $this->_em->createQueryBuilder();
+    $q3 = $this->_em->createQueryBuilder();
     
     return $q->innerJoin( 'd.id_chantier', 'ch' )
              ->where(
@@ -47,6 +48,16 @@ class Auth_Model_DemandedevisRepository extends EntityRepository {
                  $q2->select( 'ach.id_demande' )
                     ->from( 'Auth_Model_Acheter', 'ach' )
                     ->where( "ach.id_artisan = '{$artisan->id_artisan}'" )
+                    ->getDQL()
+               )
+             )
+             ->andWhere(
+               $q->expr()->notIn(
+                 'd.id_demande',
+                 $q3->select( 'ach2.id_demande' )
+                    ->from( 'Auth_Model_Acheter', 'ach2' )
+                    ->groupBy( 'ach2.id_demande' )
+                    ->having( 'COUNT(ach2.id_demande) >= 5' )
                     ->getDQL()
                )
              )

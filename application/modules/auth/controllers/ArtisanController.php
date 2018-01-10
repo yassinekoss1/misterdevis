@@ -1,5 +1,16 @@
 <?php
+/**
+ * Class Auth_ArtisanController
+ *
+ * @authors  Youssef Erratbi <yerratbi@gmail.com>  - Aziz Idmansour <aziz.idmansour@gmail.com>
+ * @date    23/12/17
+ 
+ * Ce controlleur est responsable sur la gestion des artisans,
+ * il permet de lister les artisans avec l'action indexAction, 
+ * d'ajouter un nouveau artisan avec l'action addAction et de 
+ * modifier un artisan existant avec l'action editAction.
 
+*/
 
 class Auth_ArtisanController extends Zend_Controller_Action {
   

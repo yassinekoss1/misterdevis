@@ -2,13 +2,13 @@
 
 
 /**
- * Class Auth_SallebainController
+ * Class Auth_SpaController
  *
  * @authors  Youssef Erratbi <yerratbi@gmail.com>  - Aziz Idmansour <aziz.idmansour@gmail.com>
  * @date    23/12/17
 
- * Ce controlleur est responsable sur la gestion de l'activité Salle de bain,
- * il permet de lister les demande de devis concernant la salle de bain avec l'action indexAction, 
+ * Ce controlleur est responsable sur la gestion de l'activité SPA,
+ * il permet de lister les demande de devis concernant le SPA avec l'action indexAction, 
  * d'ajouter une nouvelle de demande de devis avec l'action addAction et de 
  * modifier une demande de devis existante avec l'action editAction.
  * d'afficher les notifications qui sont venues des mini sites par l'action notificationAction.
@@ -22,14 +22,14 @@
  * aussi il sera envoyé par email à l'artisan si ce dernier a acheté cette demande (Cela est géré dans le controlleur ApiController).
 
 */
-class Auth_SallebainController extends Zend_Controller_Action {
+class Auth_SpaController extends Zend_Controller_Action {
   
   private $_sys_email;
-  private $type       = 'SALLE BAIN';
-  private $slug       = 'sallebain';
-  private $name       = 'Sallebain';
-  private $form_name  = 'Auth_Form_Sallebain';
-  private $model_name = 'Auth_Model_Sallebain';
+  private $type       = 'SPA';
+  private $slug       = 'spa';
+  private $name       = 'Spa';
+  private $form_name  = 'Auth_Form_Spa';
+  private $model_name = 'Auth_Model_Spa';
   
   
   public function init() {
@@ -98,11 +98,13 @@ class Auth_SallebainController extends Zend_Controller_Action {
       $demande->getId_activite()->getId_activite(),
       $demande->getId_chantier()->getId_zone()
     );
+    
 	
-	//Envoi SMS :
+	// Envoi SMS :
 	
 	$this->sendSMSNotification($artisans,$demande->getRef());
-    
+	
+	
     $data = [
       'artisans'     => $artisans,
       'particuliers' => [
@@ -130,13 +132,14 @@ class Auth_SallebainController extends Zend_Controller_Action {
     curl_exec( $ch );
   }
   
+  
   public function sendSMSNotification($artisans,$ref){
 	  
 	   //Envoi SMS :
 	
 	$sms=new smsenvoi();
 	
-	$content="Bonjour, 1 nouveau chantier, pour l'installation d'une Salle de bain : " . $ref .", est disponible près de chez vous. Vous avez reçu 1 mail et vous pouvez maintenant le découvrir sur www.mister-devis.com. " ;
+	$content="Bonjour, 1 nouveau chantier, pour l'installation d'un SPA : " . $ref .", est disponible près de chez vous. Vous avez reçu 1 mail et vous pouvez maintenant le découvrir sur www.mister-devis.com. " ;
 	
 	foreach($artisans as $artisan){
 	
@@ -158,7 +161,6 @@ class Auth_SallebainController extends Zend_Controller_Action {
 	}
 	  
   }
-  
   
   public function addAction() {
     
@@ -271,6 +273,7 @@ class Auth_SallebainController extends Zend_Controller_Action {
         
         
         $this->generatePdf( $ref, $title, $html, $demande->pdfLocation( true ) );
+        
         
         $_SESSION['flash'] = "La mise à jour a été effectuée avec success";
         $this->getResponse()->setRedirect( "/auth/{$this->slug}" );

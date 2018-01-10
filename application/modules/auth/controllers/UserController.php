@@ -1,19 +1,22 @@
 <?php
 /**
- * Auth Category2 Controller
+ * Class Auth_LogoutController
  *
- *
- * @author          Lamari Alaa
- * @package       Auth Module
- *
- */
+ * @authors  Youssef Erratbi <yerratbi@gmail.com>  -  Aziz Idmansour <aziz.idmansour@gmail.com>
+ * @date    23/12/17
+ 
+ * Ce controlleur est responsable sur la partie gestion des utilisateurs
+ * Il contient une action indexAction qui permet de lister les utilisateurs de l'application.
+ * Une action addAction qui permet d'ajouter un nouveau utilisateurs
+ * Une action editAction qui permet de modifier un utilisateur donné
+ * Et une action profileAction qui permet d'afficher et modifier le profile de l'utilisateur connecté.
+*/
 class Auth_UserController extends Zend_Controller_Action
 {
 
 	/**
      * default method
      *
-     * @author          Lamari Alaa
      * @param           void
      * @return           void
      *
@@ -33,7 +36,6 @@ class Auth_UserController extends Zend_Controller_Action
 	/**
      * default method
      *
-     * @author          Lamari Alaa
      * @param           void
      * @return           void
      *
@@ -147,109 +149,5 @@ class Auth_UserController extends Zend_Controller_Action
 				}
 		}
 	}
-
-    public function removeAction()
-    {
-        $this->_helper->layout()->disableLayout();
-        $this->_helper->viewRenderer->setNoRender();
-        
-        # get params
-        $id = $this->_getParam("id");
-        
-        $entity = $this->getRequest()->_em->find('Auth_Model_User', $id);
-        $this->getRequest()->_em->remove($entity);
-        $this->getRequest()->_em->flush();
-        $this->getRequest()->_cache->remove('User');
-        $this->_helper->json->sendJson(array('response' => true));
-    }
-    
-    
-   
-    
-	
-
-    public function permissionAction()
-    {
-    	Zend_Registry::get('acl')->isAllowed(new Custom_Acl_UserRole(), new Custom_Acl_Resources('devis'),'view');
-    	
-        $this->_helper->layout()->disableLayout();
-        $this->_helper->viewRenderer->setNoRender();
-    }
-    
-	public function enableAction()
-    {
-    	$idUser= (int) $this->getRequest()->getParam('listId',0);
-   		$user= $this->getRequest()->_em->getRepository('Auth_Model_User')->find($idUser);
-   		$user->setstatususer(1);
- 
-   		$this->getRequest()->_em->persist($user);
-   		$this->getRequest()->_em->flush();
-   		$this->getRequest()->_cache->remove('User');
-   		
-   		echo json_encode(array(
-					"response" => "true",
-					"message" => "Changement de statut effectué."	    				
-				));
-   		
-    	$this->_helper->viewRenderer->setNoRender();
-        $this->_helper->layout()->disableLayout();
-    	
-    
-    }
-    
-	public function disableAction()
-    {
-    	$idUser= (int) $this->getRequest()->getParam('listId',0);
-   		$user= $this->getRequest()->_em->getRepository('Auth_Model_User')->find($idUser);
-   		$user->setstatususer(0);
- 
-   		$this->getRequest()->_em->persist($user);
-   		$this->getRequest()->_em->flush();
-   		$this->getRequest()->_cache->remove('User');
-   		
-   		echo json_encode(array(
-					"response" => "true",
-					"message" => "Changement de statut effectué."	    				
-				));
-   		
-    	$this->_helper->viewRenderer->setNoRender();
-        $this->_helper->layout()->disableLayout();
-    
-    }
-    
-   public function deleteAction()
-   {
-    	$idUser= (int) $this->getRequest()->getParam('listId',0);
-   		$users= $this->getRequest()->_em->getRepository('Auth_Model_User')->find($idUser);
-   		$estimate= $this->getRequest()->_em->getRepository('Auth_Model_Estimate')->findByIduser($idUser);
-   		$user = $this->getRequest()->_em->find('Auth_Model_User', unserialize(Zend_Auth::getInstance()->getIdentity())->iduser);
-   		$usersConnection= $this->getRequest()->_em->getRepository('Auth_Model_Connections')->findByiduser($idUser);
-   		
-   		foreach($usersConnection as $u){
-   			$this->getRequest()->_em->remove($u);
-   		}
-   		foreach($estimate as $e) {
-   			$e->iduser=$user;
-   			$this->getRequest()->_em->persist($e);
-   		}
-		//$this->getRequest()->_em->flush();
-   		$this->getRequest()->_em->remove($users);
-   		$this->getRequest()->_em->flush();
-   		$this->getRequest()->_cache->remove('User');
-   		
-    	echo json_encode(array(
-					"response" => "true",
-					"message" => "Suppression effectuée."	    				
-		));
-    	$this->_helper->viewRenderer->setNoRender();
-        $this->_helper->layout()->disableLayout();
-   }
-   
-   public function countrecordsAction(){
-    	$total= $this->getRequest()->_em->getRepository('Auth_Model_User')->getCount();  		
-		$this->_helper->json->sendJson($total);
-        $this->_helper->viewRenderer->setNoRender();
-        $this->_helper->layout()->disableLayout();
-    }
 }
 

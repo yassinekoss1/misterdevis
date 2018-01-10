@@ -4,9 +4,24 @@
 /**
  * Class Auth_PiscineController
  *
- * @author  Youssef Erratbi <yerratbi@gmail.com>
+ * @authors  Youssef Erratbi <yerratbi@gmail.com>  - Aziz Idmansour <aziz.idmansour@gmail.com>
  * @date    23/12/17
- */
+
+ * Ce controlleur est responsable sur la gestion de l'activité piscine,
+ * il permet de lister les demande de devis concernant la piscine avec l'action indexAction, 
+ * d'ajouter une nouvelle de demande de devis avec l'action addAction et de 
+ * modifier une demande de devis existante avec l'action editAction.
+ * d'afficher les notifications qui sont venues des mini sites par l'action notificationAction.
+ * Lors de l'ajout ou la modification d'une demande de devis, il y'a un envoi d'email au particulier
+ * l'informant que sa demande de devis est mise en ligne, et un email à l'artisan l'informant  
+ * qu'une nouvelle demande de devis est disponible en ligne.
+ * Il y'a aussi en parallèle l'envoi d'un sms à l'artisan l'informant qu'un nouveau chantier est disponible
+ * en ligne.
+ * Et aussi lors de l'edition d'une demande de devis, un fichier pdf contenant les informations de cette demande
+ * est crée et stocké dans le serveur, et il peut être consulter par l'operateur en appelant l'action pdfAction, 
+ * aussi il sera envoyé par email à l'artisan si ce dernier a acheté cette demande (Cela est géré dans le controlleur ApiController).
+
+*/
 class Auth_PiscineController extends Zend_Controller_Action {
   
   private $_sys_email;
