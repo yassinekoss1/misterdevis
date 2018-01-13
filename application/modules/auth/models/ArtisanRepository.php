@@ -9,15 +9,15 @@ use Doctrine\ORM\EntityRepository;
 
 class Auth_Model_ArtisanRepository extends EntityRepository {
   
-  public function findListEmail( $activite, $zone ) {
+  public function findListEmail( $activite, $departement ) {
     
     return $this->createQueryBuilder( 'a' )
                 ->innerJoin( 'a.activites', 'ac' )
-                ->innerJoin( 'a.chantier', 'ch' )
-                ->where( 'ch.id_zone = :zone' )
+                ->innerJoin( 'a.departements', 'dep' )
+                ->where( 'dep.code_departement = :dep')
                 ->andWhere( 'ac.id_activite = :activite' )
                 ->setParameters( [
-                  'zone'     => $zone,
+                  'dep'     => $departement,
                   'activite' => $activite,
                 ] )
                 ->getQuery()

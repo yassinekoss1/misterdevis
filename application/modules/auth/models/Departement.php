@@ -38,6 +38,12 @@ class Auth_Model_Departement {
    *   )
    */
   protected $artisans;
+
+    /**
+     * One Deparatement has Many Zones.
+     * @OneToMany(targetEntity="Auth_Model_Zone", mappedBy="departement")
+     */
+    private $zones;
   
   
   public function __construct() {

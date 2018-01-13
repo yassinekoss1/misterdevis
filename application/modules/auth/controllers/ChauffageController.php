@@ -93,7 +93,7 @@ class Auth_ChauffageController extends Zend_Controller_Action {
     // Fetching the artisans concerned with this demande
     $artisans = $em->getRepository( 'Auth_Model_Artisan' )->findListEmail(
       $demande->getId_activite()->getId_activite(),
-      $demande->getId_chantier()->getId_zone()
+      $demande->getId_chantier()->getZone()->getCode_departement()
     );
     
     //Envoi SMS
