@@ -24,6 +24,11 @@ class Auth_Form_Artisan extends Auth_Form_Base {
   ];
   
   
+  private $_departement = [
+    '' => 'Veuillez préciser',
+  ];
+  
+  
   /**
    * @throws \Zend_Form_Exception
    */
@@ -70,15 +75,9 @@ class Auth_Form_Artisan extends Auth_Form_Base {
           ->setBelongsTo( 'Artisan' )
           ->addFilters( $default_filters );
     
-    // code_artisan
-    $code_artisan = new Zend_Form_Element_Text( 'code_artisan' );
-    $code_artisan->setLabel( 'Code d\'artisan' )
-                 ->setBelongsTo( 'Artisan' )
-                 ->addFilters( $default_filters );
-    
     // raison_social
-    $raison_social = new Zend_Form_Element_Text( 'raison_social' );
-    $raison_social->setLabel( 'Raison social' )
+    $raison_social = new Zend_Form_Element_Text( 'raison_sociale' );
+    $raison_social->setLabel( 'Raison sociale' )
                   ->setBelongsTo( 'Artisan' )
                   ->addFilters( $default_filters );
     
@@ -94,12 +93,14 @@ class Auth_Form_Artisan extends Auth_Form_Base {
     $telephone_fixe = new Zend_Form_Element_Text( 'telephone_fixe' );
     $telephone_fixe->setLabel( 'Tél. Fixe' )
                    ->setBelongsTo( 'Artisan' )
+                   ->addValidator( 'Regex', true, [ '/^(?:(?:\+|00|0)?33(?:\s*\(0\))?)?\s?0?[-\s]*(\d)[\.\s-]?(\d{2})[\.\s-]?(\d{2})[\.\s-]?(\d{2})[\.\s-]?(\d{2})$/i' ] )
                    ->addFilters( $default_filters );
     
     // telephone_portable
     $telephone_portable = new Zend_Form_Element_Text( 'telephone_portable' );
     $telephone_portable->setLabel( 'Tél. Portable' )
                        ->setRequired( true )
+                       ->addValidator( 'Regex', true, [ '/^(?:(?:\+|00|0)?33(?:\s*\(0\))?)?\s?0?[-\s]*(\d)[\.\s-]?(\d{2})[\.\s-]?(\d{2})[\.\s-]?(\d{2})[\.\s-]?(\d{2})$/i' ] )
                        ->setBelongsTo( 'Artisan' )
                        ->addFilters( $default_filters );
     
@@ -146,6 +147,18 @@ class Auth_Form_Artisan extends Auth_Form_Base {
              ->setBelongsTo( 'Artisan' )
              ->addFilters( $default_filters );
     
+    // Code Postal
+    $code_postal = new Zend_Form_Element_Text( 'code_postal' );
+    $code_postal->setLabel( 'Code Postal' )
+                ->setBelongsTo( 'Artisan' )
+                ->addFilters( $default_filters );
+    
+    // Ville
+    $ville = new Zend_Form_Element_Text( 'ville' );
+    $ville->setLabel( 'Ville' )
+          ->setBelongsTo( 'Artisan' )
+          ->addFilters( $default_filters );
+    
     // description
     $description = new Zend_Form_Element_Textarea( 'description' );
     $description->setLabel( 'Description' )
@@ -170,6 +183,15 @@ class Auth_Form_Artisan extends Auth_Form_Base {
                      ->addMultiOptions( $this->_activites );
     
     
+    // select_departement
+    $select_departement = new Zend_Form_Element_Select( 'select_departement' );
+    $select_departement->setLabel( 'Departement' )
+                       ->setBelongsTo( 'Artisan' )
+                       ->setIsArray( true )
+                       ->addFilters( $select_filters )
+                       ->addMultiOptions( $this->_departement );
+    
+    
     // Submit button
     $submit = new Zend_Form_Element_Submit( 'submit' );
     $submit->setLabel( 'Envoyer' )
@@ -178,7 +200,6 @@ class Auth_Form_Artisan extends Auth_Form_Base {
     $this->addElements( [
       $nom_artisan,
       $prenom_artisan,
-      $code_artisan,
       $raison_social,
       $email_artisan,
       $telephone_fixe,
@@ -193,9 +214,12 @@ class Auth_Form_Artisan extends Auth_Form_Base {
       $pass2,
       $adresse,
       $adresse2,
+      $code_postal,
+      $ville,
       $description,
       $qualification,
       $select_activites,
+      $select_departement,
       $submit,
     ] );
     

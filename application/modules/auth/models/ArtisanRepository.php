@@ -70,36 +70,24 @@ class Auth_Model_ArtisanRepository extends EntityRepository {
     
     $activites = array_unique( $data['Artisan']['select_activites'] );
     
-    foreach ( $activites as $id ) {
-      $activite = $this->_em->getRepository( 'Auth_Model_Activite' )->find( $id );
+    foreach ( $activites as $item ) {
+      $activite = $this->_em->getRepository( 'Auth_Model_Activite' )->find( $item );
       if ( $activite ) {
         $artisan->addActivite( $activite );
       }
     }
     
     
-    $chantier = $artisan->getChantier();
-    if ( ! $chantier ) {
-      $chantier = new Auth_Model_Chantier();
-    }
+    $this->deleteDepartements( $id );
     
-    $chantier->zone = $this->_em->getRepository( 'Auth_Model_Zone' )->find( $data['Chantier']['id_zone'] );
+    $departements = $data['Artisan']['select_departement'];
     
-    foreach ( $data['Chantier'] as $key => $val ) {
-      if ( $key === 'id_zone' ) {
-        continue;
-      }
-      $prop = 'set' . ucfirst( $key );
-      if ( method_exists( $chantier, 'set' . ucfirst( $key ) ) ) {
-        $chantier->$prop( $val );
+    foreach ( $departements as $item ) {
+      $departement = $this->_em->getRepository( 'Auth_Model_Departement' )->find( $item );
+      if ( $departement ) {
+        $artisan->addDepartement( $departement );
       }
     }
-    
-    
-    $this->_em->persist( $chantier );
-    $this->_em->flush();
-    
-    $artisan->setChantier( $chantier );
     
     
     $this->_em->persist( $artisan );
@@ -114,6 +102,18 @@ class Auth_Model_ArtisanRepository extends EntityRepository {
     $this->_em->createQueryBuilder()
               ->delete( 'Auth_Model_Specialiste', 's' )
               ->where( 's.id_artisan = :id_artisan' )
+              ->setParameter( 'id_artisan', $id )
+              ->getQuery()
+              ->getResult();
+    
+    
+  }
+  
+  public function deleteDepartements( $id ) {
+    
+    $this->_em->createQueryBuilder()
+              ->delete( 'Auth_Model_Intervenir', 'i' )
+              ->where( 'i.id_artisan = :id_artisan' )
               ->setParameter( 'id_artisan', $id )
               ->getQuery()
               ->getResult();

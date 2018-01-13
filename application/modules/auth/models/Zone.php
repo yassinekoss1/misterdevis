@@ -35,6 +35,24 @@ class Auth_Model_Zone {
    */
   private $code;
 
+  /**
+   * @var integer $code_departement
+   *
+   * @Column(name="CODE_DEPARTEMENT", type="integer", length=20, nullable=false)
+   */
+  private $code_departement;
+
+
+  /**
+   * @var Departement
+   *
+   * @ManyToOne(targetEntity="Auth_Model_Departement")
+   * @JoinColumns({
+   *   @JoinColumn(name="CODE_DEPARTEMENT", referencedColumnName="CODE_DEPARTEMENT")
+   * })
+   */
+  private $departement;
+
 
   /**
    * @return the attribute
@@ -91,6 +109,23 @@ class Auth_Model_Zone {
 
 
   /**
+   * @return the $code_departement
+   */
+  public function getCode_departement() {
+
+    return $this->code_departement;
+  }
+
+   /**
+   * @return the $departement
+   */
+  public function getDepartement() {
+
+    return $this->departement;
+  }
+
+
+  /**
    * @param integer $id_zone
    */
   public function setId_zone($id_zone) {
@@ -114,6 +149,14 @@ class Auth_Model_Zone {
   public function setCode($code) {
 
     $this->code = $code;
+  }
+
+   /**
+   * @param string $code_departement
+   */
+  public function setCode_departement($code_departement) {
+
+    $this->code_departement = $code_departement;
   }
 
 

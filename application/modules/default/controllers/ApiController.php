@@ -38,20 +38,9 @@ class ApiController extends Zend_Controller_Action {
         $artisan->setTelephone_portable( urldecode( $data['TELEPHONE_PORTABLE'] ) );
         $artisan->setEmail_artisan( urldecode( $data['EMAIL_ARTISAN'] ) );
         $artisan->setHoraireRDV( urldecode( $data['HORAIRERDV'] ) );
+        $artisan->setCode_postal( $data['CODE_POSTAL'] );
         $artisan->setLogin( urlencode( $data['LOGIN'] ) );
         $artisan->setPass( (string) hash( 'SHA256', $hash . $data['PASS'] ) );
-        
-        
-        $zone = $em->getRepository( 'Auth_Model_Zone' )->findOneBy( [ 'code' => urldecode( $data['CODE_POSTAL'] ) ] );
-        
-        $chantier = new Auth_Model_Chantier;
-        
-        $chantier->setAdresse( 'N/A' );
-        $chantier->setZone( $zone );
-        
-        $em->persist( $chantier );
-        
-        $artisan->setChantier( $chantier );
         
         
         foreach ( $activites as $activite ) {

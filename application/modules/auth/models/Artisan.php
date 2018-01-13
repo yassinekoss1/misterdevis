@@ -5,7 +5,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 
 /**
- * User
+ * Auth_Model_Artisan
  *
  * @Table(name="artisan")
  * @Entity(repositoryClass="Auth_Model_ArtisanRepository")
@@ -20,31 +20,6 @@ class Auth_Model_Artisan {
    * @GeneratedValue(strategy="IDENTITY")
    */
   private $id_artisan;
-  
-  /**
-   * @var integer $id_chantier
-   *
-   * @Column(name="ID_CHANTIER", type="integer", length=20, nullable=false)
-   */
-  private $id_chantier;
-  
-  
-  /**
-   * @var Chantier
-   *
-   * @ManyToOne(targetEntity="Auth_Model_Chantier")
-   * @JoinColumns({
-   *   @JoinColumn(name="ID_CHANTIER", referencedColumnName="ID_CHANTIER")
-   * })
-   */
-  private $chantier;
-  
-  /**
-   * @var string $code_artisan
-   *
-   * @Column(name="CODE_ARTISAN", type="string", length=50, nullable=false)
-   */
-  private $code_artisan;
   
   /**
    * @var string $nom_artisan
@@ -148,6 +123,34 @@ class Auth_Model_Artisan {
   private $login;
   
   /**
+   * @var string $adresse
+   *
+   * @Column(name="ADRESSE", type="string", length=200,  nullable=false)
+   */
+  private $adresse;
+  
+  /**
+   * @var string $adresse2
+   *
+   * @Column(name="ADRESSE2", type="string", length=200,  nullable=true)
+   */
+  private $adresse2;
+  
+  /**
+   * @var string $code_postal
+   *
+   * @Column(name="CODE_POSTAL", type="string", length=200,  nullable=false)
+   */
+  private $code_postal;
+  
+  /**
+   * @var string $ville
+   *
+   * @Column(name="VILLE", type="string", length=200,  nullable=true)
+   */
+  private $ville;
+  
+  /**
    * @var string $qualification
    *
    * @Column(name="QUALIFICATION", type="string", length=200,  nullable=false)
@@ -165,6 +168,17 @@ class Auth_Model_Artisan {
    */
   private $activites;
   
+  
+  /**
+   * Many Artisans have Many Departements.
+   * @ManyToMany(targetEntity="Auth_Model_Departement", inversedBy="artisans")
+   * @JoinTable(name="intervenir",
+   *      joinColumns={@JoinColumn(name="ID_ARTISAN", referencedColumnName="ID_ARTISAN")},
+   *      inverseJoinColumns={@JoinColumn(name="CODE_DEPARTEMENT", referencedColumnName="CODE_DEPARTEMENT")}
+   *   )
+   */
+  private $departements;
+  
   /**
    * Many Artisans have Many Demandes.
    * @ManyToMany(targetEntity="Auth_Model_Demandedevis", inversedBy="demandes")
@@ -178,7 +192,8 @@ class Auth_Model_Artisan {
   
   public function __construct() {
     
-    $this->activites = new \Doctrine\Common\Collections\ArrayCollection();
+    $this->activites    = new \Doctrine\Common\Collections\ArrayCollection();
+    $this->departements = new \Doctrine\Common\Collections\ArrayCollection();
   }
   
   public function hasActivite( $id ) {
@@ -192,11 +207,40 @@ class Auth_Model_Artisan {
   }
   
   
+  public function hasDepartement( $code ) {
+    
+    foreach ( $this->departements as $departement ) {
+      
+      return $departement->code_departement == $code;
+    }
+    
+    return false;
+  }
+  
+  
   public function addActivite( Auth_Model_Activite $activite ) {
     
     if ( ! $this->hasActivite( $activite->getId_activite() ) ) {
       $this->activites[] = $activite;
     }
+  }
+  
+  public function addDepartement( Auth_Model_Departement $departement ) {
+    
+    if ( $this->departements->contains( $departement ) ) {
+      return;
+    }
+    
+    $this->departements->add( $departement );
+  }
+  
+  public function removeDepartement( Auth_Model_Departement $departement ) {
+    
+    if ( $this->departements->contains( $departement ) ) {
+      return;
+    }
+    $this->departements->removeElement( $departement );
+    $departement->removeArtisan( $this );
   }
   
   
@@ -237,33 +281,6 @@ class Auth_Model_Artisan {
   
   
   /**
-   * @return the $id_chantier
-   */
-  public function getId_chantier() {
-    
-    return $this->id_chantier;
-  }
-  
-  
-  /**
-   * @return the $chantier
-   */
-  public function getChantier() {
-    
-    return $this->chantier;
-  }
-  
-  
-  /**
-   * @return the $code_artisan
-   */
-  public function getCode_artisan() {
-    
-    return $this->code_artisan;
-  }
-  
-  
-  /**
    * @return the $nom_artisan
    */
   public function getNom_artisan() {
@@ -300,20 +317,38 @@ class Auth_Model_Artisan {
   
   
   /**
-   * @return the $telephone_fixe
+   * @return string $telephone_fixe
    */
-  public function getTelephone_fixe() {
+  public function getTelephone_fixe( $formated = false ) {
     
-    return $this->telephone_fixe;
+    if ( ! $formated ) {
+      return $this->telephone_fixe;
+    }
+    
+    
+    $input = preg_replace( '/^(?:(?:\+|00|0)?33(?:\s*\(0\))?)?\s?0?[-\s]*(\d)[\.\s-]?(\d{2})[\.\s-]?(\d{2})[\.\s-]?(\d{2})[\.\s-]?(\d{2})$/i',
+      '0$1 $2 $3 $4 $5', $this->telephone_fixe );
+    
+    
+    return $input;
   }
   
   
   /**
-   * @return the $telephone_portable
+   * @return string $telephone_portable
    */
-  public function getTelephone_portable() {
+  public function getTelephone_portable( $formated = false ) {
     
-    return $this->telephone_portable;
+    if ( ! $formated ) {
+      return $this->telephone_portable;
+    }
+    
+    
+    $input = preg_replace( '/^(?:(?:\+|00|0)?33(?:\s*\(0\))?)?\s?0?[-\s]*(\d)[\.\s-]?(\d{2})[\.\s-]?(\d{2})[\.\s-]?(\d{2})[\.\s-]?(\d{2})$/i',
+      '0$1 $2 $3 $4 $5', $this->telephone_portable );
+    
+    
+    return $input;
   }
   
   
@@ -398,38 +433,44 @@ class Auth_Model_Artisan {
   
   
   /**
+   * @return the $adresse
+   */
+  public function getAdresse() {
+    
+    return $this->adresse;
+  }
+  
+  /**
+   * @return the $adresse2
+   */
+  public function getAdresse2() {
+    
+    return $this->adresse2;
+  }
+  
+  /**
+   * @return the $code_postal
+   */
+  public function getCode_postal() {
+    
+    return $this->code_postal;
+  }
+  
+  /**
+   * @return the $ville
+   */
+  public function getVille() {
+    
+    return $this->ville;
+  }
+  
+  
+  /**
    * @param integer $id_artisan
    */
   public function setId_artisan( $id_artisan ) {
     
     $this->id_artisan = $id_artisan;
-  }
-  
-  
-  /**
-   * @param integer $id_chantier
-   */
-  public function setId_chantier( $id_chantier ) {
-    
-    $this->id_chantier = $id_chantier;
-  }
-  
-  
-  /**
-   * @param Chantier $chantier
-   */
-  public function setChantier( $chantier ) {
-    
-    $this->chantier = $chantier;
-  }
-  
-  
-  /**
-   * @param string $code_artisan
-   */
-  public function setCode_artisan( $code_artisan ) {
-    
-    $this->code_artisan = $code_artisan;
   }
   
   
@@ -567,6 +608,39 @@ class Auth_Model_Artisan {
   }
   
   
+  /**
+   * @param string $adresse
+   */
+  public function setAdresse( $adresse ) {
+    
+    $this->adresse = $adresse;
+  }
+  
+  /**
+   * @param string $adresse2
+   */
+  public function setAdresse2( $adresse2 ) {
+    
+    $this->adresse2 = $adresse2;
+  }
+  
+  /**
+   * @param string $code_postal
+   */
+  public function setCode_postal( $code_postal ) {
+    
+    $this->code_postal = $code_postal;
+  }
+  
+  /**
+   * @param string $ville
+   */
+  public function setVille( $ville ) {
+    
+    $this->ville = $ville;
+  }
+  
+  
   public function getSpecialities() {
     
     
@@ -574,6 +648,18 @@ class Auth_Model_Artisan {
       
       return $item->id_activite;
     }, $this->activites->toArray() );
+    
+    return $types;
+    
+  }
+  
+  public function getDepartements() {
+    
+    
+    $types = array_map( function ( $item ) {
+      
+      return $item->code_departement;
+    }, $this->departements->toArray() );
     
     return $types;
     

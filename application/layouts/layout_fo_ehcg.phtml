@@ -13,6 +13,7 @@
 	<link href="<?= $this->baseUrl( 'resources_fo_ehcg/css/libs/nanoscroller.css' ); ?>" rel="stylesheet" type="text/css">
 	<link href="<?= $this->baseUrl( 'resources_fo_ehcg/css/compiled/theme_styles.css' ); ?>" rel="stylesheet" type="text/css">
 	<link href="<?= $this->baseUrl( 'resources_fo_ehcg/css/libs/hopscotch.css' ); ?>" rel="stylesheet" type="text/css">
+	<link href="<?= $this->baseUrl( 'resources_fo_ehcg/css/admin-home.css' ); ?>" rel="stylesheet" type="text/css">
 	<!--  <link
 	href="<?= $this->baseUrl( 'resources_fo_ehcg/css/compiled/menu.css' ); ?>"
 	rel="stylesheet" type="text/css">-->
@@ -88,6 +89,47 @@
 			</div>
 		</div>
 	</header>
+	<div id="sidebar">
+		<a class="toggle-sidebar">
+			<span></span>
+			<span></span>
+			<span></span>
+		</a>
+		<div class="admin-vcard">
+			<h1><?php echo unserialize( Zend_Auth::getInstance()->getIdentity() )->firstname_user . ' ' . unserialize( Zend_Auth::getInstance()->getIdentity() )->lastname_user ?></h1>
+			<h3><?= unserialize( Zend_Auth::getInstance()->getIdentity() )->rank_user == 1 ? 'Administrateur' : 'Moderateur'; ?></h3>
+			<a class="btn-logout btn btn-danger" href="/auth/logout">
+				<i class="fa fa-power-off"></i>
+				Se déconnecter</a>
+		</div>
+		<div id="sidebar-content">
+			<h2>Qualification</h2>
+			<div id="search-box">
+				<input type="text" placeholder="Rechercher..." class="form-control">
+				<i class="fa fa-search"></i>
+			</div>
+			<ul id="qualifications-list">
+				<li><a href="/auth/dashboard" id="btnDSH">Tableau de bord</a></li>
+				<li><a href="/auth/piscine" id="btnPSC">Qualification Piscine</a></li>
+				<li><a href="/auth/chauffage" id="btnCHF">Qualification Chauffage</a></li>
+				<li><a href="/auth/fenetre" id="btnCHF">Qualification Fenetre</a></li>
+				<li><a href="/auth/cuisine" id="btnCUI">Qualification Cuisine</a></li>
+				<li><a href="/auth/sallebain" id="btnSDB">Qualification Salle de Bain</a></li>
+				<li><a href="/auth/climatisation" id="btnCLM">Qualification Climatisation</a></li>
+				<li><a href="/auth/sauna" id="btnSAS">Qualification Sauna &amp; Hammam</a></li>
+				<li><a href="/auth/spa" id="btnSPA">Qualification Spa</a></li>
+			</ul>
+			<h2>Gestion</h2>
+			<ul>
+				<li><a href="/auth/artisan">Gêrer les artisans</a></li>
+				<?php if ( unserialize( Zend_Auth::getInstance()->getIdentity() )->rank_user == 1 ): ?>
+					<li>
+						<a href="/auth/user">Gérer des utilisateurs</a>
+					</li>
+				<?php endif; ?>
+		</div>
+	</div>
+	<div id="sidebar-overlay" style="display: none"></div>
 	<div id="page-wrapper" class="container nav-small">
 		<div id="content-wrapper">
 			<!-- Menu responsive -->
@@ -174,5 +216,64 @@
 	
 	</div>
 </div>
+<script>
+	
+	
+	/* highlight matches text */
+	var highlight = function (string) {
+		$("#qualifications-list li.match a").each(function () {
+			var matchStart = $(this).text().toLowerCase().indexOf("" + string.toLowerCase() + "");
+			var matchEnd = matchStart + string.length - 1;
+			var beforeMatch = $(this).text().slice(0, matchStart);
+			var matchText = $(this).text().slice(matchStart, matchEnd + 1);
+			var afterMatch = $(this).text().slice(matchEnd + 1);
+			$(this).html(beforeMatch + "<strong>" + matchText + "</strong>" + afterMatch);
+		});
+	};
+	
+	
+	$(function () {
+		
+		var t = null;
+		
+		$('#sidebar .toggle-sidebar, #sidebar-overlay').on('click', function () {
+			clearTimeout(t);
+			$('#sidebar').toggleClass('open');
+			if (!$('#sidebar').hasClass('open')) {
+				t = setTimeout(function () {
+					$('#sidebar-overlay').fadeOut();
+				}, 400);
+			} else {
+				$('#sidebar-overlay').fadeIn();
+			}
+		});
+		
+		
+		$("#search-box input").on("keyup", function () {
+			if (this.value.length > 0) {
+				$("#qualifications-list li").removeClass("match").filter(function () {
+					var flag = false;
+					var parts = $('#search-box input').val().toLowerCase().split(/\s+/);
+					var that = this;
+					parts.forEach(function (part) {
+						console.log($(that).find('a').text().toLowerCase().indexOf(part), part, $(that).find('a').text());
+						if ($(that).find('a').text().toLowerCase().indexOf(part) != -1) flag = true;
+						
+					});
+					return flag;
+				}).addClass("match");
+				$("#qualifications-list").addClass('filtred');
+			}
+			
+			else {
+				$("#qualifications-list li").removeClass("match");
+				$("#qualifications-list").removeClass("filtred");
+			}
+		});
+		
+	});
+
+
+</script>
 </body>
 </html>

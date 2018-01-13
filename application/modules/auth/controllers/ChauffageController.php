@@ -5,23 +5,21 @@
  * Class Auth_ChauffageController
  *
  * @authors  Youssef Erratbi <yerratbi@gmail.com>  - Aziz Idmansour <aziz.idmansour@gmail.com>
- * @date    23/12/17
-
+ * @date     23/12/17
  * Ce controlleur est responsable sur la gestion de l'activité chauffage,
- * il permet de lister les demande de devis concernant le chauffage avec l'action indexAction, 
- * d'ajouter une nouvelle de demande de devis avec l'action addAction et de 
+ * il permet de lister les demande de devis concernant le chauffage avec l'action indexAction,
+ * d'ajouter une nouvelle de demande de devis avec l'action addAction et de
  * modifier une demande de devis existante avec l'action editAction.
  * d'afficher les notifications qui sont venues des mini sites par l'action notificationAction.
  * Lors de l'ajout ou la modification d'une demande de devis, il y'a un envoi d'email au particulier
- * l'informant que sa demande de devis est mise en ligne, et un email à l'artisan l'informant  
+ * l'informant que sa demande de devis est mise en ligne, et un email à l'artisan l'informant
  * qu'une nouvelle demande de devis est disponible en ligne.
  * Il y'a aussi en parallèle l'envoi d'un sms à l'artisan l'informant qu'un nouveau chantier est disponible
  * en ligne.
  * Et aussi lors de l'edition d'une demande de devis, un fichier pdf contenant les informations de cette demande
- * est crée et stocké dans le serveur, et il peut être consulter par l'operateur en appelant l'action pdfAction, 
+ * est crée et stocké dans le serveur, et il peut être consulter par l'operateur en appelant l'action pdfAction,
  * aussi il sera envoyé par email à l'artisan si ce dernier a acheté cette demande (Cela est géré dans le controlleur ApiController).
-
-*/
+ */
 class Auth_ChauffageController extends Zend_Controller_Action {
   
   private $_sys_email;
@@ -43,7 +41,7 @@ class Auth_ChauffageController extends Zend_Controller_Action {
     
     //$this->_helper->layout()->disableLayout();
     $this->_helper->layout->setLayout( 'layout_fo_ehcg' );
-    $em = $this->getRequest()->_em;
+    $em                   = $this->getRequest()->_em;
     $this->view->demandes = $em->getRepository( $this->model_name )->getList();
   }
   
@@ -97,11 +95,11 @@ class Auth_ChauffageController extends Zend_Controller_Action {
       $demande->getId_activite()->getId_activite(),
       $demande->getId_chantier()->getId_zone()
     );
-   
-	//Envoi SMS
-	
-	$this->sendSMSNotification($artisans,$demande->getRef());
-	
+    
+    //Envoi SMS
+    
+    $this->sendSMSNotification( $artisans, $demande->getRef() );
+    
     $data = [
       'artisans'     => $artisans,
       'particuliers' => [
@@ -127,37 +125,37 @@ class Auth_ChauffageController extends Zend_Controller_Action {
     ] );
     
     curl_exec( $ch );
-	
-	
+    
+    
   }
   
-  public function sendSMSNotification($artisans,$ref){
-	  
-	   //Envoi SMS :
-	
-	$sms=new smsenvoi();
-	
-	$content="Bonjour, 1 nouveau chantier, pour l'installation d'un Chauffage : " . $ref .", est disponible près de chez vous. Vous avez reçu 1 mail et vous pouvez maintenant le découvrir sur www.mister-devis.com. " ;
-	
-	foreach($artisans as $artisan){
-	
-		$tel=$artisan['telephone_portable'];
-		
-		if(strlen($tel)==10){
-			
-			$tel=substr($tel,1,9);
-			
-			$tel="+33".$tel;
-			
-			$sms->sendSMS($tel,$content,'PREMIUM','Mister Devis',date('Y-m-d'),date('H:m:s'));
-			
-		}else{
-			
-		}
-	
-		
-	}
-	  
+  public function sendSMSNotification( $artisans, $ref ) {
+    
+    //Envoi SMS :
+    
+    $sms = new smsenvoi();
+    
+    $content = "Bonjour, 1 nouveau chantier, pour l'installation d'un Chauffage : " . $ref . ", est disponible près de chez vous. Vous avez reçu 1 mail et vous pouvez maintenant le découvrir sur www.mister-devis.com. ";
+    
+    foreach ( $artisans as $artisan ) {
+      
+      $tel = $artisan['telephone_portable'];
+      
+      if ( strlen( $tel ) == 10 ) {
+        
+        $tel = substr( $tel, 1, 9 );
+        
+        $tel = "+33" . $tel;
+        
+        $sms->sendSMS( $tel, $content, 'PREMIUM', 'Mister Devis', date( 'Y-m-d' ), date( 'H:m:s' ) );
+        
+      } else {
+      
+      }
+      
+      
+    }
+    
   }
   
   public function addAction() {
@@ -255,7 +253,7 @@ class Auth_ChauffageController extends Zend_Controller_Action {
           if ( $sendEmail ) {
             // Send an email if there hasn't been one sent
             $this->sendEmailNotifications( $qualification->id_demande );
-			
+            
             
           }
         }

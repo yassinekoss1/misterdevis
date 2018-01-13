@@ -1,14 +1,18 @@
 <div id="page">
 	<table cellpadding="5">
 		<tr>
-			<td style="width: 60%">&nbsp;</td>
-			<td style="text-align:right; font-size: 38px; border: 1px solid #777; width: 40%">
+			<td style="width: 70%">&nbsp;</td>
+			<td style="text-align:right; font-size: 38px; border: 1px solid #777; width: 30%">
 				<strong>  <?= "{$this->artisan->prenom_artisan} {$this->artisan->nom_artisan}"; ?></strong>
 				
 				<br>
 				<?= $this->artisan->raison_sociale; ?>
 				<br>
-				<?= $this->artisan->chantier->adresse; ?>
+				<?= $this->artisan->adresse; ?>
+				<br>
+				<?= $this->artisan->ville; ?>
+				<br>
+				<?= $this->artisan->code_postal; ?>
 			</td>
 		</tr>
 	</table>
@@ -28,7 +32,7 @@
 			<th style="width: 60%;">Libellé</th>
 			<th style="width: 15%;">Prix HT</th>
 			<th style="width: 10%;">Qté</th>
-			<th style="width: 15%;">Total HT</th>
+			<th style="width: 15%;">Total TTC</th>
 		</tr>
 		<tr>
 			<td style="text-align: left">

@@ -150,6 +150,12 @@
 											<div class="col-md-6">
 												<?= $this->form->form_chantier->code_postal ?>
 											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label for="ville">Ville</label>
+													<input type="text" class="form-control" id="ville" placeholder="Ville" />
+												</div>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -230,6 +236,7 @@
 <script type="text/javascript">
 	$(document).ready(function () {
 		var code_postal = $('#Chantier-code_postal');
+		var ville = $('#ville');
 		
 		if (code_postal.hasClass('has-error')) {
 			code_postal.next('.help-block').html('Ce code postal n\'est pas valid');
@@ -247,14 +254,39 @@
 				});
 			},
 			renderItem: function (item) {
-				return '<div class="autocomplete-suggestion" data-code="' + item.code + '">' + item.ville + '<small>Code postal: ' + item.code + '</small></div>';
+				return '<div class="autocomplete-suggestion" data-code="' + item.code + '"  data-ville="' + item.ville + '">' + item.ville + '<small>Code postal: ' + item.code + '</small></div>';
 			},
 			onSelect: function (e, term, item) {
 				code_postal.val(item.data('code'));
 				code_postal.parents('.form-group').removeClass('has-error');
+				ville.val(item.data('ville'));
 			}
 		});
 		
+		
+		ville.autoComplete({
+			minChars: 2,
+			delay: 500,
+			source: function (term, response) {
+				$.getJSON('/auth/index/cities/', {q: term}, function (data) {
+					response(data);
+				});
+			},
+			renderItem: function (item) {
+				return '<div class="autocomplete-suggestion" data-code="' + item.code + '"  data-ville="' + item.ville + '">' + item.ville + '<small>Code postal: ' + item.code + '</small></div>';
+			},
+			onSelect: function (e, term, item) {
+				ville.val(item.data('ville'));
+				ville.parents('.form-group').removeClass('has-error');
+				code_postal.val(item.data('code'));
+			}
+		});
+		
+		
+		$('form input').on('keydown keypress', function (e) {
+			var code = e.keyCode || e.which;
+			if (code === 13) return false;
+		});
 		
 		$('.must-validate').submit(function () {
 			var isValid = true;

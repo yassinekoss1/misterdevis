@@ -36,13 +36,14 @@ class Auth_Model_DemandedevisRepository extends EntityRepository {
     }
     
     $specialities = $artisan->getSpecialities();
+    $departements = $artisan->getDepartements();
     
     $q  = $this->createQueryBuilder( 'd' );
     $q2 = $this->_em->createQueryBuilder();
     $q3 = $this->_em->createQueryBuilder();
+    $q4 = $this->_em->createQueryBuilder();
     
-    return $q->innerJoin( 'd.id_chantier', 'ch' )
-             ->where(
+    return $q->where(
                $q->expr()->notIn(
                  'd.id_demande',
                  $q2->select( 'ach.id_demande' )
@@ -51,20 +52,29 @@ class Auth_Model_DemandedevisRepository extends EntityRepository {
                     ->getDQL()
                )
              )
+              ->andWhere(
+                         $q->expr()->notIn(
+                           'd.id_demande',
+                           $q3->select( 'ach2.id_demande' )
+                              ->from( 'Auth_Model_Acheter', 'ach2' )
+                              ->groupBy( 'ach2.id_demande' )
+                              ->having( 'COUNT(ach2.id_demande) >= 5' )
+                              ->getDQL()
+                         )
+              )
              ->andWhere(
-               $q->expr()->notIn(
-                 'd.id_demande',
-                 $q3->select( 'ach2.id_demande' )
-                    ->from( 'Auth_Model_Acheter', 'ach2' )
-                    ->groupBy( 'ach2.id_demande' )
-                    ->having( 'COUNT(ach2.id_demande) >= 5' )
-                    ->getDQL()
-               )
+                $q->expr()->in(
+                  'd.id_chantier',
+                  $q4->select('ch.id_chantier')
+                     ->from('Auth_Model_Chantier', 'ch')
+                     ->innerJoin('ch.id_zone','z')
+                     ->where("z.code_departement IN (:departements)")
+                     ->setParameter('departements',$departements)
+
+                )
              )
-             ->andWhere( 'ch.id_zone = :zone' )
              ->andWhere( 'd.publier_en_ligne = 1' )
              ->andWhere( 'd.id_activite IN (:type)' )
-             ->setParameter( 'zone', $artisan->chantier->id_zone )
              ->setParameter( 'type', $specialities )
              ->getQuery()
              ->getResult();

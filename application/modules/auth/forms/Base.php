@@ -154,6 +154,34 @@ EOD;
 
 
 /**
+ * Class Auth_Form_FileDecorator
+ *
+ * @author  Youssef Erratbi <yerratbi@gmail.com>
+ * @date    23/12/17
+ */
+class Auth_Form_FileDecorator extends Auth_Form_TextDecorator {
+  
+  
+  public function render( $content ) {
+    
+    parent::init();
+    
+    $has_error = $this->_error ? 'has-error' : '';
+    
+    
+    return <<<EOD
+<div class="form-group {$has_error}">
+	<label for="{$this->_id}">{$this->_label}</label>
+	<input type="file" class="form-control {$this->_class}" id="{$this->_id}" name="{$this->_name}" placeholder="{$this->_label}">
+	<span class="help-block">{$this->_error}</span>
+</div>
+EOD;
+  
+  }
+}
+
+
+/**
  * Class Auth_Form_ButtonDecorator
  *
  * @author  Youssef Erratbi <yerratbi@gmail.com>
@@ -249,6 +277,17 @@ class Auth_Form_Base extends Zend_Form {
       switch ( $el->getType() ) {
         case 'Zend_Form_Element_Text':
           $el->setDecorators( [ new Auth_Form_TextDecorator ] );
+          break;
+        
+        case 'Zend_Form_Element_File':
+          $el->setDecorators( [
+            'File',
+            'Errors',
+            [ [ 'data' => 'HtmlTag' ], [ 'tag' => 'div' ] ],
+            [
+              'Label' => [ 'tag' => 'label' ],
+            ],
+          ] );
           break;
         
         case 'Zend_Form_Element_Password':
