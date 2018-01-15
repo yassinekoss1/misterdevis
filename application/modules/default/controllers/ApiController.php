@@ -26,7 +26,6 @@ class ApiController extends Zend_Controller_Action {
       
       $hash = $this->getRequest()->_registry->config->auth->hash;
       
-      
       if ( $form_id == '2' ) {
         $activites = $em->getRepository( 'Auth_Model_Activite' )->findBy( [ 'group' => $data['ID_ACTIVITE'] ] );
         
@@ -100,9 +99,6 @@ class ApiController extends Zend_Controller_Action {
       }
     } catch ( Exception $e ) {
       die( $e->getMessage() );
-      $h = fopen( APPLICATION_PATH . '/tmp/test.txt', 'w+' );
-      fwrite( $h, $e->getMessage() );
-      fclose( $h );
     }
     
   }

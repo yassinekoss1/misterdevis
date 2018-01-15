@@ -386,7 +386,7 @@ class Auth_ArtisanController extends Zend_Controller_Action {
   private function remoteSubscribe( $artisan, $pass ) {
     
     // TODO : Change this URL
-    $remote_url = 'http://mister.local//inscription-pro';
+    $remote_url = 'https://mister-devis.com/inscription-pro';
     
     $activity_mapping = [
       0  => 220,
@@ -437,7 +437,8 @@ class Auth_ArtisanController extends Zend_Controller_Action {
     curl_setopt( $ch, CURLOPT_POST, 1 );
     curl_setopt( $ch, CURLOPT_POSTFIELDS, $post_data );
     curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
-    curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, false );
+    curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, true );
+    curl_setopt( $ch, CURLOPT_POSTREDIR, 3 );
     curl_setopt( $ch, CURLOPT_USERAGENT, $agent );
     
     curl_exec( $ch );
