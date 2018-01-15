@@ -181,7 +181,6 @@ class Auth_Form_Artisan extends Auth_Form_Base {
     $select_activites = new Zend_Form_Element_Select( 'select_activites' );
     $select_activites->setLabel( 'Activités' )
                      ->setBelongsTo( 'Artisan' )
-                     ->setRequired( true )
                      ->setIsArray( true )
                      ->addFilters( $select_filters )
                      ->addMultiOptions( $this->_activites );

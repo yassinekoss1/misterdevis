@@ -27,7 +27,15 @@ class ApiController extends Zend_Controller_Action {
       $hash = $this->getRequest()->_registry->config->auth->hash;
       
       if ( $form_id == '2' ) {
+        
         $activites = $em->getRepository( 'Auth_Model_Activite' )->findBy( [ 'group' => $data['ID_ACTIVITE'] ] );
+        
+        $departement = $em->getRepository( 'Auth_Model_Departement' )->createQueryBuilder( 'd' )
+                          ->innerJoin( 'd.zones', 'z' )
+                          ->where( 'z.code = :code' )
+                          ->setParameter( 'code', '75001' )
+                          ->getQuery()
+                          ->getOneOrNullResult();
         
         $artisan = new Auth_Model_Artisan;
         $artisan->setPrenom_artisan( urldecode( $data['PRENOM_ARTISAN'] ) );
@@ -45,6 +53,8 @@ class ApiController extends Zend_Controller_Action {
         foreach ( $activites as $activite ) {
           $artisan->addActivite( $activite );
         }
+        
+        $artisan->addDepartement( $departement );
         
         $em->persist( $artisan );
         $em->flush();
