@@ -22,6 +22,8 @@ const sysEmail = `${config['production']['system.email.name']} <${config['produc
 const transport = nodemailer.createTransport({
 	host: config['production']['resources.mail.transport.host'],
 	port: config['production']['resources.mail.transport.port'],
+	secure: config['production']['resources.mail.transport.secure'],
+	greetingTimeout: 60000,
 	auth: {
 		user: config['production']['resources.mail.transport.username'],
 		pass: config['production']['resources.mail.transport.password']
@@ -52,7 +54,8 @@ const sendArtisanMail = async ({email_artisan, nom_artisan}, ref) => {
         `
 	};
 	transport.sendMail(options, err => {
-		if (err) throw err;		html: `
+		if (err) throw err;
+		html: `
         <div style="width: 650px; margin: 80px auto;">
             <div style="text-align: center; padding: 10px;"><img src="http://www.webonline2018.com/resources_fo_ehcg/img/company_logo_1.jpg" /></div>
             <h1 style="background-color:#0184c2;padding: 50px;color:#fff;text-align: center;">Une nouvelle demande de devis a été mise en ligne</h1>
