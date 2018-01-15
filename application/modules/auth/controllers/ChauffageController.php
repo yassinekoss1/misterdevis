@@ -258,18 +258,18 @@ class Auth_ChauffageController extends Zend_Controller_Action {
           }
         }
         
-        $title = $demande->titre_demande;
+        $title = $qualification->id_demande->titre_demande;
         
-        $ref = $demande->getRef();
+        $ref = $qualification->id_demande->getRef();
         
         // Fetching the html string from the view
         $html = $this->view->partial( 'shared/pdf.phtml', [
-          'demande'       => $demande,
+          'demande'       => $qualification->id_demande,
           'qualification' => $qualification,
         ] );
         
         
-        $this->generatePdf( $ref, $title, $html, $demande->pdfLocation( true ) );
+        $this->generatePdf( $ref, $title, $html, $qualification->id_demande->pdfLocation( true ) );
         
         $_SESSION['flash'] = "La mise à jour a été effectuée avec success";
         $this->getResponse()->setRedirect( "/auth/{$this->slug}" );

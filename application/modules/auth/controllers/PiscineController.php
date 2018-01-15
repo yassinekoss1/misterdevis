@@ -5,23 +5,21 @@
  * Class Auth_PiscineController
  *
  * @authors  Youssef Erratbi <yerratbi@gmail.com>  - Aziz Idmansour <aziz.idmansour@gmail.com>
- * @date    23/12/17
-
+ * @date     23/12/17
  * Ce controlleur est responsable sur la gestion de l'activité piscine,
- * il permet de lister les demande de devis concernant la piscine avec l'action indexAction, 
- * d'ajouter une nouvelle de demande de devis avec l'action addAction et de 
+ * il permet de lister les demande de devis concernant la piscine avec l'action indexAction,
+ * d'ajouter une nouvelle de demande de devis avec l'action addAction et de
  * modifier une demande de devis existante avec l'action editAction.
  * d'afficher les notifications qui sont venues des mini sites par l'action notificationAction.
  * Lors de l'ajout ou la modification d'une demande de devis, il y'a un envoi d'email au particulier
- * l'informant que sa demande de devis est mise en ligne, et un email à l'artisan l'informant  
+ * l'informant que sa demande de devis est mise en ligne, et un email à l'artisan l'informant
  * qu'une nouvelle demande de devis est disponible en ligne.
  * Il y'a aussi en parallèle l'envoi d'un sms à l'artisan l'informant qu'un nouveau chantier est disponible
  * en ligne.
  * Et aussi lors de l'edition d'une demande de devis, un fichier pdf contenant les informations de cette demande
- * est crée et stocké dans le serveur, et il peut être consulter par l'operateur en appelant l'action pdfAction, 
+ * est crée et stocké dans le serveur, et il peut être consulter par l'operateur en appelant l'action pdfAction,
  * aussi il sera envoyé par email à l'artisan si ce dernier a acheté cette demande (Cela est géré dans le controlleur ApiController).
-
-*/
+ */
 class Auth_PiscineController extends Zend_Controller_Action {
   
   private $_sys_email;
@@ -98,10 +96,10 @@ class Auth_PiscineController extends Zend_Controller_Action {
       $demande->getId_activite()->getId_activite(),
       $demande->getId_chantier()->getId_zone()
     );
-	
-	//Envoi SMS :
-	
-	$this->sendSMSNotification($artisans,$demande->getRef());
+    
+    //Envoi SMS :
+    
+    $this->sendSMSNotification( $artisans, $demande->getRef() );
     
     $data = [
       'artisans'     => $artisans,
@@ -130,33 +128,33 @@ class Auth_PiscineController extends Zend_Controller_Action {
     curl_exec( $ch );
   }
   
-  public function sendSMSNotification($artisans,$ref){
-	  
-	   //Envoi SMS :
-	
-	$sms=new smsenvoi();
-	
-	$content="Bonjour, 1 nouveau chantier, pour l'installation d'une Piscine : " . $ref .", est disponible près de chez vous. Vous avez reçu 1 mail et vous pouvez maintenant le découvrir sur www.mister-devis.com. " ;
-	
-	foreach($artisans as $artisan){
-	
-		$tel=$artisan['telephone_portable'];
-		
-		if(strlen($tel)==10){
-			
-			$tel=substr($tel,1,9);
-			
-			$tel="+33".$tel;
-			
-			$sms->sendSMS($tel,$content,'PREMIUM','Mister Devis',date('Y-m-d'),date('H:m:s'));
-			
-		}else{
-			
-		}
-	
-		
-	}
-	  
+  public function sendSMSNotification( $artisans, $ref ) {
+    
+    //Envoi SMS :
+    
+    $sms = new smsenvoi();
+    
+    $content = "Bonjour, 1 nouveau chantier, pour l'installation d'une Piscine : " . $ref . ", est disponible près de chez vous. Vous avez reçu 1 mail et vous pouvez maintenant le découvrir sur www.mister-devis.com. ";
+    
+    foreach ( $artisans as $artisan ) {
+      
+      $tel = $artisan['telephone_portable'];
+      
+      if ( strlen( $tel ) == 10 ) {
+        
+        $tel = substr( $tel, 1, 9 );
+        
+        $tel = "+33" . $tel;
+        
+        $sms->sendSMS( $tel, $content, 'PREMIUM', 'Mister Devis', date( 'Y-m-d' ), date( 'H:m:s' ) );
+        
+      } else {
+      
+      }
+      
+      
+    }
+    
   }
   
   public function addAction() {
@@ -179,6 +177,8 @@ class Auth_PiscineController extends Zend_Controller_Action {
   
   public function editAction() {
     
+    //    die( var_dump( $_POST ) );
+    
     // If it's an ajax request disable the layout
     if ( $this->getRequest()->isXmlHttpRequest() ) {
       $this->_helper->layout()->disableLayout();
@@ -187,6 +187,7 @@ class Auth_PiscineController extends Zend_Controller_Action {
     }
     
     $id = $this->getRequest()->getParam( 'id' );
+    
     $em = $this->getRequest()->_em;
     
     // Load demande;
@@ -206,6 +207,7 @@ class Auth_PiscineController extends Zend_Controller_Action {
       'form_chantier'    => new Auth_Form_Chantier,
       'form_particulier' => new Auth_Form_Particulier,
     ] );
+    
     
     $form->form_chantier->code_postal->setAttrib( 'autocomplete', 'off' );
     
@@ -227,6 +229,8 @@ class Auth_PiscineController extends Zend_Controller_Action {
       $zone = $em->getRepository( 'Auth_Model_Zone' )->findOneBy( [ 'code' => $data['Chantier']['code_postal'] ] );
       
       $valid = $form->isValid( $data );
+      
+      //die($valid);
       
       if ( ! $zone ) {
         $form->form_chantier->code_postal->setAttribs( [ 'class' => 'has-error' ] );
@@ -258,18 +262,20 @@ class Auth_PiscineController extends Zend_Controller_Action {
           }
         }
         
-        $title = $demande->titre_demande;
+        $title = $qualification->id_demande->titre_demande;
         
-        $ref = $demande->getRef();
+        $ref = $qualification->id_demande->getRef();
+        
+        //die(var_dump($ref));
         
         // Fetching the html string from the view
         $html = $this->view->partial( 'shared/pdf.phtml', [
-          'demande'       => $demande,
+          'demande'       => $qualification->id_demande,
           'qualification' => $qualification,
         ] );
         
         
-        $this->generatePdf( $ref, $title, $html, $demande->pdfLocation( true ) );
+        $this->generatePdf( $ref, $title, $html, $qualification->id_demande->pdfLocation( true ) );
         
         
         $_SESSION['flash'] = "La mise à jour a été effectuée avec success";

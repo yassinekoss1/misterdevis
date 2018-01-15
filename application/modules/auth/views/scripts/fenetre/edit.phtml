@@ -61,7 +61,7 @@
 				<!-- end breadcumbs -->
 			</header>
 			<div class="main-box-body clearfix">
-				<form action="/auth/fenetre/edit/id/<?= $this->id; ?>" method="POST" class="must-validate" novalidate>
+				<form action="/auth/fenetre/edit/id/<?= $this->id; ?>" method="POST" class="must-validate" novalidate enctype="multipart/form-data">
 					
 					<div class="panel-group accordion" id="qualification-form">
 						<div class="panel panel-default">
@@ -206,7 +206,11 @@
 										<?= $this->form->form_demande->prix_mise_en_ligne; ?>
 										<?= $this->form->form_demande->prix_promo; ?>
 									</div>
+									
 									<div class="col-md-6">
+										<div class="form-group">
+											<?= $this->form->form_demande->audio_file; ?>
+										</div>
 										<?= $this->form->form_demande->publier_en_ligne; ?>
 									</div>
 								</div>
