@@ -89,23 +89,35 @@ class ApiController extends Zend_Controller_Action {
         $ops = $em->getRepository( 'Auth_Model_User' )->getOperatorsEmails();
         
         
-        // Notify the operators
+        $data = [
+          'ops'          => $ops,
+          'particuliers' => [
+            [
+              'nom_particulier'   => $demande->getId_particulier()->getNom_particulier(),
+              'email_particulier' => $demande->getId_particulier()->getEmail(),
+            ],
+          ],
+          'ref'          => $demande->getRef(),
+          'url'          => $demande->getUrl(),
+        ];
         
-        foreach ( $ops as $op ) {
-          $this->view->demande     = $demande;
-          $this->view->particulir  = $particulier;
-          $this->view->ref         = $demande->getRef();
-          $this->view->demande_url = $demande->getUrl();
-          $mail                    = new Zend_Mail( 'utf-8' );
-          $mail->setSubject( 'Une nouvelle demande' );
-          $mail->setFrom( $this->_sys_email['address'], $this->_sys_email['name'] );
-          $mail->setBodyHtml( $this->view->render( 'shared/new_demande_mail.phtml' ) );
-          
-          $mail->addTo( $op['email_user'], $op['lastname_user'] );
-          
-          
-          $mail->send();
-        }
+        $data_string = json_encode( $data );
+        
+        
+        $ch = curl_init( '127.0.0.1:9090' );
+        curl_setopt( $ch, CURLOPT_POST, 1 );
+        curl_setopt( $ch, CURLOPT_POSTFIELDS, $data_string );
+        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, false );
+        curl_setopt( $ch, CURLOPT_HTTPHEADER, [
+          'Content-Type: application/json',
+          'Authorization: ' . md5( 'erratbi' ),
+          'Content-Length: ' . strlen( $data_string ),
+        ] );
+        
+        curl_exec( $ch );
+        
+        
+        echo '';
       }
     } catch ( Exception $e ) {
       die( $e->getMessage() );
