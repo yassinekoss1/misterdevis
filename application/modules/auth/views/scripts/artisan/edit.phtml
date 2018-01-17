@@ -28,6 +28,30 @@
 		margin-top: 20px;
 		height: 32px;
 	}
+	
+	.autocomplete-suggestion {
+		padding: 4px 8px;
+		cursor: pointer;
+		border-bottom: 1px solid #CCC;
+		-webkit-transition: background-color .4s;
+		-moz-transition: background-color .4s;
+		-ms-transition: background-color .4s;
+		-o-transition: background-color .4s;
+		transition: background-color .4s;
+	}
+	
+	.autocomplete-suggestion:nth-child(odd) {
+		background-color: #EEE;
+	}
+	
+	.autocomplete-suggestion:hover {
+		background-color: #DDD;
+	}
+	
+	.autocomplete-suggestion small {
+		display: block;
+		font-size: 12px;
+	}
 
 </style>
 <script type="text/javascript" src="<?= $this->baseUrl( 'resources_fo_ehcg/js/jquery.autocomplete.min.js' ); ?>"></script>
@@ -190,7 +214,7 @@
 								<h4 class="panel-title">
 									<a class="accordion-toggle" data-toggle="collapse" data-parent="#qualification-form" href="#address-info-collapse">
 										<i class="fa fa-file-text-o"></i>
-										Zones d'intervention</a>
+										Zones d'activité</a>
 								</h4>
 							</div>
 							<div id="address-info-collapse" class="panel-collapse collapse in">
@@ -305,6 +329,47 @@
 	$(document).ready(function () {
 		var email_artisan = $('#Artisan-email_artisan');
 		var login = $('#Artisan-login');
+		
+		var code_postal = $('#Artisan-code_postal');
+		var ville = $('#Artisan-ville');
+		
+		
+		code_postal.autoComplete({
+			minChars: 2,
+			delay: 500,
+			source: function (term, response) {
+				$.getJSON('/auth/index/cities/', {q: term}, function (data) {
+					response(data);
+				});
+			},
+			renderItem: function (item) {
+				return '<div class="autocomplete-suggestion" data-code="' + item.code + '"  data-ville="' + item.ville + '">' + item.ville + '<small>Code postal: ' + item.code + '</small></div>';
+			},
+			onSelect: function (e, term, item) {
+				code_postal.val(item.data('code'));
+				code_postal.parents('.form-group').removeClass('has-error');
+				ville.val(item.data('ville'));
+			}
+		});
+		
+		
+		ville.autoComplete({
+			minChars: 2,
+			delay: 500,
+			source: function (term, response) {
+				$.getJSON('/auth/index/cities/', {q: term}, function (data) {
+					response(data);
+				});
+			},
+			renderItem: function (item) {
+				return '<div class="autocomplete-suggestion" data-code="' + item.code + '"  data-ville="' + item.ville + '">' + item.ville + '<small>Code postal: ' + item.code + '</small></div>';
+			},
+			onSelect: function (e, term, item) {
+				ville.val(item.data('ville'));
+				ville.parents('.form-group').removeClass('has-error');
+				code_postal.val(item.data('code'));
+			}
+		});
 		
 		
 		if (email_artisan.hasClass('has-error')) {

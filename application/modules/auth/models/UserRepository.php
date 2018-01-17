@@ -31,6 +31,7 @@ class Auth_Model_UserRepository extends EntityRepository {
     $result = $this->findOneBy( [
       'login_user'    => (string) $data['login'],
       'password_user' => (string) hash( 'SHA256', $hash . $data['password'] ),
+      'isActive_user' => true,
     ] );
     
     

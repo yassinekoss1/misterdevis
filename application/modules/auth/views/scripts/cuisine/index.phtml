@@ -58,12 +58,12 @@
 							<tr>
 								<th>CLIENT</th>
 								<th>TITRE DEMANDE</th>
+								<th>QUALIFICATION</th>
 								<th>Publié Le</th>
 								<th>DATE CREATION</th>
 								<th>PUBLIE PAR</th>
 								<th>PUBLIER EN LIGNE</th>
 								<th>PRIX</th>
-								<th>CATEGORIE</th>
 								<th>VILLE</th>
 								<th>CODE POSTAL</th>
 								<th>ACTION</th>
@@ -83,6 +83,9 @@
 										<?= $demande['titre_demande']; ?>
 									</td>
 									<td>
+										<?= $demande['qualification']; ?>
+									</td>
+									<td>
 										<?= date( 'd/m/Y', strtotime( $demande['date_publication'] ) ) ?>
 									</td>
 									<td>
@@ -97,9 +100,6 @@
 									</td>
 									<td>
 										<?= $demande['prix_mise_en_ligne'] ?>
-									</td>
-									<td>
-										<?= $demande['categorie'] ?>
 									</td>
 									<td>
 										<?= $demande['ville'] ?>

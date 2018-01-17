@@ -46,9 +46,8 @@
 	
 	<div class="col-lg-3 col-sm-6 col-xs-12">
 		<div class="main-box infographic-box colored emerald-bg">
-			<a id="show-dossiers-pao" style="color: #fff; cursor: pointer;">
 				<i class="fa fa-files-o"></i>
-				<span class="headline">Piscine</span> <span class="value" id="total-all-dossiers"><?= $this->countpiscine; ?></span></a>
+				<span class="headline">Piscine</span> <span class="value" id="total-all-dossiers"><?= $this->countpiscine; ?></span>
 		</div>
 	</div>
 	
@@ -76,42 +75,60 @@
 	
 	<div class="col-lg-3 col-sm-6 col-xs-12">
 		<div class="main-box infographic-box">
-			<a style="color: #000; cursor: pointer;" href="#">
+			
 				<i class="fa fa-thumbs-o-up emerald-bg"></i>
 				<span class="headline">devis qualifié</span>
 				<span class="value"><span class="timer" data-from="30" data-to="658" data-speed="800" data-refresh-interval="30" id="total-all-batVal"><?= $this->countdevisqualifie; ?></span>
 				</span>
-			</a>
+			
 		</div>
 	</div>
 	<div class="col-lg-3 col-sm-6 col-xs-12">
 		<div class="main-box infographic-box">
-			<a style="color: #000; cursor: pointer;" href="#">
+			
 				<i class="fa fa-thumbs-down red-bg"></i>
 				<span class="headline">devis non qualifié</span>
 				<span class="value"><span class="timer" data-from="120" data-to="2562" data-speed="1000" data-refresh-interval="50" id="total-all-batRet"><?= $this->countdevisnonqualifie; ?></span>
 				</span>
-			</a>
+			
 		</div>
 	</div>
 	<div class="col-lg-3 col-sm-6 col-xs-12">
 		<div class="main-box infographic-box">
-			<a style="color: #000; cursor: pointer;" href="#">
+			
 				<i class="fa fa-check blue-bg"></i>
 				<span class="headline">devis NRP</span>
 				<span class="value"><span class="timer" data-from="83" data-to="8400" data-speed="900" data-refresh-interval="60" id="total-all-batTrt"><?= $this->countdevisnrp; ?></span>
 				</span>
-			</a>
+			
 		</div>
 	</div>
 	<div class="col-lg-3 col-sm-6 col-xs-12">
 		<div class="main-box infographic-box">
-			<a style="color: #000; cursor: pointer;" href="#">
+			
 				<i class="fa fa-share-square yellow-bg"></i>
 				<span class="headline">devis tardé</span>
 				<span class="value"><span class="timer" data-from="539" data-to="12526" data-speed="1100" id="total-all-batEnv"><?= $this->countdevistard; ?></span>
 				</span>
-			</a>
+			
 		</div>
 	</div>
+</div>
+
+<div class="row">
+	<?php foreach ($this->listusers as $user) : ?>
+		
+	
+	<div class="col-lg-3 col-sm-6 col-xs-12">
+		<div class="main-box infographic-box">
+				<i class="fa fa-thumbs-o-up emerald-bg"></i>
+				<span class="headline">Qualification(s) : <?= $user['firstname_user'];?></span>
+				<span class="value"><span class="timer" data-from="30" data-to="658" data-speed="800" data-refresh-interval="30" id="total-all-batVal"><?= $user['countuser']; ?></span>
+				</span>
+			
+		</div>
+	</div>
+
+<?php endforeach ; ?>
+	
 </div>

@@ -51,15 +51,15 @@ CREATE TABLE `artisan` (
   `HORAIRERDV` varchar(200) CHARACTER SET utf8 DEFAULT NULL,
   `DESCRIPTION` varchar(200) CHARACTER SET utf8 DEFAULT NULL,
   `QUALIFICATION` varchar(200) CHARACTER SET utf8 DEFAULT NULL,
-  `ADRESSE` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
+  `ADRESSE` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
   `ADRESSE2` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
   `CODE_POSTAL` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
   `VILLE` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `artisan` (`ID_ARTISAN`, `NOM_ARTISAN`, `PRENOM_ARTISAN`, `LOGIN`, `PASS`, `RAISON_SOCIALE`, `EMAIL_ARTISAN`, `TELEPHONE_FIXE`, `TELEPHONE_PORTABLE`, `FAX`, `RCS`, `SIRET`, `CODE_NAF`, `HORAIRERDV`, `DESCRIPTION`, `QUALIFICATION`, `ADRESSE`, `ADRESSE2`, `CODE_POSTAL`, `VILLE`) VALUES
-(10, 'Tesla', 'Nikola', 'erratbi', '49fb2fd3630355bc22647168c3df096ee1491f103983b028a2c252a712859bb2', 'Raison', 'yerratbi@gmail.com', '+33 01 23 45 67 89', '+33 01 23 45 67 89', 'FAX', 'RCS', 'SIRET', 'Code Naf', '16h-17h', '', 'Qualifié', 'Bushwick Brooklyn, NY', '', '71000', 'Paris'),
-(11, 'Buky', 'Barns', 'bucky', '49fb2fd3630355bc22647168c3df096ee1491f103983b028a2c252a712859bb2', 'Raison', 'filinzaghi@gmail.com', '+33 01 23 45 67 89', '+33 01 23 45 67 89', '', '', '', '', '', '', '', 'Bushwick Brooklyn, NY', '', '11207', '');
+(25, 'Tesla', 'Nikola', 'tesla2', '49fb2fd3630355bc22647168c3df096ee1491f103983b028a2c252a712859bb2', 'Raison', 'yerratbi@gmail.com', '+33 01 23 45 67 89', '+33 01 23 45 67 89', 'FAX', 'RCS', 'SIRET', 'Code Naf', '16h-17h', '', 'Qualifié', 'Bushwick Brooklyn, NY', '', '71000', 'Paris'),
+(26, 'holmes', 'mycroft', 'mycroft', '49fb2fd3630355bc22647168c3df096ee1491f103983b028a2c252a712859bb2', 'Test', 'email@gmail.com', '01 23 45 67 89', '01 23 45 67 89', '', '', '', '', '', '', '', '', '', '75003', 'PARIS-3E-ARRONDISSEMENT');
 
 DROP TABLE IF EXISTS `chantier`;
 CREATE TABLE `chantier` (
@@ -68,6 +68,15 @@ CREATE TABLE `chantier` (
   `ADRESSE` varchar(200) CHARACTER SET utf8 NOT NULL,
   `ADRESSE2` varchar(200) CHARACTER SET utf8 DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+INSERT INTO `chantier` (`ID_CHANTIER`, `ID_ZONE`, `ADRESSE`, `ADRESSE2`) VALUES
+(1, 39722, '433 stewart street', ''),
+(2, 39722, '433 STEWART STREET', ''),
+(3, 39722, '433 STEWART STREET', ''),
+(4, 39722, '433 STEWART STREET', ''),
+(5, 39722, '433 stewart street', ''),
+(6, 41035, 'fake adresse', ''),
+(7, 40594, '433 stewart street', '');
 
 DROP TABLE IF EXISTS `demande_devis`;
 CREATE TABLE `demande_devis` (
@@ -97,6 +106,14 @@ CREATE TABLE `demande_devis` (
   `PUBLIER_ENVOI` tinyint(1) DEFAULT '0',
   `VENDU` tinyint(1) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+INSERT INTO `demande_devis` (`ID_DEMANDE`, `ID_PARTICULIER`, `ID_ACTIVITE`, `ID_CHANTIER`, `ID_USER`, `TITRE_DEMANDE`, `DELAI_SOUHAITE`, `DESCRIPTION`, `TYPE_DEMANDEUR`, `TYPE_PROPRIETE`, `TYPE_BATIMENT`, `BUDGET_APPROXIMATIF`, `FINANCEMENT_PROJET`, `OBJECTIF_DEMANDE`, `PRESTATION_SOUHAITE`, `INDICATION_COMPLEMENTAIRE`, `QUALIFICATION`, `PRIX_MISE_EN_LIGNE`, `PRIX_PROMO`, `PUBLIER_EN_LIGNE`, `CHEMIN_PDF`, `DATE_CREATION`, `DATE_PUBLICATION`, `PUBLIER_ENVOI`, `VENDU`) VALUES
+(1, 1, 10, 1, 2, 'demande fenetre test 1', 'Dans moins de 2 mois', '', 'Industriel', 'Locataire', 'Bureau', '5000', 'Comptant', 'Autre', NULL, '', 'Qualifié', '30', '20', '1', NULL, '2018-01-13 22:28:47', '2018-01-15 15:50:34', 1, NULL),
+(2, 5, 10, 3, 2, 'Demande fenetre test 1', 'Dans moins de 2 mois', '', 'Industriel', 'Locataire', 'Bureau', '5000', 'Comptant', 'Autre', NULL, '', 'Qualifié', '30', '20', '1', NULL, '2018-01-13 22:41:40', '2018-01-13 22:41:40', 1, NULL),
+(3, 6, 11, 4, 2, 'Demande fenetre test 1', 'Dans moins de 2 mois', '', 'Industriel', 'Locataire', 'Bureau', '5000', 'Comptant', 'Autre', NULL, '', 'Qualifié', '30', '20', '1', NULL, '2018-01-13 22:41:50', '2018-01-13 22:41:50', 1, NULL),
+(4, 7, 10, 5, 2, 'demande fenetre test 1', 'Dans moins de 2 mois', '', 'Industriel', 'Locataire', 'Bureau', '5000', 'Comptant', 'Autre', NULL, '', 'Qualifié', '30', '20', '1', NULL, '2018-01-13 22:42:14', '2018-01-13 23:33:26', 1, NULL),
+(5, 8, 9, 6, 2, 'demande fenetre test 1', '', '', '', '', '', '', '', '', NULL, '', 'Qualifié', '30', '22', '1', NULL, '2018-01-15 15:20:00', '2018-01-17 15:56:34', 1, NULL),
+(6, 9, 16, 7, 2, 'demande fenetre test 1', 'Dans moins de 2 mois', '', 'Syndic de Copropriété', 'Futur Propriétaire', 'Bureau', '4000', 'Demande de crédit en cours', 'Avoir juste une idée des prix', 'Pose Uniquement', '', 'Qualifié', '30', '22', '1', NULL, '2018-01-15 15:23:05', '2018-01-17 15:07:10', 1, NULL);
 
 DROP TABLE IF EXISTS `departement`;
 CREATE TABLE `departement` (
@@ -214,13 +231,13 @@ CREATE TABLE `intervenir` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 INSERT INTO `intervenir` (`CODE_DEPARTEMENT`, `ID_ARTISAN`) VALUES
-('01', 11),
-('02', 11),
-('03', 11),
-('05', 10),
-('12', 10),
-('16', 10),
-('19', 10);
+('09', 26),
+('12', 25),
+('16', 25),
+('16', 26),
+('17', 26),
+('19', 25),
+('22', 25);
 
 DROP TABLE IF EXISTS `particulier`;
 CREATE TABLE `particulier` (
@@ -233,6 +250,17 @@ CREATE TABLE `particulier` (
   `EMAIL` varchar(200) CHARACTER SET utf8 NOT NULL,
   `HORAIRERDV` varchar(200) CHARACTER SET utf8 DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+INSERT INTO `particulier` (`ID_PARTICULIER`, `NOM_PARTICULIER`, `PRENOM_PARTICULIER`, `TELEPHONE_FIXE`, `TELEPHONE_PORTABLE`, `CIVILITE`, `EMAIL`, `HORAIRERDV`) VALUES
+(1, 'nicoles', 'nikky', '0123456789', '0123456789', 'M.', 'yerratbi@gmail.com', '12h-10h'),
+(2, 'Nicoles', 'Nikky', '0123456789', '0123456789', 'M.', 'yerratbi@gmail.com', '12h-10h'),
+(3, 'Nicoles', 'Nikky', '0123456789', '0123456789', 'M.', 'yerratbi@gmail.com', '12h-10h'),
+(4, 'Nicoles', 'Nikky', '0123456789', '0123456789', 'M.', 'yerratbi@gmail.com', '12h-10h'),
+(5, 'Nicoles', 'Nikky', '0123456789', '0123456789', 'M.', 'yerratbi@gmail.com', '12h-10h'),
+(6, 'Nicoles', 'Nikky', '0123456789', '0123456789', 'M.', 'yerratbi@gmail.com', '12h-10h'),
+(7, 'nicoles', 'nikky', '0123456789', '0123456789', 'M.', 'yerratbi@gmail.com', '12h-10h'),
+(8, 'castle', 'frank', '0123456789', '0123456789', 'M.', 'yer.ratbi@gmail.com', ''),
+(9, 'hutcherson', 'dara', '0123456789', '0123456789', 'M.', 'yerratbi@gmail.com', '');
 
 DROP TABLE IF EXISTS `qualif_alarme_incendie`;
 CREATE TABLE `qualif_alarme_incendie` (
@@ -271,6 +299,11 @@ CREATE TABLE `qualif_chauffage` (
   `TYPE_TRAVAUX` varchar(200) CHARACTER SET utf8 DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+INSERT INTO `qualif_chauffage` (`ID_QUALIF_CHAUFFAGE`, `ID_DEMANDE`, `TYPE_CHAUFFAGE`, `TYPE_INSTALLATION`, `CONDUITE_FUMEE`, `NBRE_ETAGE`, `SURFACE_TOTALE`, `HAUTEUR_SOUS_PLAFOND`, `TYPE_RADIATEUR`, `TYPE_DIFFUSION_CHALEUR`, `TYPE_ENERGIE`, `DISPOSE_JARDIN`, `TYPE_TRAVAUX`) VALUES
+(1, 1, 'Chauffage eau solaire', NULL, NULL, '2', '200', '2', NULL, 'Aquathermie (Eau)', NULL, NULL, 'Réparation'),
+(2, 3, 'Chauffage eau solaire', NULL, NULL, '2', '200', '2', NULL, 'Aquathermie (Eau)', NULL, NULL, 'Réparation'),
+(3, 4, 'Chauffage eau solaire', NULL, NULL, '2', '200', '2', NULL, 'Aquathermie (Eau)', NULL, NULL, 'Réparation');
+
 DROP TABLE IF EXISTS `qualif_climatisation`;
 CREATE TABLE `qualif_climatisation` (
   `ID_QUALIF_CLIMATISATION` bigint(20) NOT NULL,
@@ -281,6 +314,9 @@ CREATE TABLE `qualif_climatisation` (
   `ACCORD_COPROPRIETE` varchar(200) CHARACTER SET utf8 NOT NULL,
   `TYPE_TRAVAUX` varchar(200) CHARACTER SET utf8 DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+INSERT INTO `qualif_climatisation` (`ID_QUALIF_CLIMATISATION`, `ID_DEMANDE`, `NBRE_PIECE`, `SURFACE_CLIMATISER`, `HAUTEUR_PLAFOND`, `ACCORD_COPROPRIETE`, `TYPE_TRAVAUX`) VALUES
+(1, 6, '2', '', '2', 'Oui', 'Entretien/Maintenance');
 
 DROP TABLE IF EXISTS `qualif_cuisine`;
 CREATE TABLE `qualif_cuisine` (
@@ -337,6 +373,9 @@ CREATE TABLE `qualif_piscine` (
   `SECURITE_PISCINE` varchar(200) CHARACTER SET utf8 DEFAULT NULL,
   `TYPE_TRAVAUX` varchar(200) CHARACTER SET utf8 DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+INSERT INTO `qualif_piscine` (`ID_QUALIF_PISCINE`, `ID_DEMANDE`, `TYPE_PISCINE`, `DIMENSION`, `FORME_PISCINE`, `SECURITE_PISCINE`, `TYPE_TRAVAUX`) VALUES
+(1, 5, '', '', '', '', '');
 
 DROP TABLE IF EXISTS `qualif_porte_blindee`;
 CREATE TABLE `qualif_porte_blindee` (
@@ -404,12 +443,12 @@ CREATE TABLE `specialiste` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `specialiste` (`ID_ARTISAN`, `ID_ACTIVITE`) VALUES
-(10, 9),
-(10, 13),
-(11, 14),
-(10, 15),
-(11, 15),
-(11, 16);
+(26, 11),
+(25, 13),
+(26, 14),
+(25, 15),
+(26, 15),
+(25, 16);
 
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
@@ -37419,21 +37458,21 @@ ALTER TABLE `zone`
 ALTER TABLE `activite`
   MODIFY `ID_ACTIVITE` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 ALTER TABLE `artisan`
-  MODIFY `ID_ARTISAN` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `ID_ARTISAN` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 ALTER TABLE `chantier`
-  MODIFY `ID_CHANTIER` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID_CHANTIER` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 ALTER TABLE `demande_devis`
-  MODIFY `ID_DEMANDE` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID_DEMANDE` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 ALTER TABLE `particulier`
-  MODIFY `ID_PARTICULIER` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID_PARTICULIER` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 ALTER TABLE `qualif_alarme_incendie`
   MODIFY `ID_QUALIF_INCENDIE` bigint(20) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `qualif_alarme_maison`
   MODIFY `ID_QUALIF_MAISON` bigint(20) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `qualif_chauffage`
-  MODIFY `ID_QUALIF_CHAUFFAGE` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID_QUALIF_CHAUFFAGE` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 ALTER TABLE `qualif_climatisation`
-  MODIFY `ID_QUALIF_CLIMATISATION` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID_QUALIF_CLIMATISATION` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 ALTER TABLE `qualif_cuisine`
   MODIFY `ID_QUALIF_CUISINE` bigint(20) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `qualif_demenagement`
@@ -37441,7 +37480,7 @@ ALTER TABLE `qualif_demenagement`
 ALTER TABLE `qualif_fenetre`
   MODIFY `ID_QUALIF_FENETRE` bigint(20) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `qualif_piscine`
-  MODIFY `ID_QUALIF_PISCINE` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID_QUALIF_PISCINE` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 ALTER TABLE `qualif_porte_blindee`
   MODIFY `ID_QUALIF_PORTE_BLINDEE` bigint(20) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `qualif_salle_bain`

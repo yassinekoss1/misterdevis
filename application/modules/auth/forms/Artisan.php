@@ -71,7 +71,7 @@ class Auth_Form_Artisan extends Auth_Form_Base {
     
     // pass2
     $pass2 = new Zend_Form_Element_Password( 'pass2' );
-    $pass2->setLabel( 'Cofirmer le mot de passe' )
+    $pass2->setLabel( 'Confirmer le mot de passe' )
           ->setBelongsTo( 'Artisan' )
           ->addFilters( $default_filters );
     

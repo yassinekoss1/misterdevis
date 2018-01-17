@@ -45,7 +45,9 @@ class Auth_DashboardController extends Zend_Controller_Action {
     $countvenducarte           = $em->getRepository( 'Auth_Model_Demandedevis' )->countBy( [ 'payement' => 'cart' ] );
     $countvenduvirementvalide  = $em->getRepository( 'Auth_Model_Demandedevis' )->countBy( [ 'payement' => 'virement', 'sold' => true ] );
     $countvenduvirementencours = $em->getRepository( 'Auth_Model_Demandedevis' )->countBy( [ 'payement' => 'virement', 'sold' => false ] );
-    
+
+
+    $listusers = $em->getRepository( 'Auth_Model_Demandedevis' )->getListUsers( );
     
     $this->view->countpiscine              = $countpiscine;
     $this->view->countchauffage            = $countchauffage;
@@ -59,6 +61,7 @@ class Auth_DashboardController extends Zend_Controller_Action {
     $this->view->countvenducarte           = $countvenducarte;
     $this->view->countvenduvirementvalide  = $countvenduvirementvalide;
     $this->view->countvenduvirementencours = $countvenduvirementencours;
+    $this->view->listusers                 = $listusers;
   }
   
   public function virementAction() {
@@ -213,7 +216,7 @@ class Auth_DashboardController extends Zend_Controller_Action {
     $filename = "pdf/factures/FAC-{$ref}.pdf";
     
     // Initializing the pdf object
-    $pdf = new Auth_Controller_Helper_MyPdf( 'P', 'mm', 'A4', true, 'UTF-8', false );
+    $pdf = new Auth_Controller_Helper_MyPdf2( 'P', 'mm', 'A4', true, 'UTF-8', false );
     
     
     // Set document info

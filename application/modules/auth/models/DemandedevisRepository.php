@@ -44,38 +44,38 @@ class Auth_Model_DemandedevisRepository extends EntityRepository {
     $q4 = $this->_em->createQueryBuilder();
     
     return $q->where(
+      $q->expr()->notIn(
+        'd.id_demande',
+        $q2->select( 'ach.id_demande' )
+           ->from( 'Auth_Model_Acheter', 'ach' )
+           ->where( "ach.id_artisan = '{$artisan->id_artisan}'" )
+           ->getDQL()
+      )
+    )
+             ->andWhere(
                $q->expr()->notIn(
                  'd.id_demande',
-                 $q2->select( 'ach.id_demande' )
-                    ->from( 'Auth_Model_Acheter', 'ach' )
-                    ->where( "ach.id_artisan = '{$artisan->id_artisan}'" )
+                 $q3->select( 'ach2.id_demande' )
+                    ->from( 'Auth_Model_Acheter', 'ach2' )
+                    ->groupBy( 'ach2.id_demande' )
+                    ->having( 'COUNT(ach2.id_demande) >= 5' )
                     ->getDQL()
                )
              )
-              ->andWhere(
-                         $q->expr()->notIn(
-                           'd.id_demande',
-                           $q3->select( 'ach2.id_demande' )
-                              ->from( 'Auth_Model_Acheter', 'ach2' )
-                              ->groupBy( 'ach2.id_demande' )
-                              ->having( 'COUNT(ach2.id_demande) >= 5' )
-                              ->getDQL()
-                         )
-              )
              ->andWhere(
-                $q->expr()->in(
-                  'd.id_chantier',
-                  $q4->select('ch.id_chantier')
-                     ->from('Auth_Model_Chantier', 'ch')
-                     ->innerJoin('ch.id_zone','z')
-                     ->where("z.code_departement IN (:departements)")
-                     ->setParameter('departements',$departements)
-
-                )
+               $q->expr()->in(
+                 'd.id_chantier',
+                 $q4->select( 'ch.id_chantier' )
+                    ->from( 'Auth_Model_Chantier', 'ch' )
+                    ->innerJoin( 'ch.zone', 'z' )
+                    ->where( "z.code_departement IN (:departements)" )
+                    ->getDQL()
+      
+               )
              )
              ->andWhere( 'd.publier_en_ligne = 1' )
              ->andWhere( 'd.id_activite IN (:type)' )
-             ->setParameter( 'type', $specialities )
+             ->setParameters( [ 'departements' => $departements, 'type' => $specialities ] )
              ->getQuery()
              ->getResult();
   }
@@ -170,5 +170,20 @@ class Auth_Model_DemandedevisRepository extends EntityRepository {
       
       return 0;
     }
+  }
+  
+  public function getListUsers() {
+    
+    $q = $this->_em->createQueryBuilder();
+    $q->from( $this->_entityName, 'd' )
+      ->join( 'd.id_user', 'u' )
+      ->select( 'u.firstname_user,u.lastname_user,count(d.id_demande) as countuser' )
+      ->groupBy( 'd.id_user' );
+    
+    
+    $query = $q->getQuery();
+    
+    return $query->getResult();
+    
   }
 }
