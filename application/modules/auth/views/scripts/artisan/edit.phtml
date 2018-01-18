@@ -44,6 +44,43 @@
 		background-color: #EEE;
 	}
 	
+	.selectize-option {
+		border-bottom: 1px solid #DDD;
+	}
+	
+	.selectize-option:last-child {
+		border-bottom: none
+	}
+	
+	.selectize-control::before {
+		-moz-transition: opacity 0.2s;
+		-webkit-transition: opacity 0.2s;
+		transition: opacity 0.2s;
+		content: ' ';
+		z-index: 2;
+		position: absolute;
+		display: block;
+		top: 67%;
+		right: 34px;
+		width: 16px;
+		height: 16px;
+		margin: -8px 0 0 0;
+		background: url(<?= $this->baseUrl( 'resources_fo_ehcg/img/spinner.gif'); ?>);
+		background-size: 16px 16px;
+		opacity: 0;
+	}
+	
+	.selectize-control.loading::before {
+		opacity: 0.4;
+	}
+	
+	.selectize-control.multi .selectize-input > div {
+		background-color: #1b9cdc;
+		color: white;
+		padding: 3px 10px;
+		margin: 0 5px 5px 0;
+	}
+	
 	.autocomplete-suggestion:hover {
 		background-color: #DDD;
 	}
@@ -227,43 +264,20 @@
 														<input type="radio" checked name="geolocalisation">
 														Par departement
 													</label>
-													<?php if ( $this->data['Artisan']['select_departement'] ): ?>
-														
-														<?php foreach ( $this->data['Artisan']['select_departement'] as $departement ): ?>
-															<div class="departement-item">
-																<div class="col-sm-11">
-																	<?= $this->form->form_artisan->select_departement
-																		->setLabel( null )
-																		->setValue( $departement ); ?>
-																</div>
-																<div class="col-sm-1">
-																	<a href="javascript:void(0)" class="btn btn-danger remove-list-departements">&times;</a>
-																</div>
-															</div>
-														<?php endforeach; ?>
-													
-													<?php elseif ( $this->artisan ): ?>
-														
-														<?php foreach ( $this->artisan->departements as $departement ): ?>
-															<div class="departement-item">
-																<div class="col-sm-11">
-																	<?= $this->form->form_artisan->select_departement
-																		->setLabel( null )
-																		->setValue( $departement->code_departement ); ?>
-																</div>
-																<div class="col-sm-1">
-																	<a href="javascript:void(0)" class="btn btn-danger remove-list-departements">&times;</a>
-																</div>
-															</div>
-														<?php endforeach; ?>
-													
-													<?php endif; ?>
-													<div id="extra-departements"></div>
-													<div class="col-sm-11">
-														<?= $this->form->form_artisan->select_departement->setLabel( null )->setValue( '' ); ?>
-													</div>
-													<div class="col-sm-1">
-														<a id="new-departement-btn" class="btn btn-primary">&plus;</a>
+													<div class="form-group" style="position: relative;">
+														<select id="departemnts" class="form-control" multiple name="departements[]">
+															<?php if ( $this->data['Artisan']['select_departement'] ): ?>
+																
+																<?php foreach ( $this->data['Artisan']['select_departement'] as $departement ): ?>
+																	<option value="<?= $departement['code_departement']; ?>" selected><?= $departement['nom_departement']; ?></option>
+																<?php endforeach; ?>
+															
+															<?php elseif ( $this->artisan ): ?>
+																
+																<?php foreach ( $this->artisan->departements as $departement ): ?>
+																	<option value="<?= $departement->code_departement; ?>" selected><?= $departement->nom_departement ?></option>
+																<?php endforeach; ?><?php endif; ?>
+														</select>
 													</div>
 												</div>
 											</div>
@@ -333,6 +347,44 @@
 		var code_postal = $('#Artisan-code_postal');
 		var ville = $('#Artisan-ville');
 		
+		
+		$('#departemnts').selectize({
+			valueField: 'code_departement',
+			labelField: 'nom_departement',
+			searchField: ['nom_departement', 'code_departement'],
+			sortField: 'nom_departement',
+			create: false,
+			render: {
+				option: function (item, escape) {
+					return '<div class="selectize-option"><span class="name">' + item.code_departement + ' - ' + item.nom_departement + '</span></div>'
+				},
+				item: function (item, escape) {
+					return '<div class="selectize-option"><span class="name">' + item.code_departement + ' - ' + item.nom_departement + '</span></div>'
+				}
+			},
+			closeAfterSelect: true,
+			hideSelected: true,
+			openOnFocus: false,
+			selectOnTab: true,
+			load: function (query, callback) {
+				if (!query.length) return callback();
+				$.ajax({
+					url: '/auth/artisan/list-departements',
+					data: {
+						q: encodeURIComponent(query)
+					},
+					dataType: 'json',
+					type: 'GET',
+					error: function () {
+						callback();
+					},
+					success: function (res) {
+						console.log(res);
+						callback(res.results.slice(0, 10));
+					}
+				});
+			}
+		});
 		
 		code_postal.autoComplete({
 			minChars: 2,
@@ -443,25 +495,25 @@
 			});
 		}).change();
 		
-		$('#new-departement-btn').on('click', function () {
-			var url = '/auth/artisan/new-departement';
-			$.ajax({
-				url: url,
-				method: 'GET',
-				dataType: 'json',
-				success: function (data) {
-					if (data.error === 0)
-						$('#extra-departements').append(data.html);
-				}
-			});
-		}).change();
+		// $('#new-departement-btn').on('click', function () {
+		// 	var url = '/auth/artisan/new-departement';
+		// 	$.ajax({
+		// 		url: url,
+		// 		method: 'GET',
+		// 		dataType: 'json',
+		// 		success: function (data) {
+		// 			if (data.error === 0)
+		// 				$('#extra-departements').append(data.html);
+		// 		}
+		// 	});
+		// }).change();
 		
 		$(document).on('click', '.remove-list-activites', function () {
 			$(this).parents('.activite-item').remove();
 		});
 		
-		$(document).on('click', '.remove-list-departements', function () {
-			$(this).parents('.departement-item').remove();
-		});
+		// $(document).on('click', '.remove-list-departements', function () {
+		// 	$(this).parents('.departement-item').remove();
+		// });
 	});
 </script>

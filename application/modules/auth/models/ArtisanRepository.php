@@ -14,10 +14,10 @@ class Auth_Model_ArtisanRepository extends EntityRepository {
     return $this->createQueryBuilder( 'a' )
                 ->innerJoin( 'a.activites', 'ac' )
                 ->innerJoin( 'a.departements', 'dep' )
-                ->where( 'dep.code_departement = :dep')
+                ->where( 'dep.code_departement = :dep' )
                 ->andWhere( 'ac.id_activite = :activite' )
                 ->setParameters( [
-                  'dep'     => $departement,
+                  'dep'      => $departement,
                   'activite' => $activite,
                 ] )
                 ->getQuery()
@@ -80,7 +80,7 @@ class Auth_Model_ArtisanRepository extends EntityRepository {
     
     $this->deleteDepartements( $id );
     
-    $departements = $data['Artisan']['select_departement'];
+    $departements = $data['departements'];
     
     foreach ( $departements as $item ) {
       $departement = $this->_em->getRepository( 'Auth_Model_Departement' )->find( $item );
