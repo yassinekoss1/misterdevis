@@ -122,7 +122,6 @@ const sendOpMail = async ({email_user, firstname_user}, url, ref) => {
 };
 
 app.get('/', (req, res) => {
-	console.log('ok');
 	return res.status(403).send('<h1 style="font-size:46px; text-align: center">403 Forbidden</h1><hr />');
 });
 
