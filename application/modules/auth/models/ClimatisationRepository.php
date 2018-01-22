@@ -146,6 +146,11 @@ class Auth_Model_ClimatisationRepository extends EntityRepository {
     $this->_em->persist( $demande );
     $this->_em->flush();
     
+    $demande->saveAudio( $data['file'] );
+    
+    $this->_em->persist( $demande );
+    $this->_em->flush();
+    
     // Attaching the qualification to the demande
     $qualification->setId_demande( $demande );
     

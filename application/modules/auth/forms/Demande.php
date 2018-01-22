@@ -233,6 +233,7 @@ class Auth_Form_Demande extends Auth_Form_Base {
     
     $audio_file = new Zend_Form_Element_File( 'audio_file' );
     $audio_file->setLabel( 'Conversation audio' )
+               ->setAttrib( 'accept', 'audio/wav, audio/x-wav, audio/mpeg, application/ogg' )
                ->setBelongsTo( 'Demande' );
     
     

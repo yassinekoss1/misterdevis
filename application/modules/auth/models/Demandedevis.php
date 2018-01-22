@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityRepository;
  *
  * @Table(name="demande_devis")
  * @Entity(repositoryClass="Auth_Model_DemandedevisRepository")
+ *
  */
 class Auth_Model_Demandedevis {
   
@@ -136,11 +137,11 @@ class Auth_Model_Demandedevis {
   private $publier_envoi;
   
   /**
-   * @var string $chemin_pdf
+   * @var string $audio
    *
-   * @Column(name="CHEMIN_PDF", type="string", length=200,  nullable=false)
+   * @Column(name="AUDIO", type="string", length=200,  nullable=false)
    */
-  private $chemin_pdf;
+  private $audio;
   
   /**
    * @var string $date_creation
@@ -397,11 +398,11 @@ class Auth_Model_Demandedevis {
   
   
   /**
-   * @return the $chemin_pdf
+   * @return the $audio
    */
-  public function getChemin_pdf() {
+  public function getAudio() {
     
-    return $this->chemin_pdf;
+    return $this->audio;
   }
   
   
@@ -622,11 +623,11 @@ class Auth_Model_Demandedevis {
   
   
   /**
-   * @param string $chemin_pdf
+   * @param string $audio
    */
-  public function setChemin_pdf( $chemin_pdf ) {
+  public function setAudio( $audio ) {
     
-    $this->chemin_pdf = $chemin_pdf;
+    $this->audio = $audio;
   }
   
   
@@ -767,15 +768,62 @@ class Auth_Model_Demandedevis {
     }
     
     return $type;
+  }
+  
+  
+  public function saveAudio( $file ) {
     
+    $config = new Zend_Config_Ini( APPLICATION_PATH . '/configs/application.ini', APPLICATION_ENV );
+    $ftp    = $config->system->audio->ftp;
     
+    if ( isset( $file['tmp_name'] ) ) {
+      if ( ! in_array( $file['type'], [ 'audio/wav', 'audio/x-wav', 'audio/mpeg', 'application/ogg' ] ) ) {
+        return null;
+      }
+      
+      if ( $file['error'] !== 0 ) {
+        return null;
+      }
+      
+      
+      $source = "/tmp/{$this->getRef()}.mp3";
+      $remote = "/audio/{$this->getRef()}.mp3";
+      
+      exec( "ffmpeg -i {$file['tmp_name']} -ar 44100 -ac 2 -ab 64k -f mp3 {$source}" );
+      
+      
+      if ( ! file_exists( $source ) ) {
+        return null;
+      }
+      
+      $conn = ftp_connect( $ftp->host );
+      
+      $login = ftp_login( $conn, $ftp->user, $ftp->pass );
+      
+      if ( ! $conn || ! $login ) {
+        return null;
+      }
+      
+      ftp_pasv( $conn, true );
+      if ( ! ftp_put( $conn, $remote, $source, FTP_BINARY ) ) {
+        return null;
+      }
+      
+      unlink( $source );
+      
+      $this->setAudio( $remote );
+      
+      return $this;
+    }
+    
+    return null;
   }
   
   public function getRef() {
     
     $type = $this->getType();
     
-    return ( $type ? "{$type}-" : "" ) . str_pad( $this->getId_demande(), 6, '0', STR_PAD_LEFT );
+    return ( $type ? "{$type}-" : "" ) . ( 13728 + $this->getId_demande() );
   }
   
   public function getLibelle() {
@@ -805,7 +853,5 @@ class Auth_Model_Demandedevis {
     $protocol = strtolower( substr( $_SERVER["SERVER_PROTOCOL"], 0, strpos( $_SERVER["SERVER_PROTOCOL"], '/' ) ) ) . '://';
     
     return "{$protocol}{$baseUrl}/pdf/{$this->getRef()}.pdf";
-    
-    
   }
 }

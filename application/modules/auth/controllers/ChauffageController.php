@@ -221,10 +221,18 @@ class Auth_ChauffageController extends Zend_Controller_Action {
     
     // Proccess the posted data;
     if ( $this->getRequest()->isPost() ) {
+      
       $data = $this->getRequest()->getPost();
+      
       $zone = $em->getRepository( 'Auth_Model_Zone' )->findOneBy( [ 'code' => $data['Chantier']['code_postal'] ] );
       
       $valid = $form->isValid( $data );
+      
+      if ( isset( $_FILES['audio_file'] ) && $_FILES['audio_file']['type'] && ! in_array( $_FILES['audio_file']['type'], [ 'audio/wav', 'audio/x-wav', 'audio/mpeg', 'application/ogg' ] ) ) {
+        $valid = false;
+        $form->form_demande->audio_file->setErrors( [ "Ce type de fichier n'est pas autorisé" ] );
+      }
+      
       
       if ( ! $zone ) {
         $form->form_chantier->code_postal->setAttribs( [ 'class' => 'has-error' ] );
@@ -245,6 +253,10 @@ class Auth_ChauffageController extends Zend_Controller_Action {
         
         // Fetching the current user id
         $data['id_user'] = unserialize( Zend_Auth::getInstance()->getIdentity() )->id_user;
+        
+        
+        // Set the file if there is any
+        $data['file'] = $_FILES['audio_file'];
         
         // Save the qualification
         $qualification = $em->getRepository( $this->model_name )->save( $id, $data );
