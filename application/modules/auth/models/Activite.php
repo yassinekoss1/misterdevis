@@ -29,6 +29,13 @@ class Auth_Model_Activite {
   private $libelle;
   
   /**
+   * @var string $ref
+   *
+   * @Column(name="REF", type="string", length=5, nullable=false)
+   */
+  private $ref;
+  
+  /**
    * @var integer $group
    *
    * @Column(name="GROUP", type="integer", length=2, nullable=false)
@@ -106,6 +113,15 @@ class Auth_Model_Activite {
   
   
   /**
+   * @return the $ref
+   */
+  public function getRef() {
+    
+    return $this->ref;
+  }
+  
+  
+  /**
    * @return the $group
    */
   public function getGroup() {
@@ -129,6 +145,15 @@ class Auth_Model_Activite {
   public function setLibelle( $libelle ) {
     
     $this->libelle = $libelle;
+  }
+  
+  
+  /**
+   * @param string $ref
+   */
+  public function setRef( $ref ) {
+    
+    $this->libelle = $ref;
   }
   
   

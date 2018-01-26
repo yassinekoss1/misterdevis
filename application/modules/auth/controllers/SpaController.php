@@ -43,7 +43,7 @@ class Auth_SpaController extends Zend_Controller_Action {
     $this->_helper->layout->setLayout( 'layout_fo_ehcg' );
     $em = $this->getRequest()->_em;
     
-    $this->view->demandes = $em->getRepository( $this->model_name )->getList();
+    $this->view->demandes = $em->getRepository( 'Auth_Model_Spa' )->getList();
   }
   
   
@@ -56,7 +56,7 @@ class Auth_SpaController extends Zend_Controller_Action {
     
     // Getting the initial counts
     $lastCount         = $this->getRequest()->getParam( 'count' ) ? (int) $this->getRequest()->getParam( 'count' ) : - 1;
-    $this->view->count = (int) $this->getRequest()->_em->getRepository( $this->model_name )->getNotifications( true );
+    $this->view->count = (int) $this->getRequest()->_em->getRepository( 'Auth_Model_Spa' )->getNotifications( true );
     
     
     // Checcking if there is a change
@@ -65,16 +65,16 @@ class Auth_SpaController extends Zend_Controller_Action {
       usleep( 5000 );
       clearstatcache();
       session_write_close();
-      $this->view->count = (int) $this->getRequest()->_em->getRepository( $this->model_name )->getNotifications( true );
+      $this->view->count = (int) $this->getRequest()->_em->getRepository( 'Auth_Model_Spa' )->getNotifications( true );
     }
     
     // Fetching the new demandes
-    $this->view->notifications = $this->getRequest()->_em->getRepository( $this->model_name )->getNotifications();
+    $this->view->notifications = $this->getRequest()->_em->getRepository( 'Auth_Model_Spa' )->getNotifications();
     
     // Preparing data to send back
     $data = [
       'count' => $this->view->count,
-      'html'  => $this->view->render( "{$this->slug}/notification.phtml" ),
+      'html'  => $this->view->render( "spa/notification.phtml" ),
     ];
     
     // Changing the response header content type to json
@@ -167,7 +167,7 @@ class Auth_SpaController extends Zend_Controller_Action {
     $form = new Zend_Form();
     $form->addSubForms( [
       'form_demande'     => new Auth_Form_Demande,
-      'form_qualif'      => new $this->form_name,
+      'form_qualif'      => new Auth_Form_Spa,
       'form_chantier'    => new Auth_Form_Chantier,
       'form_particulier' => new Auth_Form_Particulier,
     ] );
@@ -194,7 +194,7 @@ class Auth_SpaController extends Zend_Controller_Action {
     $demande = $em->getRepository( 'Auth_Model_Demandedevis' )->find( $id );
     if ( ! $demande ) {
       $demande  = new Auth_Model_Demandedevis;
-      $activite = $em->getRepository( 'Auth_Model_Activite' )->findOneBy( [ 'libelle' => $this->type ] );
+      $activite = $em->getRepository( 'Auth_Model_Activite' )->findOneBy( [ 'libelle' => 'SPA' ] );
       $demande->setId_activite( $activite );
     }
     
@@ -203,7 +203,7 @@ class Auth_SpaController extends Zend_Controller_Action {
     $form = new Zend_Form();
     $form->addSubForms( [
       'form_demande'     => new Auth_Form_Demande,
-      'form_qualif'      => new $this->form_name,
+      'form_qualif'      => new Auth_Form_Spa,
       'form_chantier'    => new Auth_Form_Chantier,
       'form_particulier' => new Auth_Form_Particulier,
     ] );
@@ -211,13 +211,13 @@ class Auth_SpaController extends Zend_Controller_Action {
     $form->form_chantier->code_postal->setAttrib( 'autocomplete', 'off' );
     
     // Load qualification
-    $qualification = $em->getRepository( $this->model_name )->findOneBy( [ 'id_demande' => $id ] );
+    $qualification = $em->getRepository( 'Auth_Model_Spa' )->findOneBy( [ 'id_demande' => $id ] );
     
     $form->setDefaults( [
       'Demande'     => $demande ? $demande->toArray() : null,
       'Particulier' => $demande->id_particulier ? $demande->id_particulier->toArray() : null,
       'Chantier'    => $demande->id_chantier ? $demande->id_chantier->toArray() : null,
-      $this->name   => $qualification ? $qualification->toArray() : null,
+      'Spa'   => $qualification ? $qualification->toArray() : null,
     ] );
     
     $form->form_chantier->setDefaults( [ 'code_postal' => $demande->id_chantier->zone->code ] );
@@ -260,7 +260,7 @@ class Auth_SpaController extends Zend_Controller_Action {
         $data['file'] = $_FILES['audio_file'];
         
         // Save the qualification
-        $qualification = $em->getRepository( $this->model_name )->save( $id, $data );
+        $qualification = $em->getRepository( 'Auth_Model_Spa' )->save( $id, $data );
         
         if ( $qualification ) {
           if ( $sendEmail ) {
@@ -284,7 +284,7 @@ class Auth_SpaController extends Zend_Controller_Action {
         
         
         $_SESSION['flash'] = "La mise à jour a été effectuée avec success";
-        $this->getResponse()->setRedirect( "/auth/{$this->slug}" );
+        $this->getResponse()->setRedirect( "/auth/spa" );
         
       } else // If the form is not valid keep the data provided by the user
       

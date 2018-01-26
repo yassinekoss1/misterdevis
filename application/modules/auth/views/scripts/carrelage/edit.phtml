@@ -53,7 +53,7 @@
 									Tableau de bord</a></li>
 							<li><a class="current" style="cursor: pointer;">
 									<i class="fa fa-files-o"></i>
-									Qualification Cuisine</a>
+									Qualification Carrelage</a>
 							</li>
 						</ul>
 					</div>
@@ -61,7 +61,7 @@
 				<!-- end breadcumbs -->
 			</header>
 			<div class="main-box-body clearfix">
-				<form action="/auth/cuisine/edit/id/<?= $this->id; ?>" method="POST" class="must-validate" novalidate enctype="multipart/form-data">
+				<form action="/auth/carrelage/edit/id/<?= $this->id; ?>" method="POST" class="must-validate" novalidate enctype="multipart/form-data">
 					
 					<div class="panel-group accordion" id="qualification-form">
 						<div class="panel panel-default">
@@ -178,23 +178,16 @@
 										<?= $this->form->form_demande->type_demandeur; ?>
 										<?= $this->form->form_demande->objectif_demande; ?>
 										<?= $this->form->form_qualif->type_travaux; ?>
-										<?= $this->form->form_qualif->type_cuisine; ?>
-										<?= $this->form->form_qualif->surface_au_sol_cuisine; ?>
-										<?= $this->form->form_qualif->depose_ancienne_cuisine; ?>
-										<?= $this->form->form_qualif->style_futur_cuisine; ?>
-										<?= $this->form->form_qualif->equipement_electromenager; ?>
+										<?= $this->form->form_qualif->surface_totale; ?>
+										<?= $this->form->form_qualif->enlevement_revetement; ?>
+										<?= $this->form->form_qualif->nbre_piece; ?>
+
 										<?= $this->form->form_demande->budget_approximatif; ?>
 										<?= $this->form->form_demande->indication_complementaire; ?>
 									</div>
 									<div class="col-md-6">
 										<?= $this->form->form_demande->type_propriete; ?>
 										<?= $this->form->form_demande->type_batiment; ?>
-										<?= $this->form->form_qualif->travaux_electricite; ?>
-										<?= $this->form->form_qualif->travaux_revetement_sol; ?>
-										<?= $this->form->form_qualif->travaux_peinture; ?>
-										<?= $this->form->form_qualif->travaux_plomberie; ?>
-										<?= $this->form->form_qualif->niveau_gamme_souhaite; ?>
-										<?= $this->form->form_qualif->hauteur_sous_plafond; ?>
 										<?= $this->form->form_demande->financement_projet; ?>
 										<?= $this->form->form_demande->qualification; ?>
 									</div>

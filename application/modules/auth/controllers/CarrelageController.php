@@ -2,12 +2,12 @@
 
 
 /**
- * Class Auth_ClimatisationController
+ * Class Auth_CarrelageController
  *
  * @authors  Youssef Erratbi <yerratbi@gmail.com>  - Aziz Idmansour <aziz.idmansour@gmail.com>
  * @date     23/12/17
- * Ce controlleur est responsable sur la gestion de l'activité climatisation,
- * il permet de lister les demande de devis concernant la climatisation avec l'action indexAction,
+ * Ce controlleur est responsable sur la gestion de l'activité cuisine,
+ * il permet de lister les demande de devis concernant la cuisine avec l'action indexAction,
  * d'ajouter une nouvelle de demande de devis avec l'action addAction et de
  * modifier une demande de devis existante avec l'action editAction.
  * d'afficher les notifications qui sont venues des mini sites par l'action notificationAction.
@@ -20,20 +20,21 @@
  * est crée et stocké dans le serveur, et il peut être consulter par l'operateur en appelant l'action pdfAction,
  * aussi il sera envoyé par email à l'artisan si ce dernier a acheté cette demande (Cela est géré dans le controlleur ApiController).
  */
-class Auth_ClimatisationController extends Zend_Controller_Action {
+class Auth_CarrelageController extends Zend_Controller_Action {
   
   private $_sys_email;
-  private $type       = 'CLIMATISATION';
-  private $slug       = 'climatisation';
-  private $name       = 'Climatisation';
-  private $form_name  = 'Auth_Form_Climatisation';
-  private $model_name = 'Auth_Model_Climatisation';
+  private $type       = 'CAR';
+  private $slug       = 'carrelage';
+  private $name       = 'Carrelage';
+  private $form_name  = 'Auth_Form_Carrelage';
+  private $model_name = 'Auth_Model_Carrelage';
   
   
   public function init() {
     
     $config           = new Zend_Config_Ini( APPLICATION_PATH . '/configs/application.ini', APPLICATION_ENV );
     $this->_sys_email = $config->system->email->toArray();
+
   }
   
   
@@ -43,7 +44,7 @@ class Auth_ClimatisationController extends Zend_Controller_Action {
     $this->_helper->layout->setLayout( 'layout_fo_ehcg' );
     $em = $this->getRequest()->_em;
     
-    $this->view->demandes = $em->getRepository( 'Auth_Model_Climatisation' )->getList();
+    $this->view->demandes = $em->getRepository( $this->model_name )->getList();
   }
   
   
@@ -56,7 +57,7 @@ class Auth_ClimatisationController extends Zend_Controller_Action {
     
     // Getting the initial counts
     $lastCount         = $this->getRequest()->getParam( 'count' ) ? (int) $this->getRequest()->getParam( 'count' ) : - 1;
-    $this->view->count = (int) $this->getRequest()->_em->getRepository( 'Auth_Model_Climatisation' )->getNotifications( true );
+    $this->view->count = (int) $this->getRequest()->_em->getRepository( $this->model_name )->getNotifications( true );
     
     
     // Checcking if there is a change
@@ -65,16 +66,16 @@ class Auth_ClimatisationController extends Zend_Controller_Action {
       usleep( 5000 );
       clearstatcache();
       session_write_close();
-      $this->view->count = (int) $this->getRequest()->_em->getRepository( 'Auth_Model_Climatisation' )->getNotifications( true );
+      $this->view->count = (int) $this->getRequest()->_em->getRepository( $this->model_name )->getNotifications( true );
     }
     
     // Fetching the new demandes
-    $this->view->notifications = $this->getRequest()->_em->getRepository( 'Auth_Model_Climatisation' )->getNotifications();
+    $this->view->notifications = $this->getRequest()->_em->getRepository( $this->model_name )->getNotifications();
     
     // Preparing data to send back
     $data = [
       'count' => $this->view->count,
-      'html'  => $this->view->render( "climatisation/notification.phtml" ),
+      'html'  => $this->view->render( "{$this->slug}/notification.phtml" ),
     ];
     
     // Changing the response header content type to json
@@ -97,7 +98,7 @@ class Auth_ClimatisationController extends Zend_Controller_Action {
       $demande->getId_chantier()->getZone()->getCode_departement()
     );
     
-    //Envoi SMS
+    //Envoi SMS :
     
     $this->sendSMSNotification( $artisans, $demande->getRef() );
     
@@ -134,7 +135,7 @@ class Auth_ClimatisationController extends Zend_Controller_Action {
     
     $sms = new smsenvoi();
     
-    $content = "Bonjour, 1 nouveau chantier, pour l'installation d'une Climatisation : " . $ref . ", est disponible près de chez vous. Vous avez reçu 1 mail et vous pouvez maintenant le découvrir sur www.mister-devis.com.";
+    $content = "Bonjour, 1 nouveau chantier, pour l'installation Carrelage : " . $ref . ", est disponible près de chez vous. Vous avez reçu 1 mail et vous pouvez maintenant le découvrir sur www.mister-devis.com.";
     
     foreach ( $artisans as $artisan ) {
       
@@ -157,7 +158,6 @@ class Auth_ClimatisationController extends Zend_Controller_Action {
     
   }
   
-  
   public function addAction() {
     
     $this->_helper->layout->setLayout( 'layout_fo_ehcg' );
@@ -165,7 +165,7 @@ class Auth_ClimatisationController extends Zend_Controller_Action {
     $form = new Zend_Form();
     $form->addSubForms( [
       'form_demande'     => new Auth_Form_Demande,
-      'form_qualif'      => new Auth_Form_Climatisation,
+      'form_qualif'      => new $this->form_name,
       'form_chantier'    => new Auth_Form_Chantier,
       'form_particulier' => new Auth_Form_Particulier,
     ] );
@@ -192,7 +192,7 @@ class Auth_ClimatisationController extends Zend_Controller_Action {
     $demande = $em->getRepository( 'Auth_Model_Demandedevis' )->find( $id );
     if ( ! $demande ) {
       $demande  = new Auth_Model_Demandedevis;
-      $activite = $em->getRepository( 'Auth_Model_Activite' )->findOneBy( [ 'libelle' => 'CLIMATISATION' ] );
+      $activite = $em->getRepository( 'Auth_Model_Activite' )->findOneBy( [ 'ref' => $this->type ] );
       $demande->setId_activite( $activite );
     }
     
@@ -201,7 +201,7 @@ class Auth_ClimatisationController extends Zend_Controller_Action {
     $form = new Zend_Form();
     $form->addSubForms( [
       'form_demande'     => new Auth_Form_Demande,
-      'form_qualif'      => new Auth_Form_Climatisation,
+      'form_qualif'      => new $this->form_name,
       'form_chantier'    => new Auth_Form_Chantier,
       'form_particulier' => new Auth_Form_Particulier,
     ] );
@@ -209,20 +209,22 @@ class Auth_ClimatisationController extends Zend_Controller_Action {
     $form->form_chantier->code_postal->setAttrib( 'autocomplete', 'off' );
     
     // Load qualification
-    $qualification = $em->getRepository( 'Auth_Model_Climatisation' )->findOneBy( [ 'id_demande' => $id ] );
+    $qualification = $em->getRepository( $this->model_name )->findOneBy( [ 'id_demande' => $id ] );
     
     $form->setDefaults( [
-      'Demande'       => $demande ? $demande->toArray() : null,
-      'Particulier'   => $demande->id_particulier ? $demande->id_particulier->toArray() : null,
-      'Chantier'      => $demande->id_chantier ? $demande->id_chantier->toArray() : null,
-      'Climatisation' => $qualification ? $qualification->toArray() : null,
+      'Demande'     => $demande ? $demande->toArray() : null,
+      'Particulier' => $demande->id_particulier ? $demande->id_particulier->toArray() : null,
+      'Chantier'    => $demande->id_chantier ? $demande->id_chantier->toArray() : null,
+      $this->name   => $qualification ? $qualification->toArray() : null,
     ] );
     
     $form->form_chantier->setDefaults( [ 'code_postal' => $demande->id_chantier->zone->code ] );
     
     // Proccess the posted data;
     if ( $this->getRequest()->isPost() ) {
+
       $data = $this->getRequest()->getPost();
+
       $zone = $em->getRepository( 'Auth_Model_Zone' )->findOneBy( [ 'code' => $data['Chantier']['code_postal'] ] );
       
       $valid = $form->isValid( $data );
@@ -231,7 +233,6 @@ class Auth_ClimatisationController extends Zend_Controller_Action {
         $valid = false;
         $form->form_demande->audio_file->setErrors( [ "Ce type de fichier n'est pas autorisé" ] );
       }
-      
       
       if ( ! $zone ) {
         $form->form_chantier->code_postal->setAttribs( [ 'class' => 'has-error' ] );
@@ -257,7 +258,7 @@ class Auth_ClimatisationController extends Zend_Controller_Action {
         $data['file'] = $_FILES['audio_file'];
         
         // Save the qualification
-        $qualification = $em->getRepository( 'Auth_Model_Climatisation' )->save( $id, $data );
+        $qualification = $em->getRepository( $this->model_name )->save( $id, $data );
         
         if ( $qualification ) {
           if ( $sendEmail ) {
@@ -276,12 +277,11 @@ class Auth_ClimatisationController extends Zend_Controller_Action {
           'qualification' => $qualification,
         ] );
         
-        
         $this->generatePdf( $ref, $title, $html, $qualification->id_demande->pdfLocation( true ) );
         
         
         $_SESSION['flash'] = "La mise à jour a été effectuée avec success";
-        $this->getResponse()->setRedirect( "/auth/climatisation" );
+        $this->getResponse()->setRedirect( "/auth/{$this->slug}" );
         
       } else // If the form is not valid keep the data provided by the user
       
@@ -319,6 +319,7 @@ class Auth_ClimatisationController extends Zend_Controller_Action {
     
     return $location;
   }
+  
   
   public function pdfAction() {
     

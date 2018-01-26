@@ -87,6 +87,13 @@ class Auth_Form_Cuisine extends Auth_Form_Base {
     'Entretien/Maintenance'           => 'Entretien/Maintenance',
   ];
 
+   private $_type_cuisine = [
+    ''                                => 'Veuillez préciser',
+    'Cuisine'     => 'Cuisine',
+    'Cuisine en Kit' => 'Cuisine en Kit',
+    'Cuisine sur Mesure'           => 'Cuisine sur Mesure',
+  ];
+
 
   /**
    * @throws \Zend_Form_Exception
@@ -180,6 +187,14 @@ class Auth_Form_Cuisine extends Auth_Form_Base {
       ->setBelongsTo('Cuisine')
       ->addFilters($default_filters);
 
+
+    // type_cuisine
+    $type_cuisine = new Zend_Form_Element_Select('type_cuisine');
+    $type_cuisine->setLabel('Type de cuisine')
+      ->setBelongsTo('Cuisine')
+      ->addFilters($select_filters)
+      ->addMultiOptions($this->_type_cuisine);
+
     // Submit button
     $submit = new Zend_Form_Element_Submit('submit');
     $submit->setLabel('Envoyer')
@@ -197,6 +212,7 @@ class Auth_Form_Cuisine extends Auth_Form_Base {
       $travaux_revetement_sol,
       $equipement_electromenager,
       $hauteur_sous_plafond,
+      $type_cuisine,
       $submit,
     ]);
 

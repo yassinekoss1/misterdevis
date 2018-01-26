@@ -101,6 +101,13 @@ class Auth_Model_Cuisine {
   private $type_travaux;
 
   /**
+   * @var string $type_cuisine
+   *
+   * @Column(name="TYPE_CUISINE", type="string", length=200, nullable=false)
+   */
+  private $type_cuisine;
+
+  /**
    * @var Demandedevis
    *
    * @ManyToOne(targetEntity="Auth_Model_Demandedevis")
@@ -245,6 +252,14 @@ class Auth_Model_Cuisine {
     return $this->type_travaux;
   }
 
+  /**
+   * @return the $type_cuisine
+   */
+  public function getType_cuisine() {
+
+    return $this->type_cuisine;
+  }
+
 
   /**
    * @return the $id_demande
@@ -360,6 +375,14 @@ class Auth_Model_Cuisine {
   public function setType_travaux($type_travaux) {
 
     $this->type_travaux = $type_travaux;
+  }
+
+  /**
+   * @param string $type_cuisine
+   */
+  public function setType_cuisine($type_cuisine) {
+
+    $this->type_cuisine = $type_cuisine;
   }
 
 

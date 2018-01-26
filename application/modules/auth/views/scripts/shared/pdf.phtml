@@ -4,7 +4,7 @@
 <table>
 	<tr>
 		<td style="font-weight: bold"><?= $this->demande->id_particulier->civilite === 'Madame' ? 'Mme.' : 'M.'; ?>
-
+			
 			<?= $this->demande->id_particulier->prenom_particulier; ?> <?= $this->demande->id_particulier->nom_particulier;
 			?></td>
 		<td style="font-weight: bold;">Adresse</td>
@@ -20,409 +20,512 @@
 </table>
 <div style="line-height: 2px;">&nbsp;</div>
 <table style="font-size: 27px">
-	<?php if ($this->qualification->type_travaux): $alternate = !$alternate ?>
+	<?php if ( $this->qualification->type_travaux ): $alternate = ! $alternate ?>
 		<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 			<td style="line-height: 8px;"><strong>Type de travaux</strong></td>
 			<td style="line-height: 8px;"><?= $this->qualification->type_travaux; ?></td>
 		</tr>
 	<?php endif; ?>
-	<?php if ($this->demande->delai_souhaite): $alternate = !$alternate ?>
+	<?php if ( $this->demande->delai_souhaite ): $alternate = ! $alternate ?>
 		<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 			<td style="line-height: 8px;"><strong>Délai Souhaité</strong></td>
 			<td style="line-height: 8px;"><?= $this->demande->delai_souhaite; ?></td>
 		</tr>
 	<?php endif; ?>
-	<?php if ($this->demande->type_demandeur): $alternate = !$alternate ?>
+	<?php if ( $this->demande->type_demandeur ): $alternate = ! $alternate ?>
 		<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 			<td style="line-height: 8px;"><strong>Type Demandeur</strong></td>
 			<td style="line-height: 8px;"><?= $this->demande->type_demandeur; ?></td>
 		</tr>
 	<?php endif; ?>
-	<?php if ($this->demande->type_propriete): $alternate = !$alternate ?>
+	<?php if ( $this->demande->type_propriete ): $alternate = ! $alternate ?>
 		<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 			<td style="line-height: 8px;"><strong>Demandeur est un</strong></td>
 			<td style="line-height: 8px;"><?= $this->demande->type_propriete; ?></td>
 		</tr>
 	<?php endif; ?>
 	
+	<!-- CARRELAGE -->
+	<?php if ($this->demande->id_activite->ref === 'CAR'): ?>
+
+		<?php if ($this->qualification->surface_totale): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Surface Totale à carreler</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->surface_totale; ?> m<sup>2</sup></td>
+			</tr>
+		<?php endif; ?><?php if ($this->qualification->enlevement_revetement !== null): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Enlevement du revêtement actuel</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->enlevement_revetement ? 'Oui' : 'Non'; ?></td>
+			</tr>
+		<?php endif; ?><?php if ($this->qualification->nbre_piece): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Nombre de pièces</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->nbre_piece; ?></td>
+			</tr>
+		<?php endif; ?>
+
+	<?php endif; ?>
+	<!-- END CARRELAGE -->
 	
 	<!-- CHAUFFAGE -->
-	<?php if ($this->demande->id_activite->libelle === 'CHAUFFAGE'): ?>
-
-		<?php if ($this->qualification->type_chauffage): $alternate = !$alternate ?>
+	<?php if ( $this->demande->id_activite->libelle === 'CHAUFFAGE' ): ?>
+		
+		<?php if ( $this->qualification->type_chauffage ): $alternate = ! $alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 				<td style="line-height: 8px;"><strong>Type de chauffage</strong></td>
 				<td style="line-height: 8px;"><?= $this->qualification->type_chauffage; ?></td>
 			</tr>
-
-			<?php if ($this->qualification->type_chauffage === 'Chauffage à bois'): ?>
-
-				<?php if ($this->qualification->type_installation): $alternate = !$alternate ?>
+			
+			<?php if ( $this->qualification->type_chauffage === 'Chauffage à bois' ): ?>
+				
+				<?php if ( $this->qualification->type_installation ): $alternate = ! $alternate ?>
 					<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 						<td style="line-height: 8px;"><strong>Type d'installation</strong></td>
 						<td style="line-height: 8px;"><?= $this->qualification->type_installation; ?></td>
 					</tr>
 				<?php endif; ?>
-
-				<?php if ($this->qualification->conduite_fumee): $alternate = !$alternate ?>
+				
+				<?php if ( $this->qualification->conduite_fumee ): $alternate = ! $alternate ?>
 					<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 						<td style="line-height: 8px;"><strong>Conduite fumée</strong></td>
 						<td style="line-height: 8px;"><?= $this->qualification->conduite_fumee; ?></td>
 					</tr>
 				<?php endif; ?>
-
-			<?php elseif ($this->qualification->type_chauffage === 'Chauffage electrique' || $this->qualification->type_chauffage === 'Chauffage Fiol' || $this->qualification->type_chauffage === 'Chauffage à gaz'): ?>
-
-				<?php if ($this->qualification->type_radiateur): $alternate = !$alternate ?>
+			
+			<?php elseif ( $this->qualification->type_chauffage === 'Chauffage electrique' || $this->qualification->type_chauffage === 'Chauffage Fiol' || $this->qualification->type_chauffage === 'Chauffage à gaz' ): ?>
+				
+				<?php if ( $this->qualification->type_radiateur ): $alternate = ! $alternate ?>
 					<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 						<td style="line-height: 8px;"><strong>Type radiateur</strong></td>
 						<td style="line-height: 8px;"><?= $this->qualification->type_radiateur; ?></td>
 					</tr>
 				<?php endif; ?>
-
-			<?php elseif ($this->qualification->type_chauffage === 'Chauffage eau solaire'): ?>
-
-				<?php if ($this->qualification->type_diffusion_chaleur): $alternate = !$alternate ?>
+			
+			<?php elseif ( $this->qualification->type_chauffage === 'Chauffage eau solaire' ): ?>
+				
+				<?php if ( $this->qualification->type_diffusion_chaleur ): $alternate = ! $alternate ?>
 					<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 						<td style="line-height: 8px;"><strong>Type diffusion de chaleur</strong></td>
 						<td style="line-height: 8px;"><?= $this->qualification->type_diffusion_chaleur; ?></td>
 					</tr>
 				<?php endif; ?>
-
-			<?php elseif ($this->qualification->type_chauffage === 'Chauffage eau thermodynamique'): ?>
-
-				<?php if ($this->qualification->type_energie): $alternate = !$alternate ?>
+			
+			<?php elseif ( $this->qualification->type_chauffage === 'Chauffage eau thermodynamique' ): ?>
+				
+				<?php if ( $this->qualification->type_energie ): $alternate = ! $alternate ?>
 					<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 						<td style="line-height: 8px;"><strong>Type d'énergie</strong></td>
 						<td style="line-height: 8px;"><?= $this->qualification->type_energie; ?></td>
 					</tr>
 				<?php endif; ?>
-
-			<?php elseif ($this->qualification->type_chauffage === 'Pompe à chaleur'): ?>
-
-				<?php if ($this->qualification->type_diffusion_chaleur): $alternate = !$alternate ?>
+			
+			<?php elseif ( $this->qualification->type_chauffage === 'Pompe à chaleur' ): ?>
+				
+				<?php if ( $this->qualification->type_diffusion_chaleur ): $alternate = ! $alternate ?>
 					<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 						<td style="line-height: 8px;"><strong>Type de Pompe à Chaleur</strong></td>
 						<td style="line-height: 8px;"><?= $this->qualification->type_diffusion_chaleur; ?></td>
 					</tr>
 				<?php endif; ?>
-
+			
 			<?php endif; ?>
-
+		
 		<?php endif; ?>
-
-		<?php if ($this->qualification->nbre_etage): $alternate = !$alternate ?>
+		
+		<?php if ( $this->qualification->nbre_etage ): $alternate = ! $alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 				<td style="line-height: 8px;"><strong>Nombre d'étage à chauffer</strong></td>
 				<td style="line-height: 8px;"><?= $this->qualification->nbre_etage; ?> étages</td>
 			</tr>
-		<?php endif; ?><?php if ($this->qualification->surface_totale): $alternate = !$alternate ?>
+		<?php endif; ?><?php if ( $this->qualification->surface_totale ): $alternate = ! $alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 				<td style="line-height: 8px;"><strong>Surface à chauffer</strong></td>
 				<td style="line-height: 8px;"><?= $this->qualification->surface_totale; ?>m<sup>2</sup></td>
 			</tr>
-		<?php endif; ?><?php if ($this->qualification->hauteur_sous_plafond): $alternate = !$alternate ?>
+		<?php endif; ?><?php if ( $this->qualification->hauteur_sous_plafond ): $alternate = ! $alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 				<td style="line-height: 8px;"><strong>Hauteur plafond</strong></td>
 				<td style="line-height: 8px;"><?= $this->qualification->hauteur_sous_plafond; ?>m</td>
 			</tr>
 		<?php endif; ?>
-
+	
 	<?php endif; ?>
 	<!-- END CHAUFFAGE -->
 	
-
+	
 	<!-- FENETRE -->
-	<?php if ($this->demande->id_activite->libelle === 'FENETRE'): ?>
-
-		<?php if ($this->qualification->nbre_fenetre): $alternate = !$alternate ?>
+	<?php if ( $this->demande->id_activite->libelle === 'FENETRE' ): ?>
+		
+		<?php if ( $this->qualification->nbre_fenetre ): $alternate = ! $alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 				<td style="line-height: 8px;"><strong>Nombre de Fenêtre et porte Fenêtre</strong></td>
 				<td style="line-height: 8px;"><?= $this->qualification->nbre_fenetre; ?></td>
 			</tr>
-		<?php endif; ?><?php if ($this->qualification->depose_fenetre_existant !== null): $alternate = !$alternate ?>
+		<?php endif; ?><?php if ( $this->qualification->depose_fenetre_existant !== null ): $alternate = ! $alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 				<td style="line-height: 8px;"><strong>Dépose de Fenêtres existantes</strong></td>
 				<td style="line-height: 8px;"><?= $this->qualification->depose_fenetre_existant ? 'Oui' : 'Non'; ?></td>
 			</tr>
-		<?php endif; ?><?php if ($this->qualification->type_fenetre): $alternate = !$alternate ?>
+		<?php endif; ?><?php if ( $this->qualification->type_fenetre ): $alternate = ! $alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 				<td style="line-height: 8px;"><strong>Type de Fenêtres ou Porte Fenêtre</strong></td>
 				<td style="line-height: 8px;"><?= $this->qualification->type_fenetre; ?></td>
 			</tr>
 		<?php endif; ?>
-
+	
 	<?php endif; ?>
 	<!-- END FENETRE -->
-
+	
 	<!-- CLIMATISATION -->
-	<?php if ($this->demande->id_activite->libelle === 'CLIMATISATION'): ?>
-
-		<?php if ($this->qualification->nbre_piece): $alternate = !$alternate ?>
+	<?php if ( $this->demande->id_activite->libelle === 'CLIMATISATION' ): ?>
+		
+		<?php if ( $this->qualification->nbre_piece ): $alternate = ! $alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 				<td style="line-height: 8px;"><strong>Nombre de pièces à Climatiser et à Chauffer</strong></td>
 				<td style="line-height: 8px;"><?= $this->qualification->nbre_piece; ?></td>
 			</tr>
-		<?php endif; ?><?php if ($this->qualification->surface_climatisation !== null): $alternate = !$alternate ?>
+		<?php endif; ?><?php if ( $this->qualification->surface_climatisation !== null ): $alternate = ! $alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 				<td style="line-height: 8px;"><strong>Surface totale à Climatiser et à Chauffer</strong></td>
 				<td style="line-height: 8px;"><?= $this->qualification->surface_climatisation; ?></td>
 			</tr>
-		<?php endif; ?><?php if ($this->qualification->accord_copropriete !== null): $alternate = !$alternate ?>
+		<?php endif; ?><?php if ( $this->qualification->accord_copropriete !== null ): $alternate = ! $alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 				<td style="line-height: 8px;"><strong>Accord copropriètè</strong></td>
 				<td style="line-height: 8px;"><?= $this->qualification->accord_copropriete ? 'Oui' : 'Non'; ?></td>
 			</tr>
-		<?php endif; ?><?php if ($this->qualification->hauteur_plafond): $alternate = !$alternate ?>
+		<?php endif; ?><?php if ( $this->qualification->hauteur_plafond ): $alternate = ! $alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 				<td style="line-height: 8px;"><strong>Hauteur sous plafond</strong></td>
 				<td style="line-height: 8px;"><?= $this->qualification->hauteur_plafond; ?> m</td>
 			</tr>
 		<?php endif; ?>
-
+	
 	<?php endif; ?>
 	<!-- END CLIMATISATION -->
-
-
+	
+	
 	<!-- CUISINE -->
-	<?php if ($this->demande->id_activite->libelle === 'CUISINE'): ?>
-
-		<?php if ($this->qualification->style_futur_cuisine): $alternate = !$alternate ?>
+	<?php if ( $this->demande->id_activite->libelle === 'CUISINE' ): ?>
+		
+		<?php if ( $this->qualification->style_futur_cuisine ): $alternate = ! $alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 				<td style="line-height: 8px;"><strong>Style de votre future Cuisine</strong></td>
 				<td style="line-height: 8px;"><?= $this->qualification->style_futur_cuisine; ?></td>
 			</tr>
-		<?php endif; ?><?php if ($this->qualification->surface_au_sol_cuisine !== null): $alternate = !$alternate ?>
+		<?php endif; ?><?php if ( $this->qualification->surface_au_sol_cuisine !== null ): $alternate = ! $alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 				<td style="line-height: 8px;"><strong>Surface au sol de la Cuisine</strong></td>
 				<td style="line-height: 8px;"><?= $this->qualification->surface_au_sol_cuisine; ?></td>
 			</tr>
-		<?php endif; ?><?php if ($this->qualification->depose_ancienne_cuisine !== null): $alternate = !$alternate ?>
+		<?php endif; ?><?php if ( $this->qualification->depose_ancienne_cuisine !== null ): $alternate = ! $alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 				<td style="line-height: 8px;"><strong>Dépose de l'Ancienne Cuisine</strong></td>
 				<td style="line-height: 8px;"><?= $this->qualification->depose_ancienne_cuisine ? 'Oui' : 'Non'; ?></td>
 			</tr>
-		<?php endif; ?><?php if ($this->qualification->equipement_electromenager !== null): $alternate = !$alternate ?>
+		<?php endif; ?><?php if ( $this->qualification->equipement_electromenager !== null ): $alternate = ! $alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 				<td style="line-height: 8px;"><strong>Équipement Électroménager</strong></td>
 				<td style="line-height: 8px;"><?= $this->qualification->equipement_electromenager ? 'Oui' : 'Non'; ?></td>
 			</tr>
-		<?php endif; ?><?php if ($this->qualification->travaux_plomberie !== null): $alternate = !$alternate ?>
+		<?php endif; ?><?php if ( $this->qualification->travaux_plomberie !== null ): $alternate = ! $alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 				<td style="line-height: 8px;"><strong>Travaux de Plomberie</strong></td>
 				<td style="line-height: 8px;"><?= $this->qualification->travaux_plomberie ? 'Oui' : 'Non'; ?></td>
 			</tr>
-		<?php endif; ?><?php if ($this->qualification->travaux_electricite !== null): $alternate = !$alternate ?>
+		<?php endif; ?><?php if ( $this->qualification->travaux_electricite !== null ): $alternate = ! $alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 				<td style="line-height: 8px;"><strong>Travaux d'Électricité</strong></td>
 				<td style="line-height: 8px;"><?= $this->qualification->travaux_electricite ? 'Oui' : 'Non'; ?></td>
 			</tr>
-		<?php endif; ?><?php if ($this->qualification->travaux_revetement_sol !== null): $alternate = !$alternate ?>
+		<?php endif; ?><?php if ( $this->qualification->travaux_revetement_sol !== null ): $alternate = ! $alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 				<td style="line-height: 8px;"><strong>Travaux de revêtement de sol</strong></td>
 				<td style="line-height: 8px;"><?= $this->qualification->travaux_revetement_sol ? 'Oui' : 'Non'; ?></td>
 			</tr>
-		<?php endif; ?><?php if ($this->qualification->travaux_peinture !== null): $alternate = !$alternate ?>
+		<?php endif; ?><?php if ( $this->qualification->travaux_peinture !== null ): $alternate = ! $alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 				<td style="line-height: 8px;"><strong>Travaux de Peinture</strong></td>
 				<td style="line-height: 8px;"><?= $this->qualification->travaux_peinture ? 'Oui' : 'Non'; ?></td>
 			</tr>
-		<?php endif; ?><?php if ($this->qualification->niveau_gamme_souhaite): $alternate = !$alternate ?>
+		<?php endif; ?><?php if ( $this->qualification->niveau_gamme_souhaite ): $alternate = ! $alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 				<td style="line-height: 8px;"><strong>Niveau de Gamme souhaité</strong></td>
 				<td style="line-height: 8px;"><?= $this->qualification->niveau_gamme_souhaite; ?></td>
 			</tr>
-		<?php endif; ?><?php if ($this->qualification->hauteur_sous_plafond): $alternate = !$alternate ?>
+		<?php endif; ?><?php if ( $this->qualification->hauteur_sous_plafond ): $alternate = ! $alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 				<td style="line-height: 8px;"><strong>Hauteur sous plafond</strong></td>
 				<td style="line-height: 8px;"><?= $this->qualification->hauteur_sous_plafond; ?> m</td>
 			</tr>
 		<?php endif; ?>
-
+	
 	<?php endif; ?>
 	<!-- END CUISINE -->
-
-
+	
+	
 	<!-- SALLE BAIN -->
-	<?php if ($this->demande->id_activite->libelle === 'SALLE BAIN'): ?>
-
-		<?php if ($this->qualification->equipement_futur_salle): $alternate = !$alternate ?>
+	<?php if ( $this->demande->id_activite->libelle === 'SALLE BAIN' ): ?>
+		
+		<?php if ( $this->qualification->equipement_futur_salle ): $alternate = ! $alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 				<td style="line-height: 8px;"><strong>Équipement de votre future Salle de Bains</strong></td>
 				<td style="line-height: 8px;"><?= $this->qualification->equipement_futur_salle; ?></td>
 			</tr>
-		<?php endif; ?><?php if ($this->qualification->surface_au_sol !== null): $alternate = !$alternate ?>
+		<?php endif; ?><?php if ( $this->qualification->surface_au_sol !== null ): $alternate = ! $alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 				<td style="line-height: 8px;"><strong>Surface au sol de la Salle de Bains</strong></td>
 				<td style="line-height: 8px;"><?= $this->qualification->surface_au_sol; ?></td>
 			</tr>
-		<?php endif; ?><?php if ($this->qualification->depose_ancienne_salle !== null): $alternate = !$alternate ?>
+		<?php endif; ?><?php if ( $this->qualification->depose_ancienne_salle !== null ): $alternate = ! $alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 				<td style="line-height: 8px;"><strong>Dépose de l'Ancienne Salle de Bains</strong></td>
 				<td style="line-height: 8px;"><?= $this->qualification->depose_ancienne_salle ? 'Oui' : 'Non'; ?></td>
 			</tr>
-		<?php endif; ?><?php if ($this->qualification->travaux_plomberie !== null): $alternate = !$alternate ?>
+		<?php endif; ?><?php if ( $this->qualification->travaux_plomberie !== null ): $alternate = ! $alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 				<td style="line-height: 8px;"><strong>Travaux de Plomberie</strong></td>
 				<td style="line-height: 8px;"><?= $this->qualification->travaux_plomberie ? 'Oui' : 'Non'; ?></td>
 			</tr>
-		<?php endif; ?><?php if ($this->qualification->travaux_electricite !== null): $alternate = !$alternate ?>
+		<?php endif; ?><?php if ( $this->qualification->travaux_electricite !== null ): $alternate = ! $alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 				<td style="line-height: 8px;"><strong>Travaux d'Électricité</strong></td>
 				<td style="line-height: 8px;"><?= $this->qualification->travaux_electricite ? 'Oui' : 'Non'; ?></td>
 			</tr>
-		<?php endif; ?><?php if ($this->qualification->travaux_revetement !== null): $alternate = !$alternate ?>
+		<?php endif; ?><?php if ( $this->qualification->travaux_revetement !== null ): $alternate = ! $alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 				<td style="line-height: 8px;"><strong>Travaux de revêtement de sol</strong></td>
 				<td style="line-height: 8px;"><?= $this->qualification->travaux_revetement ? 'Oui' : 'Non'; ?></td>
 			</tr>
-		<?php endif; ?><?php if ($this->qualification->travaux_peinture !== null): $alternate = !$alternate ?>
+		<?php endif; ?><?php if ( $this->qualification->travaux_peinture !== null ): $alternate = ! $alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 				<td style="line-height: 8px;"><strong>Travaux de Peinture</strong></td>
 				<td style="line-height: 8px;"><?= $this->qualification->travaux_peinture ? 'Oui' : 'Non'; ?></td>
 			</tr>
-		<?php endif; ?><?php if ($this->qualification->meuble_rengement !== null): $alternate = !$alternate ?>
+		<?php endif; ?><?php if ( $this->qualification->meuble_rengement !== null ): $alternate = ! $alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 				<td style="line-height: 8px;"><strong>Meubles de Rangement</strong></td>
 				<td style="line-height: 8px;"><?= $this->qualification->meuble_rengement ? 'Oui' : 'Non'; ?></td>
 			</tr>
-		<?php endif; ?><?php if ($this->qualification->niveau_gamme): $alternate = !$alternate ?>
+		<?php endif; ?><?php if ( $this->qualification->niveau_gamme ): $alternate = ! $alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 				<td style="line-height: 8px;"><strong>Niveau de Gamme souhaité</strong></td>
 				<td style="line-height: 8px;"><?= $this->qualification->niveau_gamme; ?></td>
 			</tr>
-		<?php endif; ?><?php if ($this->qualification->hauteur_sous_plafond): $alternate = !$alternate ?>
+		<?php endif; ?><?php if ( $this->qualification->hauteur_sous_plafond ): $alternate = ! $alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 				<td style="line-height: 8px;"><strong>Hauteur sous plafond</strong></td>
 				<td style="line-height: 8px;"><?= $this->qualification->hauteur_sous_plafond; ?> m</td>
 			</tr>
 		<?php endif; ?>
-
+	
 	<?php endif; ?>
 	<!-- END SALLE BAIN -->
-
-
+	
+	
 	<!-- SAUNA HAMMAM -->
-	<?php if ($this->demande->id_activite->libelle === 'SAUNA HAMMAM'): ?>
-
-		<?php if ($this->qualification->surface_au_sol !== null): $alternate = !$alternate ?>
+	<?php if ( $this->demande->id_activite->libelle === 'SAUNA HAMMAM' ): ?>
+		
+		<?php if ( $this->qualification->surface_au_sol !== null ): $alternate = ! $alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 				<td style="line-height: 8px;"><strong>Surface au sol de la Prévue</strong></td>
 				<td style="line-height: 8px;"><?= $this->qualification->surface_au_sol; ?></td>
 			</tr>
-		<?php endif; ?><?php if ($this->qualification->travaux_plomberie !== null): $alternate = !$alternate ?>
+		<?php endif; ?><?php if ( $this->qualification->travaux_plomberie !== null ): $alternate = ! $alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 				<td style="line-height: 8px;"><strong>Travaux de Plomberie</strong></td>
 				<td style="line-height: 8px;"><?= $this->qualification->travaux_plomberie ? 'Oui' : 'Non'; ?></td>
 			</tr>
-		<?php endif; ?><?php if ($this->qualification->travaux_electricite !== null): $alternate = !$alternate ?>
+		<?php endif; ?><?php if ( $this->qualification->travaux_electricite !== null ): $alternate = ! $alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 				<td style="line-height: 8px;"><strong>Travaux d'Électricité</strong></td>
 				<td style="line-height: 8px;"><?= $this->qualification->travaux_electricite ? 'Oui' : 'Non'; ?></td>
 			</tr>
-		<?php endif; ?><?php if ($this->qualification->travaux_revetement !== null): $alternate = !$alternate ?>
+		<?php endif; ?><?php if ( $this->qualification->travaux_revetement !== null ): $alternate = ! $alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 				<td style="line-height: 8px;"><strong>Travaux de revêtement de sol</strong></td>
 				<td style="line-height: 8px;"><?= $this->qualification->travaux_revetement ? 'Oui' : 'Non'; ?></td>
 			</tr>
-		<?php endif; ?><?php if ($this->qualification->travaux_peinture !== null): $alternate = !$alternate ?>
+		<?php endif; ?><?php if ( $this->qualification->travaux_peinture !== null ): $alternate = ! $alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 				<td style="line-height: 8px;"><strong>Travaux de Peinture</strong></td>
 				<td style="line-height: 8px;"><?= $this->qualification->travaux_peinture ? 'Oui' : 'Non'; ?></td>
 			</tr>
-		<?php endif; ?><?php if ($this->qualification->niveau_gamme): $alternate = !$alternate ?>
+		<?php endif; ?><?php if ( $this->qualification->niveau_gamme ): $alternate = ! $alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 				<td style="line-height: 8px;"><strong>Niveau de Gamme souhaité</strong></td>
 				<td style="line-height: 8px;"><?= $this->qualification->niveau_gamme; ?></td>
 			</tr>
 		<?php endif; ?>
-
+	
 	<?php endif; ?>
 	<!-- END SAUNA HAMMAM -->
-
-
+	
+	
 	<!-- SPA -->
-	<?php if ($this->demande->id_activite->libelle === 'SPA'): ?>
-
-		<?php if ($this->qualification->surface_au_sol !== null): $alternate = !$alternate ?>
+	<?php if ( $this->demande->id_activite->libelle === 'SPA' ): ?>
+		
+		<?php if ( $this->qualification->surface_au_sol !== null ): $alternate = ! $alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 				<td style="line-height: 8px;"><strong>Surface au sol de la Prévue</strong></td>
 				<td style="line-height: 8px;"><?= $this->qualification->surface_au_sol; ?></td>
 			</tr>
-		<?php endif; ?><?php if ($this->qualification->travaux_plomberie !== null): $alternate = !$alternate ?>
+		<?php endif; ?><?php if ( $this->qualification->travaux_plomberie !== null ): $alternate = ! $alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 				<td style="line-height: 8px;"><strong>Travaux de Plomberie</strong></td>
 				<td style="line-height: 8px;"><?= $this->qualification->travaux_plomberie ? 'Oui' : 'Non'; ?></td>
 			</tr>
-		<?php endif; ?><?php if ($this->qualification->travaux_electricite !== null): $alternate = !$alternate ?>
+		<?php endif; ?><?php if ( $this->qualification->travaux_electricite !== null ): $alternate = ! $alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 				<td style="line-height: 8px;"><strong>Travaux d'Électricité</strong></td>
 				<td style="line-height: 8px;"><?= $this->qualification->travaux_electricite ? 'Oui' : 'Non'; ?></td>
 			</tr>
-		<?php endif; ?><?php if ($this->qualification->travaux_revetement !== null): $alternate = !$alternate ?>
+		<?php endif; ?><?php if ( $this->qualification->travaux_revetement !== null ): $alternate = ! $alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 				<td style="line-height: 8px;"><strong>Travaux de revêtement de sol</strong></td>
 				<td style="line-height: 8px;"><?= $this->qualification->travaux_revetement ? 'Oui' : 'Non'; ?></td>
 			</tr>
-		<?php endif; ?><?php if ($this->qualification->travaux_peinture !== null): $alternate = !$alternate ?>
+		<?php endif; ?><?php if ( $this->qualification->travaux_peinture !== null ): $alternate = ! $alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 				<td style="line-height: 8px;"><strong>Travaux de Peinture</strong></td>
 				<td style="line-height: 8px;"><?= $this->qualification->travaux_peinture ? 'Oui' : 'Non'; ?></td>
 			</tr>
-		<?php endif; ?><?php if ($this->qualification->niveau_gamme): $alternate = !$alternate ?>
+		<?php endif; ?><?php if ( $this->qualification->niveau_gamme ): $alternate = ! $alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 				<td style="line-height: 8px;"><strong>Niveau de Gamme souhaité</strong></td>
 				<td style="line-height: 8px;"><?= $this->qualification->niveau_gamme; ?></td>
 			</tr>
 		<?php endif; ?>
-
+	
 	<?php endif; ?>
 	<!-- END SPA -->
 	
 	<!-- PISCINE -->
-	<?php if ($this->demande->id_activite->libelle === 'PISCINE'): ?>
-
-		<?php if ($this->qualification->type_piscine !== null): $alternate = !$alternate ?>
+	<?php if ( $this->demande->id_activite->libelle === 'PISCINE' ): ?>
+		
+		<?php if ( $this->qualification->type_piscine !== null ): $alternate = ! $alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 				<td style="line-height: 8px;"><strong>Type de la piscine</strong></td>
 				<td style="line-height: 8px;"><?= $this->qualification->type_piscine; ?></td>
 			</tr>
-		<?php endif; ?>
-		<?php if ($this->qualification->forme_piscine !== null): $alternate = !$alternate ?>
+		<?php endif; ?><?php if ( $this->qualification->forme_piscine !== null ): $alternate = ! $alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 				<td style="line-height: 8px;"><strong>Forme de la piscine</strong></td>
 				<td style="line-height: 8px;"><?= $this->qualification->forme_piscine; ?></td>
 			</tr>
-		<?php endif; ?>
-		<?php if ($this->qualification->dimension !== null): $alternate = !$alternate ?>
+		<?php endif; ?><?php if ( $this->qualification->dimension !== null ): $alternate = ! $alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 				<td style="line-height: 8px;"><strong>Dimensions souhaitées</strong></td>
 				<td style="line-height: 8px;"><?= $this->qualification->dimension; ?></td>
 			</tr>
-		<?php endif; ?>
-		<?php if ($this->qualification->securite_piscine !== null): $alternate = !$alternate ?>
+		<?php endif; ?><?php if ( $this->qualification->securite_piscine !== null ): $alternate = ! $alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 				<td style="line-height: 8px;"><strong>Sécurité de la piscine</strong></td>
 				<td style="line-height: 8px;"><?= $this->qualification->securite_piscine; ?></td>
 			</tr>
 		<?php endif; ?>
-
+	
 	<?php endif; ?>
 	<!-- END PISCINE -->
-
-	<?php if ($this->demande->objectif_demande): $alternate = !$alternate ?>
+	
+	<!-- RENOVATION -->
+	<?php if ( $this->demande->id_activite->ref === 'REN' ): ?>
+		
+		<?php if ( $this->qualification->nbre_piece !== null ): $alternate = ! $alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Nombre de pièces</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->nbre_piece; ?></td>
+			</tr>
+		<?php endif; ?><?php if ( $this->qualification->surface_totale !== null ): $alternate = ! $alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Surface totale à rénover</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->surface_totale; ?> m<sup>2</sup></td>
+			</tr>
+		<?php endif; ?><?php if ( $this->qualification->etat_general !== null ): $alternate = ! $alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>État général du bien concerné</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->etat_general; ?></td>
+			</tr>
+		<?php endif; ?><?php if ( $this->qualification->piece_renover !== null ): $alternate = ! $alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Les pièces à rénover sont-elles meublées ?</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->piece_renover; ?></td>
+			</tr>
+		<?php endif; ?>
+		
+		<?php if ( $this->qualification->etat_murs !== null ): $alternate = ! $alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Les murs sont-ils à rénover ?</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->etat_murs; ?></td>
+			</tr>
+		<?php endif; ?>
+		
+		<?php if ( $this->qualification->etat_sol !== null ): $alternate = ! $alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Les sols sont-ils à rénover ?</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->etat_sol; ?></td>
+			</tr>
+		<?php endif; ?>
+		
+		<?php if ( $this->qualification->etat_plafond !== null ): $alternate = ! $alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Les plafonds sont-ils à rénover ?</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->etat_plafond; ?></td>
+			</tr>
+		<?php endif; ?>
+		
+		<?php if ( $this->qualification->electrique !== null ): $alternate = ! $alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>L'installation électrique est-elle à refaire ?</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->electrique; ?></td>
+			</tr>
+		<?php endif; ?>
+		
+		<?php if ( $this->qualification->plombrie !== null ): $alternate = ! $alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Des travaux de plomberie sont-ils à prévoir ?</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->plombrie; ?></td>
+			</tr>
+		<?php endif; ?>
+		
+		<?php if ( $this->qualification->menuiserie !== null ): $alternate = ! $alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Les menuiseries sont-elles à changer (fenêtres, portes, volets) ?</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->menuiserie; ?></td>
+			</tr>
+		<?php endif; ?>
+		
+		<?php if ( $this->qualification->architecte !== null ): $alternate = ! $alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Avez-vous besoin d'un Architecte ?</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->architecte; ?></td>
+			</tr>
+		<?php endif; ?>
+		
+		<?php if ( $this->qualification->permis_construction !== null ): $alternate = ! $alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Avez-vous déposé un permis de construire ?</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->permis_construction; ?></td>
+			</tr>
+		<?php endif; ?>
+	
+	<?php endif; ?>
+	<!-- END RENOVATION -->
+	
+	<?php if ( $this->demande->objectif_demande ): $alternate = ! $alternate ?>
 		<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 			<td style="line-height: 8px;"><strong>Objectif de Demande</strong></td>
 			<td style="line-height: 8px;"><?= $this->demande->objectif_demande; ?></td>
 		</tr>
 	<?php endif; ?>
-	<?php if ($this->demande->type_batiment): $alternate = !$alternate ?>
+	<?php if ( $this->demande->type_batiment ): $alternate = ! $alternate ?>
 		<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 			<td style="line-height: 8px;"><strong>Type de Bâtiment</strong></td>
 			<td style="line-height: 8px;"><?= $this->demande->type_batiment; ?></td>
 		</tr>
 	<?php endif; ?>
-	<?php if ($this->demande->budget_approximatif): $alternate = !$alternate ?>
+	<?php if ( $this->demande->budget_approximatif ): $alternate = ! $alternate ?>
 		<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 			<td style="line-height: 8px;"><strong>Budget Approximatif</strong></td>
 			<td style="line-height: 8px;"><?= $this->demande->budget_approximatif; ?> &euro;</td>

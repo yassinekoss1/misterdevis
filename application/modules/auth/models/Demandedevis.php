@@ -739,35 +739,7 @@ class Auth_Model_Demandedevis {
   
   public function getType() {
     
-    $type = '';
-    switch ( $this->getId_activite()->getLibelle() ) {
-      case 'CHAUFFAGE':
-        $type = 'CHF';
-        break;
-      case 'FENETRE':
-        $type = 'FEN';
-        break;
-      case 'SALLE BAIN':
-        $type = 'SDB';
-        break;
-      case 'SAUNA HAMMAM':
-        $type = 'SNH';
-        break;
-      case 'CUISINE':
-        $type = 'CUI';
-        break;
-      case 'PISCINE':
-        $type = 'PSC';
-        break;
-      case 'CLIMATISATION':
-        $type = 'CLM';
-        break;
-      case 'SPA':
-        $type = 'SPA';
-        break;
-    }
-    
-    return $type;
+    return $this->getId_activite()->getRef();
   }
   
   
@@ -823,7 +795,7 @@ class Auth_Model_Demandedevis {
     
     $type = $this->getType();
     
-    return ( $type ? "{$type}-" : "" ) . ( 13728 + $this->getId_demande() );
+    return ( $type ? "{$type}-" : "" ) . ( 16180 + $this->getId_demande() );
   }
   
   public function getLibelle() {
