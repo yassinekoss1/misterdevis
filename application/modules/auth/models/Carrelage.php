@@ -138,11 +138,11 @@ class Auth_Model_Carrelage {
 
 
   /**
-   * @param integer $id_qualif_cuisine
+   * @param integer $id_qualif_carrelage
    */
-  public function setId_qualif_cuisine($id_qualif_cuisine) {
+  public function setId_qualif_carrelage($id_qualif_carrelage) {
 
-    $this->id_qualif_cuisine = $id_qualif_cuisine;
+    $this->id_qualif_carrelage = $id_qualif_carrelage;
   }
 
 

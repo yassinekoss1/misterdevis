@@ -56,7 +56,7 @@
 		<?php endif; ?><?php if ($this->qualification->enlevement_revetement !== null): $alternate = !$alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 				<td style="line-height: 8px;"><strong>Enlevement du revêtement actuel</strong></td>
-				<td style="line-height: 8px;"><?= $this->qualification->enlevement_revetement ? 'Oui' : 'Non'; ?></td>
+				<td style="line-height: 8px;"><?= $this->qualification->enlevement_revetement; ?></td>
 			</tr>
 		<?php endif; ?><?php if ($this->qualification->nbre_piece): $alternate = !$alternate ?>
 			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
@@ -67,6 +67,25 @@
 
 	<?php endif; ?>
 	<!-- END CARRELAGE -->
+
+	<!-- VERANDA -->
+	<?php if ($this->demande->id_activite->ref === 'VER'): ?>
+
+		<?php if ($this->qualification->type_veranda): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Type de Véranda</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->type_veranda; ?></td>
+			</tr>
+		<?php endif; ?>
+		<?php if ($this->qualification->depose_existant !== null): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Dépose d'une Véranda Existante?</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->depose_existant; ?></td>
+			</tr>
+		<?php endif; ?>
+
+	<?php endif; ?>
+	<!-- END VERANDA -->
 
 	<!-- ISOLATION -->
 	<?php if ($this->demande->id_activite->ref === 'ISO'): ?>
@@ -565,6 +584,12 @@
 		<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
 			<td style="line-height: 8px;"><strong>Type de Bâtiment</strong></td>
 			<td style="line-height: 8px;"><?= $this->demande->type_batiment; ?></td>
+		</tr>
+	<?php endif; ?>
+	<?php if ( $this->demande->financement_projet ): $alternate = ! $alternate ?>
+		<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+			<td style="line-height: 8px;"><strong>Financement du projet</strong></td>
+			<td style="line-height: 8px;"><?= $this->demande->financement_projet; ?></td>
 		</tr>
 	<?php endif; ?>
 	<?php if ( $this->demande->budget_approximatif ): $alternate = ! $alternate ?>
