@@ -23,11 +23,12 @@
 class Auth_ChauffageController extends Zend_Controller_Action {
   
   private $_sys_email;
-  
+  private $type       = 'CHA';
   private $slug       = 'chauffage';
   private $name       = 'Chauffage';
   private $form_name  = 'Auth_Form_Chauffage';
   private $model_name = 'Auth_Model_Chauffage';
+  
   
   public function init() {
     
@@ -41,7 +42,7 @@ class Auth_ChauffageController extends Zend_Controller_Action {
     //$this->_helper->layout()->disableLayout();
     $this->_helper->layout->setLayout( 'layout_fo_ehcg' );
     $em                   = $this->getRequest()->_em;
-    $this->view->demandes = $em->getRepository( 'Auth_Model_Chauffage' )->getList();
+    $this->view->demandes = $em->getRepository( $this->model_name )->getList();
   }
   
   
@@ -54,7 +55,7 @@ class Auth_ChauffageController extends Zend_Controller_Action {
     
     // Getting the initial counts
     $lastCount         = $this->getRequest()->getParam( 'count' ) ? (int) $this->getRequest()->getParam( 'count' ) : - 1;
-    $this->view->count = (int) $this->getRequest()->_em->getRepository( 'Auth_Model_Chauffage' )->getNotifications( true );
+    $this->view->count = (int) $this->getRequest()->_em->getRepository( $this->model_name )->getNotifications( true );
     
     
     // Checcking if there is a change
@@ -63,16 +64,16 @@ class Auth_ChauffageController extends Zend_Controller_Action {
       usleep( 5000 );
       clearstatcache();
       session_write_close();
-      $this->view->count = (int) $this->getRequest()->_em->getRepository( 'Auth_Model_Chauffage' )->getNotifications( true );
+      $this->view->count = (int) $this->getRequest()->_em->getRepository( $this->model_name )->getNotifications( true );
     }
     
     // Fetching the new demandes
-    $this->view->notifications = $this->getRequest()->_em->getRepository( 'Auth_Model_Chauffage' )->getNotifications();
+    $this->view->notifications = $this->getRequest()->_em->getRepository( $this->model_name )->getNotifications();
     
     // Preparing data to send back
     $data = [
       'count' => $this->view->count,
-      'html'  => $this->view->render( "chauffage/notification.phtml" ),
+      'html'  => $this->view->render( "{$this->slug}/notification.phtml" ),
     ];
     
     // Changing the response header content type to json
@@ -148,13 +149,8 @@ class Auth_ChauffageController extends Zend_Controller_Action {
         
         $sms->sendSMS( $tel, $content, 'PREMIUM', 'Mister Devis', date( 'Y-m-d' ), date( 'H:m:s' ) );
         
-      } else {
-      
       }
-      
-      
     }
-    
   }
   
   public function addAction() {
@@ -164,7 +160,7 @@ class Auth_ChauffageController extends Zend_Controller_Action {
     $form = new Zend_Form();
     $form->addSubForms( [
       'form_demande'     => new Auth_Form_Demande,
-      'form_qualif'      => new Auth_Form_Chauffage,
+      'form_qualif'      => new $this->form_name,
       'form_chantier'    => new Auth_Form_Chantier,
       'form_particulier' => new Auth_Form_Particulier,
     ] );
@@ -188,10 +184,9 @@ class Auth_ChauffageController extends Zend_Controller_Action {
     
     // Load demande;
     $demande = $em->getRepository( 'Auth_Model_Demandedevis' )->find( $id );
-    
     if ( ! $demande ) {
       $demande  = new Auth_Model_Demandedevis;
-      $activite = $em->getRepository( 'Auth_Model_Activite' )->findOneBy( [ 'libelle' => 'CHAUFFAGE' ] );
+      $activite = $em->getRepository( 'Auth_Model_Activite' )->findOneBy( [ 'ref' => $this->type ] );
       $demande->setId_activite( $activite );
     }
     
@@ -200,7 +195,7 @@ class Auth_ChauffageController extends Zend_Controller_Action {
     $form = new Zend_Form();
     $form->addSubForms( [
       'form_demande'     => new Auth_Form_Demande,
-      'form_qualif'      => new Auth_Form_Chauffage,
+      'form_qualif'      => new $this->form_name,
       'form_chantier'    => new Auth_Form_Chantier,
       'form_particulier' => new Auth_Form_Particulier,
     ] );
@@ -208,13 +203,13 @@ class Auth_ChauffageController extends Zend_Controller_Action {
     $form->form_chantier->code_postal->setAttrib( 'autocomplete', 'off' );
     
     // Load qualification
-    $qualification = $em->getRepository( 'Auth_Model_Chauffage' )->findOneBy( [ 'id_demande' => $id ] );
+    $qualification = $em->getRepository( $this->model_name )->findOneBy( [ 'id_demande' => $id ] );
     
     $form->setDefaults( [
       'Demande'     => $demande ? $demande->toArray() : null,
       'Particulier' => $demande->id_particulier ? $demande->id_particulier->toArray() : null,
       'Chantier'    => $demande->id_chantier ? $demande->id_chantier->toArray() : null,
-      'Chauffage'   => $qualification ? $qualification->toArray() : null,
+      $this->name   => $qualification ? $qualification->toArray() : null,
     ] );
     
     $form->form_chantier->setDefaults( [ 'code_postal' => $demande->id_chantier->zone->code ] );
@@ -259,7 +254,7 @@ class Auth_ChauffageController extends Zend_Controller_Action {
         $data['file'] = $_FILES['audio_file'];
         
         // Save the qualification
-        $qualification = $em->getRepository( 'Auth_Model_Chauffage' )->save( $id, $data );
+        $qualification = $em->getRepository( $this->model_name )->save( $id, $data );
         
         if ( $qualification ) {
           if ( $sendEmail ) {
@@ -284,7 +279,7 @@ class Auth_ChauffageController extends Zend_Controller_Action {
         $this->generatePdf( $ref, $title, $html, $qualification->id_demande->pdfLocation( true ) );
         
         $_SESSION['flash'] = "La mise à jour a été effectuée avec success";
-        $this->getResponse()->setRedirect( "/auth/chauffage" );
+        $this->getResponse()->setRedirect( "/auth/{$this->slug}" );
         
         
       } else // If the form is not valid keep the data provided by the user
@@ -336,19 +331,19 @@ class Auth_ChauffageController extends Zend_Controller_Action {
     $id   = $this->getRequest()->getParam( 'id' );
     
     
-    $qualification = $em->getRepository( 'Auth_Model_Chauffage' )->find( $id );
+    $qualification = $em->getRepository( $this->model_name )->find( $id );
     
     if ( ! $type ) {
       echo json_encode( [ 'error' => 1, 'html' => '' ] );
       
     } else {
-      $form = new Auth_Form_Chauffage;
+      $form = new $this->form_name;
       $form->setDefaults( $qualification ? $qualification->toArray() : [] );
       $this->view->type = $type;
       $this->view->form = $form;
       echo json_encode( [
         'error' => 0,
-        'html'  => $this->view->render( "chauffage/extrafields.phtml" ),
+        'html'  => $this->view->render( "{$this->slug}/extrafields.phtml" ),
       ] );
       
     }

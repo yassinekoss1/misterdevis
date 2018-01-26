@@ -23,7 +23,7 @@
 class Auth_ClimatisationController extends Zend_Controller_Action {
   
   private $_sys_email;
-  private $type       = 'CLIMATISATION';
+  private $type       = 'CLI';
   private $slug       = 'climatisation';
   private $name       = 'Climatisation';
   private $form_name  = 'Auth_Form_Climatisation';
@@ -43,7 +43,7 @@ class Auth_ClimatisationController extends Zend_Controller_Action {
     $this->_helper->layout->setLayout( 'layout_fo_ehcg' );
     $em = $this->getRequest()->_em;
     
-    $this->view->demandes = $em->getRepository( 'Auth_Model_Climatisation' )->getList();
+    $this->view->demandes = $em->getRepository( $this->model_name )->getList();
   }
   
   
@@ -56,7 +56,7 @@ class Auth_ClimatisationController extends Zend_Controller_Action {
     
     // Getting the initial counts
     $lastCount         = $this->getRequest()->getParam( 'count' ) ? (int) $this->getRequest()->getParam( 'count' ) : - 1;
-    $this->view->count = (int) $this->getRequest()->_em->getRepository( 'Auth_Model_Climatisation' )->getNotifications( true );
+    $this->view->count = (int) $this->getRequest()->_em->getRepository( $this->model_name )->getNotifications( true );
     
     
     // Checcking if there is a change
@@ -65,16 +65,16 @@ class Auth_ClimatisationController extends Zend_Controller_Action {
       usleep( 5000 );
       clearstatcache();
       session_write_close();
-      $this->view->count = (int) $this->getRequest()->_em->getRepository( 'Auth_Model_Climatisation' )->getNotifications( true );
+      $this->view->count = (int) $this->getRequest()->_em->getRepository( $this->model_name )->getNotifications( true );
     }
     
     // Fetching the new demandes
-    $this->view->notifications = $this->getRequest()->_em->getRepository( 'Auth_Model_Climatisation' )->getNotifications();
+    $this->view->notifications = $this->getRequest()->_em->getRepository( $this->model_name )->getNotifications();
     
     // Preparing data to send back
     $data = [
       'count' => $this->view->count,
-      'html'  => $this->view->render( "climatisation/notification.phtml" ),
+      'html'  => $this->view->render( "{$this->slug}/notification.phtml" ),
     ];
     
     // Changing the response header content type to json
@@ -165,7 +165,7 @@ class Auth_ClimatisationController extends Zend_Controller_Action {
     $form = new Zend_Form();
     $form->addSubForms( [
       'form_demande'     => new Auth_Form_Demande,
-      'form_qualif'      => new Auth_Form_Climatisation,
+      'form_qualif'      => new $this->form_name,
       'form_chantier'    => new Auth_Form_Chantier,
       'form_particulier' => new Auth_Form_Particulier,
     ] );
@@ -192,7 +192,7 @@ class Auth_ClimatisationController extends Zend_Controller_Action {
     $demande = $em->getRepository( 'Auth_Model_Demandedevis' )->find( $id );
     if ( ! $demande ) {
       $demande  = new Auth_Model_Demandedevis;
-      $activite = $em->getRepository( 'Auth_Model_Activite' )->findOneBy( [ 'libelle' => 'CLIMATISATION' ] );
+      $activite = $em->getRepository( 'Auth_Model_Activite' )->findOneBy( [ 'ref' => $this->type ] );
       $demande->setId_activite( $activite );
     }
     
@@ -201,7 +201,7 @@ class Auth_ClimatisationController extends Zend_Controller_Action {
     $form = new Zend_Form();
     $form->addSubForms( [
       'form_demande'     => new Auth_Form_Demande,
-      'form_qualif'      => new Auth_Form_Climatisation,
+      'form_qualif'      => new $this->form_name,
       'form_chantier'    => new Auth_Form_Chantier,
       'form_particulier' => new Auth_Form_Particulier,
     ] );
@@ -209,13 +209,13 @@ class Auth_ClimatisationController extends Zend_Controller_Action {
     $form->form_chantier->code_postal->setAttrib( 'autocomplete', 'off' );
     
     // Load qualification
-    $qualification = $em->getRepository( 'Auth_Model_Climatisation' )->findOneBy( [ 'id_demande' => $id ] );
+    $qualification = $em->getRepository( $this->model_name )->findOneBy( [ 'id_demande' => $id ] );
     
     $form->setDefaults( [
-      'Demande'       => $demande ? $demande->toArray() : null,
-      'Particulier'   => $demande->id_particulier ? $demande->id_particulier->toArray() : null,
-      'Chantier'      => $demande->id_chantier ? $demande->id_chantier->toArray() : null,
-      'Climatisation' => $qualification ? $qualification->toArray() : null,
+      'Demande'     => $demande ? $demande->toArray() : null,
+      'Particulier' => $demande->id_particulier ? $demande->id_particulier->toArray() : null,
+      'Chantier'    => $demande->id_chantier ? $demande->id_chantier->toArray() : null,
+      $this->name   => $qualification ? $qualification->toArray() : null,
     ] );
     
     $form->form_chantier->setDefaults( [ 'code_postal' => $demande->id_chantier->zone->code ] );
@@ -257,7 +257,7 @@ class Auth_ClimatisationController extends Zend_Controller_Action {
         $data['file'] = $_FILES['audio_file'];
         
         // Save the qualification
-        $qualification = $em->getRepository( 'Auth_Model_Climatisation' )->save( $id, $data );
+        $qualification = $em->getRepository( $this->model_name )->save( $id, $data );
         
         if ( $qualification ) {
           if ( $sendEmail ) {
@@ -281,7 +281,7 @@ class Auth_ClimatisationController extends Zend_Controller_Action {
         
         
         $_SESSION['flash'] = "La mise à jour a été effectuée avec success";
-        $this->getResponse()->setRedirect( "/auth/climatisation" );
+        $this->getResponse()->setRedirect( "/auth/{$this->slug}" );
         
       } else // If the form is not valid keep the data provided by the user
       
