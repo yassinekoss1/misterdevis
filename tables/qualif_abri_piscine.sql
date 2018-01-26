@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Ven 26 Janvier 2018 à 16:25
+-- Généré le :  Ven 26 Janvier 2018 à 16:36
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -38,6 +38,16 @@ CREATE TABLE IF NOT EXISTS `qualif_abri_piscine` (
   PRIMARY KEY (`ID_QUALIF_ABRI_PISCINE`),
   KEY `ID_DEMANDE` (`ID_DEMANDE`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
+
+--
+-- Contraintes pour les tables exportées
+--
+
+--
+-- Contraintes pour la table `qualif_abri_piscine`
+--
+ALTER TABLE `qualif_abri_piscine`
+  ADD CONSTRAINT `FK_ABRI_PISCINE_DEMANDE` FOREIGN KEY (`ID_DEMANDE`) REFERENCES `demande_devis` (`ID_DEMANDE`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
