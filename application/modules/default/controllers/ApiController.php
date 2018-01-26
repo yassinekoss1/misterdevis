@@ -54,7 +54,9 @@ class ApiController extends Zend_Controller_Action {
           $artisan->addActivite( $activite );
         }
         
-        $artisan->addDepartement( $departement );
+        if ( $departement ) {
+          $artisan->addDepartement( $departement );
+        }
         
         $em->persist( $artisan );
         $em->flush();
