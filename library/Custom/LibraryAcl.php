@@ -51,6 +51,7 @@ class Custom_LibraryAcl extends Zend_Acl {
     $this->add( new Zend_Acl_Resource( 'auth:carrelage' ), 'auth' );
     $this->add( new Zend_Acl_Resource( 'auth:isolation' ), 'auth' );
     $this->add( new Zend_Acl_Resource( 'auth:veranda' ), 'auth' );
+    $this->add( new Zend_Acl_Resource( 'auth:abriPiscine' ), 'auth' );
     // >>>>>>>>>>>> Affecting Resources <<<<<<<<<<<<<<<
     
     // -------  >> module Default  << -------
@@ -79,6 +80,7 @@ class Custom_LibraryAcl extends Zend_Acl {
     $this->allow( 'auth', 'auth:carrelage' );
     $this->allow( 'auth', 'auth:isolation' );
     $this->allow( 'auth', 'auth:veranda' );
+    $this->allow( 'auth', 'auth:abriPiscine' );
     $this->allow( 'auth', 'auth:user' );
     
     // -------  >> module Admin  << -------

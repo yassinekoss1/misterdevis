@@ -87,6 +87,37 @@
 	<?php endif; ?>
 	<!-- END VERANDA -->
 
+	<!-- ABRI PISCINE -->
+	<?php if ($this->demande->id_activite->ref === 'ABP'): ?>
+
+		<?php if ($this->qualification->forme_piscine): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Forme de la Piscine</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->forme_piscine; ?></td>
+			</tr>
+		<?php endif; ?>
+		<?php if ($this->qualification->type_piscine !== null): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Type de Piscine</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->type_piscine; ?></td>
+			</tr>
+		<?php endif; ?>
+		<?php if ($this->qualification->type_abri !== null): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Type d'Abri</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->type_abri; ?></td>
+			</tr>
+		<?php endif; ?>
+		<?php if ($this->qualification->dimension_piscine !== null): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Dimensions de la Piscine</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->dimension_piscine; ?></td>
+			</tr>
+		<?php endif; ?>
+
+	<?php endif; ?>
+	<!-- END ABRI PISCINE -->
+
 	<!-- ISOLATION -->
 	<?php if ($this->demande->id_activite->ref === 'ISO'): ?>
 
