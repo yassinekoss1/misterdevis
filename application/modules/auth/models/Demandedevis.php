@@ -659,7 +659,7 @@ class Auth_Model_Demandedevis {
   
   
   /**
-   * @param Activite $id_activite
+   * @param \Auth_Model_Activite $id_activite
    */
   public function setId_activite( $id_activite ) {
     
@@ -677,7 +677,7 @@ class Auth_Model_Demandedevis {
   
   
   /**
-   * @param User $id_user
+   * @param \Auth_Model_User $id_user
    */
   public function setId_user( $id_user ) {
     
@@ -695,21 +695,15 @@ class Auth_Model_Demandedevis {
   
   public function getUrl( $toPdf = false ) {
     
+    if ( ! $this->getId_activite() ) {
+      return null;
+    }
+    
     $baseUrl  = $_SERVER['HTTP_HOST'];
     $protocol = strtolower( substr( $_SERVER["SERVER_PROTOCOL"], 0, strpos( $_SERVER["SERVER_PROTOCOL"], '/' ) ) ) . '://';
     
     
-    $type = null;
-    switch ( $this->getId_activite()->getLibelle() ) {
-      case 'SAUNA HAMMAM':
-        $type = 'sauna';
-        break;
-      case 'SALLE BAIN':
-        $type = 'sallebain';
-        break;
-      default:
-        $type = strtolower( $this->id_activite->libelle );
-    }
+    $type = self::slugify( $this->getId_activite()->getLibelle() );
     
     
     return "{$protocol}{$baseUrl}/auth/{$type}/" . ( $toPdf ? 'pdf' : 'edit' ) . "/id/{$this->getId_demande()}";
@@ -738,6 +732,10 @@ class Auth_Model_Demandedevis {
   }
   
   public function getType() {
+    
+    if ( ! $this->getId_activite() ) {
+      return null;
+    }
     
     return $this->getId_activite()->getRef();
   }
@@ -825,5 +823,32 @@ class Auth_Model_Demandedevis {
     $protocol = strtolower( substr( $_SERVER["SERVER_PROTOCOL"], 0, strpos( $_SERVER["SERVER_PROTOCOL"], '/' ) ) ) . '://';
     
     return "{$protocol}{$baseUrl}/pdf/{$this->getRef()}.pdf";
+  }
+  
+  static public function slugify( $text ) {
+    
+    // replace non letter or digits by -
+    $text = preg_replace( '~[^\pL\d]+~u', '-', $text );
+    
+    // transliterate
+    $text = iconv( 'utf-8', 'us-ascii//TRANSLIT', $text );
+    
+    // remove unwanted characters
+    $text = preg_replace( '~[^-\w]+~', '', $text );
+    
+    // trim
+    $text = trim( $text, '-' );
+    
+    // remove duplicate -
+    $text = preg_replace( '~-+~', '-', $text );
+    
+    // lowercase
+    $text = strtolower( $text );
+    
+    if ( empty( $text ) ) {
+      return 'n-a';
+    }
+    
+    return $text;
   }
 }

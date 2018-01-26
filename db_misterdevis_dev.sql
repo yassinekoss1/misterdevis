@@ -45,7 +45,7 @@ INSERT INTO `activite` (`ID_ACTIVITE`, `LIBELLE`, `GROUP`, `REF`) VALUES
 (18, 'Traitement Anti-calcaire', NULL, 'TAC'),
 (19, 'Porte d\'entrée', NULL, 'POE'),
 (20, 'Plomberie', NULL, 'PLO'),
-(21, 'Géothermie', NULL, 'GÉO'),
+(21, 'Géothermie', NULL, 'GEO'),
 (22, 'Menuisier', NULL, 'MEN'),
 (23, 'Photovoltaique', NULL, 'PHO'),
 (24, 'Volets', NULL, 'VOL'),
@@ -64,7 +64,7 @@ INSERT INTO `activite` (`ID_ACTIVITE`, `LIBELLE`, `GROUP`, `REF`) VALUES
 (37, 'Forage ', NULL, 'FOR'),
 (38, 'Architecte', NULL, 'ARC'),
 (39, 'Nettoyage', NULL, 'NET'),
-(40, 'Micro station epuration', NULL, 'MSÉ'),
+(40, 'Micro station epuration', NULL, 'MSE'),
 (41, 'Adoucisseur d\'eau', NULL, 'ADO'),
 (42, 'Salle de bain Sénior', NULL, 'SBS'),
 (43, 'Monte Escalier', NULL, 'MES'),
@@ -90,7 +90,7 @@ CREATE TABLE `artisan` (
   `HORAIRERDV` varchar(200) CHARACTER SET utf8 DEFAULT NULL,
   `DESCRIPTION` varchar(200) CHARACTER SET utf8 DEFAULT NULL,
   `QUALIFICATION` varchar(200) CHARACTER SET utf8 DEFAULT NULL,
-  `ADRESSE` varchar(45) CHARACTER SET utf8 NOT NULL,
+  `ADRESSE` varchar(45) CHARACTER SET utf8 DEFAULT NULL,
   `ADRESSE2` varchar(45) CHARACTER SET utf8 DEFAULT NULL,
   `CODE_POSTAL` varchar(45) CHARACTER SET utf8 DEFAULT NULL,
   `VILLE` varchar(45) CHARACTER SET utf8 DEFAULT NULL,
@@ -98,9 +98,11 @@ CREATE TABLE `artisan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `artisan` (`ID_ARTISAN`, `NOM_ARTISAN`, `PRENOM_ARTISAN`, `LOGIN`, `PASS`, `RAISON_SOCIALE`, `EMAIL_ARTISAN`, `TELEPHONE_FIXE`, `TELEPHONE_PORTABLE`, `FAX`, `RCS`, `SIRET`, `CODE_NAF`, `HORAIRERDV`, `DESCRIPTION`, `QUALIFICATION`, `ADRESSE`, `ADRESSE2`, `CODE_POSTAL`, `VILLE`, `CREDIT_DISPO`) VALUES
-(10, 'Tesla', 'Nikola', 'erratbi', '49fb2fd3630355bc22647168c3df096ee1491f103983b028a2c252a712859bb2', 'Raison', 'yerratbi@gmail.com', '+33 01 23 45 67 89', '+33 01 23 45 67 89', 'FAX', 'RCS', 'SIRET', 'Code Naf', '16h-17h', '', 'Qualifié', 'Bushwick Brooklyn, NY', '', '71000', 'Paris', 0),
 (11, 'Buky', 'Barns', 'bucky', '49fb2fd3630355bc22647168c3df096ee1491f103983b028a2c252a712859bb2', 'Raison', 'filinzaghi@gmail.com', '+33 01 23 45 67 89', '+33 01 23 45 67 89', '', '', '', '', '', '', '', 'Bushwick Brooklyn, NY', '', '11207', '', 0),
-(12, 'ID MANSOUR', 'Abdelaziz', 'aziz', '49fb2fd3630355bc22647168c3df096ee1491f103983b028a2c252a712859bb2', 'SMITECH', 'aziz.idmansour@gmail.com', '0524402908', '0677306879', 'Mon Fax', 'Mon RCS', 'Mon SIRET', 'Mon Code NAF', '09h-18h', '', 'Qualifié', 'QUARTIER DECHAMPS N°253', 'Mon Adresse 2', '85000', 'MARYOTTE', 238);
+(12, 'ID MANSOUR', 'Abdelaziz', 'aziz', '49fb2fd3630355bc22647168c3df096ee1491f103983b028a2c252a712859bb2', 'SMITECH', 'aziz.idmansour@gmail.com', '0524402908', '0677306879', 'Mon Fax', 'Mon RCS', 'Mon SIRET', 'Mon Code NAF', '09h-18h', '', 'Qualifié', 'QUARTIER DECHAMPS N°253', 'Mon Adresse 2', '85000', 'MARYOTTE', 238),
+(27, 'erratbi', 'youssef', 'erratbi', '209974c58228f055a0b35145fcc2301d9826407941679a9092e64a7671a5de97', 'raison', 'yerratbi@gmail.com', '012345679', '012345679', NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, '66000', NULL, 0),
+(28, 'lannister', 'jamie', 'lannister', '61b48e99117be0a5105f391005fd7365e99afa09f27b140b6d6221ba17238651', 'lannister', 'y.err.atbi@gmail.com', '0123456789', '0123456789', NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, '66000', NULL, 0),
+(29, 'test', 'test', 'err.atbi', '49fb2fd3630355bc22647168c3df096ee1491f103983b028a2c252a712859bb2', 'test', 'y.er.ratbi@gmail.com', '01 23 45 67 89', '01 23 45 67 89', NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, '66000', NULL, 0);
 
 DROP TABLE IF EXISTS `chantier`;
 CREATE TABLE `chantier` (
@@ -176,24 +178,21 @@ INSERT INTO `demande_devis` (`ID_DEMANDE`, `ID_PARTICULIER`, `ID_ACTIVITE`, `ID_
 (3, 6, 11, 4, 2, 'demande fenetre test 1', 'Dans moins de 2 mois', '', 'Industriel', 'Locataire', 'Bureau', '5000', 'Comptant', 'Autre', NULL, '', 'Qualifié', '30', '20', '1', '/audio/ABP-13731.mp3', '2018-01-13 22:41:50', '2018-01-25 18:28:07', 1, NULL),
 (4, 7, 10, 5, 2, 'demande fenetre test 1', 'Dans moins de 2 mois', '', 'Industriel', 'Locataire', 'Bureau', '5000', 'Comptant', 'Autre', NULL, '', 'Qualifié', '30', '20', '1', NULL, '2018-01-13 22:42:14', '2018-01-22 19:47:22', 1, NULL),
 (5, 8, 9, 6, 2, 'demande fenetre test 1', '', '', '', '', '', '', '', '', NULL, '', 'Qualifié', '30', '22', '1', '/audio/PSC-13733.mp3', '2018-01-15 15:20:00', '2018-01-22 20:10:41', 1, NULL),
-(36, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2018-01-20 14:11:10', NULL, NULL, NULL),
-(37, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2018-01-20 16:27:21', NULL, NULL, NULL),
-(38, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2018-01-20 16:37:42', NULL, NULL, NULL),
-(39, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2018-01-20 16:40:23', NULL, NULL, NULL),
-(40, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2018-01-20 16:44:31', NULL, NULL, NULL),
 (41, 5, 13, 7, 2, 'Testing salle de bains', '', '', '', NULL, '', '', '', '', NULL, '', '', '', '', '1', '/audio/SDB-13769.mp3', '2018-01-20 16:49:15', '2018-01-22 20:16:54', 1, NULL),
-(42, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2018-01-20 20:16:47', NULL, NULL, NULL),
-(43, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2018-01-22 01:59:01', NULL, NULL, NULL),
 (46, 11, 12, 10, 2, 'Testing', '', '', '', '', '', '', '', '', NULL, '', '', '33', '22', '1', '/audio/FEN-13774.mp3', '2018-01-22 20:12:39', '2018-01-22 20:12:39', 1, NULL),
 (47, 12, 46, 11, 2, 'Test et validation', 'Dans moins de 2 mois', 'bla bla bla ', 'Commerçant', 'Propriétaire Bailleur', 'Bureau', '3000', 'Crédit Obtenu', 'Trouver une entreprise disponible', NULL, 'bla bla bla ', 'Qualifié', '30', '28', '1', NULL, '2018-01-25 19:12:30', '2018-01-25 19:12:30', 1, NULL),
 (48, 13, 46, 12, 2, 'test et validation', 'Dans moins de 2 mois', 'bla bla bla', 'Société', 'Propriétaire Bailleur', 'Bureau', '3000', 'Demande de crédit en cours', 'Obtenir des devis et trouver une entreprise', NULL, 'bla bla bla', 'Qualifié', '30', '22', '1', NULL, '2018-01-25 19:21:11', '2018-01-25 19:21:11', 1, NULL),
 (49, 14, 46, 13, 2, 'Test et validation', 'Dans moins de 2 mois', 'bla bla bla ', 'Commerçant', 'Propriétaire Bailleur', 'Bureau', '3000', 'Crédit Obtenu', 'Trouver une entreprise disponible', NULL, 'bla bla bla ', 'Qualifié', '30', '28', '1', NULL, '2018-01-25 19:27:52', '2018-01-25 19:27:52', 1, NULL),
 (50, 15, 46, 14, 2, 'test et validation', 'Dans moins de 2 mois', 'bla bla bla', 'Commerçant', 'Propriétaire Bailleur', 'Bureau', '3000', 'Crédit Obtenu', 'Trouver une entreprise disponible', NULL, 'bla bla bla', 'Qualifié', '30', '28', '1', NULL, '2018-01-25 19:31:53', '2018-01-25 19:53:01', 1, NULL),
-(51, 16, 46, 15, 2, 'aze', 'Au plus vite', 'bla bla bla', 'Commerçant', 'Propriétaire Bailleur', 'Bureau', '300', 'Crédit Obtenu', 'Obtenir des devis et trouver une entreprise', NULL, 'bla bla', 'Qualifié', '33', '30', '1', NULL, '2018-01-25 19:55:45', '2018-01-25 19:55:45', 1, NULL),
-(52, 17, 9, 16, 2, 'aze', '', '', '', '', '', '', '', '', NULL, '', '', '', '', '0', NULL, '2018-01-25 20:25:50', '2018-01-25 20:25:50', NULL, NULL),
-(53, 18, 9, 17, 2, 'aze', '', '', '', '', '', '', '', '', NULL, '', '', '', '', '0', NULL, '2018-01-25 20:26:34', '2018-01-25 20:26:34', NULL, NULL),
-(54, 19, 9, 18, 2, 'aze', '', '', '', '', '', '', '', '', NULL, '', '', '', '', '0', NULL, '2018-01-25 20:26:54', '2018-01-25 20:26:54', NULL, NULL),
-(55, 20, 9, 19, 2, 'aze', '', '', '', '', '', '', '', '', NULL, '', '', '', '', '0', NULL, '2018-01-25 20:28:07', '2018-01-25 20:28:07', NULL, NULL);
+(51, NULL, 46, 15, 2, 'aze', 'Au plus vite', 'bla bla bla', 'Commerçant', 'Propriétaire Bailleur', 'Bureau', '300', 'Crédit Obtenu', 'Obtenir des devis et trouver une entreprise', NULL, 'bla bla', 'Qualifié', '33', '30', '1', NULL, '2018-01-25 19:55:45', '2018-01-25 19:55:45', 1, NULL),
+(52, NULL, 9, 16, 2, 'aze', '', '', '', '', '', '', '', '', NULL, '', '', '', '', '0', NULL, '2018-01-25 20:25:50', '2018-01-25 20:25:50', NULL, NULL),
+(53, NULL, 9, 17, 2, 'aze', '', '', '', '', '', '', '', '', NULL, '', '', '', '', '0', NULL, '2018-01-25 20:26:34', '2018-01-25 20:26:34', NULL, NULL),
+(54, NULL, 9, 18, 2, 'aze', '', '', '', '', '', '', '', '', NULL, '', '', '', '', '0', NULL, '2018-01-25 20:26:54', '2018-01-25 20:26:54', NULL, NULL),
+(55, NULL, 9, 19, 2, 'aze', '', '', '', '', '', '', '', '', NULL, '', '', '', '', '0', NULL, '2018-01-25 20:28:07', '2018-01-25 20:28:07', NULL, NULL),
+(62, 27, 5, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2018-01-26 18:37:26', NULL, NULL, NULL),
+(63, 28, 5, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2018-01-26 18:40:45', NULL, NULL, NULL),
+(64, 29, 5, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2018-01-26 18:41:55', NULL, NULL, NULL),
+(65, 30, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2018-01-26 18:58:31', NULL, NULL, NULL);
 
 DROP TABLE IF EXISTS `departement`;
 CREATE TABLE `departement` (
@@ -312,6 +311,9 @@ CREATE TABLE `intervenir` (
 
 INSERT INTO `intervenir` (`CODE_DEPARTEMENT`, `ID_ARTISAN`) VALUES
 ('25', 25),
+('66', 27),
+('66', 28),
+('66', 29),
 ('67', 25),
 ('75', 25),
 ('75', 27);
@@ -360,11 +362,21 @@ INSERT INTO `particulier` (`ID_PARTICULIER`, `NOM_PARTICULIER`, `PRENOM_PARTICUL
 (13, 'test et validation', 'test et validation', '0123456789', '0123456789', 'M.', 'y.erratbi@gmail.com', '10h-22h'),
 (14, 'Test et validation', 'Test et validation', '0123456789', '0123456789', 'M.', 'yerratbi@gmail.com', '10h-18h'),
 (15, 'test et validation', 'test et validation', '0123456789', '0123456789', 'M.', 'yerratbi@gmail.com', '10h-18h'),
-(16, 'aze', 'aze', '012456789', '012456789', 'Mme.', 'yerratbi@gmail.com', '10h-12h'),
-(17, 'aze', 'aze', '', '0123456789', '', 'aze@gmail.com', ''),
-(18, 'aze', 'aze', '', '0123456789', '', 'yerratbi@gmail.com', ''),
-(19, 'aze', 'aze', '', '0123456789', '', 'yerratbi@gmail.com', ''),
-(20, 'aze', 'aze', '', '0123456789', '', 'yerratbi@gmail.com', '');
+(27, 'john', 'doe', NULL, '', NULL, 'yerratbi@gmail.com', NULL),
+(28, 'erratbi', 'youssef', NULL, '', NULL, 'yerratbi@gmail.com', NULL),
+(29, 'test', 'test', NULL, '012345679', NULL, 'test@test.test', NULL),
+(30, 'azezae', 'azeaze', NULL, '0123456789', NULL, 'yerratbi@gmail.com', NULL);
+
+DROP TABLE IF EXISTS `qualif_abri_piscine`;
+CREATE TABLE `qualif_abri_piscine` (
+  `ID_QUALIF_ABRI_PISCINE` bigint(20) NOT NULL,
+  `TYPE_TRAVAUX` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `FORME_PISCINE` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TYPE_PISCINE` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TYPE_ABRI` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `DIMENSION_PISCINE` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `ID_DEMANDE` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 DROP TABLE IF EXISTS `qualif_alarme_incendie`;
 CREATE TABLE `qualif_alarme_incendie` (
@@ -377,10 +389,10 @@ CREATE TABLE `qualif_alarme_incendie` (
 
 DROP TABLE IF EXISTS `qualif_alarme_maison`;
 CREATE TABLE `qualif_alarme_maison` (
-  `ID_QUALIF_MAISON` bigint(20) NOT NULL,
+  `ID_QUALIF_ALARME_MAISON` bigint(20) NOT NULL,
   `ID_DEMANDE` bigint(20) NOT NULL,
   `TYPE_ALARME` varchar(200) CHARACTER SET utf8 DEFAULT NULL,
-  `TYPE_SYSTEME_ALARME` varchar(200) CHARACTER SET utf8 DEFAULT NULL,
+  `SYSTEME_ALARME` varchar(200) CHARACTER SET utf8 DEFAULT NULL,
   `NBRE_PIECE` varchar(200) CHARACTER SET utf8 DEFAULT NULL,
   `NBRE_FENETRE` varchar(200) CHARACTER SET utf8 DEFAULT NULL,
   `TYPE_TRAVAUX` varchar(200) CHARACTER SET utf8 DEFAULT NULL
@@ -480,6 +492,19 @@ CREATE TABLE `qualif_fenetre` (
 INSERT INTO `qualif_fenetre` (`ID_QUALIF_FENETRE`, `ID_DEMANDE`, `NBRE_FENETRE`, `DEPOSE_FENETRE_EXISTANT`, `TYPE_FENETRE`, `TYPE_TRAVAUX`) VALUES
 (1, 46, '', 0, '', '');
 
+DROP TABLE IF EXISTS `qualif_isolation`;
+CREATE TABLE `qualif_isolation` (
+  `ID_QUALIF_ISOLATION` bigint(20) NOT NULL,
+  `TYPE_TRAVAUX` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `CATEGORIE_ISOLATION` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TYPE_COMBLE` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TYPE_ISOLANT` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `SURFACE_TOTALE` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TYPE_ISOLATION` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `NBRE_PIECE` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `ID_DEMANDE` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 DROP TABLE IF EXISTS `qualif_piscine`;
 CREATE TABLE `qualif_piscine` (
   `ID_QUALIF_PISCINE` bigint(20) NOT NULL,
@@ -570,6 +595,15 @@ CREATE TABLE `qualif_spa` (
   `TYPE_TRAVAUX` varchar(200) CHARACTER SET utf8 DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT;
 
+DROP TABLE IF EXISTS `qualif_veranda`;
+CREATE TABLE `qualif_veranda` (
+  `ID_QUALIF_VERANDA` bigint(20) NOT NULL,
+  `TYPE_TRAVAUX` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `DEPOSE_EXISTANT` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TYPE_VERANDA` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `ID_DEMANDE` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 DROP TABLE IF EXISTS `qualif_video_surveillance`;
 CREATE TABLE `qualif_video_surveillance` (
   `ID_QUALIF_VIDEO` bigint(20) NOT NULL,
@@ -585,12 +619,15 @@ CREATE TABLE `specialiste` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `specialiste` (`ID_ARTISAN`, `ID_ACTIVITE`) VALUES
+(27, 1),
+(29, 4),
 (25, 10),
 (26, 11),
 (25, 13),
 (26, 14),
 (26, 15),
-(25, 16);
+(25, 16),
+(28, 41);
 
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
@@ -37544,12 +37581,16 @@ ALTER TABLE `packs`
 ALTER TABLE `particulier`
   ADD PRIMARY KEY (`ID_PARTICULIER`);
 
+ALTER TABLE `qualif_abri_piscine`
+  ADD PRIMARY KEY (`ID_QUALIF_ABRI_PISCINE`),
+  ADD KEY `ID_DEMANDE` (`ID_DEMANDE`);
+
 ALTER TABLE `qualif_alarme_incendie`
   ADD PRIMARY KEY (`ID_QUALIF_INCENDIE`),
   ADD KEY `FK_QUALIFIER_INCENDIE` (`ID_DEMANDE`);
 
 ALTER TABLE `qualif_alarme_maison`
-  ADD PRIMARY KEY (`ID_QUALIF_MAISON`),
+  ADD PRIMARY KEY (`ID_QUALIF_ALARME_MAISON`),
   ADD KEY `FK_QUALIFIER_AL_MAISON` (`ID_DEMANDE`);
 
 ALTER TABLE `qualif_carrelage`
@@ -37576,6 +37617,10 @@ ALTER TABLE `qualif_fenetre`
   ADD PRIMARY KEY (`ID_QUALIF_FENETRE`),
   ADD KEY `FK_QUALIFIER_FENETRE` (`ID_DEMANDE`);
 
+ALTER TABLE `qualif_isolation`
+  ADD PRIMARY KEY (`ID_QUALIF_ISOLATION`),
+  ADD KEY `ID_DEMANDE` (`ID_DEMANDE`);
+
 ALTER TABLE `qualif_piscine`
   ADD PRIMARY KEY (`ID_QUALIF_PISCINE`),
   ADD KEY `FK_QUALIFIER_PISCINE` (`ID_DEMANDE`);
@@ -37600,6 +37645,10 @@ ALTER TABLE `qualif_spa`
   ADD PRIMARY KEY (`ID_QUALIF_SPA`),
   ADD KEY `FK_QUALIFIER_SAUNA_SPA` (`ID_DEMANDE`);
 
+ALTER TABLE `qualif_veranda`
+  ADD PRIMARY KEY (`ID_QUALIF_VERANDA`),
+  ADD KEY `ID_DEMANDE` (`ID_DEMANDE`);
+
 ALTER TABLE `qualif_video_surveillance`
   ADD PRIMARY KEY (`ID_QUALIF_VIDEO`),
   ADD KEY `FK_QUALIFIER_VIDEO_SURVEILLANCE` (`ID_DEMANDE`);
@@ -37619,21 +37668,23 @@ ALTER TABLE `zone`
 ALTER TABLE `activite`
   MODIFY `ID_ACTIVITE` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 ALTER TABLE `artisan`
-  MODIFY `ID_ARTISAN` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `ID_ARTISAN` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 ALTER TABLE `chantier`
   MODIFY `ID_CHANTIER` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 ALTER TABLE `crediter`
   MODIFY `ID` bigint(20) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `demande_devis`
-  MODIFY `ID_DEMANDE` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `ID_DEMANDE` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 ALTER TABLE `packs`
   MODIFY `ID_PACK` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 ALTER TABLE `particulier`
-  MODIFY `ID_PARTICULIER` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `ID_PARTICULIER` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+ALTER TABLE `qualif_abri_piscine`
+  MODIFY `ID_QUALIF_ABRI_PISCINE` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 ALTER TABLE `qualif_alarme_incendie`
   MODIFY `ID_QUALIF_INCENDIE` bigint(20) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `qualif_alarme_maison`
-  MODIFY `ID_QUALIF_MAISON` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID_QUALIF_ALARME_MAISON` bigint(20) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `qualif_carrelage`
   MODIFY `ID_QUALIF_CARRELAGE` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 ALTER TABLE `qualif_chauffage`
@@ -37646,6 +37697,8 @@ ALTER TABLE `qualif_demenagement`
   MODIFY `ID_QUALIF_DEMENAGEMENT` bigint(20) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `qualif_fenetre`
   MODIFY `ID_QUALIF_FENETRE` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+ALTER TABLE `qualif_isolation`
+  MODIFY `ID_QUALIF_ISOLATION` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 ALTER TABLE `qualif_piscine`
   MODIFY `ID_QUALIF_PISCINE` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 ALTER TABLE `qualif_porte_blindee`
@@ -37658,6 +37711,8 @@ ALTER TABLE `qualif_sauna_hammam`
   MODIFY `ID_QUALIF_SAUNA_HAMMAM` bigint(20) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `qualif_spa`
   MODIFY `ID_QUALIF_SPA` bigint(20) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `qualif_veranda`
+  MODIFY `ID_QUALIF_VERANDA` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 ALTER TABLE `qualif_video_surveillance`
   MODIFY `ID_QUALIF_VIDEO` bigint(20) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `user`
@@ -37686,6 +37741,9 @@ ALTER TABLE `intervenir`
   ADD CONSTRAINT `fk_departement_has_artisan_artisan1` FOREIGN KEY (`ID_ARTISAN`) REFERENCES `artisan` (`ID_ARTISAN`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_departement_has_artisan_departement1` FOREIGN KEY (`CODE_DEPARTEMENT`) REFERENCES `departement` (`CODE_DEPARTEMENT`) ON DELETE CASCADE ON UPDATE CASCADE;
 
+ALTER TABLE `qualif_abri_piscine`
+  ADD CONSTRAINT `FK_ABRI_PISCINE_DEMANDE` FOREIGN KEY (`ID_DEMANDE`) REFERENCES `demande_devis` (`ID_DEMANDE`) ON DELETE CASCADE ON UPDATE CASCADE;
+
 ALTER TABLE `qualif_alarme_incendie`
   ADD CONSTRAINT `FK_QUALIFIER_INCENDIE` FOREIGN KEY (`ID_DEMANDE`) REFERENCES `demande_devis` (`ID_DEMANDE`) ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -37709,6 +37767,9 @@ ALTER TABLE `qualif_demenagement`
 
 ALTER TABLE `qualif_fenetre`
   ADD CONSTRAINT `FK_QUALIFIER_FENETRE` FOREIGN KEY (`ID_DEMANDE`) REFERENCES `demande_devis` (`ID_DEMANDE`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `qualif_isolation`
+  ADD CONSTRAINT `FK_ISOLATION_DEMANDE` FOREIGN KEY (`ID_DEMANDE`) REFERENCES `demande_devis` (`ID_DEMANDE`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `qualif_piscine`
   ADD CONSTRAINT `FK_QUALIFIER_PISCINE` FOREIGN KEY (`ID_DEMANDE`) REFERENCES `demande_devis` (`ID_DEMANDE`) ON DELETE CASCADE ON UPDATE CASCADE;

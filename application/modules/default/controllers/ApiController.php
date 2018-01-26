@@ -28,12 +28,12 @@ class ApiController extends Zend_Controller_Action {
       
       if ( $form_id == '2' ) {
         
-        $activites = $em->getRepository( 'Auth_Model_Activite' )->findBy( [ 'group' => $data['ID_ACTIVITE'] ] );
+        $activites = $em->getRepository( 'Auth_Model_Activite' )->findBy( [ 'ref' => $data['ID_ACTIVITE'] ] );
         
         $departement = $em->getRepository( 'Auth_Model_Departement' )->createQueryBuilder( 'd' )
                           ->innerJoin( 'd.zones', 'z' )
                           ->where( 'z.code = :code' )
-                          ->setParameter( 'code', '75001' )
+                          ->setParameter( 'code', $data['CODE_POSTAL'] )
                           ->getQuery()
                           ->getOneOrNullResult();
         
@@ -59,11 +59,24 @@ class ApiController extends Zend_Controller_Action {
         $em->persist( $artisan );
         $em->flush();
         
+        $this->view->artisan = $artisan;
+        $this->view->pass    = $data['PASS'];
+        
+        $html = $this->view->render( 'shared/new_artisan_mail.phtml' );
+        
+        
+        $mail = new Zend_Mail( 'utf-8' );
+        $mail->setBodyHtml( $html );
+        $mail->setFrom( $this->_sys_email['address'], $this->_sys_email['name'] );
+        $mail->setSubject( "Inscription Mister Devis Pro" );
+        $mail->addTo( $artisan->email_artisan );
+        
+        $mail->send();
         
       } else if ( $form_id == '3' ) { // A new particulier request
         
         // Fetch the activite
-        $activite = $em->getRepository( 'Auth_Model_Activite' )->find( $data['ID_ACTIVITE'] );
+        $activite = $em->getRepository( 'Auth_Model_Activite' )->findOneBy( [ 'ref' => $data['ID_ACTIVITE'] ] );
         
         
         // Saving particulier data

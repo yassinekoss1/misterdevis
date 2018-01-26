@@ -138,7 +138,7 @@ class Auth_ArtisanController extends Zend_Controller_Action {
                                 ->getQuery()
                                 ->getSingleScalarResult() > 0;
       
-      if ( $valid && ! $existingEmail && ! $existingEmail ) {
+      if ( $valid && ! $existingEmail && ! $existingLogin ) {
         
         // We will send an email
         $sendEmail = false;
