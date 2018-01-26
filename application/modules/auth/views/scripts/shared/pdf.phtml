@@ -67,6 +67,48 @@
 
 	<?php endif; ?>
 	<!-- END CARRELAGE -->
+
+	<!-- ISOLATION -->
+	<?php if ($this->demande->id_activite->ref === 'ISO'): ?>
+
+		<?php if ($this->qualification->type_isolation): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Type d'isolation</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->type_isolation; ?></td>
+			</tr>
+		<?php endif; ?>
+		<?php if ($this->qualification->type_isolant): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Type d'isolant souhaité</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->type_isolant; ?></td>
+			</tr>
+		<?php endif; ?>
+		<?php if ($this->qualification->type_comble): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Type de Combles</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->type_comble; ?></td>
+			</tr>
+		<?php endif; ?>
+
+		<?php if ($this->qualification->surface_totale): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Surface Totale à isoler</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->surface_totale; ?> m<sup>2</sup></td>
+			</tr>
+		<?php endif; ?><?php if ($this->qualification->categorie_isolation !== null): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Catégorie d'isolation</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->categorie_isolation; ?></td>
+			</tr>
+		<?php endif; ?><?php if ($this->qualification->nbre_piece): $alternate = !$alternate ?>
+			<tr style="background-color: <?= $alternate ? '#EEE' : '#FFF'; ?>">
+				<td style="line-height: 8px;"><strong>Nombre de pièces</strong></td>
+				<td style="line-height: 8px;"><?= $this->qualification->nbre_piece; ?></td>
+			</tr>
+		<?php endif; ?>
+	<?php endif; ?>
+
+	<!-- END ISOLATION -->
 	
 	<!-- CHAUFFAGE -->
 	<?php if ( $this->demande->id_activite->libelle === 'CHAUFFAGE' ): ?>
